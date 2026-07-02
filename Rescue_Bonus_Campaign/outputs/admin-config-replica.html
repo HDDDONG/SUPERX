@@ -466,6 +466,10 @@
     .field-size-5 { grid-column: span 5; }
     .field-size-6 { grid-column: span 6; }
 
+    .field[hidden] {
+      display: none;
+    }
+
     .field label {
       display: block;
       margin-bottom: 6px;
@@ -890,6 +894,10 @@
       overflow: hidden;
     }
 
+    .rule-box.has-floating-tip {
+      overflow: visible;
+    }
+
     .rule-head {
       min-height: 38px;
       display: flex;
@@ -984,6 +992,10 @@
       padding: 0 12px;
     }
 
+    .subsidy-rule-table th.has-help {
+      overflow: visible;
+    }
+
     .subsidy-rule-table input {
       height: 32px;
       font-size: 13px;
@@ -1041,7 +1053,7 @@
       visibility: hidden;
       transform: translate(-50%, 4px);
       transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
-      z-index: 20;
+      z-index: 1000;
       pointer-events: none;
     }
 
@@ -1502,20 +1514,19 @@
                 <th style="width: 260px;">配置ID</th>
                 <th style="width: 160px;">修改人</th>
                 <th style="width: 180px;">修改时间</th>
-                <th style="width: 110px;">优先级</th>
                 <th style="width: 110px;">状态</th>
                 <th style="width: 140px;">操作</th>
               </tr>
             </thead>
             <tbody>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>首充亏损补水保护</td><td>693788303c8752470125bb1d</td><td>superx运营</td><td>2026/05/14 15:05:34</td><td>100</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>连续亏损补水方案</td><td>69378e773c8752470125bb24</td><td>superx运营</td><td>2026/02/10 14:02:43</td><td>90</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>高额充值亏损补水</td><td>6936db093c8752470125bb18</td><td>superx运营</td><td>2026/02/28 13:36:47</td><td>80</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>新手前期投注保护</td><td>6936db093c8752470125bc01</td><td>superx运营</td><td>2026/03/01 10:18:22</td><td>70</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>VIP亏损补水专案</td><td>6937a4923c8752470125bc32</td><td>superx运营</td><td>2026/04/06 09:24:16</td><td>60</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>新手首周补水保护</td><td>6937b12f3c8752470125bc45</td><td>superx运营</td><td>2026/04/18 17:02:44</td><td>50</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>指定场馆亏损补水</td><td>6937c80d3c8752470125bc58</td><td>superx运营</td><td>2026/04/28 17:26:51</td><td>40</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>低活跃用户回补计划</td><td>6937d6ae3c8752470125bc69</td><td>superx运营</td><td>2026/05/08 18:11:37</td><td>30</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>首充亏损补水保护</td><td>693788303c8752470125bb1d</td><td>superx运营</td><td>2026/05/14 15:05:34</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>连续亏损补水方案</td><td>69378e773c8752470125bb24</td><td>superx运营</td><td>2026/02/10 14:02:43</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>高额充值亏损补水</td><td>6936db093c8752470125bb18</td><td>superx运营</td><td>2026/02/28 13:36:47</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>新手前期投注保护</td><td>6936db093c8752470125bc01</td><td>superx运营</td><td>2026/03/01 10:18:22</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>VIP亏损补水专案</td><td>6937a4923c8752470125bc32</td><td>superx运营</td><td>2026/04/06 09:24:16</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>新手首周补水保护</td><td>6937b12f3c8752470125bc45</td><td>superx运营</td><td>2026/04/18 17:02:44</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>指定场馆亏损补水</td><td>6937c80d3c8752470125bc58</td><td>superx运营</td><td>2026/04/28 17:26:51</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>低活跃用户回补计划</td><td>6937d6ae3c8752470125bc69</td><td>superx运营</td><td>2026/05/08 18:11:37</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -1530,11 +1541,19 @@
       <button class="icon-close" id="closeDrawerButton" type="button">×</button>
     </div>
     <div class="drawer-body">
-      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验累计可补次数、限定对象、首充后 N 天和游戏范围等触发限制，再按用户首充金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
+      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数、首充后 N 天和游戏范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
       <div class="section-title">基本信息</div>
       <div class="form-grid">
         <div class="field"><label class="required">活动名称</label><input id="drawerConfigName" value="首充亏损补水保护"></div>
-        <div class="field"><label class="required">用户参与优先级<span class="summary-hint">数值越大用户参与优先级越高</span></label><input id="drawerPriority" value="100"></div>
+        <div class="field"><label class="required">礼金倍率</label><div class="unit-input"><input value="10.00"><span class="unit">倍</span></div></div>
+        <div class="field"><label class="required">礼金使用范围</label><select id="bonusScopeSelect"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select></div>
+        <div class="field" id="bonusScopeValueField" hidden>
+          <label class="required">使用范围值</label>
+          <div class="multi-select" id="bonusScopeValueMulti">
+            <button class="multi-trigger" id="bonusScopeValueTrigger" type="button">请选择</button>
+            <div class="multi-menu" id="bonusScopeValueMenu"></div>
+          </div>
+        </div>
       </div>
 
       <div class="section-title">参与条件</div>
@@ -1572,7 +1591,7 @@
       </div>
 
       <div class="section-title">规则配置</div>
-      <div class="rule-box">
+      <div class="rule-box has-floating-tip">
         <div class="rule-body">
           <div class="rule-subtitle">基础规则配置</div>
           <div class="rule-summary">
@@ -1583,14 +1602,6 @@
             <div class="rule-summary-item">
               <label class="required">累计可补次数</label>
               <div class="unit-input"><input value="5"><span class="unit">次</span></div>
-            </div>
-            <div class="rule-summary-item">
-              <label class="required">礼金倍率</label>
-              <div class="unit-input"><input value="10.00"><span class="unit">倍</span></div>
-            </div>
-            <div class="rule-summary-item">
-              <label class="required">限定对象</label>
-              <select><option>单一用户ID</option><option>单一IP</option><option>单一设备</option></select>
             </div>
             <div class="rule-summary-item">
               <label class="required">游戏范围</label>
@@ -1609,7 +1620,7 @@
             <thead>
               <tr>
                 <th style="width: 210px;">充值区间<span class="th-hint">（【最小值】≤【X】＜【最大值】）</span></th>
-                <th style="width: 120px;">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额指的是用户的锁定钱包和可提现钱包的和，且需要考虑游戏范围，非指定产生的消耗导致的余额低于配置，则不命中规则。">?</span></th>
+                <th class="has-help" style="width: 120px;">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额指的是用户的锁定钱包和可提现钱包的和，且需要考虑游戏范围，非指定产生的消耗导致的余额低于配置，则不命中规则。">?</span></th>
                 <th style="width: 120px;">补水金额</th>
                 <th style="width: 100px;">可补次数</th>
                 <th style="width: 70px;">操作</th>
@@ -1883,10 +1894,55 @@
       button.addEventListener("click", () => {
         const cells = button.closest("tr").children;
         document.getElementById("drawerConfigName").value = cells[2].textContent.trim();
-        document.getElementById("drawerPriority").value = cells[6].textContent.trim();
         openDrawer();
       });
     });
+    const bonusScopeSelect = document.getElementById("bonusScopeSelect");
+    const bonusScopeValueField = document.getElementById("bonusScopeValueField");
+    const bonusScopeValueMulti = document.getElementById("bonusScopeValueMulti");
+    const bonusScopeValueTrigger = document.getElementById("bonusScopeValueTrigger");
+    const bonusScopeValueMenu = document.getElementById("bonusScopeValueMenu");
+    const bonusScopeValueMap = {
+      "指定场馆": ["Slot", "Casino", "Fishing", "Fantasy", "Sports"],
+      "指定游戏": ["Fortune Tiger", "Mines", "Aviator", "Super Ace", "Dragon Hatch"]
+    };
+    function selectedBonusScopeValues() {
+      return Array.from(bonusScopeValueMenu.querySelectorAll("input:checked")).map(input => input.value);
+    }
+    function syncBonusScopeSummary() {
+      const selected = selectedBonusScopeValues();
+      bonusScopeValueTrigger.textContent = selected.length <= 2 ? selected.join("、") : `${selected.slice(0, 2).join("、")} +${selected.length - 2}`;
+      bonusScopeValueTrigger.title = selected.join("、");
+    }
+    function renderBonusScopeValues() {
+      const values = bonusScopeValueMap[bonusScopeSelect.value] || [];
+      bonusScopeValueField.hidden = values.length === 0;
+      bonusScopeValueMenu.innerHTML = "";
+      values.forEach((value, index) => {
+        const label = document.createElement("label");
+        label.className = "multi-option";
+        label.innerHTML = `<input type="checkbox" value="${value}" ${index === 0 ? "checked" : ""}> <span>${value}</span>`;
+        bonusScopeValueMenu.appendChild(label);
+      });
+      if (!values.length) {
+        bonusScopeValueTrigger.textContent = "请选择";
+        bonusScopeValueTrigger.title = "";
+        bonusScopeValueMulti.classList.remove("is-open");
+        return;
+      }
+      syncBonusScopeSummary();
+    }
+    bonusScopeSelect.addEventListener("change", renderBonusScopeValues);
+    bonusScopeValueTrigger.addEventListener("click", event => {
+      event.stopPropagation();
+      bonusScopeValueMulti.classList.toggle("is-open");
+    });
+    bonusScopeValueMenu.addEventListener("click", event => event.stopPropagation());
+    bonusScopeValueMenu.addEventListener("change", syncBonusScopeSummary);
+    document.addEventListener("click", event => {
+      if (!event.target.closest("#bonusScopeValueMulti")) bonusScopeValueMulti.classList.remove("is-open");
+    });
+    renderBonusScopeValues();
     const gameScopeSelect = document.getElementById("gameScopeSelect");
     const gameScopeValueMulti = document.getElementById("gameScopeValueMulti");
     const gameScopeValueTrigger = document.getElementById("gameScopeValueTrigger");
