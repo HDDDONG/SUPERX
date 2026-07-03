@@ -729,6 +729,22 @@
       color: var(--muted);
     }
 
+    .table-thumb {
+      width: 44px;
+      height: 30px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--gray-600), var(--gray-900));
+      color: var(--gray-0);
+      font-size: 8px;
+      line-height: 1.05;
+      font-weight: 800;
+      text-align: center;
+      vertical-align: middle;
+    }
+
     .row-actions {
       display: flex;
       align-items: center;
@@ -1256,9 +1272,27 @@
       padding: 14px;
     }
 
+    .front-assets {
+      grid-template-columns: minmax(320px, 520px) 120px 120px;
+      align-items: center;
+      min-height: 176px;
+      gap: 22px;
+    }
+
+    .front-copy {
+      display: grid;
+      gap: 10px;
+      align-self: center;
+      max-width: 520px;
+    }
+
+    .front-assets > .field:not(.front-copy) {
+      align-self: center;
+    }
+
     .image-slot {
-      width: 76px;
-      height: 76px;
+      width: 92px;
+      height: 92px;
       border: 1px solid var(--line);
       border-radius: 6px;
       background: linear-gradient(135deg, var(--gray-700), var(--gray-900));
@@ -1294,6 +1328,10 @@
       align-items: center;
       padding: 12px;
       border-bottom: 1px solid var(--line);
+    }
+
+    .custom-head .field {
+      width: 280px;
     }
 
     .custom-head input { width: 280px; }
@@ -1451,8 +1489,7 @@
       <div class="menu-group">
         <button class="menu-title" type="button" aria-expanded="true"><span>运营管理</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
-          <button class="submenu-item is-selected" type="button">补水活动</button>
-          <button class="submenu-item" type="button">配置管理</button>
+          <button class="submenu-item is-selected" type="button" data-page-title="活动列表">活动管理</button>
         </div>
       </div>
       <div class="menu-group is-collapsed">
@@ -1467,21 +1504,32 @@
     <main class="main">
       <section class="panel">
         <div class="page-tabs" id="pageTabs" aria-label="多页签导航">
-          <button class="page-tab is-active" type="button" data-parent="运营管理" data-title="补水活动">
-            <span class="page-tab-title">补水活动</span>
+          <button class="page-tab is-active" type="button" data-parent="运营管理" data-menu-title="活动管理" data-title="活动列表">
+            <span class="page-tab-title">活动列表</span>
             <span class="page-tab-close" role="button" aria-label="关闭页签">×</span>
           </button>
         </div>
         <div class="breadcrumb" aria-label="面包屑">
           <span id="breadcrumbParent">运营管理</span>
           <span>/</span>
-          <span class="breadcrumb-current" id="breadcrumbCurrent">补水活动</span>
+          <span id="breadcrumbModule">活动管理</span>
+          <span>/</span>
+          <span class="breadcrumb-current" id="breadcrumbCurrent">活动列表</span>
         </div>
         <div class="filter-area">
           <div class="filter-grid">
             <div class="field field-size-1">
               <label>活动名称</label>
               <input placeholder="请输入">
+            </div>
+            <div class="field field-size-1">
+              <label>活动类型</label>
+              <select>
+                <option>全部</option>
+                <option>补水活动</option>
+                <option>充值活动</option>
+                <option>返水活动</option>
+              </select>
             </div>
             <div class="field field-size-1">
               <label>状态</label>
@@ -1499,7 +1547,7 @@
         </div>
 
         <div class="toolbar">
-          <button class="btn primary" id="openDrawerButton" type="button">新增</button>
+          <button class="btn primary" id="openDrawerButton" type="button">新增活动</button>
           <button class="btn" id="bulkEnableButton" type="button">批量启用</button>
           <button class="btn" id="bulkDisableButton" type="button">批量停用</button>
         </div>
@@ -1508,25 +1556,34 @@
           <table>
             <thead>
               <tr>
-                <th class="select-cell" style="width: 46px;"><input class="check-all" id="checkAllRows" type="checkbox" aria-label="全选"></th>
-                <th style="width: 64px;">序号</th>
-                <th style="width: 220px;">活动名称</th>
-                <th style="width: 260px;">配置ID</th>
-                <th style="width: 160px;">修改人</th>
-                <th style="width: 180px;">修改时间</th>
-                <th style="width: 110px;">状态</th>
-                <th style="width: 140px;">操作</th>
+                <th class="select-cell" style="width: 40px;"><input class="check-all" id="checkAllRows" type="checkbox" aria-label="全选"></th>
+                <th style="width: 52px;">序号</th>
+                <th style="width: 86px;">包ID</th>
+                <th style="width: 220px;">活动ID</th>
+                <th style="width: 170px;">活动名称</th>
+                <th style="width: 96px;">活动类型</th>
+                <th style="width: 112px;">banner图排序</th>
+                <th style="width: 160px;">活动中心banner图</th>
+                <th style="width: 96px;">详情图</th>
+                <th style="width: 116px;">修改人</th>
+                <th style="width: 150px;">时间</th>
+                <th style="width: 86px;">状态</th>
+                <th style="width: 116px;">操作</th>
               </tr>
             </thead>
             <tbody>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>首充亏损补水保护</td><td>693788303c8752470125bb1d</td><td>superx运营</td><td>2026/05/14 15:05:34</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>连续亏损补水方案</td><td>69378e773c8752470125bb24</td><td>superx运营</td><td>2026/02/10 14:02:43</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>高额充值亏损补水</td><td>6936db093c8752470125bb18</td><td>superx运营</td><td>2026/02/28 13:36:47</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>新手前期投注保护</td><td>6936db093c8752470125bc01</td><td>superx运营</td><td>2026/03/01 10:18:22</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>VIP亏损补水专案</td><td>6937a4923c8752470125bc32</td><td>superx运营</td><td>2026/04/06 09:24:16</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>新手首周补水保护</td><td>6937b12f3c8752470125bc45</td><td>superx运营</td><td>2026/04/18 17:02:44</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>指定场馆亏损补水</td><td>6937c80d3c8752470125bc58</td><td>superx运营</td><td>2026/04/28 17:26:51</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>低活跃用户回补计划</td><td>6937d6ae3c8752470125bc69</td><td>superx运营</td><td>2026/05/08 18:11:37</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>IN01</td><td>693788303c8752470125bb1d</td><td>首充亏损补水保护</td><td>补水活动</td><td>100</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/14 15:05:34</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>IN01</td><td>69378e773c8752470125bb24</td><td>连续亏损补水方案</td><td>补水活动</td><td>110</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/02/10 14:02:43</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>IN02</td><td>6936db093c8752470125bb18</td><td>高额充值亏损补水</td><td>补水活动</td><td>120</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/02/28 13:36:47</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>IN01</td><td>6936db093c8752470125bc01</td><td>新手前期投注保护</td><td>补水活动</td><td>130</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/03/01 10:18:22</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>IN02</td><td>6937a4923c8752470125bc32</td><td>VIP亏损补水专案</td><td>补水活动</td><td>140</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/06 09:24:16</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>IN01</td><td>6937b12f3c8752470125bc45</td><td>新手首周补水保护</td><td>补水活动</td><td>150</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/18 17:02:44</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>IN03</td><td>6937c80d3c8752470125bc58</td><td>指定场馆亏损补水</td><td>补水活动</td><td>160</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/28 17:26:51</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>IN02</td><td>6937d6ae3c8752470125bc69</td><td>低活跃用户回补计划</td><td>补水活动</td><td>170</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/08 18:11:37</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 9 行"></td><td>9</td><td>IN01</td><td>01KFFR9KRHY0H9SH3S3FGA4SA2</td><td>暴充送好礼111</td><td>充值活动</td><td>80</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/19 15:42:13</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 10 行"></td><td>10</td><td>IN02</td><td>01KCQN153EPNJN4Q62ZKCZHD0H</td><td>暴充送好礼123</td><td>充值活动</td><td>90</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/29 08:26:16</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 11 行"></td><td>11</td><td>IN01</td><td>01KKG0SS5PKB8E8J6ES67W6D1H</td><td>Garen_111</td><td>充值活动</td><td>95</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/19 15:42:30</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 12 行"></td><td>12</td><td>IN03</td><td>01KVAB5D2H6AJFNYWABBN93P80</td><td>阶梯充值测试</td><td>充值活动</td><td>99</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/06/22 13:30:15</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -1537,10 +1594,11 @@
   <div class="drawer-mask is-hidden" id="drawerMask"></div>
   <aside class="drawer is-hidden" id="drawer">
     <div class="drawer-header">
-      <div class="drawer-title">编辑配置</div>
+      <div class="drawer-title" id="drawerTitle">活动编辑</div>
       <button class="icon-close" id="closeDrawerButton" type="button">×</button>
     </div>
     <div class="drawer-body">
+      <div id="rescueActivityForm">
       <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数、首充后 N 天和游戏范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
       <div class="section-title">基本信息</div>
       <div class="form-grid">
@@ -1654,25 +1712,36 @@
         </div>
 
       <div class="section-title">前台展示</div>
-      <div class="field" style="width: 300px; margin-bottom: 14px;"><label>客户端页面模板</label><select><option>模板 A</option><option>模板 B</option></select></div>
       <div class="language-box">
         <div class="language-tabs">
-          <button class="language-tab active" type="button">语言一</button>
-          <button class="language-tab" type="button">语言二</button>
+          <button class="language-tab active" type="button">英语</button>
+          <button class="language-tab" type="button">印地语</button>
         </div>
-        <div class="language-content">
-          <div>
-            <div class="field" style="margin-bottom: 12px;"><label class="required">前台展示活动名称</label><input value="首充补水礼金"></div>
-            <div class="field"><label class="required">宣传文本</label><input value="宣传文本"></div>
+        <div class="language-content front-assets">
+          <div class="front-copy">
+            <div class="field">
+              <label class="required">活动名称（前台）</label>
+              <input value="首充补水礼金">
+            </div>
+            <div class="field">
+              <label class="required">banner图排序</label>
+              <input value="100">
+            </div>
           </div>
-          <div class="field"><label class="required">列表图</label><div class="image-slot">IMAGE<br>LIST</div></div>
-          <div class="field"><label class="required">详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div>
+          <div class="field">
+            <label class="required">活动中心banner图</label>
+            <div class="image-slot">IMAGE<br>LIST</div>
+          </div>
+          <div class="field">
+            <label class="required">详情图</label>
+            <div class="image-slot">IMAGE<br>DETAIL</div>
+          </div>
         </div>
       </div>
 
       <div class="custom-title"><span>自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
       <div class="custom-card">
-        <div class="custom-head"><input value="说明标题"><button class="icon-close" type="button">×</button></div>
+        <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="首充补水礼金"></div><button class="icon-close" type="button">×</button></div>
         <div class="editor">
           <div class="editor-toolbar">
             <button class="tool-btn" type="button">B</button>
@@ -1683,7 +1752,142 @@
             <select class="tool-select is-line-height"><option>1.5</option></select>
             <button class="tool-btn" type="button">清除格式</button>
           </div>
-          <div class="editor-body" contenteditable="true">这里展示说明内容，可编辑。</div>
+          <div class="editor-body" contenteditable="true">首充后满足补水条件即可获得礼金。</div>
+        </div>
+      </div>
+      </div>
+
+      <div id="rechargeActivityForm" hidden>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应充值类型与金额规则后，根据奖励设置计算赠送金额，并受赠送上限、活动显示权重和前台展示素材共同影响。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
+          <div class="field"><label class="required">充值类型</label><select><option selected>笔笔充</option><option>周期首充</option><option>累计充值</option></select></div>
+          <div class="field"><label>活动有效期</label><div class="inline"><select><option selected>永久有效</option><option>指定时间</option></select><input placeholder="开始日期 至 结束日期"></div></div>
+          <div class="field"><label>重置设置</label><div class="inline"><select><option selected>不重置</option><option>每日重置</option><option>每周重置</option></select><select><option selected>请选择</option></select></div></div>
+          <div class="field"><label class="required">金额锁定范围</label><select><option selected>无限制</option><option>锁定会员余额</option><option>锁定充值金额</option></select></div>
+          <div class="field"><label class="required">币种</label><select><option selected>INR</option><option>BRL</option><option>PHP</option></select></div>
+          <div class="field"><label class="required">流水倍率</label><input value="3.00"></div>
+          <div class="field"><label class="required">活动显示权重</label><input value="80"></div>
+          <div class="field"><label>活动总赠送上限</label><div class="unit-input"><input placeholder="请选择"><span class="unit">INR</span></div></div>
+          <div class="field"><label>新人活动</label><div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div></div>
+        </div>
+
+        <div class="section-title">参与条件</div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head">
+                <div class="condition-cell"><span class="condition-label">条件类型</span></div>
+                <div class="condition-cell"><span class="condition-label">条件值</span></div>
+                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="新增条件">+</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>渠道ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>风险用户</option><option>羊毛用户</option><option>高价值用户</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>用户标签</option><option selected>VIP等级</option><option>渠道ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>VIP1 - VIP12</option><option>VIP0</option><option>VIP13+</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>用户标签</option><option>VIP等级</option><option selected>渠道ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>ads_001、invite_001、system_001</option><option>organic</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">奖励设置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label class="required">奖励形式</label>
+                <div class="radio-row"><label><input type="radio" checked>按比例</label><label><input type="radio">固定金额</label></div>
+              </div>
+              <div class="rule-summary-item">
+                <label>赠送上限</label>
+                <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
+              </div>
+            </div>
+            <table class="subsidy-rule-table">
+              <thead>
+                <tr>
+                  <th style="width: 180px;">充值金额达到</th>
+                  <th style="width: 180px;">赠送礼金比例</th>
+                  <th style="width: 70px;">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="unit-input"><input value="1.00"><span class="unit">INR</span></div></td>
+                  <td><div class="unit-input"><input value="1.00"><span class="unit">%</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="unit-input"><input value="100.00"><span class="unit">INR</span></div></td>
+                  <td><div class="unit-input"><input value="3.00"><span class="unit">%</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="unit-input"><input value="500.00"><span class="unit">INR</span></div></td>
+                  <td><div class="unit-input"><input value="8.00"><span class="unit">%</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-title">前台展示</div>
+        <div class="language-box">
+          <div class="language-tabs">
+            <button class="language-tab active" type="button">英语</button>
+            <button class="language-tab" type="button">印地语</button>
+          </div>
+          <div class="language-content front-assets">
+            <div class="front-copy">
+              <div class="field">
+                <label class="required">活动名称（前台）</label>
+                <input value="暴充送好礼">
+              </div>
+              <div class="field">
+                <label class="required">banner图排序</label>
+                <input value="80">
+              </div>
+            </div>
+            <div class="field">
+              <label class="required">活动中心banner图</label>
+              <div class="image-slot">IMAGE<br>LIST</div>
+            </div>
+            <div class="field">
+              <label class="required">详情图</label>
+              <div class="image-slot">IMAGE<br>DETAIL</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="custom-title"><span>自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
+        <div class="custom-card">
+          <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="暴充送好礼"></div><button class="icon-close" type="button">×</button></div>
+          <div class="editor">
+            <div class="editor-toolbar">
+              <button class="tool-btn" type="button">B</button>
+              <button class="tool-btn" type="button">I</button>
+              <button class="tool-btn" type="button">U</button>
+              <select class="tool-select"><option>16px</option></select>
+              <button class="tool-btn" type="button">■</button>
+              <select class="tool-select is-line-height"><option>1.5</option></select>
+              <button class="tool-btn" type="button">清除格式</button>
+            </div>
+            <div class="editor-body" contenteditable="true">达到充值目标后按规则获得赠送礼金。</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1749,6 +1953,7 @@
       });
     });
     const breadcrumbParent = document.getElementById("breadcrumbParent");
+    const breadcrumbModule = document.getElementById("breadcrumbModule");
     const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
     const pageTabs = document.getElementById("pageTabs");
     function findSubmenu(parent, title) {
@@ -1758,12 +1963,15 @@
         return groupTitle === parent && button.textContent.trim() === title;
       });
     }
+    function getPageTitle(button) {
+      return button.dataset.pageTitle || button.textContent.trim();
+    }
     function activateTab(parent, title) {
       pageTabs.querySelectorAll(".page-tab").forEach(tab => {
         tab.classList.toggle("is-active", tab.dataset.parent === parent && tab.dataset.title === title);
       });
     }
-    function openTab(parent, title) {
+    function openTab(parent, title, menuTitle = title) {
       const existing = Array.from(pageTabs.querySelectorAll(".page-tab")).find(tab => tab.dataset.parent === parent && tab.dataset.title === title);
       if (existing) {
         activateTab(parent, title);
@@ -1773,6 +1981,7 @@
       tab.className = "page-tab is-active";
       tab.type = "button";
       tab.dataset.parent = parent;
+      tab.dataset.menuTitle = menuTitle;
       tab.dataset.title = title;
       tab.innerHTML = `<span class="page-tab-title">${title}</span><span class="page-tab-close" role="button" aria-label="关闭页签">×</span>`;
       pageTabs.querySelectorAll(".page-tab").forEach(item => item.classList.remove("is-active"));
@@ -1793,12 +2002,14 @@
     function setActiveSubmenu(button, shouldOpenTab = true) {
       const group = button.closest(".menu-group");
       const parent = group.querySelector(".menu-title span:first-child").textContent.trim();
-      const title = button.textContent.trim();
+      const menuTitle = button.textContent.trim();
+      const title = getPageTitle(button);
       document.querySelectorAll(".submenu-item").forEach(item => item.classList.remove("is-selected"));
       button.classList.add("is-selected");
       breadcrumbParent.textContent = parent;
+      breadcrumbModule.textContent = menuTitle;
       breadcrumbCurrent.textContent = title;
-      if (shouldOpenTab) openTab(parent, title);
+      if (shouldOpenTab) openTab(parent, title, menuTitle);
       activateTab(parent, title);
     }
     document.querySelectorAll(".submenu-item").forEach(button => {
@@ -1816,11 +2027,11 @@
         if (wasActive) {
           const nextTabs = Array.from(pageTabs.querySelectorAll(".page-tab"));
           const next = nextTabs[Math.min(index, nextTabs.length - 1)];
-          syncMenuByPath(next.dataset.parent, next.dataset.title);
+          syncMenuByPath(next.dataset.parent, next.dataset.menuTitle || next.dataset.title);
         }
         return;
       }
-      syncMenuByPath(tab.dataset.parent, tab.dataset.title);
+      syncMenuByPath(tab.dataset.parent, tab.dataset.menuTitle || tab.dataset.title);
     });
 
     const moduleSearchInput = document.getElementById("moduleSearchInput");
@@ -1878,7 +2089,17 @@
 
     const drawer = document.getElementById("drawer");
     const drawerMask = document.getElementById("drawerMask");
-    function openDrawer() {
+    const drawerTitle = document.getElementById("drawerTitle");
+    const rescueActivityForm = document.getElementById("rescueActivityForm");
+    const rechargeActivityForm = document.getElementById("rechargeActivityForm");
+    function syncActivityForm(activityType = "补水活动") {
+      const isRecharge = activityType === "充值活动";
+      rescueActivityForm.hidden = isRecharge;
+      rechargeActivityForm.hidden = !isRecharge;
+    }
+    function openDrawer(mode = "活动新增", activityType = "补水活动") {
+      drawerTitle.textContent = mode;
+      syncActivityForm(activityType);
       drawer.classList.remove("is-hidden");
       drawerMask.classList.remove("is-hidden");
     }
@@ -1886,15 +2107,18 @@
       drawer.classList.add("is-hidden");
       drawerMask.classList.add("is-hidden");
     }
-    document.getElementById("openDrawerButton").addEventListener("click", openDrawer);
+    document.getElementById("openDrawerButton").addEventListener("click", () => openDrawer("活动新增"));
     document.getElementById("closeDrawerButton").addEventListener("click", closeDrawer);
     document.getElementById("cancelDrawerButton").addEventListener("click", closeDrawer);
     drawerMask.addEventListener("click", closeDrawer);
     document.querySelectorAll(".edit-row").forEach(button => {
       button.addEventListener("click", () => {
         const cells = button.closest("tr").children;
-        document.getElementById("drawerConfigName").value = cells[2].textContent.trim();
-        openDrawer();
+        const activityName = cells[4].textContent.trim();
+        const activityType = cells[5].textContent.trim();
+        document.getElementById("drawerConfigName").value = activityName;
+        document.getElementById("rechargeActivityName").value = activityName;
+        openDrawer("活动编辑", activityType);
       });
     });
     const bonusScopeSelect = document.getElementById("bonusScopeSelect");
