@@ -2713,12 +2713,35 @@
         </div>
 
         <div class="section-title">参与条件</div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
-            <div class="radio-row">
-              <label><input type="radio" name="rebateJoinCondition" checked>不限制</label>
-              <label><input type="radio" name="rebateJoinCondition">满足条件</label>
-              <label><input type="radio" name="rebateJoinCondition">首充用户</label>
+            <div class="condition-matrix">
+              <div class="condition-head">
+                <div class="condition-cell"><span class="condition-label">条件类型</span></div>
+                <div class="condition-cell"><span class="condition-label">条件值</span></div>
+                <div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option selected>用户标签</option><option>渠道类型</option><option>渠道ID</option><option>VIP等级</option><option>上级ID</option></select></div>
+                <div class="condition-cell">
+                  <div class="condition-value">
+                    <select class="condition-operator"><option>=</option><option selected>≠</option></select>
+                    <select><option>未首提</option><option selected>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>
+                  </div>
+                </div>
+                <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">-</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option>用户标签</option><option>渠道类型</option><option>渠道ID</option><option selected>VIP等级</option><option>上级ID</option></select></div>
+                <div class="condition-cell">
+                  <div class="condition-value">
+                    <select class="condition-operator"><option>=</option><option selected>≠</option></select>
+                    <select><option selected>VIP 1</option><option>VIP 2</option><option>VIP 3</option><option>VIP 4</option></select>
+                  </div>
+                </div>
+                <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">-</button></div>
+              </div>
             </div>
           </div>
         </div>
@@ -3277,7 +3300,16 @@
       conditionSwitchText.textContent = enabled ? "已开启" : "已关闭";
       conditionRuleBox.hidden = !enabled;
     });
-    const conditionMatrix = document.getElementById("conditionMatrix");
+    document.querySelectorAll(".condition-toggle").forEach(button => {
+      button.addEventListener("click", () => {
+        const enabled = button.getAttribute("aria-pressed") !== "true";
+        const box = button.closest(".field").nextElementSibling;
+        button.setAttribute("aria-pressed", String(enabled));
+        button.classList.toggle("is-on", enabled);
+        button.nextElementSibling.textContent = enabled ? "已开启" : "已关闭";
+        if (box) box.hidden = !enabled;
+      });
+    });
     const conditionTypeConfig = {
       "累计充值": {
         operators: ["≥", "<", "介于"],
@@ -3319,27 +3351,29 @@
       const currentValueNode = row.querySelector(".condition-value > :last-child");
       currentValueNode.outerHTML = operatorSelect.value === "介于" ? config.rangeValueHtml : config.valueHtml;
     }
-    conditionMatrix.querySelectorAll(".condition-row").forEach(renderConditionRow);
-    conditionMatrix.addEventListener("change", event => {
-      if (event.target.classList.contains("condition-type")) {
-        renderConditionRow(event.target.closest(".condition-row"));
-      }
-      if (event.target.classList.contains("condition-operator")) {
-        renderConditionValueByOperator(event.target);
-      }
-    });
-    conditionMatrix.addEventListener("click", event => {
-      if (event.target.closest(".condition-add")) {
-        const template = conditionMatrix.querySelector(".condition-row");
-        const row = template.cloneNode(true);
-        row.querySelector(".condition-type").value = "累计充值";
-        renderConditionRow(row);
-        conditionMatrix.appendChild(row);
-      }
-      if (event.target.closest(".condition-remove")) {
-        const rows = conditionMatrix.querySelectorAll(".condition-row");
-        if (rows.length > 1) event.target.closest(".condition-row").remove();
-      }
+    document.querySelectorAll(".condition-matrix").forEach(conditionMatrix => {
+      conditionMatrix.querySelectorAll(".condition-row").forEach(renderConditionRow);
+      conditionMatrix.addEventListener("change", event => {
+        if (event.target.classList.contains("condition-type")) {
+          renderConditionRow(event.target.closest(".condition-row"));
+        }
+        if (event.target.classList.contains("condition-operator")) {
+          renderConditionValueByOperator(event.target);
+        }
+      });
+      conditionMatrix.addEventListener("click", event => {
+        if (event.target.closest(".condition-add")) {
+          const template = conditionMatrix.querySelector(".condition-row");
+          const row = template.cloneNode(true);
+          row.querySelector(".condition-type").value = "累计充值";
+          renderConditionRow(row);
+          conditionMatrix.appendChild(row);
+        }
+        if (event.target.closest(".condition-remove")) {
+          const rows = conditionMatrix.querySelectorAll(".condition-row");
+          if (rows.length > 1) event.target.closest(".condition-row").remove();
+        }
+      });
     });
     function setRowStatus(row, enabled) {
       const pill = row.querySelector(".status-pill");
