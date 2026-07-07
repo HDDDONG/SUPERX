@@ -2709,7 +2709,6 @@
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option selected>返水类型</option></select></div>
-          <div class="field"><label class="required">重置周期</label><select><option selected>按自然日</option><option>按自然周</option><option>按自然月</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -2751,6 +2750,10 @@
           <div class="rule-body">
             <div class="rule-subtitle">基础规则配置</div>
             <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label class="required">重置周期</label>
+                <select><option selected>按自然日</option><option>按自然周</option><option>按自然月</option></select>
+              </div>
               <div class="rule-summary-item">
                 <label class="required">返水取值类型</label>
                 <select><option selected>按有效流水</option><option>按投注金额</option><option>按输赢金额</option></select>
