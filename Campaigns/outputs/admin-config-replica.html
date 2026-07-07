@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>配置类后台页面复刻</title>
+  <title>活动优化</title>
   <style>
     :root {
       --gray-0: #ffffff;
@@ -466,8 +466,16 @@
     .field-size-5 { grid-column: span 5; }
     .field-size-6 { grid-column: span 6; }
 
-    .field[hidden] {
+    [hidden] {
+      display: none !important;
+    }
+
+    .page-content {
       display: none;
+    }
+
+    .page-content.is-active {
+      display: block;
     }
 
     .field label {
@@ -490,6 +498,370 @@
       font: inherit;
       font-size: 13px;
       outline: none;
+    }
+
+    .frontend-flow {
+      padding: 16px;
+      background: var(--gray-50);
+    }
+
+    .frontend-flow-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .frontend-flow-head h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 22px;
+      color: var(--text);
+    }
+
+    .frontend-flow-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    .frontend-stage-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .popup-phone-scene {
+      min-height: 250px;
+      display: grid;
+      place-items: center;
+      margin: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 45%, var(--gray-700), transparent 40%),
+        linear-gradient(135deg, var(--gray-900), var(--gray-800));
+    }
+
+    .frontend-popup-card {
+      width: 100%;
+      max-width: 220px;
+      min-height: 220px;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--gray-100), var(--gray-0));
+      box-shadow: 0 18px 42px rgba(15, 23, 42, .36);
+      text-align: center;
+    }
+
+    .frontend-popup-image {
+      width: 96px;
+      height: 70px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--gray-600), var(--gray-800));
+      color: var(--gray-0);
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 850;
+    }
+
+    .frontend-popup-card p {
+      margin: 0;
+      color: var(--gray-800);
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 700;
+    }
+
+    .frontend-popup-amount {
+      color: var(--gray-900);
+      font-size: 38px;
+      line-height: 42px;
+      font-weight: 900;
+    }
+
+    .frontend-popup-button {
+      min-width: 132px;
+      height: 44px;
+      border: 0;
+      border-radius: 24px;
+      background: var(--gray-800);
+      color: var(--gray-0);
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .frontend-stage {
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .frontend-stage-title {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--gray-100);
+      color: var(--gray-800);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .frontend-phone {
+      margin: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--gray-900);
+      padding: 12px;
+      color: var(--gray-0);
+    }
+
+    .phone-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: var(--gray-300);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .front-activity-card {
+      min-height: 86px;
+      display: grid;
+      grid-template-columns: 44px 1fr 76px;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3f2525, #5b2b2b);
+    }
+
+    .front-activity-card + .front-activity-card {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #202938, #364252);
+    }
+
+    .front-activity-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gray-400), var(--gray-0));
+    }
+
+    .front-activity-copy {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .front-activity-name {
+      color: var(--gray-0);
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 800;
+    }
+
+    .front-activity-desc {
+      margin-top: 3px;
+      color: var(--gray-300);
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .front-activity-btn {
+      height: 34px;
+      border: 0;
+      border-radius: 18px;
+      background: var(--gray-0);
+      color: var(--gray-900);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .front-detail-img {
+      height: 132px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--gray-800);
+      color: var(--gray-0);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .front-block {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--gray-0);
+      color: var(--gray-700);
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 650;
+    }
+
+    .front-status-list {
+      display: grid;
+      gap: 8px;
+      margin: 12px;
+    }
+
+    .front-status-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--gray-0);
+      color: var(--gray-700);
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 650;
+    }
+
+    .front-message-center {
+      margin: 12px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 10px;
+      background: var(--gray-900);
+      color: var(--gray-0);
+      overflow: hidden;
+    }
+
+    .message-center-head {
+      height: 40px;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      background: var(--gray-800);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .message-back {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 5px;
+      background: var(--gray-700);
+      color: var(--gray-0);
+    }
+
+    .message-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 8px;
+      background: var(--gray-900);
+    }
+
+    .message-tab {
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: var(--gray-800);
+      color: var(--gray-400);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .message-tab.is-active {
+      background: var(--gray-700);
+      color: var(--gray-0);
+    }
+
+    .unclaimed-message {
+      position: relative;
+      margin: 0 8px 8px;
+      padding: 10px;
+      border-radius: 8px;
+      background: var(--gray-800);
+      border: 1px solid var(--gray-700);
+    }
+
+    .unclaimed-message time {
+      display: block;
+      color: var(--gray-400);
+      font-size: 11px;
+      line-height: 16px;
+      margin-bottom: 4px;
+    }
+
+    .unclaimed-message strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--gray-0);
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .unclaimed-message p {
+      margin: 0;
+      color: var(--gray-400);
+      font-size: 11px;
+      line-height: 15px;
+    }
+
+    .message-new {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2px 5px;
+      border-radius: 0 8px 0 6px;
+      background: var(--gray-0);
+      color: var(--gray-900);
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 900;
+    }
+
+    .message-show {
+      margin-top: 6px;
+      color: var(--gray-0);
+      text-align: center;
+      font-size: 11px;
+      line-height: 15px;
+      font-weight: 800;
+    }
+
+    .frontend-rule-list {
+      display: grid;
+      gap: 8px;
+      margin: 12px;
+    }
+
+    .frontend-rule-list div {
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 650;
     }
 
     input:focus,
@@ -745,6 +1117,13 @@
       vertical-align: middle;
     }
 
+    .table-thumb.is-empty {
+      background: var(--gray-50);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .row-actions {
       display: flex;
       align-items: center;
@@ -887,9 +1266,10 @@
     }
 
     .radio-row input {
-      width: auto;
-      height: auto;
+      width: 14px;
+      height: 14px;
       margin: 0 6px 0 0;
+      vertical-align: -2px;
     }
 
     .switch-row {
@@ -1242,6 +1622,11 @@
       overflow: hidden;
     }
 
+    .front-subsection > .language-box {
+      border: 0;
+      border-radius: 0;
+    }
+
     .language-tabs {
       display: flex;
       min-height: 38px;
@@ -1267,16 +1652,42 @@
 
     .language-content {
       display: grid;
-      grid-template-columns: 1fr 96px 96px;
+      grid-template-columns: 1fr 96px;
       gap: 18px;
       padding: 14px;
     }
 
+    .front-global-config {
+      display: grid;
+      grid-template-columns: 170px;
+      padding: 12px 14px 0;
+    }
+
     .front-assets {
-      grid-template-columns: minmax(320px, 520px) 120px 120px;
+      grid-template-columns: minmax(320px, 520px) 120px;
       align-items: center;
-      min-height: 176px;
+      min-height: 138px;
       gap: 22px;
+    }
+
+    .front-subsection {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--gray-0);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .front-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      color: var(--gray-800);
+      font-size: 13px;
+      font-weight: 750;
+      border-bottom: 1px solid var(--line);
+      background: var(--gray-25);
     }
 
     .front-copy {
@@ -1306,6 +1717,88 @@
       line-height: 1.2;
     }
 
+    .popup-config {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 14px;
+      background: var(--gray-0);
+      align-items: start;
+    }
+
+    .popup-title {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: -2px;
+      color: var(--gray-800);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .popup-title::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .popup-fields {
+      grid-column: 1;
+      display: grid;
+      grid-template-columns: 170px minmax(260px, 340px);
+      gap: 12px 14px;
+      align-items: start;
+      justify-content: start;
+    }
+
+    .popup-fields .field {
+      min-width: 0;
+    }
+
+    .popup-fields .field.popup-visibility-field {
+      grid-column: 1 / 3;
+      width: 170px;
+      max-width: 100%;
+    }
+
+    .popup-fields .field label {
+      min-height: 18px;
+    }
+
+    .field-tip {
+      margin-left: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .popup-fields .switch-row {
+      height: 34px;
+    }
+
+    .popup-image-field {
+      align-self: center;
+      justify-self: start;
+    }
+
+    .popup-image-slot {
+      width: 92px;
+      height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--gray-600), var(--gray-800));
+      color: var(--gray-0);
+      display: grid;
+      place-items: center;
+      padding: 8px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
     .custom-title {
       display: flex;
       align-items: center;
@@ -1314,11 +1807,19 @@
       font-weight: 700;
     }
 
+    .front-subsection .custom-title {
+      padding: 0 14px;
+    }
+
     .custom-card {
       width: min(720px, 100%);
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: hidden;
+    }
+
+    .front-subsection .custom-card {
+      margin: 0 14px 14px;
     }
 
     .custom-head {
@@ -1490,6 +1991,7 @@
         <button class="menu-title" type="button" aria-expanded="true"><span>运营管理</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
           <button class="submenu-item is-selected" type="button" data-page-title="活动列表">活动管理</button>
+          <button class="submenu-item" type="button" data-page-title="前端活动展示">前端活动展示</button>
         </div>
       </div>
       <div class="menu-group is-collapsed">
@@ -1516,6 +2018,7 @@
           <span>/</span>
           <span class="breadcrumb-current" id="breadcrumbCurrent">活动列表</span>
         </div>
+        <div class="page-content is-active" id="activityListContent">
         <div class="filter-area">
           <div class="filter-grid">
             <div class="field field-size-1">
@@ -1527,9 +2030,17 @@
               <select>
                 <option>全部</option>
                 <option>补水活动</option>
-                <option>充值活动</option>
-                <option>返水活动</option>
+                <option>周期首充</option>
+                <option>返水类型</option>
               </select>
+            </div>
+            <div class="field field-size-1">
+              <label>活动开始时间</label>
+              <input type="datetime-local" value="2026-07-01T00:00">
+            </div>
+            <div class="field field-size-1">
+              <label>活动结束时间</label>
+              <input type="datetime-local" value="2026-07-31T23:59">
             </div>
             <div class="field field-size-1">
               <label>状态</label>
@@ -1562,30 +2073,150 @@
                 <th style="width: 220px;">活动ID</th>
                 <th style="width: 170px;">活动名称</th>
                 <th style="width: 96px;">活动类型</th>
-                <th style="width: 112px;">banner图排序</th>
-                <th style="width: 160px;">活动中心banner图</th>
+                <th style="width: 96px;">弹窗图</th>
+                <th style="width: 116px;">弹窗展示顺序</th>
                 <th style="width: 96px;">详情图</th>
                 <th style="width: 116px;">修改人</th>
-                <th style="width: 150px;">时间</th>
+                <th style="width: 140px;">开始时间</th>
+                <th style="width: 140px;">结束时间</th>
                 <th style="width: 86px;">状态</th>
                 <th style="width: 116px;">操作</th>
               </tr>
             </thead>
             <tbody>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>IN01</td><td>693788303c8752470125bb1d</td><td>首充亏损补水保护</td><td>补水活动</td><td>100</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/14 15:05:34</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>IN01</td><td>69378e773c8752470125bb24</td><td>连续亏损补水方案</td><td>补水活动</td><td>110</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/02/10 14:02:43</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>IN02</td><td>6936db093c8752470125bb18</td><td>高额充值亏损补水</td><td>补水活动</td><td>120</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/02/28 13:36:47</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>IN01</td><td>6936db093c8752470125bc01</td><td>新手前期投注保护</td><td>补水活动</td><td>130</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/03/01 10:18:22</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>IN02</td><td>6937a4923c8752470125bc32</td><td>VIP亏损补水专案</td><td>补水活动</td><td>140</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/06 09:24:16</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>IN01</td><td>6937b12f3c8752470125bc45</td><td>新手首周补水保护</td><td>补水活动</td><td>150</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/18 17:02:44</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>IN03</td><td>6937c80d3c8752470125bc58</td><td>指定场馆亏损补水</td><td>补水活动</td><td>160</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/04/28 17:26:51</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>IN02</td><td>6937d6ae3c8752470125bc69</td><td>低活跃用户回补计划</td><td>补水活动</td><td>170</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/08 18:11:37</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 9 行"></td><td>9</td><td>IN01</td><td>01KFFR9KRHY0H9SH3S3FGA4SA2</td><td>暴充送好礼111</td><td>充值活动</td><td>80</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/19 15:42:13</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 10 行"></td><td>10</td><td>IN02</td><td>01KCQN153EPNJN4Q62ZKCZHD0H</td><td>暴充送好礼123</td><td>充值活动</td><td>90</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/29 08:26:16</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
-              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 11 行"></td><td>11</td><td>IN01</td><td>01KKG0SS5PKB8E8J6ES67W6D1H</td><td>Garen_111</td><td>充值活动</td><td>95</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/05/19 15:42:30</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
-              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 12 行"></td><td>12</td><td>IN03</td><td>01KVAB5D2H6AJFNYWABBN93P80</td><td>阶梯充值测试</td><td>充值活动</td><td>99</td><td><span class="table-thumb">BANNER</span></td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/06/22 13:30:15</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 1 行"></td><td>1</td><td>IN01</td><td>693788303c8752470125bb1d</td><td>首充亏损补水保护</td><td>补水活动</td><td><span class="table-thumb">POPUP</span></td><td>100</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/01 00:00</td><td>2026/07/31 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 2 行"></td><td>2</td><td>IN01</td><td>69378e773c8752470125bb24</td><td>连续亏损补水方案</td><td>补水活动</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/03 00:00</td><td>2026/08/02 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 3 行"></td><td>3</td><td>IN02</td><td>6936db093c8752470125bb18</td><td>高额充值亏损补水</td><td>补水活动</td><td><span class="table-thumb">POPUP</span></td><td>120</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/05 00:00</td><td>2026/08/04 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 4 行"></td><td>4</td><td>IN01</td><td>6936db093c8752470125bc01</td><td>新手前期投注保护</td><td>补水活动</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/08 00:00</td><td>2026/08/07 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 5 行"></td><td>5</td><td>IN02</td><td>6937a4923c8752470125bc32</td><td>VIP亏损补水专案</td><td>补水活动</td><td><span class="table-thumb">POPUP</span></td><td>140</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/10 00:00</td><td>2026/08/09 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 6 行"></td><td>6</td><td>IN01</td><td>6937b12f3c8752470125bc45</td><td>新手首周补水保护</td><td>补水活动</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/12 00:00</td><td>2026/08/11 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 7 行"></td><td>7</td><td>IN03</td><td>6937c80d3c8752470125bc58</td><td>指定场馆亏损补水</td><td>补水活动</td><td><span class="table-thumb">POPUP</span></td><td>160</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/15 00:00</td><td>2026/08/14 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 8 行"></td><td>8</td><td>IN02</td><td>6937d6ae3c8752470125bc69</td><td>低活跃用户回补计划</td><td>补水活动</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/18 00:00</td><td>2026/08/17 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 9 行"></td><td>9</td><td>IN01</td><td>01KFFR9KRHY0H9SH3S3FGA4SA2</td><td>暴充送好礼111</td><td>周期首充</td><td><span class="table-thumb">POPUP</span></td><td>80</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/01 00:00</td><td>2026/07/31 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 10 行"></td><td>10</td><td>IN02</td><td>01KCQN153EPNJN4Q62ZKCZHD0H</td><td>暴充送好礼123</td><td>周期首充</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/05 00:00</td><td>2026/08/04 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 11 行"></td><td>11</td><td>IN01</td><td>01KKG0SS5PKB8E8J6ES67W6D1H</td><td>Garen_111</td><td>周期首充</td><td><span class="table-thumb">POPUP</span></td><td>95</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/10 00:00</td><td>2026/08/09 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 12 行"></td><td>12</td><td>IN03</td><td>01KVAB5D2H6AJFNYWABBN93P80</td><td>阶梯充值测试</td><td>周期首充</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/15 00:00</td><td>2026/08/14 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
             </tbody>
           </table>
+        </div>
+        </div>
+        <div class="page-content" id="frontendShowContent">
+          <div class="frontend-flow">
+            <div class="frontend-flow-head">
+              <div>
+                <h3>前端活动展示流程</h3>
+                <p>按用户视角串联活动中心、活动详情、补水触发领取、礼金使用与提现校验。</p>
+              </div>
+              <button class="btn" type="button">预览前台链路</button>
+            </div>
+            <div class="frontend-stage-grid">
+              <section class="frontend-stage">
+                <div class="frontend-stage-title"><span>01 弹窗展示</span><span>后台配置</span></div>
+                <div class="popup-phone-scene">
+                  <div class="frontend-popup-card">
+                    <div class="frontend-popup-image">后台弹窗<br>图片</div>
+                    <p>后台开启弹窗后，前台展示该活动弹窗。</p>
+                    <div class="frontend-popup-amount">₹99</div>
+                    <button class="frontend-popup-button" type="button">Receive</button>
+                  </div>
+                </div>
+                <div class="frontend-rule-list">
+                  <div>弹窗是否展示开启时，前端展示后台上传的弹窗图片；关闭时不展示弹窗。</div>
+                  <div>多个活动同时配置弹窗时，按后台弹窗展示顺序排序，数字越大越靠前。</div>
+                  <div>弹窗间隔时间按后台配置控制重复展示频率。</div>
+                  <div>弹窗按钮点击按后台“无跳转 / 跳转到指定页面 / 外链”和跳转目标执行。</div>
+                </div>
+              </section>
+
+              <section class="frontend-stage">
+                <div class="frontend-stage-title"><span>02 活动中心</span><span>列表入口</span></div>
+                <div class="frontend-phone">
+                  <div class="phone-bar"><span>Activity Center</span><span>按 banner 排序</span></div>
+                  <div class="front-activity-card">
+                    <div class="front-activity-icon"></div>
+                    <div class="front-activity-copy">
+                      <div class="front-activity-name">首充补水礼金</div>
+                      <div class="front-activity-desc">首充后满足补水条件即可获得礼金</div>
+                    </div>
+                    <button class="front-activity-btn" type="button">Claim</button>
+                  </div>
+                  <div class="front-activity-card">
+                    <div class="front-activity-icon"></div>
+                    <div class="front-activity-copy">
+                      <div class="front-activity-name">连续亏损补水方案</div>
+                    </div>
+                    <button class="front-activity-btn" type="button">去游戏</button>
+                  </div>
+                </div>
+                <div class="frontend-rule-list">
+                  <div>第一行展示活动名称（前台）。</div>
+                  <div>第二行展示选填宣传文案；未配置时活动名称单行垂直居中。</div>
+                  <div>无可领补水显示“去游戏”，有补水奖励显示“Claim”。</div>
+                </div>
+              </section>
+
+              <section class="frontend-stage">
+                <div class="frontend-stage-title"><span>03 活动详情</span><span>规则承接</span></div>
+                <div class="frontend-phone">
+                  <div class="phone-bar"><span>首充补水礼金</span><span>详情</span></div>
+                  <div class="front-detail-img">DETAIL IMAGE</div>
+                  <div class="front-block">活动详情自定义说明：首充后满足补水条件即可获得礼金。</div>
+                </div>
+                <div class="frontend-rule-list">
+                  <div>展示详情图和活动说明。</div>
+                  <div>不满足参与条件时展示不可参与原因。</div>
+                  <div>可通过按钮引导用户进入指定游戏范围。</div>
+                </div>
+              </section>
+
+              <section class="frontend-stage">
+                <div class="frontend-stage-title"><span>04 触发与领取</span><span>补水状态</span></div>
+                <div class="front-status-list">
+                  <div class="front-status-item"><span>充值区间</span><b>500 ≤ X ＜ 1000</b></div>
+                  <div class="front-status-item"><span>触发余额</span><b>50 INR</b></div>
+                  <div class="front-status-item"><span>补水金额</span><b>200 INR</b></div>
+                  <div class="front-status-item"><span>剩余可补</span><b>4 次</b></div>
+                  <div class="front-status-item"><span>领取状态</span><b>可 Claim</b></div>
+                </div>
+                <div class="front-message-center">
+                  <div class="message-center-head"><span class="message-back">‹</span><span>Message Center</span></div>
+                  <div class="message-tabs">
+                    <div class="message-tab">Announcement</div>
+                    <div class="message-tab is-active">Messages</div>
+                  </div>
+                  <div class="unclaimed-message">
+                    <span class="message-new">NEW</span>
+                    <time>05/07/2026 15:19:28</time>
+                    <strong>Unclaimed Reward</strong>
+                    <p>Dear User, our system has detected that you have a reward that has not yet been claimed.</p>
+                    <div class="message-show">Show All⌄</div>
+                  </div>
+                </div>
+                <div class="frontend-rule-list">
+                  <div>系统按用户累计充值金额匹配区间。</div>
+                  <div>锁定钱包、可提现钱包和在途金额之和达到触发余额时命中。</div>
+                  <div>命中后发放补水礼金，并扣减可补次数。</div>
+                  <div>站内信通知中的奖励未领取也包含补水活动。</div>
+                </div>
+              </section>
+
+              <section class="frontend-stage">
+                <div class="frontend-stage-title"><span>05 礼金使用</span><span>提现校验</span></div>
+                <div class="front-status-list">
+                  <div class="front-status-item"><span>礼金余额</span><b>200 INR</b></div>
+                  <div class="front-status-item"><span>礼金适用范围</span><b>Slot</b></div>
+                  <div class="front-status-item"><span>打码倍率</span><b>10.00 倍</b></div>
+                  <div class="front-status-item"><span>打码进度</span><b>35%</b></div>
+                  <div class="front-status-item"><span>提现状态</span><b>未完成</b></div>
+                </div>
+                <div class="frontend-rule-list">
+                  <div>礼金只能在配置范围内消耗。</div>
+                  <div>完成打码后，提现校验才允许通过。</div>
+                  <div>前台需要展示补水记录、剩余次数和打码进度。</div>
+                </div>
+              </section>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -1599,19 +2230,14 @@
     </div>
     <div class="drawer-body">
       <div id="rescueActivityForm">
-      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数、首充后 N 天和游戏范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
+      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数和游戏范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
       <div class="section-title">基本信息</div>
       <div class="form-grid">
         <div class="field"><label class="required">活动名称</label><input id="drawerConfigName" value="首充亏损补水保护"></div>
-        <div class="field"><label class="required">礼金倍率</label><div class="unit-input"><input value="10.00"><span class="unit">倍</span></div></div>
-        <div class="field"><label class="required">礼金使用范围</label><select id="bonusScopeSelect"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select></div>
-        <div class="field" id="bonusScopeValueField" hidden>
-          <label class="required">使用范围值</label>
-          <div class="multi-select" id="bonusScopeValueMulti">
-            <button class="multi-trigger" id="bonusScopeValueTrigger" type="button">请选择</button>
-            <div class="multi-menu" id="bonusScopeValueMenu"></div>
-          </div>
-        </div>
+        <div class="field"><label class="required">包ID</label><input id="drawerPackageId" value="IN01"></div>
+        <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
+        <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
+        <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option selected>补水活动</option><option>周期首充</option><option>返水类型</option></select></div>
       </div>
 
       <div class="section-title">参与条件</div>
@@ -1625,7 +2251,7 @@
               <div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div>
             </div>
             <div class="condition-row">
-              <div class="condition-cell"><select class="condition-type"><option>首提状态</option><option>累计充值</option><option selected>用户标签</option><option>首充后N天</option><option>渠道类型</option><option>渠道ID</option><option>VIP等级</option><option>上级ID</option></select></div>
+              <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option selected>用户标签</option><option>渠道类型</option><option>渠道ID</option><option>VIP等级</option><option>上级ID</option></select></div>
               <div class="condition-cell">
                 <div class="condition-value">
                   <select class="condition-operator"><option>=</option><option>≠</option></select>
@@ -1635,7 +2261,7 @@
               <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">-</button></div>
             </div>
             <div class="condition-row">
-              <div class="condition-cell"><select class="condition-type"><option>首提状态</option><option>累计充值</option><option selected>用户标签</option><option>首充后N天</option><option>渠道类型</option><option>渠道ID</option><option>VIP等级</option><option>上级ID</option></select></div>
+              <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option selected>用户标签</option><option>渠道类型</option><option>渠道ID</option><option>VIP等级</option><option>上级ID</option></select></div>
               <div class="condition-cell">
                 <div class="condition-value">
                   <select class="condition-operator"><option>=</option><option selected>≠</option></select>
@@ -1654,10 +2280,6 @@
           <div class="rule-subtitle">基础规则配置</div>
           <div class="rule-summary">
             <div class="rule-summary-item">
-              <label class="required">首充后N天<span class="summary-hint">0天为不限制</span></label>
-              <div class="unit-input"><input class="days-input" value="3"><span class="unit">天</span></div>
-            </div>
-            <div class="rule-summary-item">
               <label class="required">累计可补次数</label>
               <div class="unit-input"><input value="5"><span class="unit">次</span></div>
             </div>
@@ -1665,7 +2287,7 @@
               <label class="required">游戏范围</label>
               <select id="gameScopeSelect"><option>不限游戏</option><option selected>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
             </div>
-            <div class="rule-summary-item">
+            <div class="rule-summary-item" id="gameScopeValueField">
               <label class="required">范围值</label>
               <div class="multi-select" id="gameScopeValueMulti">
                 <button class="multi-trigger" id="gameScopeValueTrigger" type="button">Slot</button>
@@ -1677,8 +2299,8 @@
           <table class="subsidy-rule-table">
             <thead>
               <tr>
-                <th style="width: 210px;">充值区间<span class="th-hint">（【最小值】≤【X】＜【最大值】）</span></th>
-                <th class="has-help" style="width: 120px;">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额指的是用户的锁定钱包和可提现钱包的和，且需要考虑游戏范围，非指定产生的消耗导致的余额低于配置，则不命中规则。">?</span></th>
+                <th class="has-help" style="width: 210px;">充值区间<span class="th-hint">（【最小值】≤【X】＜【最大值】）</span><span class="help-tip" tabindex="0" data-tip="充值区间不可重叠，可断开；断开区间不命中规则。">?</span></th>
+                <th class="has-help" style="width: 120px;">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额指的是用户的锁定钱包、可提现钱包和在途金额的和，且需要考虑游戏范围，非指定产生的消耗导致的余额低于配置，则不命中规则。">?</span></th>
                 <th style="width: 120px;">补水金额</th>
                 <th style="width: 100px;">可补次数</th>
                 <th style="width: 70px;">操作</th>
@@ -1708,69 +2330,143 @@
               </tr>
             </tbody>
           </table>
+          <div class="rule-subtitle">礼金配置</div>
+          <div class="rule-summary">
+            <div class="rule-summary-item">
+              <label class="required">礼金是否需要领取</label>
+              <div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>需要领取</span></div>
+            </div>
+            <div class="rule-summary-item">
+              <label class="required">礼金倍率</label>
+              <div class="unit-input"><input value="10.00"><span class="unit">倍</span></div>
+            </div>
+            <div class="rule-summary-item scope-linkage-component bonus-scope-component">
+              <label class="required">礼金适用范围</label>
+              <select class="scope-linkage-select bonus-scope-select" id="bonusScopeSelect"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select>
+            </div>
+            <div class="rule-summary-item scope-linkage-value-field bonus-scope-value-field" id="bonusScopeValueField" hidden>
+              <label class="required">适用范围值</label>
+              <div class="multi-select scope-linkage-value-multi bonus-scope-value-multi" id="bonusScopeValueMulti">
+                <button class="multi-trigger scope-linkage-value-trigger bonus-scope-value-trigger" id="bonusScopeValueTrigger" type="button">请选择</button>
+                <div class="multi-menu scope-linkage-value-menu bonus-scope-value-menu" id="bonusScopeValueMenu"></div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
 
       <div class="section-title">前台展示</div>
-      <div class="language-box">
-        <div class="language-tabs">
-          <button class="language-tab active" type="button">英语</button>
-          <button class="language-tab" type="button">印地语</button>
+      <div class="front-subsection">
+        <div class="front-subtitle">活动中心配置</div>
+        <div class="front-global-config">
+          <div class="field">
+            <label class="required">是否在活动中心展示</label>
+            <div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
+          </div>
         </div>
-        <div class="language-content front-assets">
-          <div class="front-copy">
-            <div class="field">
-              <label class="required">活动名称（前台）</label>
-              <input value="首充补水礼金">
+        <div class="language-box activity-center-material">
+          <div class="language-tabs">
+            <button class="language-tab active" type="button">英语</button>
+            <button class="language-tab" type="button">印地语</button>
+          </div>
+          <div class="language-content front-assets">
+            <div class="front-copy">
+              <div class="field">
+                <label class="required">活动名称（前台）</label>
+                <input value="首充补水礼金">
+              </div>
+              <div class="field">
+                <label>活动宣传文案（前台）</label>
+                <input value="首充后满足补水条件即可获得礼金。">
+              </div>
             </div>
             <div class="field">
-              <label class="required">banner图排序</label>
-              <input value="100">
+              <label>详情图</label>
+              <div class="image-slot">IMAGE<br>DETAIL</div>
             </div>
           </div>
-          <div class="field">
-            <label class="required">活动中心banner图</label>
-            <div class="image-slot">IMAGE<br>LIST</div>
-          </div>
-          <div class="field">
-            <label class="required">详情图</label>
-            <div class="image-slot">IMAGE<br>DETAIL</div>
+          <div class="custom-title"><span>活动详情自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
+          <div class="custom-card">
+            <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="首充补水礼金"></div><button class="icon-close" type="button">×</button></div>
+            <div class="editor">
+              <div class="editor-toolbar">
+                <button class="tool-btn" type="button">B</button>
+                <button class="tool-btn" type="button">I</button>
+                <button class="tool-btn" type="button">U</button>
+                <select class="tool-select"><option>16px</option></select>
+                <button class="tool-btn" type="button">■</button>
+                <select class="tool-select is-line-height"><option>1.5</option></select>
+                <button class="tool-btn" type="button">清除格式</button>
+              </div>
+              <div class="editor-body" contenteditable="true">首充后满足补水条件即可获得礼金。</div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="custom-title"><span>自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
-      <div class="custom-card">
-        <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="首充补水礼金"></div><button class="icon-close" type="button">×</button></div>
-        <div class="editor">
-          <div class="editor-toolbar">
-            <button class="tool-btn" type="button">B</button>
-            <button class="tool-btn" type="button">I</button>
-            <button class="tool-btn" type="button">U</button>
-            <select class="tool-select"><option>16px</option></select>
-            <button class="tool-btn" type="button">■</button>
-            <select class="tool-select is-line-height"><option>1.5</option></select>
-            <button class="tool-btn" type="button">清除格式</button>
+      <div class="front-subsection">
+        <div class="front-subtitle">弹窗配置</div>
+        <div class="popup-config">
+          <div class="popup-fields">
+            <div class="field popup-visibility-field">
+              <label class="required">弹窗是否展示</label>
+              <div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
+            </div>
+            <div class="field">
+              <label class="required">弹窗间隔时间</label>
+              <select>
+                <option>0.5小时</option>
+                <option>1小时</option>
+                <option>3小时</option>
+                <option>6小时</option>
+                <option selected>每天</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label>
+              <input value="100">
+            </div>
+            <div class="field">
+              <label class="required">弹窗按钮跳转</label>
+              <select>
+                <option>无跳转</option>
+                <option>跳转到指定页面</option>
+                <option>外链</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="required">跳转目标</label>
+              <select>
+                <option>活动详情页</option>
+                <option>充值页面</option>
+                <option>游戏大厅</option>
+              </select>
+            </div>
           </div>
-          <div class="editor-body" contenteditable="true">首充后满足补水条件即可获得礼金。</div>
+        </div>
+        <div class="language-box popup-material">
+          <div class="language-tabs">
+            <button class="language-tab active" type="button">英语</button>
+            <button class="language-tab" type="button">印地语</button>
+          </div>
+          <div class="language-content">
+            <div class="field popup-image-field">
+              <label class="required">弹窗图片上传</label>
+              <div class="popup-image-slot">IMAGE<br>POPUP</div>
+            </div>
+          </div>
         </div>
       </div>
       </div>
 
       <div id="rechargeActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应充值类型与金额规则后，根据奖励设置计算赠送金额，并受赠送上限、活动显示权重和前台展示素材共同影响。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中周期首充金额规则后，根据奖励设置计算赠送金额，并受赠送上限、活动显示权重和前台展示素材共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
-          <div class="field"><label class="required">充值类型</label><select><option selected>笔笔充</option><option>周期首充</option><option>累计充值</option></select></div>
-          <div class="field"><label>活动有效期</label><div class="inline"><select><option selected>永久有效</option><option>指定时间</option></select><input placeholder="开始日期 至 结束日期"></div></div>
-          <div class="field"><label>重置设置</label><div class="inline"><select><option selected>不重置</option><option>每日重置</option><option>每周重置</option></select><select><option selected>请选择</option></select></div></div>
-          <div class="field"><label class="required">金额锁定范围</label><select><option selected>无限制</option><option>锁定会员余额</option><option>锁定充值金额</option></select></div>
-          <div class="field"><label class="required">币种</label><select><option selected>INR</option><option>BRL</option><option>PHP</option></select></div>
-          <div class="field"><label class="required">流水倍率</label><input value="3.00"></div>
-          <div class="field"><label class="required">活动显示权重</label><input value="80"></div>
-          <div class="field"><label>活动总赠送上限</label><div class="unit-input"><input placeholder="请选择"><span class="unit">INR</span></div></div>
-          <div class="field"><label>新人活动</label><div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div></div>
+          <div class="field"><label class="required">包ID</label><input id="rechargePackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option selected>周期首充</option><option>返水类型</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -1793,11 +2489,6 @@
                 <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>VIP1 - VIP12</option><option>VIP0</option><option>VIP13+</option></select></div></div>
                 <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
               </div>
-              <div class="condition-row">
-                <div class="condition-cell"><select class="condition-type"><option>用户标签</option><option>VIP等级</option><option selected>渠道ID</option></select></div>
-                <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>ads_001、invite_001、system_001</option><option>organic</option></select></div></div>
-                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
-              </div>
             </div>
           </div>
         </div>
@@ -1805,7 +2496,46 @@
         <div class="section-title">规则配置</div>
         <div class="rule-box">
           <div class="rule-body">
-            <div class="rule-subtitle">奖励设置</div>
+            <div class="rule-subtitle">基础规则配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label>重置设置</label>
+                <select><option selected>不重置</option><option>每日重置</option><option>每周重置</option><option>每月重置</option></select>
+              </div>
+              <div class="rule-summary-item scope-linkage-component">
+                <label class="required">本金适用范围</label>
+                <select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select>
+              </div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden>
+                <label class="required">适用范围值</label>
+                <div class="multi-select scope-linkage-value-multi">
+                  <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
+                  <div class="multi-menu scope-linkage-value-menu"></div>
+                </div>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">币种</label>
+                <select><option selected>INR</option><option>BRL</option><option>PHP</option></select>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">流水倍率</label>
+                <input value="3.00">
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">活动显示权重</label>
+                <input value="80">
+              </div>
+              <div class="rule-summary-item">
+                <label>活动总赠送上限</label>
+                <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
+              </div>
+              <div class="rule-summary-item">
+                <label>新人活动</label>
+                <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
+              </div>
+            </div>
+
+            <div class="rule-subtitle">区间参数配置</div>
             <div class="rule-summary">
               <div class="rule-summary-item">
                 <label class="required">奖励形式</label>
@@ -1842,51 +2572,306 @@
                 </tr>
               </tbody>
             </table>
+            <div class="rule-subtitle">礼金配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label class="required">礼金是否需要领取</label>
+                <div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>需要领取</span></div>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">礼金倍率</label>
+                <div class="unit-input"><input value="3.00"><span class="unit">倍</span></div>
+              </div>
+              <div class="rule-summary-item scope-linkage-component bonus-scope-component">
+                <label class="required">礼金适用范围</label>
+                <select class="scope-linkage-select bonus-scope-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select>
+              </div>
+              <div class="rule-summary-item scope-linkage-value-field bonus-scope-value-field" hidden>
+                <label class="required">适用范围值</label>
+                <div class="multi-select scope-linkage-value-multi bonus-scope-value-multi">
+                  <button class="multi-trigger scope-linkage-value-trigger bonus-scope-value-trigger" type="button">请选择</button>
+                  <div class="multi-menu scope-linkage-value-menu bonus-scope-value-menu"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="section-title">前台展示</div>
-        <div class="language-box">
-          <div class="language-tabs">
-            <button class="language-tab active" type="button">英语</button>
-            <button class="language-tab" type="button">印地语</button>
+        <div class="front-subsection">
+          <div class="front-subtitle">活动中心配置</div>
+          <div class="front-global-config">
+            <div class="field">
+              <label class="required">是否在活动中心展示</label>
+              <div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
+            </div>
           </div>
-          <div class="language-content front-assets">
-            <div class="front-copy">
-              <div class="field">
-                <label class="required">活动名称（前台）</label>
-                <input value="暴充送好礼">
+          <div class="language-box activity-center-material">
+            <div class="language-tabs">
+              <button class="language-tab active" type="button">英语</button>
+              <button class="language-tab" type="button">印地语</button>
+            </div>
+            <div class="language-content front-assets">
+              <div class="front-copy">
+                <div class="field">
+                  <label class="required">活动名称（前台）</label>
+                  <input value="暴充送好礼">
+                </div>
+                <div class="field">
+                  <label>活动宣传文案（前台）</label>
+                  <input value="充值达标即可领取对应奖励。">
+                </div>
+              </div>
+            <div class="field">
+              <label>详情图</label>
+              <div class="image-slot">IMAGE<br>DETAIL</div>
+            </div>
+          </div>
+            <div class="custom-title"><span>活动详情自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
+            <div class="custom-card">
+              <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="暴充送好礼"></div><button class="icon-close" type="button">×</button></div>
+              <div class="editor">
+                <div class="editor-toolbar">
+                  <button class="tool-btn" type="button">B</button>
+                  <button class="tool-btn" type="button">I</button>
+                  <button class="tool-btn" type="button">U</button>
+                  <select class="tool-select"><option>16px</option></select>
+                  <button class="tool-btn" type="button">■</button>
+                  <select class="tool-select is-line-height"><option>1.5</option></select>
+                  <button class="tool-btn" type="button">清除格式</button>
+                </div>
+                <div class="editor-body" contenteditable="true">达到充值目标后按规则获得赠送礼金。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="front-subsection">
+          <div class="front-subtitle">弹窗配置</div>
+          <div class="popup-config">
+            <div class="popup-fields">
+              <div class="field popup-visibility-field">
+                <label class="required">弹窗是否展示</label>
+                <div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
               </div>
               <div class="field">
-                <label class="required">banner图排序</label>
+                <label class="required">弹窗间隔时间</label>
+                <select>
+                  <option>0.5小时</option>
+                  <option>1小时</option>
+                  <option>3小时</option>
+                  <option>6小时</option>
+                  <option selected>每天</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label>
                 <input value="80">
               </div>
+              <div class="field">
+                <label class="required">弹窗按钮跳转</label>
+                <select>
+                  <option>无跳转</option>
+                  <option>跳转到指定页面</option>
+                  <option>外链</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="required">跳转目标</label>
+                <select>
+                  <option>充值页面</option>
+                  <option>活动详情页</option>
+                  <option>游戏大厅</option>
+                </select>
+              </div>
             </div>
-            <div class="field">
-              <label class="required">活动中心banner图</label>
-              <div class="image-slot">IMAGE<br>LIST</div>
+          </div>
+          <div class="language-box popup-material">
+            <div class="language-tabs">
+              <button class="language-tab active" type="button">英语</button>
+              <button class="language-tab" type="button">印地语</button>
             </div>
-            <div class="field">
-              <label class="required">详情图</label>
-              <div class="image-slot">IMAGE<br>DETAIL</div>
+            <div class="language-content">
+              <div class="field popup-image-field">
+                <label class="required">弹窗图片上传</label>
+                <div class="popup-image-slot">IMAGE<br>POPUP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="rebateActivityForm" hidden>
+        <div class="context-note">配置逻辑：系统按活动有效期、重置周期和参与条件校验用户资格；再按返水取值类型、取值范围和返水档位计算返水金额，生成的礼金按礼金配置控制领取、倍率和适用范围。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="rebateActivityName" value="每日返水"></div>
+          <div class="field"><label class="required">包ID</label><input id="rebatePackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option selected>返水类型</option></select></div>
+          <div class="field"><label class="required">重置周期</label><select><option selected>按自然日</option><option>按自然周</option><option>按自然月</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="radio-row">
+              <label><input type="radio" name="rebateJoinCondition" checked>不限制</label>
+              <label><input type="radio" name="rebateJoinCondition">满足条件</label>
+              <label><input type="radio" name="rebateJoinCondition">首充用户</label>
             </div>
           </div>
         </div>
 
-        <div class="custom-title"><span>自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
-        <div class="custom-card">
-          <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="暴充送好礼"></div><button class="icon-close" type="button">×</button></div>
-          <div class="editor">
-            <div class="editor-toolbar">
-              <button class="tool-btn" type="button">B</button>
-              <button class="tool-btn" type="button">I</button>
-              <button class="tool-btn" type="button">U</button>
-              <select class="tool-select"><option>16px</option></select>
-              <button class="tool-btn" type="button">■</button>
-              <select class="tool-select is-line-height"><option>1.5</option></select>
-              <button class="tool-btn" type="button">清除格式</button>
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">基础规则配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label class="required">返水取值类型</label>
+                <select><option selected>按有效流水</option><option>按投注金额</option><option>按输赢金额</option></select>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">流水倍率</label>
+                <input placeholder="请输入" value="1.00">
+              </div>
+              <div class="rule-summary-item scope-linkage-component">
+                <label class="required">取值范围</label>
+                <select class="scope-linkage-select"><option>无限制</option><option>指定场馆</option><option selected>指定游戏分类</option><option>指定游戏</option></select>
+              </div>
+              <div class="rule-summary-item scope-linkage-value-field">
+                <label class="required">范围值</label>
+                <div class="multi-select scope-linkage-value-multi">
+                  <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
+                  <div class="multi-menu scope-linkage-value-menu"></div>
+                </div>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">返水方式</label>
+                <select><option selected>按比例</option><option>固定金额</option></select>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">返水档位类型</label>
+                <select><option selected>按游戏分类</option><option>按场馆</option><option>按游戏</option></select>
+              </div>
             </div>
-            <div class="editor-body" contenteditable="true">达到充值目标后按规则获得赠送礼金。</div>
+
+            <div class="rule-subtitle">区间参数配置</div>
+            <table class="subsidy-rule-table">
+              <thead>
+                <tr>
+                  <th style="width: 180px;">游戏分类</th>
+                  <th style="width: 220px;">返水金额</th>
+                  <th style="width: 70px;">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><select><option selected>Slot</option><option>Crash</option><option>Casino</option><option>Fishing</option></select></td>
+                  <td><div class="unit-input"><input value="0.30"><span class="unit">%</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+                <tr>
+                  <td><select><option>Slot</option><option selected>Crash</option><option>Casino</option><option>Fishing</option></select></td>
+                  <td><div class="unit-input"><input value="0.20"><span class="unit">%</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="rule-subtitle">礼金配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label class="required">礼金是否需要领取</label>
+                <div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>需要领取</span></div>
+              </div>
+              <div class="rule-summary-item">
+                <label class="required">礼金倍率</label>
+                <div class="unit-input"><input value="3.00"><span class="unit">倍</span></div>
+              </div>
+              <div class="rule-summary-item scope-linkage-component">
+                <label class="required">礼金适用范围</label>
+                <select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select>
+              </div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden>
+                <label class="required">适用范围值</label>
+                <div class="multi-select scope-linkage-value-multi">
+                  <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
+                  <div class="multi-menu scope-linkage-value-menu"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">前台展示</div>
+        <div class="front-subsection">
+          <div class="front-subtitle">活动中心配置</div>
+          <div class="front-global-config">
+            <div class="field">
+              <label class="required">是否在活动中心展示</label>
+              <div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
+            </div>
+          </div>
+          <div class="language-box activity-center-material">
+            <div class="language-tabs">
+              <button class="language-tab active" type="button">英语</button>
+              <button class="language-tab" type="button">印地语</button>
+            </div>
+            <div class="language-content front-assets">
+              <div class="front-copy">
+                <div class="field"><label class="required">活动名称（前台）</label><input value="每日返水"></div>
+                <div class="field"><label>活动宣传文案（前台）</label><input value="每日有效流水达标即可获得返水。"></div>
+              </div>
+              <div class="field">
+                <label>详情图</label>
+                <div class="image-slot">IMAGE<br>DETAIL</div>
+              </div>
+            </div>
+            <div class="custom-title"><span>活动详情自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
+            <div class="custom-card">
+              <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="每日返水"></div><button class="icon-close" type="button">×</button></div>
+              <div class="editor">
+                <div class="editor-toolbar">
+                  <button class="tool-btn" type="button">B</button>
+                  <button class="tool-btn" type="button">I</button>
+                  <button class="tool-btn" type="button">U</button>
+                  <select class="tool-select"><option>16px</option></select>
+                  <button class="tool-btn" type="button">■</button>
+                  <select class="tool-select is-line-height"><option>1.5</option></select>
+                  <button class="tool-btn" type="button">清除格式</button>
+                </div>
+                <div class="editor-body" contenteditable="true">每日按有效流水和游戏分类计算返水奖励。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="front-subsection">
+          <div class="front-subtitle">弹窗配置</div>
+          <div class="popup-config">
+            <div class="popup-fields">
+              <div class="field popup-visibility-field">
+                <label class="required">弹窗是否展示</label>
+                <div class="switch-row"><button class="switch popup-switch" type="button" aria-pressed="false"></button><span>不展示</span></div>
+              </div>
+              <div class="field" hidden><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div>
+              <div class="field" hidden><label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label><input value="60"></div>
+              <div class="field" hidden><label class="required">弹窗按钮跳转</label><select><option selected>无跳转</option><option>跳转到指定页面</option><option>外链</option></select></div>
+              <div class="field" hidden><label class="required">跳转目标</label><select><option>活动详情页</option><option>游戏大厅</option></select></div>
+            </div>
+          </div>
+          <div class="language-box popup-material" hidden>
+            <div class="language-tabs">
+              <button class="language-tab active" type="button">英语</button>
+              <button class="language-tab" type="button">印地语</button>
+            </div>
+            <div class="language-content">
+              <div class="field popup-image-field">
+                <label class="required">弹窗图片上传</label>
+                <div class="popup-image-slot">IMAGE<br>POPUP</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1970,6 +2955,12 @@
       pageTabs.querySelectorAll(".page-tab").forEach(tab => {
         tab.classList.toggle("is-active", tab.dataset.parent === parent && tab.dataset.title === title);
       });
+      renderPageContent(title);
+    }
+    function renderPageContent(title) {
+      const isFrontendShow = title === "前端活动展示";
+      document.getElementById("activityListContent").classList.toggle("is-active", !isFrontendShow);
+      document.getElementById("frontendShowContent").classList.toggle("is-active", isFrontendShow);
     }
     function openTab(parent, title, menuTitle = title) {
       const existing = Array.from(pageTabs.querySelectorAll(".page-tab")).find(tab => tab.dataset.parent === parent && tab.dataset.title === title);
@@ -2092,14 +3083,24 @@
     const drawerTitle = document.getElementById("drawerTitle");
     const rescueActivityForm = document.getElementById("rescueActivityForm");
     const rechargeActivityForm = document.getElementById("rechargeActivityForm");
+    const rebateActivityForm = document.getElementById("rebateActivityForm");
     function syncActivityForm(activityType = "补水活动") {
-      const isRecharge = activityType === "充值活动";
-      rescueActivityForm.hidden = isRecharge;
+      const normalizedType = activityType === "充值活动" ? "周期首充" : activityType;
+      const isRecharge = normalizedType === "周期首充";
+      const isRebate = normalizedType === "返水类型";
+      rescueActivityForm.hidden = isRecharge || isRebate;
       rechargeActivityForm.hidden = !isRecharge;
+      rebateActivityForm.hidden = !isRebate;
+      document.querySelectorAll(".activity-type-select").forEach(select => {
+        select.value = normalizedType;
+      });
     }
     function openDrawer(mode = "活动新增", activityType = "补水活动") {
       drawerTitle.textContent = mode;
       syncActivityForm(activityType);
+      document.querySelectorAll(".activity-type-field").forEach(field => {
+        field.hidden = mode !== "活动新增";
+      });
       drawer.classList.remove("is-hidden");
       drawerMask.classList.remove("is-hidden");
     }
@@ -2111,62 +3112,105 @@
     document.getElementById("closeDrawerButton").addEventListener("click", closeDrawer);
     document.getElementById("cancelDrawerButton").addEventListener("click", closeDrawer);
     drawerMask.addEventListener("click", closeDrawer);
+    document.querySelectorAll(".activity-type-select").forEach(select => {
+      select.addEventListener("change", () => syncActivityForm(select.value));
+    });
     document.querySelectorAll(".edit-row").forEach(button => {
       button.addEventListener("click", () => {
         const cells = button.closest("tr").children;
+        const packageId = cells[2].textContent.trim();
         const activityName = cells[4].textContent.trim();
         const activityType = cells[5].textContent.trim();
         document.getElementById("drawerConfigName").value = activityName;
         document.getElementById("rechargeActivityName").value = activityName;
+        document.getElementById("rebateActivityName").value = activityName;
+        document.getElementById("drawerPackageId").value = packageId;
+        document.getElementById("rechargePackageId").value = packageId;
+        document.getElementById("rebatePackageId").value = packageId;
         openDrawer("活动编辑", activityType);
       });
     });
-    const bonusScopeSelect = document.getElementById("bonusScopeSelect");
-    const bonusScopeValueField = document.getElementById("bonusScopeValueField");
-    const bonusScopeValueMulti = document.getElementById("bonusScopeValueMulti");
-    const bonusScopeValueTrigger = document.getElementById("bonusScopeValueTrigger");
-    const bonusScopeValueMenu = document.getElementById("bonusScopeValueMenu");
-    const bonusScopeValueMap = {
+    document.querySelectorAll(".popup-switch").forEach(button => {
+      button.addEventListener("click", () => {
+        const enabled = !button.classList.contains("is-on");
+        const config = button.closest(".popup-config");
+        const section = button.closest(".front-subsection");
+        button.classList.toggle("is-on", enabled);
+        button.setAttribute("aria-pressed", String(enabled));
+        button.nextElementSibling.textContent = enabled ? "展示" : "不展示";
+        config.querySelectorAll(".popup-fields .field:not(:first-child)").forEach(field => {
+          field.hidden = !enabled;
+        });
+        section.querySelectorAll(".popup-material").forEach(field => {
+          field.hidden = !enabled;
+        });
+      });
+    });
+    document.querySelectorAll(".activity-center-switch").forEach(button => {
+      button.addEventListener("click", () => {
+        const enabled = !button.classList.contains("is-on");
+        const section = button.closest(".front-subsection");
+        button.classList.toggle("is-on", enabled);
+        button.setAttribute("aria-pressed", String(enabled));
+        button.nextElementSibling.textContent = enabled ? "展示" : "不展示";
+        section.querySelectorAll(".activity-center-material").forEach(field => {
+          field.hidden = !enabled;
+        });
+      });
+    });
+    const scopeValueMap = {
       "指定场馆": ["Slot", "Casino", "Fishing", "Fantasy", "Sports"],
+      "指定游戏分类": ["Slot", "Crash", "Casino", "Fishing", "Sports"],
       "指定游戏": ["Fortune Tiger", "Mines", "Aviator", "Super Ace", "Dragon Hatch"]
     };
-    function selectedBonusScopeValues() {
-      return Array.from(bonusScopeValueMenu.querySelectorAll("input:checked")).map(input => input.value);
-    }
-    function syncBonusScopeSummary() {
-      const selected = selectedBonusScopeValues();
-      bonusScopeValueTrigger.textContent = selected.length <= 2 ? selected.join("、") : `${selected.slice(0, 2).join("、")} +${selected.length - 2}`;
-      bonusScopeValueTrigger.title = selected.join("、");
-    }
-    function renderBonusScopeValues() {
-      const values = bonusScopeValueMap[bonusScopeSelect.value] || [];
-      bonusScopeValueField.hidden = values.length === 0;
-      bonusScopeValueMenu.innerHTML = "";
-      values.forEach((value, index) => {
-        const label = document.createElement("label");
-        label.className = "multi-option";
-        label.innerHTML = `<input type="checkbox" value="${value}" ${index === 0 ? "checked" : ""}> <span>${value}</span>`;
-        bonusScopeValueMenu.appendChild(label);
+    document.querySelectorAll(".scope-linkage-component").forEach(component => {
+      const summary = component.closest(".rule-summary");
+      const select = component.querySelector(".scope-linkage-select");
+      const valueField = component.nextElementSibling;
+      const valueMulti = valueField.querySelector(".scope-linkage-value-multi");
+      const valueTrigger = valueField.querySelector(".scope-linkage-value-trigger");
+      const valueMenu = valueField.querySelector(".scope-linkage-value-menu");
+      const selectedValues = () => Array.from(valueMenu.querySelectorAll("input:checked")).map(input => input.value);
+      const syncSummary = () => {
+        const selected = selectedValues();
+        valueTrigger.textContent = selected.length <= 2 ? selected.join("、") : `${selected.slice(0, 2).join("、")} +${selected.length - 2}`;
+        valueTrigger.title = selected.join("、");
+      };
+      const renderValues = () => {
+        const values = scopeValueMap[select.value] || [];
+        valueField.hidden = values.length === 0;
+        valueMenu.innerHTML = "";
+        values.forEach((value, index) => {
+          const label = document.createElement("label");
+          label.className = "multi-option";
+          label.innerHTML = `<input type="checkbox" value="${value}" ${index === 0 ? "checked" : ""}> <span>${value}</span>`;
+          valueMenu.appendChild(label);
+        });
+        if (!values.length) {
+          valueTrigger.textContent = "请选择";
+          valueTrigger.title = "";
+          valueMulti.classList.remove("is-open");
+          return;
+        }
+        syncSummary();
+      };
+      select.addEventListener("change", renderValues);
+      valueTrigger.addEventListener("click", event => {
+        event.stopPropagation();
+        document.querySelectorAll(".scope-linkage-value-multi").forEach(item => {
+          if (item !== valueMulti) item.classList.remove("is-open");
+        });
+        valueMulti.classList.toggle("is-open");
       });
-      if (!values.length) {
-        bonusScopeValueTrigger.textContent = "请选择";
-        bonusScopeValueTrigger.title = "";
-        bonusScopeValueMulti.classList.remove("is-open");
-        return;
-      }
-      syncBonusScopeSummary();
-    }
-    bonusScopeSelect.addEventListener("change", renderBonusScopeValues);
-    bonusScopeValueTrigger.addEventListener("click", event => {
-      event.stopPropagation();
-      bonusScopeValueMulti.classList.toggle("is-open");
+      valueMenu.addEventListener("click", event => event.stopPropagation());
+      valueMenu.addEventListener("change", syncSummary);
+      renderValues();
     });
-    bonusScopeValueMenu.addEventListener("click", event => event.stopPropagation());
-    bonusScopeValueMenu.addEventListener("change", syncBonusScopeSummary);
     document.addEventListener("click", event => {
-      if (!event.target.closest("#bonusScopeValueMulti")) bonusScopeValueMulti.classList.remove("is-open");
+      if (!event.target.closest(".scope-linkage-value-multi")) {
+        document.querySelectorAll(".scope-linkage-value-multi").forEach(item => item.classList.remove("is-open"));
+      }
     });
-    renderBonusScopeValues();
     const gameScopeSelect = document.getElementById("gameScopeSelect");
     const gameScopeValueMulti = document.getElementById("gameScopeValueMulti");
     const gameScopeValueTrigger = document.getElementById("gameScopeValueTrigger");
@@ -2194,6 +3238,15 @@
     }
     function renderGameScopeValues() {
       const values = gameScopeValueMap[gameScopeSelect.value] || [];
+      const isUnlimited = gameScopeSelect.value === "不限游戏";
+      document.getElementById("gameScopeValueField").hidden = isUnlimited;
+      if (isUnlimited) {
+        gameScopeValueMenu.innerHTML = "";
+        gameScopeValueTrigger.textContent = "请选择";
+        gameScopeValueTrigger.title = "";
+        gameScopeValueMulti.classList.remove("is-open");
+        return;
+      }
       gameScopeValueMenu.innerHTML = "";
       values.forEach((value, index) => {
         const label = document.createElement("label");
@@ -2226,18 +3279,10 @@
     });
     const conditionMatrix = document.getElementById("conditionMatrix");
     const conditionTypeConfig = {
-      "首提状态": {
-        operators: ["=", "≠"],
-        valueHtml: '<select><option>未首提</option><option>已首提</option></select>'
-      },
       "累计充值": {
         operators: ["≥", "<", "介于"],
         valueHtml: '<div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div>',
         rangeValueHtml: '<div class="condition-range"><div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div><span class="range-separator">~</span><div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div></div>'
-      },
-      "首充后N天": {
-        operators: [">", "≥", "<", "≤", "="],
-        valueHtml: '<div class="unit-input"><input value="3"><span class="unit">天</span></div>'
       },
       "用户标签": {
         operators: ["=", "≠"],

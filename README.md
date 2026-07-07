@@ -4,5 +4,4 @@ Admin visualization prototypes and reusable generation rules for SUPERX requirem
 
 ## Requirements
 
-- `Rescue_Bonus_Campaign`
-
+- `Campaigns`
