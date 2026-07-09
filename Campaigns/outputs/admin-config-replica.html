@@ -2503,11 +2503,11 @@
                 <select><option selected>不重置</option><option>每日重置</option><option>每周重置</option><option>每月重置</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-component">
-                <label class="required">本金适用范围</label>
-                <select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select>
+                <label class="required">游戏范围</label>
+                <select class="scope-linkage-select"><option>不限游戏</option><option selected>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field" hidden>
-                <label class="required">适用范围值</label>
+                <label class="required">范围值</label>
                 <div class="multi-select scope-linkage-value-multi">
                   <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
                   <div class="multi-menu scope-linkage-value-menu"></div>
@@ -2764,7 +2764,7 @@
               </div>
               <div class="rule-summary-item scope-linkage-component">
                 <label class="required">游戏范围</label>
-                <select class="scope-linkage-select"><option>无限制</option><option>指定场馆</option><option selected>指定游戏分类</option><option>指定游戏</option></select>
+                <select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option selected>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field">
                 <label class="required">范围值</label>
@@ -3187,7 +3187,9 @@
     const scopeValueMap = {
       "指定场馆": ["Slot", "Casino", "Fishing", "Fantasy", "Sports"],
       "指定游戏分类": ["Slot", "Crash", "Casino", "Fishing", "Sports"],
-      "指定游戏": ["Fortune Tiger", "Mines", "Aviator", "Super Ace", "Dragon Hatch"]
+      "指定游戏": ["Fortune Tiger", "Mines", "Aviator", "Super Ace", "Dragon Hatch"],
+      "Fantasy": ["Cricket Fantasy", "Football Fantasy", "Basketball Fantasy"],
+      "Sports": ["Cricket", "Football", "Tennis", "Basketball"]
     };
     document.querySelectorAll(".scope-linkage-component").forEach(component => {
       const summary = component.closest(".rule-summary");
