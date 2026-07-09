@@ -2481,6 +2481,11 @@
                 <div class="condition-cell"><span class="condition-label">条件值</span></div>
                 <div class="condition-cell"><button class="circle-btn" type="button" aria-label="新增条件">+</button></div>
               </div>
+              <div class="condition-row" data-default-operator="=" data-default-value="未首充">
+                <div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>渠道ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select><option selected>=</option><option>≠</option></select><select><option selected>未首充</option><option>风险用户</option><option>羊毛用户</option><option>高价值用户</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn" type="button" aria-label="删除条件">-</button></div>
+              </div>
               <div class="condition-row">
                 <div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>渠道ID</option></select></div>
                 <div class="condition-cell"><div class="condition-value"><select><option>=</option><option selected>≠</option></select><select><option selected>风险用户</option><option>羊毛用户</option><option>高价值用户</option></select></div></div>
@@ -2522,10 +2527,6 @@
               <div class="rule-summary-item">
                 <label class="required">流水倍率</label>
                 <input value="3.00">
-              </div>
-              <div class="rule-summary-item">
-                <label>新人活动</label>
-                <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
               </div>
             </div>
 
@@ -3786,7 +3787,7 @@
       },
       "用户标签": {
         operators: ["=", "≠"],
-        valueHtml: '<select><option>请选择</option><option>未首提</option><option>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>'
+        valueHtml: '<select><option>请选择</option><option>未首充</option><option>未首提</option><option>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>'
       },
       "渠道类型": {
         operators: ["=", "≠"],
@@ -3810,6 +3811,14 @@
       const config = conditionTypeConfig[typeSelect.value] || conditionTypeConfig["累计充值"];
       const valueWrap = row.querySelector(".condition-value");
       valueWrap.innerHTML = `<select class="condition-operator">${config.operators.map(item => `<option>${item}</option>`).join("")}</select>${config.valueHtml}`;
+      if (row.dataset.defaultOperator) {
+        const operator = valueWrap.querySelector(".condition-operator");
+        operator.value = row.dataset.defaultOperator;
+      }
+      if (row.dataset.defaultValue) {
+        const valueControl = valueWrap.querySelector(":scope > select:not(.condition-operator), :scope > input, :scope > textarea, :scope .unit-input input");
+        if (valueControl) valueControl.value = row.dataset.defaultValue;
+      }
     }
     function renderConditionValueByOperator(operatorSelect) {
       const row = operatorSelect.closest(".condition-row");
@@ -3833,6 +3842,8 @@
         if (event.target.closest(".condition-add")) {
           const template = conditionMatrix.querySelector(".condition-row");
           const row = template.cloneNode(true);
+          delete row.dataset.defaultOperator;
+          delete row.dataset.defaultValue;
           row.querySelector(".condition-type").value = "累计充值";
           renderConditionRow(row);
           conditionMatrix.appendChild(row);
