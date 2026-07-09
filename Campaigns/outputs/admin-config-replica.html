@@ -2905,7 +2905,7 @@
       </div>
 
       <div id="perDepositActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户每笔充值命中单笔充值金额规则后，根据该行奖励形式和赠送值计算赠送礼金，并受游戏范围、赠送上限和礼金配置共同影响。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户每笔充值命中单笔充值金额规则后，根据该行奖励形式和赠送值计算赠送礼金，并受游戏范围、单笔赠送上限、单用户累计赠送上限和礼金配置共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="perDepositActivityName" value="笔笔充值礼金"></div>
@@ -2931,16 +2931,6 @@
                   <div class="condition-value">
                     <select class="condition-operator"><option>=</option><option selected>≠</option></select>
                     <select><option>未首提</option><option selected>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>
-                  </div>
-                </div>
-                <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">-</button></div>
-              </div>
-              <div class="condition-row">
-                <div class="condition-cell"><select class="condition-type"><option selected>累计充值</option><option>用户标签</option><option>渠道类型</option><option>VIP等级</option><option>上级ID</option></select></div>
-                <div class="condition-cell">
-                  <div class="condition-value">
-                    <select class="condition-operator"><option selected>&ge;</option><option>&lt;</option><option>介于</option></select>
-                    <div class="unit-input"><input value="100"><span class="unit">INR</span></div>
                   </div>
                 </div>
                 <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">-</button></div>
@@ -2986,7 +2976,7 @@
             <div class="rule-subtitle">区间参数配置</div>
             <div class="rule-summary">
               <div class="rule-summary-item">
-                <label>赠送上限</label>
+                <label>单用户累计赠送上限</label>
                 <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
               </div>
             </div>
@@ -2996,6 +2986,7 @@
                   <th style="width: 180px;">单笔充值金额达到</th>
                   <th style="width: 140px;">奖励形式</th>
                   <th style="width: 180px;">赠送礼金</th>
+                  <th class="has-help" style="width: 150px;">单笔赠送上限<span class="help-tip" tabindex="0" data-tip="0为不限制。">?</span></th>
                   <th style="width: 70px;">操作</th>
                 </tr>
               </thead>
@@ -3004,18 +2995,21 @@
                   <td><div class="unit-input"><input value="1.00"><span class="unit">INR</span></div></td>
                   <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
                   <td><div class="unit-input"><input value="1.00"><span class="unit reward-value-unit">%</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
                   <td><div class="unit-input"><input value="100.00"><span class="unit">INR</span></div></td>
                   <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
                   <td><div class="unit-input"><input value="3.00"><span class="unit reward-value-unit">%</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
                   <td><div class="unit-input"><input value="500.00"><span class="unit">INR</span></div></td>
                   <td><select class="reward-mode-select"><option>比例</option><option selected>固定值</option></select></td>
                   <td><div class="unit-input"><input value="50.00"><span class="unit reward-value-unit">INR</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
               </tbody>
