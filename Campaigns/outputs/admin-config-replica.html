@@ -2459,7 +2459,7 @@
       </div>
 
       <div id="rechargeActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中周期首充金额规则后，根据奖励设置计算赠送金额，并受赠送上限、活动显示权重和前台展示素材共同影响。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中周期首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受赠送上限和前台展示素材共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
@@ -2522,14 +2522,6 @@
                 <input value="3.00">
               </div>
               <div class="rule-summary-item">
-                <label class="required">活动显示权重</label>
-                <input value="80">
-              </div>
-              <div class="rule-summary-item">
-                <label>活动总赠送上限</label>
-                <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
-              </div>
-              <div class="rule-summary-item">
                 <label>新人活动</label>
                 <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
               </div>
@@ -2537,10 +2529,6 @@
 
             <div class="rule-subtitle">区间参数配置</div>
             <div class="rule-summary">
-              <div class="rule-summary-item">
-                <label class="required">奖励形式</label>
-                <div class="radio-row"><label><input type="radio" checked>按比例</label><label><input type="radio">固定金额</label></div>
-              </div>
               <div class="rule-summary-item">
                 <label>赠送上限</label>
                 <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
@@ -2550,24 +2538,28 @@
               <thead>
                 <tr>
                   <th style="width: 180px;">充值金额达到</th>
-                  <th style="width: 180px;">赠送礼金比例</th>
+                  <th style="width: 140px;">奖励形式</th>
+                  <th style="width: 180px;">赠送礼金</th>
                   <th style="width: 70px;">操作</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><div class="unit-input"><input value="1.00"><span class="unit">INR</span></div></td>
-                  <td><div class="unit-input"><input value="1.00"><span class="unit">%</span></div></td>
+                  <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="1.00"><span class="unit reward-value-unit">%</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
                   <td><div class="unit-input"><input value="100.00"><span class="unit">INR</span></div></td>
-                  <td><div class="unit-input"><input value="3.00"><span class="unit">%</span></div></td>
+                  <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="3.00"><span class="unit reward-value-unit">%</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
                   <td><div class="unit-input"><input value="500.00"><span class="unit">INR</span></div></td>
-                  <td><div class="unit-input"><input value="8.00"><span class="unit">%</span></div></td>
+                  <td><select class="reward-mode-select"><option>比例</option><option selected>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="50.00"><span class="unit reward-value-unit">INR</span></div></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
               </tbody>
@@ -3238,6 +3230,15 @@
       if (!event.target.closest(".scope-linkage-value-multi")) {
         document.querySelectorAll(".scope-linkage-value-multi").forEach(item => item.classList.remove("is-open"));
       }
+    });
+    function syncRewardMode(select) {
+      const row = select.closest("tr");
+      const unit = row.querySelector(".reward-value-unit");
+      if (unit) unit.textContent = select.value === "固定值" ? "INR" : "%";
+    }
+    document.querySelectorAll(".reward-mode-select").forEach(select => {
+      select.addEventListener("change", () => syncRewardMode(select));
+      syncRewardMode(select);
     });
     const gameScopeSelect = document.getElementById("gameScopeSelect");
     const gameScopeValueMulti = document.getElementById("gameScopeValueMulti");
