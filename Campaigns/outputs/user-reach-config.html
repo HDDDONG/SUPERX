@@ -484,6 +484,7 @@
       padding: 10px 14px;
       border-bottom: 1px solid var(--line);
       background: var(--gray-50);
+      overflow-x: auto;
     }
 
     .overview-row {
@@ -494,6 +495,10 @@
       border-radius: 6px;
       background: var(--gray-0);
       overflow: visible;
+    }
+
+    .overview-row.has-reward-metrics {
+      min-width: 1120px;
     }
 
     .overview-title {
@@ -511,18 +516,44 @@
       min-width: 0;
     }
 
+    .overview-metrics.has-reward-metrics {
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+    }
+
     .overview-metric {
       min-width: 0;
-      padding: 8px 10px;
+      padding: 8px 6px;
       border-left: 1px solid var(--line);
     }
 
     .overview-metric-label {
+      display: flex;
+      align-items: center;
+      gap: 2px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       line-height: 18px;
       white-space: nowrap;
       overflow: visible;
+    }
+
+    .overview-metric-label .tip {
+      width: 14px;
+      height: 14px;
+      margin-left: 0;
+      font-size: 10px;
+      flex: 0 0 14px;
+    }
+
+    .overview-metric:last-child .tip:hover::after,
+    .overview-metric:last-child .tip:focus::after {
+      left: auto;
+      right: 0;
+    }
+
+    .overview-metric:last-child .tip:hover::before,
+    .overview-metric:last-child .tip:focus::before {
+      display: none;
     }
 
     .overview-metric-value {
@@ -575,10 +606,10 @@
     .table-wrap { overflow: auto; }
 
     table {
-      width: 100%;
-      min-width: 1180px;
+      width: max-content;
+      min-width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: auto;
       font-size: 12px;
     }
 
@@ -586,12 +617,35 @@
     td {
       height: 42px;
       border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
       padding: 8px 10px;
       text-align: left;
       vertical-align: middle;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 72px;
+      max-width: 220px;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    th:first-child,
+    td:first-child {
+      width: 56px;
+      min-width: 56px;
+      max-width: 56px;
+      text-align: center;
+    }
+
+    th:last-child,
+    td:last-child {
+      width: 1%;
+      min-width: 178px;
+      max-width: none;
     }
 
     th {
@@ -638,16 +692,6 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-    }
-
-    .component-note {
-      margin: 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--gray-50);
-      color: var(--gray-600);
-      padding: 10px 12px;
-      line-height: 1.65;
     }
 
     .drawer-mask,
@@ -843,6 +887,34 @@
       color: var(--gray-700);
       font-weight: 600;
       white-space: nowrap;
+    }
+
+    .delivery-check {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 32px;
+      color: var(--gray-700);
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .delivery-check input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .delivery-check input:checked + .multi-check {
+      border-color: var(--gray-700);
+      background: var(--gray-700);
+      color: var(--gray-0);
+    }
+
+    .delivery-check.is-fixed {
+      color: var(--gray-600);
+      cursor: default;
     }
 
     .inline-row {
@@ -1176,6 +1248,18 @@
       box-shadow: 0 0 0 2px var(--gray-100);
     }
 
+    .multi-select.is-disabled .multi-select-trigger {
+      color: var(--gray-400);
+      background: var(--gray-100);
+      border-color: var(--line);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .multi-select.is-disabled .multi-select-arrow {
+      color: var(--gray-300);
+    }
+
     .multi-select-arrow {
       color: var(--gray-500);
       font-size: 12px;
@@ -1275,6 +1359,13 @@
 
     .switch.is-on::before { transform: translateX(18px); }
 
+    .switch:disabled {
+      background: var(--gray-100);
+      border-color: var(--gray-300);
+      cursor: not-allowed;
+      opacity: .8;
+    }
+
     .language-tabs {
       display: flex;
       border: 1px solid var(--line);
@@ -1300,6 +1391,20 @@
     .language-panel {
       border: 1px solid var(--line);
       padding: 12px;
+    }
+
+    .app-push-config {
+      grid-column: 1 / -1;
+      width: 100%;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .app-push-config-title {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 750;
     }
 
     .editor-box {
@@ -1424,8 +1529,10 @@
       }
 
       .overview-row { grid-template-columns: 1fr; }
+      .overview-row.has-reward-metrics { min-width: 0; }
       .overview-title { border-bottom: 1px solid var(--line); }
       .overview-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .overview-metrics.has-reward-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .overview-metric { border-top: 1px solid var(--line); }
       .overview-metric:nth-child(-n + 2) { border-top: 0; }
       .overview-metric:nth-child(odd) { border-left: 0; }
@@ -1474,7 +1581,7 @@
           <span>用户触达</span><span class="menu-arrow">⌄</span>
         </button>
         <div class="submenu" id="sideNav">
-          <button class="submenu-item" type="button" data-module="mailRecord">站内信记录</button>
+          <button class="submenu-item" type="button" data-module="mailRecord">站内信统计</button>
           <button class="submenu-item is-selected" type="button" data-module="mailConfig">站内信配置</button>
           <button class="submenu-item" type="button" data-module="announcementRecord">公告统计</button>
           <button class="submenu-item" type="button" data-module="announcementConfig">公告配置</button>
@@ -1499,13 +1606,9 @@
 
         <section class="overview-panel" id="statsOverview" hidden></section>
 
-        <div class="toolbar">
+        <div class="toolbar" id="pageToolbar">
           <div class="toolbar-left">
             <button class="btn primary" type="button" id="addBtn">新增</button>
-            <button class="btn" type="button" id="exportBtn" hidden>导出</button>
-          </div>
-          <div class="toolbar-right">
-            <span class="summary-text" id="moduleSummary">站内信配置是规则维度配置表，用于维护发送规则、事件触发、推送范围、展示内容和启停状态。</span>
           </div>
         </div>
 
@@ -1516,9 +1619,6 @@
           </table>
         </div>
 
-        <div class="component-note">
-          字段分工：记录 / 统计页只看用户触达结果，回答“谁收到了、看没看、点没点、领没领”；配置页只维护规则和展示内容，回答“什么场景发、发给谁、内容是什么、规则是否启用”。结果字段不进入配置页，规则字段不挤进统计表头。
-        </div>
       </section>
     </main>
   </div>
@@ -1593,51 +1693,53 @@
     const reachModules = {
       mailRecord: {
         key: "mailRecord",
-        name: "站内信记录",
+        name: "站内信统计",
         nameLabel: "用户ID",
         idLabel: "",
-        summary: "站内信记录是用户维度结果表，只查询谁收到了哪条站内信，以及阅读、礼金领取、站内信和 APP 触达结果。",
+        summary: "站内信统计是用户维度结果表，只查询谁收到了哪条站内信，以及阅读、礼金领取、站内信和 APP 触达结果。",
+        viewType: "statistics",
         canAdd: false,
         overview: { contentLabel: "站内信触达", readColumn: "已读状态", clickColumn: "站内信点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型", "站内信名称", "站内信ID", "推送类型", "触达方式", "是否开启礼金", "礼金金额", "发送时间", "已读状态", "领取状态", "发送状态", "操作"],
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "站内信名称", "站内信ID", "推送类型", "触达方式", "已读状态", "是否赠送礼金", "礼金金额", "领取状态", "发送时间", "发送状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
           { key: "vipLevel", label: "VIP等级", type: "select", options: ["VIP 1", "VIP 2", "VIP 3", "VIP 4"] },
           { key: "accountType", label: "账号类型", type: "select", options: ["正式账号", "测试账号", "风控账号"] },
-          { key: "channelId", label: "渠道ID", type: "input", placeholder: "请输入" },
-          { key: "channelType", label: "渠道类型", type: "select", options: ["自然流量", "代理渠道", "投放渠道", "合作渠道"] },
+          { key: "packageId", label: "包ID", type: "packageMulti" },
+          { key: "userSource", label: "用户来源", type: "select", options: ["Ads", "Invite", "H5"] },
           { key: "name", label: "站内信名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "站内信ID", type: "input", placeholder: "请输入" },
           { key: "push", label: "推送类型", type: "select", options: ["手动推送", "定时推送", "系统推送"] },
           { key: "delivery", label: "触达方式", type: "select", options: ["站内信", "站内信 + APP推送"] },
           { key: "readStatus", label: "已读状态", type: "select", options: ["未读", "已读"] },
+          { key: "giftStatus", label: "是否赠送礼金", type: "select", options: ["是", "否"] },
           { key: "claimStatus", label: "领取状态", type: "select", options: ["无礼金", "未领取", "已领取", "已过期"] },
           { key: "sendTime", label: "发送时间", type: "daterange", span: 2 },
           { key: "status", label: "发送状态", type: "select", options: ["成功", "失败"] }
         ],
         rows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "CH-1001", "代理渠道", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "系统推送", "站内信", "否", "-", "2026/07/10 13:02:39", "已读", "无礼金", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "CH-1002", "自然流量", "新人注册当日充值提醒", "01KX59F3H4G4H16FKEJC80Q306", "系统推送", "站内信 + APP推送", "是", "50", "2026/07/10 11:24:36", "未读", "未领取", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "CH-2001", "投放渠道", "送钱来了", "01KWQ246YQ5QDSYB44V8VPYKJ5", "手动推送", "站内信", "是", "88", "2026/07/04 22:46:58", "已读", "已领取", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "CH-3001", "合作渠道", "梦幻体育每日推送", "01KWQ240X7BAD9KAKYVVCHZVM81", "定时推送", "站内信 + APP推送", "是", "30", "2026/07/04 22:46:52", "未读", "已过期", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "CH-1001", "代理渠道", "提现成功", "01KVWFP59VPR0F0A4X4AG1Z6C9", "系统推送", "站内信", "否", "-", "2026/06/24 15:04:40", "已读", "无礼金", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "系统推送", "站内信", "已读", "否", "-", "无礼金", "2026/07/10 13:02:39", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "新人注册当日充值提醒", "01KX59F3H4G4H16FKEJC80Q306", "系统推送", "站内信 + APP推送", "未读", "是", "50", "未领取", "2026/07/10 11:24:36", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "送钱来了", "01KWQ246YQ5QDSYB44V8VPYKJ5", "手动推送", "站内信", "已读", "是", "88", "已领取", "2026/07/04 22:46:58", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "梦幻体育每日推送", "01KWQ240X7BAD9KAKYVVCHZVM81", "定时推送", "站内信 + APP推送", "未读", "是", "30", "已过期", "2026/07/04 22:46:52", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现成功", "01KVWFP59VPR0F0A4X4AG1Z6C9", "系统推送", "站内信", "已读", "否", "-", "无礼金", "2026/06/24 15:04:40", "成功"]
         ],
-        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型", "站内信名称", "站内信ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否开启礼金", "礼金金额", "发送时间", "已读状态", "读取时间", "领取状态", "领取时间", "站内信点击状态", "APP推送状态", "通知权限状态", "APP点击状态", "失败原因", "发送状态"],
+        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "站内信名称", "站内信ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否赠送礼金", "礼金金额", "发送时间", "已读状态", "读取时间", "领取状态", "领取时间", "站内信点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态"],
         detailRows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "CH-1001", "代理渠道", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "功能页", "系统推送", "系统触发用户", "站内信", "否", "-", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "无礼金", "-", "已点击", "-", "-", "-", "-", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "CH-1002", "自然流量", "新人注册当日充值提醒", "01KX59F3H4G4H16FKEJC80Q306", "不跳转", "系统推送", "系统触发用户", "站内信 + APP推送", "是", "50", "2026/07/10 11:24:36", "未读", "-", "未领取", "-", "未点击", "成功", "已开启", "已点击", "-", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "CH-2001", "投放渠道", "送钱来了", "01KWQ246YQ5QDSYB44V8VPYKJ5", "功能页", "手动推送", "指定用户", "站内信", "是", "88", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已领取", "2026/07/04 23:05:49", "已点击", "-", "-", "-", "-", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "CH-3001", "合作渠道", "梦幻体育每日推送", "01KWQ240X7BAD9KAKYVVCHZVM81", "Web页", "定时推送", "全体用户", "站内信 + APP推送", "是", "30", "2026/07/04 22:46:52", "未读", "-", "已过期", "-", "未点击", "失败", "已关闭", "未点击", "APP设备未绑定", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "CH-1001", "代理渠道", "提现成功", "01KVWFP59VPR0F0A4X4AG1Z6C9", "不跳转", "系统推送", "系统触发用户", "站内信", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "无礼金", "-", "未点击", "-", "-", "-", "-", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "功能页", "系统推送", "系统触发用户", "站内信", "否", "-", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "无礼金", "-", "已点击", "-", "-", "-"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "新人注册当日充值提醒", "01KX59F3H4G4H16FKEJC80Q306", "不跳转", "系统推送", "系统触发用户", "站内信 + APP推送", "是", "50", "2026/07/10 11:24:36", "未读", "-", "未领取", "-", "未点击", "成功", "已开启", "已点击"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "送钱来了", "01KWQ246YQ5QDSYB44V8VPYKJ5", "功能页", "手动推送", "指定用户", "站内信", "是", "88", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已领取", "2026/07/04 23:05:49", "已点击", "-", "-", "-"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "梦幻体育每日推送", "01KWQ240X7BAD9KAKYVVCHZVM81", "Web页", "定时推送", "全体用户", "站内信 + APP推送", "是", "30", "2026/07/04 22:46:52", "未读", "-", "已过期", "-", "未点击", "失败", "已关闭", "未点击"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现成功", "01KVWFP59VPR0F0A4X4AG1Z6C9", "不跳转", "系统推送", "系统触发用户", "站内信", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "无礼金", "-", "未点击", "-", "-", "-"]
         ],
         detailGroups: [
-          { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型"] },
-          { title: "站内信信息", fields: ["站内信名称", "站内信ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否开启礼金", "礼金金额", "发送时间"] },
-          { title: "触达结果", fields: ["已读状态", "读取时间", "站内信点击状态", "领取状态", "领取时间", "APP推送状态", "通知权限状态", "APP点击状态", "失败原因", "发送状态"] }
+          { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源"] },
+          { title: "站内信信息", fields: ["站内信名称", "站内信ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否赠送礼金", "礼金金额", "发送时间"] },
+          { title: "触达结果", fields: ["已读状态", "读取时间", "站内信点击状态", "领取状态", "领取时间", "APP推送状态", "通知权限状态", "APP推送点击状态"] }
         ],
         delivery: [],
-        contentTitle: "站内信记录",
+        contentTitle: "站内信统计",
         contentNameLabel: "站内信标题",
         contentBodyLabel: "站内信内容",
         features: {
@@ -1659,29 +1761,28 @@
         idLabel: "",
         summary: "站内信配置是规则维度配置表，用于维护发送规则、事件触发、推送范围、展示内容和启停状态。",
         canAdd: true,
-        columns: ["序号", "站内信名称", "站内信ID", "包ID", "推送类型", "触发事件", "推送范围", "是否开启APP推送", "是否开启礼金配置", "跳转类型", "修改人", "修改时间", "配置状态", "操作"],
+        columns: ["序号", "站内信名称", "站内信ID", "包ID", "推送类型", "推送范围", "预计推送人数", "是否开启APP推送", "是否开启礼金配置", "修改人", "修改时间", "配置状态", "操作"],
         filters: [
           { key: "name", label: "站内信名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "站内信ID", type: "input", placeholder: "请输入" },
+          { key: "packageId", label: "包ID", type: "packageMulti" },
           { key: "push", label: "推送类型", type: "select", options: ["手动推送", "定时推送", "系统推送"] },
-          { key: "event", label: "触发事件", type: "select", options: ["充值成功", "充值失败", "提现成功", "提现失败", "奖励未领取", "新人注册当日充值提醒", "新人未充值每日提醒", "新手任务每日提醒", "梦幻体育每日推送", "梦幻体育比赛开始前提醒"] },
           { key: "range", label: "推送范围", type: "select", options: ["指定用户", "条件用户", "全体用户"] },
           { key: "appPush", label: "是否开启APP推送", type: "select", options: ["是", "否"] },
           { key: "reward", label: "是否开启礼金配置", type: "select", options: ["是", "否"] },
-          { key: "jump", label: "跳转类型", type: "select", options: ["不跳转", "功能页", "Web页", "外链"] },
           { key: "operator", label: "修改人", type: "select", options: ["superx-saas-admin", "system"] },
           { key: "time", label: "修改时间", type: "daterange", span: 2 },
-          { key: "status", label: "配置状态", type: "select", options: ["已启用", "已停用", "草稿"] }
+          { key: "status", label: "配置状态", type: "select", options: ["未启用", "已启用", "已停用"] }
         ],
         rows: [
-          ["1", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "IN01", "系统推送", "充值成功", "条件用户", "是", "否", "功能页", "system", "2026/07/10 13:02:39", "已启用"],
-          ["2", "充值失败", "01KX59F3H4G4H16FKEJC80Q306", "IN01", "系统推送", "充值失败", "条件用户", "是", "否", "不跳转", "system", "2026/07/10 11:24:36", "已启用"],
-          ["3", "新人注册当日充值提醒", "01KWQ246YQ5QDSYB44V8VPYKJ5", "IN01", "系统推送", "新人注册当日充值提醒", "条件用户", "是", "是", "功能页", "superx-saas-admin", "2026/07/04 22:46:58", "已启用"],
-          ["4", "新人未充值每日提醒", "01KWQ240X7BAD9KAKYVVCHZVM81", "IN02", "系统推送", "新人未充值每日提醒", "条件用户", "是", "是", "功能页", "superx-saas-admin", "2026/07/04 22:46:52", "已停用"],
-          ["5", "新手任务每日提醒", "01KWQ1X4V63ZN8FKVDAQ02XHM3", "IN02", "系统推送", "新手任务每日提醒", "条件用户", "否", "否", "功能页", "superx-saas-admin", "2026/07/04 22:46:44", "已启用"],
-          ["6", "送钱来了", "01KVWFP59VPR0F0A4X4AG1Z6C9", "IN01", "手动推送", "-", "指定用户", "否", "是", "不跳转", "superx-saas-admin", "2026/06/24 15:04:40", "草稿"],
-          ["7", "梦幻体育每日推送", "01KVT1ZNWBETF9MQ6D94W2J5QH", "IN03", "定时推送", "-", "全体用户", "是", "是", "Web页", "superx-saas-admin", "2026/06/23 16:26:33", "已启用"],
-          ["8", "梦幻体育比赛开始前提醒", "01KVT1Y14K40F4SRSSTBFB7B1N", "IN03", "系统推送", "梦幻体育比赛开始前提醒", "条件用户", "是", "否", "功能页", "superx-saas-admin", "2026/06/23 16:25:37", "已启用"]
+          ["1", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "all", "系统推送", "条件用户", "12,860", "是", "否", "system", "2026/07/10 13:02:39", "已启用"],
+          ["2", "充值失败", "01KX59F3H4G4H16FKEJC80Q306", "IN01、IN02", "系统推送", "条件用户", "1,246", "是", "否", "system", "2026/07/10 11:24:36", "已启用"],
+          ["3", "新人注册当日充值提醒", "01KWQ246YQ5QDSYB44V8VPYKJ5", "IN01", "系统推送", "条件用户", "3,580", "是", "是", "superx-saas-admin", "2026/07/04 22:46:58", "已启用"],
+          ["4", "新人未充值每日提醒", "01KWQ240X7BAD9KAKYVVCHZVM81", "IN02", "系统推送", "条件用户", "8,930", "是", "是", "superx-saas-admin", "2026/07/04 22:46:52", "已停用"],
+          ["5", "新手任务每日提醒", "01KWQ1X4V63ZN8FKVDAQ02XHM3", "IN02", "系统推送", "条件用户", "5,620", "否", "否", "superx-saas-admin", "2026/07/04 22:46:44", "已启用"],
+          ["6", "送钱来了", "01KVWFP59VPR0F0A4X4AG1Z6C9", "IN01", "手动推送", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/06/24 15:04:40", "未启用"],
+          ["7", "梦幻体育每日推送", "01KVT1ZNWBETF9MQ6D94W2J5QH", "IN03", "定时推送", "全体用户", "65,420", "是", "否", "superx-saas-admin", "2026/06/23 16:26:33", "已启用"],
+          ["8", "梦幻体育比赛开始前提醒", "01KVT1Y14K40F4SRSSTBFB7B1N", "IN03", "系统推送", "条件用户", "18,760", "是", "否", "superx-saas-admin", "2026/06/23 16:25:37", "已启用"]
         ],
         delivery: ["站内信", "APP推送"],
         defaultDelivery: "站内信",
@@ -1709,16 +1810,17 @@
         nameLabel: "用户ID",
         idLabel: "",
         summary: "公告统计是用户维度结果表，只查询谁收到了哪条公告，以及阅读、点击和弹窗展示结果。",
+        viewType: "statistics",
         canAdd: false,
         overview: { contentLabel: "公告触达", readColumn: "阅读状态", clickColumn: "点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型", "公告名称", "公告ID", "推送类型", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "推送类型", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
           { key: "vipLevel", label: "VIP等级", type: "select", options: ["VIP 1", "VIP 2", "VIP 3", "VIP 4"] },
           { key: "accountType", label: "账号类型", type: "select", options: ["正式账号", "测试账号", "风控账号"] },
-          { key: "channelId", label: "渠道ID", type: "input", placeholder: "请输入" },
-          { key: "channelType", label: "渠道类型", type: "select", options: ["自然流量", "代理渠道", "投放渠道", "合作渠道"] },
+          { key: "packageId", label: "包ID", type: "packageMulti" },
+          { key: "userSource", label: "用户来源", type: "select", options: ["Ads", "Invite", "H5"] },
           { key: "name", label: "公告名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "公告ID", type: "input", placeholder: "请输入" },
           { key: "push", label: "推送类型", type: "select", options: ["手动公告", "定时公告", "系统公告"] },
@@ -1729,24 +1831,24 @@
           { key: "status", label: "状态", type: "select", options: ["成功", "失败"] }
         ],
         rows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "CH-1001", "代理渠道", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "手动公告", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "CH-1002", "自然流量", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "系统公告", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "CH-2001", "投放渠道", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "系统公告", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "CH-3001", "合作渠道", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "定时公告", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "CH-1001", "代理渠道", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "系统公告", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "手动公告", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "系统公告", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "系统公告", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "定时公告", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "系统公告", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
         ],
-        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型", "公告名称", "公告ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP点击状态", "状态"],
+        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
         detailRows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "CH-1001", "代理渠道", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "Web页", "手动公告", "指定用户", "公告 + APP推送", "是", "首页", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "已点击", "成功", "已开启", "已点击", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "CH-1002", "自然流量", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "功能页", "系统公告", "条件用户", "公告 + APP推送", "是", "首页", "2026/07/10 11:24:36", "未读", "-", "未点击", "成功", "已开启", "未点击", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "CH-2001", "投放渠道", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "功能页", "系统公告", "条件用户", "公告", "否", "-", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已点击", "-", "-", "-", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "CH-3001", "合作渠道", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "Web页", "定时公告", "全体用户", "公告", "是", "首页", "2026/07/04 22:46:52", "未读", "-", "未点击", "-", "-", "-", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "CH-1001", "代理渠道", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "不跳转", "系统公告", "条件用户", "公告", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "未点击", "-", "-", "-", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "Web页", "手动公告", "指定用户", "公告 + APP推送", "是", "首页", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "已点击", "成功", "已开启", "已点击", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "功能页", "系统公告", "条件用户", "公告 + APP推送", "是", "首页", "2026/07/10 11:24:36", "未读", "-", "未点击", "成功", "已开启", "未点击", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "功能页", "系统公告", "条件用户", "公告", "否", "-", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已点击", "-", "-", "-", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "Web页", "定时公告", "全体用户", "公告", "是", "首页", "2026/07/04 22:46:52", "未读", "-", "未点击", "-", "-", "-", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "不跳转", "系统公告", "条件用户", "公告", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "未点击", "-", "-", "-", "成功"]
         ],
         detailGroups: [
-          { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "渠道ID", "渠道类型"] },
+          { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源"] },
           { title: "公告信息", fields: ["公告名称", "公告ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间"] },
-          { title: "触达结果", fields: ["阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP点击状态", "状态"] }
+          { title: "触达结果", fields: ["阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"] }
         ],
         delivery: [],
         contentTitle: "公告统计",
@@ -1771,26 +1873,26 @@
         idLabel: "公告ID",
         summary: "公告配置是规则维度配置表，用于维护公告内容、系统公告事件、推送范围、弹窗配置和启停状态。",
         canAdd: true,
-        columns: ["序号", "公告名称", "公告ID", "包ID", "推送类型", "触发事件", "生效周期", "推送范围", "是否开启APP推送", "弹窗是否展示", "跳转类型", "修改人", "修改时间", "状态", "操作"],
+        columns: ["序号", "公告名称", "公告ID", "包ID", "推送类型", "生效周期", "推送范围", "预计推送人数", "是否开启APP推送", "弹窗是否展示", "修改人", "修改时间", "状态", "操作"],
         filters: [
           { key: "name", label: "公告名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "公告ID", type: "input", placeholder: "请输入" },
+          { key: "packageId", label: "包ID", type: "packageMulti" },
           { key: "push", label: "推送类型", type: "select", options: ["手动公告", "定时公告", "系统公告"] },
-          { key: "event", label: "触发事件", type: "select", options: ["充值成功", "充值失败", "提现成功", "提现失败", "梦幻体育每日推送", "梦幻体育比赛开始前提醒"] },
           { key: "validity", label: "生效周期", type: "select", options: ["永久有效", "自定义"] },
           { key: "range", label: "推送范围", type: "select", options: ["全体用户", "指定用户", "条件用户"] },
           { key: "appPush", label: "是否开启APP推送", type: "select", options: ["是", "否"] },
           { key: "popupDisplay", label: "弹窗是否展示", type: "select", options: ["是", "否"] },
           { key: "operator", label: "修改人", type: "select", options: ["superx-saas-admin", "system_fantasy_daily_push"] },
           { key: "time", label: "修改时间", type: "daterange", span: 2 },
-          { key: "status", label: "状态", type: "select", options: ["已启用", "已停用", "草稿"] }
+          { key: "status", label: "状态", type: "select", options: ["未启用", "已启用", "已停用"] }
         ],
         rows: [
-          ["1", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "IN01", "手动公告", "-", "永久有效", "指定用户", "否", "是", "Web页", "superx-saas-admin", "2026/07/09 12:28:58", "已启用"],
-          ["2", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "IN03", "系统公告", "梦幻体育每日推送", "自定义", "条件用户", "是", "是", "功能页", "system_fantasy_daily_push", "2026/07/08 08:20:22", "已启用"],
-          ["3", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "IN01", "系统公告", "充值成功", "永久有效", "条件用户", "是", "否", "功能页", "system", "2026/07/07 08:20:10", "已启用"],
-          ["4", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "IN02", "定时公告", "-", "自定义", "全体用户", "否", "是", "Web页", "superx-saas-admin", "2026/07/06 08:20:36", "草稿"],
-          ["5", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "IN02", "系统公告", "提现失败", "永久有效", "条件用户", "否", "否", "不跳转", "system", "2026/07/05 08:20:17", "已停用"]
+          ["1", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "all", "手动公告", "永久有效", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/07/09 12:28:58", "已启用"],
+          ["2", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "IN01、IN03", "系统公告", "自定义", "条件用户", "28,460", "是", "是", "system_fantasy_daily_push", "2026/07/08 08:20:22", "已启用"],
+          ["3", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "IN01", "系统公告", "永久有效", "条件用户", "12,860", "是", "否", "system", "2026/07/07 08:20:10", "已启用"],
+          ["4", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "IN02", "定时公告", "自定义", "全体用户", "42,180", "否", "是", "superx-saas-admin", "2026/07/06 08:20:36", "未启用"],
+          ["5", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "IN02", "系统公告", "永久有效", "条件用户", "620", "否", "否", "system", "2026/07/05 08:20:17", "已停用"]
         ],
         delivery: ["公告", "APP推送"],
         defaultDelivery: "公告",
@@ -1807,7 +1909,8 @@
           range: true,
           content: true,
           jump: true,
-          packageId: true
+          packageId: true,
+          idField: false
         }
       }
     };
@@ -1835,15 +1938,14 @@
     const filterColumnMap = {
       name: ["站内信名称", "公告名称"],
       id: ["站内信ID", "公告ID"],
+      packageId: ["包ID"],
       userId: ["用户ID"],
       userNickname: ["用户昵称"],
       vipLevel: ["VIP等级"],
       accountType: ["账号类型"],
-      channelId: ["渠道ID"],
-      channelType: ["渠道类型"],
+      userSource: ["用户来源"],
       jump: ["跳转类型"],
       push: ["推送类型"],
-      event: ["触发事件"],
       delivery: ["触达方式"],
       range: ["推送范围"],
       appPush: ["是否开启APP推送"],
@@ -1853,6 +1955,7 @@
       status: ["状态", "发送状态", "配置状态"],
       validity: ["生效周期"],
       readStatus: ["已读状态"],
+      giftStatus: ["是否赠送礼金"],
       clickStatus: ["点击状态"],
       claimStatus: ["领取状态"],
       sendTime: ["发送时间"]
@@ -1885,18 +1988,18 @@
       currentModule = moduleKey;
       if (!openedTabs.includes(moduleKey)) openedTabs.push(moduleKey);
       document.getElementById("breadcrumbCurrent").textContent = config.name;
-      document.getElementById("moduleSummary").textContent = config.summary;
       document.querySelectorAll(".submenu-item").forEach((button) => {
         button.classList.toggle("is-selected", button.dataset.module === moduleKey);
       });
       document.getElementById("addBtn").hidden = config.canAdd === false;
-      document.getElementById("exportBtn").hidden = config.canAdd !== false;
+      document.getElementById("pageToolbar").hidden = config.canAdd === false;
       renderTabs();
       renderFilters();
       renderTable();
     }
 
     function renderFilterControl(filter) {
+      if (filter.type === "packageMulti") return renderPackageIdSelect("filter");
       if (filter.type === "select") {
         return `<select data-filter="${filter.key}"><option value="">请选择</option>${filter.options.map((item) => `<option>${item}</option>`).join("")}</select>`;
       }
@@ -1908,6 +2011,9 @@
 
     function renderFilters() {
       const config = reachModules[currentModule];
+      const exportAction = config.viewType === "statistics"
+        ? '<button class="btn" type="button" id="exportButton">导出</button>'
+        : "";
       filterGrid.innerHTML = `
         ${config.filters.map((filter) => `
           <div class="field${filter.span === 2 ? " span-2" : ""}">
@@ -1918,6 +2024,7 @@
         <div class="toolbar-left">
           <button class="btn primary" type="button" id="queryButton">查询</button>
           <button class="btn" type="reset" id="resetButton">重置</button>
+          ${exportAction}
         </div>
       `;
     }
@@ -1936,14 +2043,31 @@
       };
       const records = rows.map(({ rowIndex }) => config.detailRows[rowIndex]);
       const uniqueUsers = (predicate) => new Set(records.filter(predicate).map((record) => valueAt(record, "用户ID"))).size;
-      const successful = (record) => ["成功", "已发送"].includes(valueAt(record, "发送状态") || valueAt(record, "状态"));
+      const successful = (record) => {
+        const directStatus = valueAt(record, "发送状态") || valueAt(record, "状态");
+        if (directStatus) return ["成功", "已发送"].includes(directStatus);
+        const rowIndex = config.detailRows.indexOf(record);
+        const statusColumn = config.columns.indexOf("发送状态") >= 0 ? "发送状态" : "状态";
+        const statusIndex = config.columns.indexOf(statusColumn);
+        const mainStatus = rowIndex >= 0 && statusIndex >= 0 ? String(config.rows[rowIndex]?.[statusIndex] ?? "") : "";
+        return ["成功", "已发送"].includes(mainStatus);
+      };
       const contentSent = uniqueUsers(successful);
-      const readCount = uniqueUsers((record) => successful(record) && ["已读", "已阅读"].includes(valueAt(record, config.overview.readColumn)));
-      const contentClick = uniqueUsers((record) => successful(record) && valueAt(record, config.overview.clickColumn) === "已点击");
+      const hasRead = (record) => ["已读", "已阅读"].includes(valueAt(record, config.overview.readColumn));
+      const hasContentClick = (record) => valueAt(record, config.overview.clickColumn) === "已点击";
+      const readCount = uniqueUsers((record) => successful(record) && hasRead(record));
+      const contentClick = uniqueUsers((record) => successful(record) && hasContentClick(record));
+      const contentConverted = uniqueUsers((record) => successful(record) && (hasRead(record) || hasContentClick(record)));
       const appSent = uniqueUsers((record) => successful(record) && valueAt(record, "触达方式").includes("APP") && valueAt(record, "APP推送状态") === "成功");
       const notificationEnabled = uniqueUsers((record) => successful(record) && valueAt(record, "触达方式").includes("APP") && valueAt(record, "通知权限状态") === "已开启");
-      const appClick = uniqueUsers((record) => successful(record) && valueAt(record, "触达方式").includes("APP") && valueAt(record, "APP点击状态") === "已点击");
+      const appClick = uniqueUsers((record) => successful(record) && valueAt(record, "触达方式").includes("APP") && valueAt(record, "APP推送点击状态") === "已点击");
       const rate = (value, total) => total ? `${Math.round((value / total) * 100)}%` : "0%";
+      const contentName = config.overview.contentLabel.replace("触达", "");
+      const hasRewardMetrics = config.detailColumns.includes("礼金金额");
+      const amountValue = (record) => Number(valueAt(record, "礼金金额").replace(/,/g, "")) || 0;
+      const rewardIssuedAmount = records.reduce((total, record) => total + (valueAt(record, "是否赠送礼金") === "是" ? amountValue(record) : 0), 0);
+      const rewardClaimedAmount = records.reduce((total, record) => total + (valueAt(record, "领取状态") === "已领取" ? amountValue(record) : 0), 0);
+      const formatAmount = (value) => value.toLocaleString("en-US");
       const metric = (label, value, tip = "") => `
         <div class="overview-metric">
           <div class="overview-metric-label">${label}${tip ? ` <span class="tip" tabindex="0" data-tip="${tip}">?</span>` : ""}</div>
@@ -1953,17 +2077,19 @@
 
       statsOverview.hidden = false;
       statsOverview.innerHTML = `
-        <div class="overview-row">
+        <div class="overview-row${hasRewardMetrics ? " has-reward-metrics" : ""}">
           <h3 class="overview-title">汇总概览 <span class="tip" tabindex="0" data-tip="按当前筛选结果统计，人数按用户ID去重">?</span></h3>
-          <div class="overview-metrics">
-            ${metric("APP推送成功", appSent)}
-            ${metric("开启通知", notificationEnabled)}
-            ${metric("APP点击", appClick)}
-            ${metric("APP点击率", rate(appClick, appSent), "APP点击人数 ÷ APP推送成功人数")}
-            ${metric(`${config.overview.contentLabel.replace("触达", "")}发送`, contentSent)}
-            ${metric("阅读人数", readCount)}
-            ${metric("按钮点击", contentClick)}
-            ${metric("内容点击率", rate(contentClick, contentSent), `按钮点击人数 ÷ ${config.overview.contentLabel.replace("触达", "")}发送成功人数`)}
+          <div class="overview-metrics${hasRewardMetrics ? " has-reward-metrics" : ""}">
+            ${metric("APP推送人数", appSent)}
+            ${metric("APP推送开启人数", notificationEnabled)}
+            ${metric("APP推送点击人数", appClick)}
+            ${metric("APP推送点击率", rate(appClick, appSent), "APP推送点击人数 ÷ APP推送人数")}
+            ${metric(`${contentName}推送人数`, contentSent)}
+            ${metric(`${contentName}阅读人数`, readCount)}
+            ${metric(`${contentName}按钮点击人数`, contentClick)}
+            ${metric(`${contentName}转化率`, rate(contentConverted, contentSent), `(${contentName}阅读人数与${contentName}按钮点击人数的用户并集去重) ÷ ${contentName}推送人数`)}
+            ${hasRewardMetrics ? metric("礼金发放额", formatAmount(rewardIssuedAmount)) : ""}
+            ${hasRewardMetrics ? metric("礼金领取额", formatAmount(rewardClaimedAmount)) : ""}
           </div>
         </div>
       `;
@@ -1991,7 +2117,7 @@
           }
         }
         return Object.entries(filters).every(([key, value]) => {
-          if (!value) return true;
+          if (!value || (Array.isArray(value) && !value.length)) return true;
           if (key.endsWith("Start") || key.endsWith("End")) return true;
           const columns = filterColumnMap[key] || [];
           let index = config.columns.findIndex((column) => columns.includes(column));
@@ -1999,6 +2125,13 @@
           if (index < 0) {
             index = filterColumns.findIndex((column) => columns.includes(column));
             sourceRow = filterRow;
+          }
+          if (Array.isArray(value)) {
+            if (value.includes("all")) return true;
+            if (index < 0) return false;
+            const rowValues = String(sourceRow[index]).split("、");
+            if (rowValues.includes("all")) return true;
+            return value.some((item) => rowValues.includes(item));
           }
           if (index < 0) return filterRow.join(" ").includes(value);
           return String(sourceRow[index]).includes(value);
@@ -2008,8 +2141,11 @@
       tableBody.innerHTML = rows.map(({ row, rowIndex }) => {
         const cells = row.map((value, index) => {
           if (index === row.length - 1) {
-            const disabled = value.includes("停") || value.includes("草稿") ? " is-disabled" : "";
+            const disabled = value.includes("停") || value.includes("未启用") ? " is-disabled" : "";
             return `<td><span class="status-pill${disabled}">${value}</span></td>`;
+          }
+          if (config.columns[index] === "包ID") {
+            return `<td>${String(value).split("、").map((item) => `<span class="tag">${item}</span>`).join("")}</td>`;
           }
           if (String(value).includes("APP") || /^(站内信|公告)$/.test(String(value))) {
             return `<td>${String(value).split(/[、-]/).map((item) => `<span class="tag">${item}</span>`).join("")}</td>`;
@@ -2026,19 +2162,23 @@
       filterGrid.querySelectorAll("[data-filter]").forEach((control) => {
         data[control.dataset.filter] = control.value.trim();
       });
+      const packageFilter = filterGrid.querySelector("[data-package-filter]");
+      if (packageFilter) {
+        data.packageId = [...packageFilter.querySelectorAll("[data-multi-option]:checked")].map((item) => item.value);
+      }
       return data;
     }
 
     function renderRowActions(status) {
       if (currentModule === "mailConfig" || currentModule === "announcementConfig") {
-        const nextAction = /停|草稿/.test(String(status)) ? "enable" : "disable";
+        const nextAction = /停|未启用/.test(String(status)) ? "enable" : "disable";
         const nextText = nextAction === "enable" ? "启用" : "停用";
-        return `<div class="actions"><button class="btn text" type="button" data-action="edit">编辑</button><button class="btn text" type="button" data-action="copy">复制</button><button class="btn text" type="button" data-action="detail">详情</button><button class="btn text danger" type="button" data-action="${nextAction}">${nextText}</button><button class="btn text danger" type="button" data-action="delete">删除</button></div>`;
+        return `<div class="actions"><button class="btn text" type="button" data-action="edit">编辑</button><button class="btn text" type="button" data-action="copy">复制</button><button class="btn text" type="button" data-action="detail">详情</button><button class="btn text danger" type="button" data-action="${nextAction}">${nextText}</button></div>`;
       }
       if (currentModule === "mailRecord" || currentModule === "announcementRecord") {
         return '<div class="actions"><button class="btn text" type="button" data-action="recordDetail">详情</button></div>';
       }
-      const nextAction = /停|草稿/.test(String(status)) ? "enable" : "disable";
+      const nextAction = /停|未启用/.test(String(status)) ? "enable" : "disable";
       const nextText = nextAction === "enable" ? "启用" : "停用";
       return `<div class="actions"><button class="btn text" type="button" data-action="edit">编辑</button><button class="btn text" type="button" data-action="copy">复制</button><button class="btn text danger" type="button" data-action="${nextAction}">${nextText}</button></div>`;
     }
@@ -2049,9 +2189,194 @@
 
     function createEmptyLanguageDrafts() {
       return {
-        en: { buttonText: "", title: "", content: "" },
-        id: { buttonText: "", title: "", content: "" }
+        en: { buttonText: "", title: "", content: "", appTitle: "", appContent: "" },
+        id: { buttonText: "", title: "", content: "", appTitle: "", appContent: "" }
       };
+    }
+
+    function getRowValue(config, row, column) {
+      const index = config.columns.indexOf(column);
+      return index >= 0 ? String(row[index] ?? "") : "";
+    }
+
+    function buildCopySnapshot(config, row, rowIndex) {
+      const name = getRowValue(config, row, config.nameLabel);
+      const pushType = getRowValue(config, row, "推送类型");
+      const rangeLabel = getRowValue(config, row, "推送范围");
+      const rangeMap = { "全体用户": "all", "指定用户": "specified", "条件用户": "condition" };
+      const systemPush = pushType.includes("系统");
+      const timedPush = pushType.includes("定时");
+      const appPush = getRowValue(config, row, "是否开启APP推送") === "是";
+      const rewardEnabled = getRowValue(config, row, "是否开启礼金配置") === "是";
+      const popupEnabled = getRowValue(config, row, "弹窗是否展示") === "是";
+      const eventName = name.includes("公告") ? name.replace(/公告$/, "") : name;
+      return {
+        name,
+        packageIds: getRowValue(config, row, "包ID").split("、").filter(Boolean),
+        pushType,
+        appPush,
+        validityType: getRowValue(config, row, "生效周期") === "自定义" ? "custom" : "forever",
+        validityTime: "2026-08-31T23:59",
+        schedule: timedPush ? { cycle: "daily", rows: [{ time: "12:00" }, { time: "18:00" }] } : null,
+        rangeType: rangeMap[rangeLabel] || (systemPush ? "condition" : "specified"),
+        specifiedUsers: "10023891\n10023892",
+        conditions: systemPush ? [{ type: "事件类型", values: [eventName] }] : [{ type: "VIP等级", values: ["VIP 2"] }],
+        sameDayRechargeDelay: 3,
+        sportsStartReminderDelay: 30,
+        buttonJumpEnabled: config.features.buttonJumpSwitch === true,
+        jumpType: "page",
+        jumpTarget: eventName.includes("提现") ? "提现页" : eventName.includes("梦幻体育") ? "赛事大厅" : "充值页",
+        rewardEnabled,
+        popupClaimEnabled: rewardEnabled,
+        rewardAmount: rewardEnabled ? String(50 + rowIndex * 10) : "",
+        rewardMultiplier: rewardEnabled ? "1" : "",
+        rewardScopeType: rewardEnabled ? "venue" : "",
+        rewardScopeValues: rewardEnabled ? ["Slot", "Casino"] : [],
+        popupEnabled,
+        popupInterval: popupEnabled ? "24" : "",
+        popupOrder: popupEnabled ? String(100 - rowIndex) : "",
+        popupJumpType: popupEnabled ? "none" : "",
+        popupAsset: popupEnabled ? { name: `${config.key}-${rowIndex + 1}-popup.png` } : null,
+        languages: {
+          en: { title: name, buttonText: config.features.buttonJumpSwitch ? "View details" : "Learn more", content: `${name} content has been copied from the original configuration.`, appTitle: appPush ? name : "", appContent: appPush ? `${name} APP notification` : "" },
+          id: { title: `${name} हिंदी`, buttonText: config.features.buttonJumpSwitch ? "विवरण देखें" : "और जानें", content: `${name} की सामग्री मूल कॉन्फ़िगरेशन से कॉपी की गई है।`, appTitle: appPush ? `${name} हिंदी` : "", appContent: appPush ? `${name} APP सूचना` : "" }
+        }
+      };
+    }
+
+    function setSwitchState(selector, enabled, textSelector, onText, offText, fieldsSelector = "") {
+      const button = form.querySelector(selector);
+      if (!button) return;
+      button.setAttribute("aria-pressed", String(enabled));
+      button.classList.toggle("is-on", enabled);
+      const section = button.closest(".section");
+      const text = (section || form).querySelector(textSelector);
+      if (text) text.textContent = enabled ? onText : offText;
+      const fields = fieldsSelector && (section || form).querySelector(fieldsSelector);
+      if (fields) fields.hidden = !enabled;
+    }
+
+    function setMultiSelectValues(select, values) {
+      if (!select) return;
+      select.querySelectorAll("[data-multi-option]").forEach((option) => { option.checked = values.includes(option.value); });
+      syncMultiSelect(select);
+    }
+
+    function fillConditionRows(conditions) {
+      const matrix = form.querySelector("[data-condition-matrix]");
+      if (!matrix || !conditions.length) return;
+      matrix.querySelectorAll(".condition-row").forEach((row, index) => { if (index > 0) row.remove(); });
+      while (matrix.querySelectorAll(".condition-row").length < conditions.length) addConditionRow(matrix);
+      matrix.querySelectorAll(".condition-row").forEach((row, index) => {
+        const condition = conditions[index];
+        const type = row.querySelector("[data-condition-type]");
+        type.value = condition.type;
+        renderConditionRow(row);
+        row.querySelectorAll("[data-condition-value] select, [data-condition-value] input, [data-condition-value] textarea")
+          .forEach((control, valueIndex) => { control.value = condition.values[valueIndex] || ""; });
+      });
+      syncConditionMatrix(matrix);
+      syncSpecialEventConfigs();
+    }
+
+    function fillSchedule(schedule) {
+      if (!schedule) return;
+      const panel = form.querySelector("[data-schedule-panel]");
+      const cycle = panel && panel.querySelector("[data-schedule-cycle]");
+      if (!panel || !cycle) return;
+      cycle.value = schedule.cycle;
+      resetScheduleTimeRows(panel, schedule.cycle);
+      while (panel.querySelectorAll(".schedule-time-row").length < schedule.rows.length) addScheduleTimeRow(panel);
+      panel.querySelectorAll(".schedule-time-row").forEach((row, index) => {
+        const item = schedule.rows[index];
+        const primary = row.querySelector("[data-schedule-weekday], [data-schedule-monthday], [data-schedule-date]");
+        if (primary) primary.value = item.primary || "";
+        row.querySelector("[data-schedule-time]").value = item.time;
+      });
+    }
+
+    function fillCopiedConfiguration(snapshot) {
+      const basicName = form.querySelector("section.section .input-count input");
+      if (basicName) basicName.value = snapshot.name;
+      setMultiSelectValues(form.querySelector("[data-package-id]"), snapshot.packageIds);
+      const pushType = form.querySelector("[data-push-type]");
+      if (pushType) pushType.value = snapshot.pushType;
+      syncPushTime();
+      fillSchedule(snapshot.schedule);
+      const validityType = form.querySelector("[data-validity-type]");
+      if (validityType) {
+        validityType.value = snapshot.validityType;
+        syncValidityTime();
+        const validityTime = form.querySelector("[data-validity-time]");
+        if (validityTime && snapshot.validityType === "custom") validityTime.value = snapshot.validityTime;
+      }
+      const appPushCheckbox = form.querySelector("[data-app-push-checkbox]");
+      if (appPushCheckbox) appPushCheckbox.checked = snapshot.appPush;
+      syncAppPushConfigState();
+      const range = form.querySelector("[data-range-type]");
+      if (range) {
+        range.value = snapshot.rangeType;
+        syncSystemPushCondition();
+        range.value = snapshot.rangeType;
+        syncRangePanels();
+      }
+      const specifiedUsers = form.querySelector('[data-range-panel="specified"] textarea');
+      if (specifiedUsers) specifiedUsers.value = snapshot.specifiedUsers;
+      fillConditionRows(snapshot.conditions);
+      const sameDayDelay = form.querySelector("[data-same-day-recharge-delay]");
+      if (sameDayDelay && !sameDayDelay.closest("[hidden]")) sameDayDelay.value = snapshot.sameDayRechargeDelay;
+      const sportsDelay = form.querySelector("[data-sports-start-reminder-delay]");
+      if (sportsDelay && !sportsDelay.closest("[hidden]")) sportsDelay.value = snapshot.sportsStartReminderDelay;
+      setSwitchState("[data-button-jump-switch]", snapshot.buttonJumpEnabled, "[data-button-jump-text]", "已开启", "已关闭", "[data-button-jump-fields]");
+      syncButtonJumpState();
+      const mainJump = form.querySelector('[data-jump-type][data-jump-scope="main"]');
+      if (mainJump) {
+        mainJump.value = snapshot.jumpType;
+        syncJumpTarget(mainJump);
+        const target = form.querySelector('[data-jump-target="main"] select, [data-jump-target="main"] input');
+        if (target) target.value = snapshot.jumpTarget;
+      }
+      setSwitchState("[data-reward-switch]", snapshot.rewardEnabled, "[data-reward-text]", "已开启", "已关闭", "[data-reward-fields]");
+      setSwitchState("[data-popup-claim-switch]", snapshot.popupClaimEnabled, "[data-popup-claim-text]", "已开启", "已关闭");
+      const rewardFields = form.querySelector("[data-reward-fields]");
+      if (rewardFields) {
+        const rewardInputs = rewardFields.querySelectorAll('input:not([type="checkbox"])');
+        if (rewardInputs[0]) rewardInputs[0].value = snapshot.rewardAmount;
+        if (rewardInputs[1]) rewardInputs[1].value = snapshot.rewardMultiplier;
+        const scope = rewardFields.querySelector("[data-scope-type]");
+        if (scope) {
+          scope.value = snapshot.rewardScopeType;
+          syncScopeValue(scope);
+          setMultiSelectValues(form.querySelector('[data-scope-value="reward"] [data-multi-select]'), snapshot.rewardScopeValues);
+        }
+      }
+      setSwitchState("[data-popup-switch]", snapshot.popupEnabled, "[data-popup-text]", "展示", "不展示", "[data-popup-fields]");
+      const popupFields = form.querySelector("[data-popup-fields]");
+      if (popupFields) {
+        const popupInputs = popupFields.querySelectorAll('input:not([type="file"])');
+        if (popupInputs[0]) popupInputs[0].value = snapshot.popupInterval;
+        if (popupInputs[1]) popupInputs[1].value = snapshot.popupOrder;
+        const popupJump = popupFields.querySelector('[data-jump-type][data-jump-scope="popup"]');
+        if (popupJump) { popupJump.value = snapshot.popupJumpType; syncJumpTarget(popupJump); }
+        if (snapshot.popupAsset) {
+          const upload = popupFields.querySelector(".asset-upload");
+          const preview = upload && upload.querySelector("[data-asset-preview]");
+          const fileName = upload && upload.querySelector("[data-asset-file-name]");
+          const remove = upload && upload.querySelector("[data-asset-remove]");
+          const uploadText = upload && upload.querySelector("[data-asset-upload-text]");
+          if (upload) upload.dataset.copyReference = snapshot.popupAsset.name;
+          if (preview) preview.src = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='100'%3E%3Crect width='160' height='100' fill='%23eef4ff'/%3E%3Ctext x='80' y='55' text-anchor='middle' fill='%23415a77' font-size='14'%3EPOPUP%3C/text%3E%3C/svg%3E";
+          if (fileName) fileName.textContent = snapshot.popupAsset.name;
+          if (upload) upload.classList.add("has-file");
+          if (remove) remove.disabled = false;
+          if (uploadText) uploadText.textContent = "更换图片";
+        }
+      }
+      languageDrafts = JSON.parse(JSON.stringify(snapshot.languages));
+      currentLanguage = "en";
+      loadCurrentLanguageDraft();
+      syncRewardByRange();
+      syncInputCounts();
     }
 
     function saveCurrentLanguageDraft() {
@@ -2184,34 +2509,54 @@
       `;
     }
 
+    function renderPackageIdSelect(context = "form") {
+      const options = ["all", "IN01", "IN02", "IN03"];
+      const attributes = context === "filter"
+        ? "data-package-filter"
+        : "data-package-id data-required-multi";
+      return `
+        <div class="multi-select" data-multi-select ${attributes}>
+          <button class="multi-select-trigger" type="button" data-multi-trigger aria-expanded="false">
+            <span data-multi-value>请选择</span>
+            <span class="multi-select-arrow">⌄</span>
+          </button>
+          <div class="multi-select-menu">
+            ${options.map((item) => `
+              <label class="multi-select-option">
+                <input type="checkbox" value="${item}" data-multi-option>
+                <span class="multi-check">✓</span>
+                <span>${item}</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      `;
+    }
+
     function renderMessageConfig(config) {
       if (!config.delivery || !config.delivery.length) return "";
       const defaultDelivery = config.defaultDelivery || config.delivery[0];
       const optionalDeliveries = config.delivery.filter((item) => item !== defaultDelivery);
-      const optionalFields = optionalDeliveries.length === 1
-        ? field(`是否开启${optionalDeliveries[0]}`, '<span class="switch-row"><button class="switch" type="button" aria-pressed="false" data-app-push-switch></button><span data-app-push-text>已关闭</span></span>')
-        : field("附加触达方式", `
-          <div class="multi-select" data-multi-select>
-            <button class="multi-select-trigger" type="button" data-multi-trigger>
-              <span data-multi-value>请选择</span>
-              <span class="multi-select-arrow">⌄</span>
-            </button>
-            <div class="multi-select-menu">
-              ${optionalDeliveries.map((item) => `
-                <label class="multi-select-option">
-                  <input type="checkbox" value="${item}" data-multi-option>
-                  <span class="multi-check">✓</span>
-                  <span>${item}</span>
-                </label>
-              `).join("")}
-            </div>
-          </div>
-        `);
+      const deliveryOptions = [defaultDelivery, ...optionalDeliveries];
       return `
         <section class="section">
-          <h3 class="section-title">推送配置 <span class="tip" data-tip="默认包含${defaultDelivery}触达">?</span></h3>
+          <h3 class="section-title">推送配置</h3>
           <div class="form-grid">
-            ${optionalFields}
+            ${field("触达方式", `
+              <div class="checkbox-line" data-delivery-options>
+                ${deliveryOptions.map((item) => {
+                  const isDefault = item === defaultDelivery;
+                  const appPushAttribute = item === "APP推送" ? "data-app-push-checkbox" : "";
+                  return `
+                    <label class="delivery-check${isDefault ? " is-fixed" : ""}">
+                      <input type="checkbox" value="${item}" ${isDefault ? "checked disabled data-default-delivery" : appPushAttribute}>
+                      <span class="multi-check">✓</span>
+                      <span>${item}</span>
+                    </label>
+                  `;
+                }).join("")}
+              </div>
+            `)}
           </div>
         </section>
       `;
@@ -2255,7 +2600,7 @@
       `;
       const rewardFields = !config.features.reward ? "" : `
         <div class="subsection">
-          <h4 class="subsection-title">礼金配置 <span class="tip" data-tip="默认包含在奖励列表中展示">?</span></h4>
+          <h4 class="subsection-title">礼金配置 <span class="tip" tabindex="0" data-tip="默认包含在奖励列表中展示；推送范围为全体用户时不可开启礼金配置">?</span></h4>
           <div class="form-grid">
             ${field("是否开启礼金配置", '<span class="switch-row"><button class="switch is-on" type="button" aria-pressed="true" data-reward-switch></button><span data-reward-text>已开启</span></span>')}
             <div class="field full reward-fields-grid" data-reward-fields>
@@ -2349,6 +2694,13 @@
                       <textarea placeholder="请输入" data-language-field="content"></textarea>
                     </div>
                   </div>
+                  <div class="app-push-config" data-app-push-config hidden>
+                    <h5 class="app-push-config-title">APP推送配置</h5>
+                    <div class="form-grid">
+                      ${field("APP推送标题", countedInput(36, "请输入", 'data-language-field="appTitle"'), false, true)}
+                      ${field("APP推送内容", countedInput(36, "请输入", 'data-language-field="appContent"'), false, true)}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2380,7 +2732,7 @@
         : "";
       const idField = config.features.idField === false ? "" : field(config.idLabel, '<input placeholder="系统自动生成" disabled>');
       const packageId = config.features.packageId
-        ? field("包ID", '<select data-package-id><option value="">请选择</option><option>IN01</option><option>IN02</option><option>IN03</option></select>', false, true)
+        ? field("包ID", renderPackageIdSelect(), false, true)
         : "";
       form.innerHTML = `
         <section class="section">
@@ -2399,7 +2751,7 @@
         ${renderRuleConfig(config)}
         ${renderFrontendDisplay(config)}
       `;
-      document.getElementById("drawerTitle").textContent = `${mode === "detail" ? "详情" : mode === "copy" ? "复制" : mode === "edit" ? "编辑" : "新增"}${config.name}`;
+      document.getElementById("drawerTitle").textContent = `${mode === "detail" ? "详情" : mode === "copy" ? "复制新增" : mode === "edit" ? "编辑" : "新增"}${config.name}`;
       syncPushTime();
       syncAllLinkages();
       syncPushRangeDefaults(true);
@@ -2432,6 +2784,7 @@
 
     function syncAllLinkages() {
       syncRangePanels();
+      syncAppPushConfigState();
       form.querySelectorAll("[data-jump-type]").forEach(syncJumpTarget);
       syncButtonJumpState();
       syncSpecialEventConfigs();
@@ -2439,6 +2792,42 @@
       syncValidityTime();
       form.querySelectorAll(".condition-row").forEach(renderConditionRow);
       form.querySelectorAll("[data-condition-matrix]").forEach(syncConditionMatrix);
+    }
+
+    function syncAppPushConfigState(clearWhenDisabled = false) {
+      const checkbox = form.querySelector("[data-app-push-checkbox]");
+      const panel = form.querySelector("[data-app-push-config]");
+      if (!checkbox || !panel) return;
+      const enabled = checkbox.checked;
+      panel.hidden = !enabled;
+      panel.querySelectorAll("input").forEach((input) => {
+        input.required = enabled;
+      });
+      if (enabled || !clearWhenDisabled) return;
+      Object.values(languageDrafts).forEach((draft) => {
+        draft.appTitle = "";
+        draft.appContent = "";
+      });
+      panel.querySelectorAll('[data-language-field="appTitle"], [data-language-field="appContent"]').forEach((input) => {
+        input.value = "";
+        syncInputCount(input);
+      });
+    }
+
+    function validateAppPushConfig() {
+      const checkbox = form.querySelector("[data-app-push-checkbox]");
+      if (!checkbox || !checkbox.checked) return true;
+      saveCurrentLanguageDraft();
+      for (const language of ["en", "id"]) {
+        const draft = languageDrafts[language];
+        if (!draft.appTitle.trim() || !draft.appContent.trim()) {
+          switchLanguage(language);
+          const languageName = language === "en" ? "英语" : "印地语";
+          showToast(`请填写${languageName}APP推送标题和内容`);
+          return false;
+        }
+      }
+      return true;
     }
 
     function syncSystemPushCondition() {
@@ -2497,6 +2886,67 @@
       form.querySelectorAll("[data-range-panel]").forEach((panel) => {
         panel.hidden = panel.dataset.rangePanel !== selected.value;
       });
+      syncPackageIdByRange();
+    }
+
+    function syncPackageIdByRange() {
+      const range = form.querySelector("[data-range-type]");
+      const packageId = form.querySelector("[data-package-id]");
+      if (!range || !packageId) return;
+      const disabled = range.value === "specified";
+      packageId.dataset.disabled = String(disabled);
+      packageId.classList.toggle("is-disabled", disabled);
+      packageId.classList.remove("is-open");
+      packageId.setAttribute("aria-disabled", String(disabled));
+      const trigger = packageId.querySelector("[data-multi-trigger]");
+      const required = packageId.closest(".field")?.querySelector(".required");
+      packageId.querySelectorAll("[data-multi-option]").forEach((option) => {
+        if (disabled) option.checked = false;
+        option.disabled = disabled;
+      });
+      if (trigger) {
+        trigger.disabled = disabled;
+        trigger.setAttribute("aria-expanded", "false");
+      }
+      if (required) required.hidden = disabled;
+      syncMultiSelect(packageId);
+      const value = packageId.querySelector("[data-multi-value]");
+      if (value && disabled) value.textContent = "无需配置";
+      syncRewardByRange();
+    }
+
+    function syncRewardByRange() {
+      const range = form.querySelector("[data-range-type]");
+      const rewardSwitch = form.querySelector("[data-reward-switch]");
+      if (!range || !rewardSwitch) return;
+      const blocked = range.value === "all";
+      rewardSwitch.disabled = blocked;
+      rewardSwitch.setAttribute("aria-disabled", String(blocked));
+      const rewardText = form.querySelector("[data-reward-text]");
+      const rewardFields = form.querySelector("[data-reward-fields]");
+      const popupClaim = form.querySelector("[data-popup-claim-switch]");
+      if (!blocked) {
+        if (rewardText) rewardText.textContent = rewardSwitch.getAttribute("aria-pressed") === "true" ? "已开启" : "已关闭";
+        if (popupClaim) popupClaim.disabled = false;
+        return;
+      }
+      rewardSwitch.setAttribute("aria-pressed", "false");
+      rewardSwitch.classList.remove("is-on");
+      if (rewardText) rewardText.textContent = "不可开启";
+      if (rewardFields) {
+        rewardFields.hidden = true;
+        rewardFields.querySelectorAll('input:not([type="checkbox"])').forEach((input) => { input.value = ""; });
+        rewardFields.querySelectorAll("select").forEach((select) => { select.value = ""; });
+        const scope = rewardFields.querySelector("[data-scope-type]");
+        if (scope) syncScopeValue(scope);
+      }
+      if (popupClaim) {
+        popupClaim.disabled = true;
+        popupClaim.setAttribute("aria-pressed", "false");
+        popupClaim.classList.remove("is-on");
+        const popupClaimText = form.querySelector("[data-popup-claim-text]");
+        if (popupClaimText) popupClaimText.textContent = "已关闭";
+      }
     }
 
     function syncJumpTarget(select) {
@@ -2638,7 +3088,10 @@
       const pushType = form.querySelector("[data-push-type]");
       if (!requireValue(pushType, "请选择推送类型")) return false;
       const packageId = form.querySelector("[data-package-id]");
-      if (!requireValue(packageId, "请选择包ID")) return false;
+      if (packageId && packageId.dataset.disabled !== "true" && !packageId.closest("[hidden]") && !packageId.querySelector("[data-multi-option]:checked")) {
+        showToast("请选择包ID");
+        return false;
+      }
       const rangeType = form.querySelector("[data-range-type]");
       if (!requireValue(rangeType, "请选择推送范围")) return false;
 
@@ -2734,7 +3187,18 @@
       `;
     }
 
-    function syncMultiSelect(select) {
+    function syncMultiSelect(select, changedOption = null) {
+      if (select.matches("[data-package-id], [data-package-filter]") && changedOption?.checked) {
+        const options = [...select.querySelectorAll("[data-multi-option]")];
+        if (changedOption.value === "all") {
+          options.forEach((option) => {
+            if (option !== changedOption) option.checked = false;
+          });
+        } else {
+          const allOption = options.find((option) => option.value === "all");
+          if (allOption) allOption.checked = false;
+        }
+      }
       const checked = [...select.querySelectorAll("[data-multi-option]:checked")].map((item) => item.value);
       const value = select.querySelector("[data-multi-value]");
       if (value) value.textContent = checked.length ? checked.join("、") : "请选择";
@@ -2928,11 +3392,17 @@
       if (fields) fields.hidden = !enabled;
     }
 
-    function openDrawer(mode) {
+    function openDrawer(mode, rowIndex = 0) {
       document.getElementById("confirmBtn").textContent = "确认";
       currentLanguage = "en";
       languageDrafts = createEmptyLanguageDrafts();
       renderForm(mode);
+      if (mode === "copy") {
+        const config = reachModules[currentModule];
+        const sourceRow = config.rows[rowIndex];
+        if (sourceRow) fillCopiedConfiguration(buildCopySnapshot(config, sourceRow, rowIndex));
+        currentDrawerMode = "add";
+      }
       drawer.classList.remove("is-hidden");
       drawer.setAttribute("aria-hidden", "false");
     }
@@ -3011,10 +3481,28 @@
 
     document.getElementById("filters").addEventListener("click", (event) => {
       if (event.target.id === "queryButton") renderTable();
-      if (event.target.id === "resetButton") window.setTimeout(renderTable, 0);
+      if (event.target.id === "resetButton") {
+        window.setTimeout(() => {
+          filterGrid.querySelectorAll("[data-multi-select]").forEach((select) => syncMultiSelect(select));
+          renderTable();
+        }, 0);
+      }
+      if (event.target.closest("#exportButton")) showToast(`${reachModules[currentModule].name}已生成导出任务`);
+      const multiTrigger = event.target.closest("[data-multi-trigger]");
+      if (multiTrigger) {
+        const select = multiTrigger.closest("[data-multi-select]");
+        select.classList.toggle("is-open");
+        multiTrigger.setAttribute("aria-expanded", String(select.classList.contains("is-open")));
+        const arrow = select.querySelector(".multi-select-arrow");
+        if (arrow) arrow.textContent = select.classList.contains("is-open") ? "⌃" : "⌄";
+      }
+    });
+    document.getElementById("filters").addEventListener("change", (event) => {
+      if (event.target.matches("[data-multi-option]")) {
+        syncMultiSelect(event.target.closest("[data-multi-select]"), event.target);
+      }
     });
     document.getElementById("addBtn").addEventListener("click", () => openDrawer("add"));
-    document.getElementById("exportBtn").addEventListener("click", () => showToast(`${reachModules[currentModule].name}已生成导出任务`));
 
     tableBody.addEventListener("click", (event) => {
       const action = event.target.closest("[data-action]");
@@ -3048,7 +3536,7 @@
         drawer.setAttribute("aria-hidden", "false");
         return;
       }
-      openDrawer(action.dataset.action);
+      openDrawer(action.dataset.action, Number(action.closest("tr").dataset.rowIndex || 0));
     });
 
     drawer.addEventListener("click", (event) => {
@@ -3075,9 +3563,10 @@
       if (event.target.matches("[data-jump-type]")) syncJumpTarget(event.target);
       if (event.target.matches("[data-scope-type]")) syncScopeValue(event.target);
       if (event.target.matches("[data-validity-type]")) syncValidityTime();
+      if (event.target.matches("[data-app-push-checkbox]")) syncAppPushConfigState(!event.target.checked);
       if (event.target.matches("[data-condition-type]")) renderConditionRow(event.target.closest(".condition-row"));
       if (event.target.matches("[data-event-value]")) syncSpecialEventConfigs();
-      if (event.target.matches("[data-multi-option]")) syncMultiSelect(event.target.closest("[data-multi-select]"));
+      if (event.target.matches("[data-multi-option]")) syncMultiSelect(event.target.closest("[data-multi-select]"), event.target);
       if (event.target.matches("[data-asset-file]")) {
         const upload = event.target.closest(".asset-upload");
         const file = event.target.files && event.target.files.length ? event.target.files[0] : null;
@@ -3114,6 +3603,7 @@
       const uploadText = upload.querySelector("[data-asset-upload-text]");
       if (upload.dataset.previewUrl) URL.revokeObjectURL(upload.dataset.previewUrl);
       delete upload.dataset.previewUrl;
+      delete upload.dataset.copyReference;
       input.value = "";
       preview.removeAttribute("src");
       name.textContent = "未选择图片";
@@ -3146,14 +3636,6 @@
         const text = popupClaimSwitch.closest(".switch-row").querySelector("[data-popup-claim-text]");
         if (text) text.textContent = enabled ? "已开启" : "已关闭";
       }
-      const appPushSwitch = event.target.closest("[data-app-push-switch]");
-      if (appPushSwitch) {
-        const enabled = appPushSwitch.getAttribute("aria-pressed") !== "true";
-        appPushSwitch.setAttribute("aria-pressed", String(enabled));
-        appPushSwitch.classList.toggle("is-on", enabled);
-        const text = appPushSwitch.closest(".switch-row").querySelector("[data-app-push-text]");
-        if (text) text.textContent = enabled ? "已开启" : "已关闭";
-      }
       const addCondition = event.target.closest("[data-add-condition]");
       if (addCondition) {
         const panel = addCondition.closest("[data-range-panel], .repeat-panel");
@@ -3172,6 +3654,7 @@
       if (multiTrigger) {
         const select = multiTrigger.closest("[data-multi-select]");
         select.classList.toggle("is-open");
+        multiTrigger.setAttribute("aria-expanded", String(select.classList.contains("is-open")));
         const arrow = select.querySelector(".multi-select-arrow");
         if (arrow) arrow.textContent = select.classList.contains("is-open") ? "⌃" : "⌄";
       }
@@ -3182,8 +3665,16 @@
       if (currentDrawerMode !== "recordDetail" && !validateSameDayRechargeConfig()) return;
       if (currentDrawerMode !== "recordDetail" && !validateSportsStartReminderConfig()) return;
       if (currentDrawerMode !== "recordDetail" && !validateButtonJumpConfig()) return;
+      if (currentDrawerMode !== "recordDetail" && !validateAppPushConfig()) return;
+      const completedMode = currentDrawerMode;
       closeDrawer();
-      showToast(currentDrawerMode === "recordDetail" ? `${reachModules[currentModule].name}详情已关闭` : `${reachModules[currentModule].name}已保存`);
+      if (completedMode === "recordDetail") {
+        showToast(`${reachModules[currentModule].name}详情已关闭`);
+      } else if (completedMode === "add") {
+        showToast(`${reachModules[currentModule].name}已创建，状态为未启用`);
+      } else {
+        showToast(`${reachModules[currentModule].name}已保存`);
+      }
     });
 
     searchInput.addEventListener("input", renderModuleResults);
