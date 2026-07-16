@@ -500,6 +500,34 @@
       outline: none;
     }
 
+    input[aria-invalid="true"],
+    select[aria-invalid="true"] {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, .12);
+    }
+
+    .copy-count {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .copy-count input {
+      padding-right: 66px;
+    }
+
+    .copy-count-value {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
     .frontend-flow {
       padding: 16px;
       background: var(--gray-50);
@@ -914,9 +942,13 @@
       right: 0;
       top: calc(100% + 6px);
       display: none;
-      min-width: 220px;
+      width: 100%;
+      min-width: 0;
       max-height: 220px;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      box-sizing: border-box;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
@@ -930,6 +962,9 @@
     }
 
     .multi-option {
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
       min-height: 32px;
       display: flex;
       align-items: center;
@@ -977,6 +1012,11 @@
 
     .multi-option input {
       position: absolute;
+      left: 8px;
+      top: 50%;
+      width: 1px !important;
+      height: 1px !important;
+      margin: 0;
       opacity: 0;
       pointer-events: none;
     }
@@ -1043,7 +1083,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: auto;
       background: var(--panel);
     }
 
@@ -1157,7 +1197,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: 920px;
+      width: 640px;
       max-width: calc(100vw - 32px);
       height: 100vh;
       display: flex;
@@ -1169,9 +1209,30 @@
       transition: transform 220ms ease;
     }
 
+    .drawer.is-wide {
+      width: 800px;
+    }
+
     .drawer.is-hidden {
       transform: translateX(100%);
     }
+
+    .package-source-input { display: none; }
+
+    .package-multi {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .asset-control {
+      display: grid;
+      gap: 6px;
+      width: 256px;
+      margin-top: 8px;
+    }
+
+    .asset-actions { display: flex; gap: 8px; align-items: center; }
+    .asset-status { color: #6b7280; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     .drawer-header {
       min-height: 52px;
@@ -1203,8 +1264,15 @@
 
     .drawer-body {
       flex: 1;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: 18px 18px 76px;
+    }
+
+    .drawer-body,
+    .drawer-body * {
+      box-sizing: border-box;
+      min-width: 0;
     }
 
     .drawer-footer {
@@ -1314,6 +1382,14 @@
       font-weight: 700;
     }
 
+    .rule-subtitle.config-table-title {
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     .rule-subtitle:not(:first-child) {
       margin-top: 16px;
     }
@@ -1378,36 +1454,67 @@
     }
 
     .subsidy-rule-table {
-      min-width: 700px;
+      width: 100%;
+      min-width: 0;
       table-layout: fixed;
     }
 
     .subsidy-rule-table th,
     .subsidy-rule-table td {
       height: 42px;
-      padding: 0 12px;
+      padding: 5px 4px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      font-size: 11px;
+    }
+
+    .drawer .subsidy-rule-table:not(.first-deposit-rule-table) th {
+      width: auto !important;
+    }
+
+    .drawer .first-deposit-rule-table {
+      min-width: 720px;
+    }
+
+    .drawer .subsidy-rule-table .mini-actions {
+      justify-content: center;
+      gap: 2px;
     }
 
     .subsidy-rule-table th.has-help {
       overflow: visible;
     }
 
+    .rescue-interval-table col:nth-child(1) { width: 31%; }
+    .rescue-interval-table col:nth-child(2) { width: 20%; }
+    .rescue-interval-table col:nth-child(3) { width: 20%; }
+    .rescue-interval-table col:nth-child(4) { width: 17%; }
+    .rescue-interval-table col:nth-child(5) { width: 12%; }
+
+    .rescue-interval-table th,
+    .rescue-interval-table td {
+      vertical-align: middle;
+    }
+
+    .rescue-interval-table th {
+      height: 42px;
+      line-height: 16px;
+    }
+
     .subsidy-rule-table input {
+      width: 100%;
+      min-width: 0;
       height: 32px;
-      font-size: 13px;
+      padding: 0 5px;
+      font-size: 12px;
     }
 
     .subsidy-rule-table .times-input {
-      max-width: 72px;
+      max-width: 100%;
     }
 
     .th-hint {
-      display: inline;
-      margin-left: 6px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: inherit;
-      font-weight: 500;
+      display: none;
     }
 
     .help-tip {
@@ -1453,11 +1560,35 @@
       pointer-events: none;
     }
 
+    .help-tip.tip-open-right::after {
+      left: 0;
+      right: auto;
+      transform: translate(0, 4px);
+    }
+
+    .help-tip.tip-open-left::after {
+      left: auto;
+      right: 0;
+      transform: translate(0, 4px);
+    }
+
+    .help-tip.tip-open-down::after {
+      top: calc(100% + 8px);
+      bottom: auto;
+    }
+
     .help-tip:hover::after,
     .help-tip:focus-visible::after {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, 0);
+    }
+
+    .help-tip.tip-open-right:hover::after,
+    .help-tip.tip-open-right:focus-visible::after,
+    .help-tip.tip-open-left:hover::after,
+    .help-tip.tip-open-left:focus-visible::after {
+      transform: translate(0, 0);
     }
 
     .condition-matrix {
@@ -1582,6 +1713,12 @@
       color: var(--text);
     }
 
+    .circle-btn:disabled {
+      cursor: not-allowed;
+      opacity: .38;
+      background: var(--gray-50);
+    }
+
     .switch {
       width: 34px;
       height: 18px;
@@ -1664,10 +1801,10 @@
     }
 
     .front-assets {
-      grid-template-columns: minmax(320px, 520px) 120px;
+      grid-template-columns: minmax(0, 1fr);
       align-items: center;
       min-height: 138px;
-      gap: 22px;
+      gap: 14px;
     }
 
     .front-subsection {
@@ -1774,6 +1911,14 @@
       font-weight: 500;
     }
 
+    .drawer .field > label,
+    .drawer .rule-summary label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 18px;
+    }
+
     .popup-fields .switch-row {
       height: 34px;
     }
@@ -1819,7 +1964,31 @@
     }
 
     .front-subsection .custom-card {
+      width: calc(100% - 28px);
       margin: 0 14px 14px;
+    }
+
+    .drawer .language-content {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .drawer .asset-control {
+      width: 100%;
+      max-width: 256px;
+    }
+
+    .drawer .rule-box,
+    .drawer .front-subsection,
+    .drawer .language-box,
+    .drawer .custom-card,
+    .drawer .editor {
+      max-width: 100%;
+    }
+
+    .drawer .subsidy-rule-table .inline {
+      width: 100%;
+      min-width: 0;
+      gap: 3px;
     }
 
     .custom-head {
@@ -2023,31 +2192,37 @@
           <div class="filter-grid">
             <div class="field field-size-1">
               <label>活动名称</label>
-              <input placeholder="请输入">
+              <input id="activityNameFilter" placeholder="请输入">
+            </div>
+            <div class="field field-size-1">
+              <label>包ID</label>
+              <input class="package-source-input" id="packageFilter" value="">
             </div>
             <div class="field field-size-1">
               <label>活动类型</label>
-              <select>
-                <option>全部</option>
+              <select id="activityTypeFilter">
+                <option value="">全部</option>
                 <option>补水活动</option>
                 <option>周期首充</option>
-                <option>返水类型</option>
+                <option>新人首充</option>
+                <option>返水活动</option>
                 <option>笔笔送</option>
                 <option>阶梯充值</option>
               </select>
             </div>
             <div class="field field-size-1">
               <label>活动开始时间</label>
-              <input type="datetime-local" value="2026-07-01T00:00">
+              <input id="activityStartFilter" type="datetime-local">
             </div>
             <div class="field field-size-1">
               <label>活动结束时间</label>
-              <input type="datetime-local" value="2026-07-31T23:59">
+              <input id="activityEndFilter" type="datetime-local">
             </div>
             <div class="field field-size-1">
               <label>状态</label>
               <select id="statusFilter">
                 <option value="">全部</option>
+                <option value="inactive">未启用</option>
                 <option value="enabled">已启用</option>
                 <option value="disabled">已停用</option>
               </select>
@@ -2076,7 +2251,7 @@
                 <th style="width: 170px;">活动名称</th>
                 <th style="width: 96px;">活动类型</th>
                 <th style="width: 96px;">弹窗图</th>
-                <th style="width: 116px;">弹窗展示顺序</th>
+                <th style="width: 116px;">全局顺序</th>
                 <th style="width: 96px;">详情图</th>
                 <th style="width: 116px;">修改人</th>
                 <th style="width: 140px;">开始时间</th>
@@ -2126,7 +2301,7 @@
                 </div>
                 <div class="frontend-rule-list">
                   <div>弹窗是否展示开启时，前端展示后台上传的弹窗图片；关闭时不展示弹窗。</div>
-                  <div>多个活动同时配置弹窗时，按后台弹窗展示顺序排序，数字越大越靠前。</div>
+                  <div>多个活动同时配置弹窗时，按后台全局顺序排序，数字越大越靠前。</div>
                   <div>弹窗间隔时间按后台配置控制重复展示频率。</div>
                   <div>弹窗按钮点击按后台“无跳转 / 跳转到指定页面 / 外链”和跳转目标执行。</div>
                 </div>
@@ -2225,7 +2400,7 @@
   </div>
 
   <div class="drawer-mask is-hidden" id="drawerMask"></div>
-  <aside class="drawer is-hidden" id="drawer">
+  <aside class="drawer is-hidden" id="drawer" aria-hidden="true" inert>
     <div class="drawer-header">
       <div class="drawer-title" id="drawerTitle">活动编辑</div>
       <button class="icon-close" id="closeDrawerButton" type="button">×</button>
@@ -2239,7 +2414,7 @@
         <div class="field"><label class="required">包ID</label><input id="drawerPackageId" value="IN01"></div>
         <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
         <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
-        <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option selected>补水活动</option><option>周期首充</option><option>返水类型</option><option>笔笔送</option><option>阶梯充值</option></select></div>
+        <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option selected>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
       </div>
 
       <div class="section-title">参与条件</div>
@@ -2298,14 +2473,15 @@
             </div>
           </div>
           <div class="rule-subtitle">区间参数配置</div>
-          <table class="subsidy-rule-table">
+          <table class="subsidy-rule-table rescue-interval-table">
+            <colgroup><col><col><col><col><col></colgroup>
             <thead>
               <tr>
-                <th class="has-help" style="width: 210px;">充值区间<span class="th-hint">（【最小值】≤【X】＜【最大值】）</span><span class="help-tip" tabindex="0" data-tip="充值区间不可重叠，可断开；断开区间不命中规则。">?</span></th>
-                <th class="has-help" style="width: 120px;">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额指的是用户的锁定钱包、可提现钱包和在途金额的和，且需要考虑游戏范围，非指定产生的消耗导致的余额低于配置，则不命中规则。">?</span></th>
-                <th style="width: 120px;">补水金额</th>
-                <th style="width: 100px;">可补次数</th>
-                <th style="width: 70px;">操作</th>
+                <th class="has-help">充值区间<span class="help-tip" tabindex="0" data-tip="区间边界为【最小值】≤【X】＜【最大值】。区间不可重叠，可断开；断开区间不命中规则。">?</span></th>
+                <th class="has-help">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额为锁定钱包、可提现钱包和在途金额之和，并按游戏范围判断；非指定范围产生的消耗导致余额降低时，不命中规则。">?</span></th>
+                <th>补水金额</th>
+                <th>可补次数</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody>
@@ -2424,7 +2600,7 @@
               </select>
             </div>
             <div class="field">
-              <label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label>
+              <label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label>
               <input value="100">
             </div>
             <div class="field">
@@ -2461,14 +2637,14 @@
       </div>
 
       <div id="rechargeActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中周期首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
           <div class="field"><label class="required">包ID</label><input id="rechargePackageId" value="IN01"></div>
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
-          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option selected>周期首充</option><option>返水类型</option><option>笔笔送</option><option>阶梯充值</option></select></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option selected>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -2536,14 +2712,13 @@
                 <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
               </div>
             </div>
-            <table class="subsidy-rule-table">
+            <table class="subsidy-rule-table first-deposit-rule-table">
               <thead>
                 <tr>
                   <th style="width: 180px;">单笔充值金额达到</th>
                   <th style="width: 140px;">奖励形式</th>
                   <th style="width: 180px;">赠送礼金</th>
                   <th class="has-help" style="width: 150px;">单笔赠送上限<span class="help-tip" tabindex="0" data-tip="0为不限制。">?</span></th>
-                  <th style="width: 120px;">领取限制</th>
                   <th style="width: 70px;">操作</th>
                 </tr>
               </thead>
@@ -2553,7 +2728,6 @@
                   <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
                   <td><div class="unit-input"><input value="1.00"><span class="unit reward-value-unit">%</span></div></td>
                   <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
-                  <td><select><option selected>每周期一次</option><option>可重复领取</option></select></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
@@ -2561,7 +2735,6 @@
                   <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
                   <td><div class="unit-input"><input value="3.00"><span class="unit reward-value-unit">%</span></div></td>
                   <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
-                  <td><select><option selected>每周期一次</option><option>可重复领取</option></select></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
                 <tr>
@@ -2569,7 +2742,6 @@
                   <td><select class="reward-mode-select"><option>比例</option><option selected>固定值</option></select></td>
                   <td><div class="unit-input"><input value="50.00"><span class="unit reward-value-unit">INR</span></div></td>
                   <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
-                  <td><select><option selected>每周期一次</option><option>可重复领取</option></select></td>
                   <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
                 </tr>
               </tbody>
@@ -2666,7 +2838,7 @@
                 </select>
               </div>
               <div class="field">
-                <label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label>
+                <label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label>
                 <input value="80">
               </div>
               <div class="field">
@@ -2710,7 +2882,7 @@
           <div class="field"><label class="required">包ID</label><input id="rebatePackageId" value="IN01"></div>
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
-          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option selected>返水类型</option><option>笔笔送</option><option>阶梯充值</option></select></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option selected>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -2884,7 +3056,7 @@
                 <div class="switch-row"><button class="switch popup-switch" type="button" aria-pressed="false"></button><span>不展示</span></div>
               </div>
               <div class="field" hidden><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div>
-              <div class="field" hidden><label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label><input value="60"></div>
+              <div class="field" hidden><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="60"></div>
               <div class="field" hidden><label class="required">弹窗按钮跳转</label><select><option selected>无跳转</option><option>跳转到指定页面</option><option>外链</option></select></div>
               <div class="field" hidden><label class="required">跳转目标</label><select><option>活动详情页</option><option>游戏大厅</option></select></div>
             </div>
@@ -2912,7 +3084,7 @@
           <div class="field"><label class="required">包ID</label><input id="perDepositPackageId" value="IN01"></div>
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-20T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-08-19T23:59"></div>
-          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>返水类型</option><option selected>笔笔送</option><option>阶梯充值</option></select></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option selected>笔笔送</option><option>阶梯充值</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -3095,7 +3267,7 @@
                 <select><option>0.5小时</option><option>1小时</option><option>3小时</option><option>6小时</option><option selected>每天</option></select>
               </div>
               <div class="field">
-                <label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label>
+                <label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label>
                 <input value="70">
               </div>
               <div class="field">
@@ -3131,7 +3303,7 @@
           <div class="field"><label class="required">包ID</label><input id="tieredRechargePackageId" value="IN02"></div>
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-20T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-08-19T23:59"></div>
-          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>返水类型</option><option>笔笔送</option><option selected>阶梯充值</option></select></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option selected>阶梯充值</option></select></div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -3320,7 +3492,7 @@
                 <div class="switch-row"><button class="switch popup-switch" type="button" aria-pressed="false"></button><span>不展示</span></div>
               </div>
               <div class="field" hidden><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div>
-              <div class="field" hidden><label class="required">弹窗展示顺序 <span class="field-tip">数字越大越靠前</span></label><input value="60"></div>
+              <div class="field" hidden><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="60"></div>
               <div class="field" hidden><label class="required">弹窗按钮跳转</label><select><option selected>无跳转</option><option>跳转到指定页面</option><option>外链</option></select></div>
               <div class="field" hidden><label class="required">跳转目标</label><select><option>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div>
             </div>
@@ -3342,7 +3514,7 @@
     </div>
     <div class="drawer-footer">
       <button class="btn" id="cancelDrawerButton" type="button">取消</button>
-      <button class="btn primary" type="button">确认</button>
+      <button class="btn primary" id="confirmDrawerButton" type="button">确认</button>
     </div>
   </aside>
 
@@ -3363,6 +3535,35 @@
     }
     updateCountryTime();
     setInterval(updateCountryTime, 1000);
+
+    const copyFieldLimits = new Map([
+      ["活动名称（前台）", 30],
+      ["活动宣传文案（前台）", 60]
+    ]);
+    function syncCopyCounters(root = document) {
+      root.querySelectorAll("input[data-copy-limit]").forEach(input => {
+        const count = input.closest(".copy-count")?.querySelector(".copy-count-value");
+        if (count) count.textContent = `${input.value.length} / ${input.maxLength}`;
+      });
+    }
+    document.querySelectorAll(".field").forEach(field => {
+      const label = field.querySelector(":scope > label");
+      const input = field.querySelector(":scope > input");
+      const max = copyFieldLimits.get(label?.textContent.trim());
+      if (!input || !max || input.closest(".copy-count")) return;
+      input.maxLength = max;
+      input.dataset.copyLimit = String(max);
+      const wrapper = document.createElement("span");
+      wrapper.className = "copy-count";
+      input.insertAdjacentElement("beforebegin", wrapper);
+      wrapper.appendChild(input);
+      const count = document.createElement("span");
+      count.className = "copy-count-value";
+      count.setAttribute("aria-live", "polite");
+      wrapper.appendChild(count);
+      input.addEventListener("input", () => syncCopyCounters(wrapper));
+    });
+    syncCopyCounters();
 
     const userMenu = document.getElementById("userMenu");
     const userMenuButton = document.getElementById("userMenuButton");
@@ -3545,19 +3746,70 @@
     const drawer = document.getElementById("drawer");
     const drawerMask = document.getElementById("drawerMask");
     const drawerTitle = document.getElementById("drawerTitle");
+    let activeEditRow = null;
     const rescueActivityForm = document.getElementById("rescueActivityForm");
     const rechargeActivityForm = document.getElementById("rechargeActivityForm");
     const rebateActivityForm = document.getElementById("rebateActivityForm");
     const perDepositActivityForm = document.getElementById("perDepositActivityForm");
     const tieredRechargeActivityForm = document.getElementById("tieredRechargeActivityForm");
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm];
+    const defaultActivityCoreState = activityForms.map(form => {
+      const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
+      const packageInput = form.querySelector('input[id$="PackageId"]');
+      const dates = Array.from(form.querySelectorAll('input[type="datetime-local"]'));
+      return {
+        form,
+        name: nameInput?.value || "",
+        packageId: packageInput?.value || "",
+        startTime: dates[0]?.value || "",
+        endTime: dates[1]?.value || ""
+      };
+    });
+    let firstDepositDefaultRows = [];
+    const packageOptions = ["all", "IN01", "IN02", "IN03"];
+    function syncPackageControl(input) {
+      const root = input.nextElementSibling;
+      if (!root || !root.classList.contains("package-multi")) return;
+      const selected = input.value ? input.value.split(",").filter(Boolean) : [];
+      root.querySelectorAll("input[type=checkbox]").forEach(box => { box.checked = selected.includes(box.value); });
+      root.querySelector(".multi-trigger").textContent = selected.length ? selected.join("、") : "请选择";
+    }
+    function enhancePackageInput(input) {
+      input.classList.add("package-source-input");
+      const root = document.createElement("div");
+      root.className = "multi-select package-multi";
+      root.innerHTML = `<button class="multi-trigger" type="button">请选择</button><div class="multi-menu">${packageOptions.map(value => `<label class="multi-option"><input type="checkbox" value="${value}"><span>${value}</span></label>`).join("")}</div>`;
+      input.insertAdjacentElement("afterend", root);
+      const trigger = root.querySelector(".multi-trigger");
+      const menu = root.querySelector(".multi-menu");
+      trigger.addEventListener("click", event => { event.stopPropagation(); root.classList.toggle("is-open"); });
+      menu.addEventListener("click", event => event.stopPropagation());
+      menu.addEventListener("change", event => {
+        const changed = event.target;
+        const boxes = Array.from(menu.querySelectorAll("input[type=checkbox]"));
+        if (changed.value === "all" && changed.checked) boxes.forEach(box => { if (box !== changed) box.checked = false; });
+        if (changed.value !== "all" && changed.checked) {
+          const all = boxes.find(box => box.value === "all");
+          if (all) all.checked = false;
+        }
+        input.value = boxes.filter(box => box.checked).map(box => box.value).join(",");
+        syncPackageControl(input);
+      });
+      syncPackageControl(input);
+    }
+    document.querySelectorAll('[id$="PackageId"], #packageFilter').forEach(enhancePackageInput);
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".package-multi")) document.querySelectorAll(".package-multi").forEach(item => item.classList.remove("is-open"));
+    });
     function syncActivityForm(activityType = "补水活动") {
       const normalizedType = activityType === "充值活动" ? "周期首充" : activityType;
-      const isRecharge = normalizedType === "周期首充";
-      const isRebate = normalizedType === "返水类型";
+      const isFirstDeposit = normalizedType === "周期首充" || normalizedType === "新人首充";
+      const isRebate = normalizedType === "返水活动";
       const isPerDeposit = normalizedType === "笔笔送";
       const isTieredRecharge = normalizedType === "阶梯充值";
-      rescueActivityForm.hidden = isRecharge || isRebate || isPerDeposit || isTieredRecharge;
-      rechargeActivityForm.hidden = !isRecharge;
+      drawer.classList.toggle("is-wide", isFirstDeposit);
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge;
+      rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
       tieredRechargeActivityForm.hidden = !isTieredRecharge;
@@ -3565,19 +3817,136 @@
         select.value = normalizedType;
       });
     }
+    function resetActivityCoreState() {
+      defaultActivityCoreState.forEach(state => {
+        const nameInput = state.form.querySelector('input[id$="ActivityName"], #drawerConfigName');
+        const packageInput = state.form.querySelector('input[id$="PackageId"]');
+        const dates = state.form.querySelectorAll('input[type="datetime-local"]');
+        if (nameInput) nameInput.value = state.name;
+        if (packageInput) {
+          packageInput.value = state.packageId;
+          syncPackageControl(packageInput);
+        }
+        if (dates[0]) dates[0].value = state.startTime;
+        if (dates[1]) dates[1].value = state.endTime;
+      });
+      const tbody = rechargeActivityForm.querySelector(".first-deposit-rule-table tbody");
+      if (tbody && firstDepositDefaultRows.length) {
+        tbody.replaceChildren(...firstDepositDefaultRows.map(row => row.cloneNode(true)));
+      }
+    }
     function openDrawer(mode = "活动新增", activityType = "补水活动") {
+      const isCreate = mode === "活动新增";
       drawerTitle.textContent = mode;
+      if (isCreate) {
+        activeEditRow = null;
+        resetActivityCoreState();
+      }
       syncActivityForm(activityType);
       document.querySelectorAll(".activity-type-field").forEach(field => {
-        field.hidden = mode !== "活动新增";
+        field.hidden = false;
+        const select = field.querySelector(".activity-type-select");
+        if (select) select.disabled = !isCreate;
       });
       drawer.classList.remove("is-hidden");
       drawerMask.classList.remove("is-hidden");
+      drawer.removeAttribute("inert");
+      drawer.setAttribute("aria-hidden", "false");
+      drawer.querySelector(".drawer-body").scrollTop = 0;
+      requestAnimationFrame(() => {
+        syncCopyCounters(drawer);
+        validateTooltipBoundaries();
+      });
     }
     function closeDrawer() {
       drawer.classList.add("is-hidden");
       drawerMask.classList.add("is-hidden");
+      drawer.setAttribute("inert", "");
+      drawer.setAttribute("aria-hidden", "true");
     }
+
+    function openActivityRowForEdit(row) {
+      activeEditRow = row;
+      const cells = row.children;
+      const packageId = cells[2].textContent.trim();
+      const activityName = cells[4].textContent.trim();
+      const activityType = cells[5].textContent.trim();
+      const startTime = cells[10].textContent.trim().replaceAll("/", "-").replace(" ", "T");
+      const endTime = cells[11].textContent.trim().replaceAll("/", "-").replace(" ", "T");
+      document.querySelectorAll('[id$="ActivityName"], #drawerConfigName').forEach(input => {
+        input.value = activityName;
+      });
+      document.querySelectorAll('[id$="PackageId"]').forEach(input => {
+        input.value = packageId;
+        syncPackageControl(input);
+      });
+      activityForms.forEach(form => {
+        const dates = form.querySelectorAll('input[type="datetime-local"]');
+        if (dates[0]) dates[0].value = startTime;
+        if (dates[1]) dates[1].value = endTime;
+      });
+      openDrawer("活动编辑", activityType);
+    }
+
+    function validateTooltipBoundaries() {
+      const drawerRect = drawer.getBoundingClientRect();
+      const viewportLeft = 8;
+      const viewportRight = document.documentElement.clientWidth - 8;
+      const safeLeft = Math.max(drawerRect.left + 8, viewportLeft);
+      const safeRight = Math.min(drawerRect.right - 8, viewportRight);
+      const safeTop = Math.max(drawerRect.top + 8, 8);
+      const safeBottom = Math.min(drawerRect.bottom - 8, window.innerHeight - 8);
+      let passed = true;
+      drawer.querySelectorAll(".help-tip").forEach(tip => {
+        tip.classList.remove("tip-open-left", "tip-open-right", "tip-open-down");
+        const rect = tip.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) {
+          tip.dataset.boundaryValidated = "skipped-hidden";
+          return;
+        }
+        if (rect.bottom <= safeTop || rect.top >= safeBottom) {
+          tip.dataset.boundaryValidated = "skipped-offscreen";
+          return;
+        }
+        const tooltipWidth = Math.min(320, document.documentElement.clientWidth * 0.58);
+        const tooltipHeight = Math.max(36, Math.ceil((tip.dataset.tip || "").length / 22) * 18 + 16);
+        let projectedLeft = rect.left + rect.width / 2 - tooltipWidth / 2;
+        let projectedRight = projectedLeft + tooltipWidth;
+        if (projectedLeft < safeLeft) {
+          tip.classList.add("tip-open-right");
+          projectedLeft = rect.left;
+          projectedRight = projectedLeft + tooltipWidth;
+        } else if (projectedRight > safeRight) {
+          tip.classList.add("tip-open-left");
+          projectedRight = rect.right;
+          projectedLeft = projectedRight - tooltipWidth;
+        }
+        let projectedTop = rect.top - 8 - tooltipHeight;
+        let projectedBottom = rect.top - 8;
+        if (projectedTop < safeTop) {
+          tip.classList.add("tip-open-down");
+          projectedTop = rect.bottom + 8;
+          projectedBottom = projectedTop + tooltipHeight;
+        }
+        const tipPassed = projectedLeft >= safeLeft - 1 && projectedRight <= safeRight + 1 && projectedTop >= safeTop - 1 && projectedBottom <= safeBottom + 1;
+        tip.dataset.boundaryValidated = String(tipPassed);
+        if (tipPassed) tip.dataset.boundaryEverValidated = "true";
+        passed = passed && tipPassed;
+      });
+      drawer.dataset.tooltipBoundaryValidation = passed ? "passed" : "failed";
+      if (!passed) console.error("Tooltip boundary validation failed");
+      return passed;
+    }
+    window.addEventListener("resize", validateTooltipBoundaries);
+    drawer.querySelector(".drawer-body").addEventListener("scroll", validateTooltipBoundaries, { passive: true });
+    window.runTooltipDeliveryValidation = () => {
+      const visibleForm = activityForms.find(item => !item.hidden);
+      const tips = visibleForm ? Array.from(visibleForm.querySelectorAll(".help-tip")) : [];
+      const passed = tips.length > 0 && tips.every(tip => tip.dataset.boundaryEverValidated === "true");
+      drawer.dataset.tooltipDeliveryValidation = passed ? "passed" : "failed";
+      if (!passed) console.error("Tooltip delivery validation incomplete");
+      return passed;
+    };
     document.getElementById("openDrawerButton").addEventListener("click", () => openDrawer("活动新增"));
     document.getElementById("closeDrawerButton").addEventListener("click", closeDrawer);
     document.getElementById("cancelDrawerButton").addEventListener("click", closeDrawer);
@@ -3585,25 +3954,100 @@
     document.querySelectorAll(".activity-type-select").forEach(select => {
       select.addEventListener("change", () => syncActivityForm(select.value));
     });
-    document.querySelectorAll(".edit-row").forEach(button => {
-      button.addEventListener("click", () => {
-        const cells = button.closest("tr").children;
-        const packageId = cells[2].textContent.trim();
-        const activityName = cells[4].textContent.trim();
-        const activityType = cells[5].textContent.trim();
-        document.getElementById("drawerConfigName").value = activityName;
-        document.getElementById("rechargeActivityName").value = activityName;
-        document.getElementById("rebateActivityName").value = activityName;
-        document.getElementById("perDepositActivityName").value = activityName;
-        document.getElementById("tieredRechargeActivityName").value = activityName;
-        document.getElementById("drawerPackageId").value = packageId;
-        document.getElementById("rechargePackageId").value = packageId;
-        document.getElementById("rebatePackageId").value = packageId;
-        document.getElementById("perDepositPackageId").value = packageId;
-        document.getElementById("tieredRechargePackageId").value = packageId;
-        openDrawer("活动编辑", activityType);
+    document.querySelectorAll(".condition-type option").forEach(option => {
+      if (option.textContent.trim() === "渠道ID") option.remove();
+    });
+
+    document.querySelectorAll(".language-tabs").forEach(group => {
+      group.addEventListener("click", event => {
+        const tabButton = event.target.closest(".language-tab");
+        if (!tabButton) return;
+        group.querySelectorAll(".language-tab").forEach(item => item.classList.toggle("active", item === tabButton));
+        const box = group.closest(".language-box");
+        if (box) box.dataset.activeLanguage = tabButton.textContent.trim();
       });
     });
+
+    document.querySelectorAll(".popup-config").forEach(config => {
+      const selects = Array.from(config.querySelectorAll("select"));
+      const jumpSelect = selects.find(select => Array.from(select.options).some(option => option.textContent.trim() === "无跳转"));
+      if (!jumpSelect) return;
+      const targetField = jumpSelect.closest(".field").nextElementSibling;
+      const syncJumpTarget = () => {
+        const hidden = jumpSelect.value === "无跳转";
+        targetField.hidden = hidden;
+        const target = targetField.querySelector("input, select");
+        if (hidden && target) target.value = "";
+      };
+      jumpSelect.addEventListener("change", syncJumpTarget);
+      syncJumpTarget();
+    });
+
+    document.querySelectorAll(".image-slot, .popup-image-slot").forEach((slot, index) => {
+      const control = document.createElement("div");
+      control.className = "asset-control";
+      control.innerHTML = `<div class="asset-actions"><button class="btn asset-select" type="button">选择素材</button><button class="btn asset-remove" type="button">移除</button></div><div class="asset-status">来源：活动素材库 · ${index % 2 ? "popup-image.png" : "detail-image.png"}</div>`;
+      slot.insertAdjacentElement("afterend", control);
+      control.querySelector(".asset-select").addEventListener("click", () => { control.querySelector(".asset-status").textContent = "已选择：campaign-image.png（活动素材库）"; });
+      control.querySelector(".asset-remove").addEventListener("click", () => { control.querySelector(".asset-status").textContent = "未选择素材"; });
+    });
+
+    document.querySelectorAll(".subsidy-rule-table").forEach(table => {
+      const tbody = table.querySelector("tbody");
+      let title = table.previousElementSibling;
+      while (title && !title.classList.contains("rule-subtitle")) title = title.previousElementSibling;
+      if (!tbody || !title || !title.classList.contains("rule-subtitle")) return;
+      title.classList.add("config-table-title");
+      const addButton = document.createElement("button");
+      addButton.className = "circle-btn rule-row-add";
+      addButton.type = "button";
+      addButton.textContent = "+";
+      addButton.setAttribute("aria-label", "新增规则");
+      addButton.title = "新增规则";
+      title.appendChild(addButton);
+
+      const prepareRows = () => {
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        rows.forEach(row => {
+          const actions = row.querySelector(".mini-actions");
+          if (!actions) return;
+          const buttons = Array.from(actions.querySelectorAll("button"));
+          buttons.slice(0, -1).forEach(button => button.remove());
+          const removeButton = actions.querySelector("button");
+          if (!removeButton) return;
+          removeButton.classList.add("rule-row-remove");
+          removeButton.textContent = "−";
+          removeButton.setAttribute("aria-label", "删除当前规则");
+          removeButton.title = rows.length === 1 ? "至少保留一条" : "删除当前规则";
+          removeButton.disabled = rows.length === 1;
+        });
+      };
+
+      addButton.addEventListener("click", () => {
+        const template = tbody.querySelector("tr");
+        if (!template) return;
+        const row = template.cloneNode(true);
+        row.querySelectorAll("input").forEach(input => {
+          input.value = "";
+          input.removeAttribute("aria-invalid");
+        });
+        row.querySelectorAll("textarea").forEach(input => { input.value = ""; });
+        row.querySelectorAll("select").forEach(select => { select.selectedIndex = 0; });
+        tbody.appendChild(row);
+        prepareRows();
+      });
+
+      tbody.addEventListener("click", event => {
+        const removeButton = event.target.closest(".rule-row-remove");
+        if (!removeButton || removeButton.disabled) return;
+        removeButton.closest("tr").remove();
+        prepareRows();
+      });
+      prepareRows();
+    });
+    firstDepositDefaultRows = Array.from(
+      rechargeActivityForm.querySelectorAll(".first-deposit-rule-table tbody tr")
+    ).map(row => row.cloneNode(true));
     document.querySelectorAll(".popup-switch").forEach(button => {
       button.addEventListener("click", () => {
         const enabled = !button.classList.contains("is-on");
@@ -3632,6 +4076,49 @@
         });
       });
     });
+
+    document.querySelectorAll(".rule-summary-item").forEach(item => {
+      const label = item.querySelector("label");
+      if (!label || label.textContent.trim() !== "礼金是否需要领取") return;
+      const button = item.querySelector(".switch");
+      const stateText = item.querySelector(".switch-row span");
+      if (!button || !stateText) return;
+      button.classList.add("bonus-claim-switch");
+      button.setAttribute("aria-label", "礼金是否需要领取");
+      button.addEventListener("click", () => {
+        const enabled = button.getAttribute("aria-pressed") !== "true";
+        button.setAttribute("aria-pressed", String(enabled));
+        button.classList.toggle("is-on", enabled);
+        stateText.textContent = enabled ? "需要领取" : "不需要领取";
+        item.dataset.claimRequired = String(enabled);
+      });
+    });
+
+    document.querySelectorAll(".rule-subtitle").forEach(title => {
+      if (title.textContent.trim() !== "礼金配置") return;
+      const summary = title.nextElementSibling;
+      if (!summary || !summary.classList.contains("rule-summary")) return;
+      const scopeItem = Array.from(summary.children).find(item => item.querySelector("label")?.textContent.trim() === "礼金适用范围");
+      const expiryRule = document.createElement("div");
+      expiryRule.className = "rule-summary-item reward-expiry-rule";
+      expiryRule.innerHTML = `<label class="required">礼金过期规则<span class="help-tip" tabindex="0" data-tip="每笔礼金分别按自身规则计算有效期。">?</span></label><select class="reward-expiry-type"><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>`;
+      const expiryDays = document.createElement("div");
+      expiryDays.className = "rule-summary-item reward-expiry-days";
+      expiryDays.hidden = true;
+      expiryDays.innerHTML = `<label class="required">过期天数<span class="help-tip" tabindex="0" data-tip="按自然日计算：礼金到账当日为第1个自然日，到期日23:59:59过期。">?</span></label><div class="unit-input"><input class="reward-expiry-days-input" type="number" min="1" step="1" placeholder="请输入"><span class="unit">天</span></div>`;
+      summary.insertBefore(expiryRule, scopeItem || null);
+      summary.insertBefore(expiryDays, scopeItem || null);
+      const typeSelect = expiryRule.querySelector(".reward-expiry-type");
+      const daysInput = expiryDays.querySelector(".reward-expiry-days-input");
+      const syncExpiry = () => {
+        const naturalDay = typeSelect.value === "natural-day";
+        expiryDays.hidden = !naturalDay;
+        daysInput.disabled = !naturalDay;
+        if (!naturalDay) daysInput.value = "";
+      };
+      typeSelect.addEventListener("change", syncExpiry);
+      syncExpiry();
+    });
     const scopeValueMap = {
       "指定场馆": ["Slot", "Casino", "Fishing", "Fantasy", "Sports"],
       "指定游戏分类": ["Slot", "Crash", "Casino", "Fishing", "Sports"],
@@ -3659,7 +4146,7 @@
         values.forEach((value, index) => {
           const label = document.createElement("label");
           label.className = "multi-option";
-          label.innerHTML = `<input type="checkbox" value="${value}" ${index === 0 ? "checked" : ""}> <span>${value}</span>`;
+          label.innerHTML = `<input type="checkbox" value="${value}"> <span>${value}</span>`;
           valueMenu.appendChild(label);
         });
         if (!values.length) {
@@ -3693,8 +4180,11 @@
       if (unit) unit.textContent = select.value === "固定值" ? "INR" : "%";
     }
     document.querySelectorAll(".reward-mode-select").forEach(select => {
-      select.addEventListener("change", () => syncRewardMode(select));
       syncRewardMode(select);
+    });
+    document.addEventListener("change", event => {
+      const select = event.target.closest(".reward-mode-select");
+      if (select) syncRewardMode(select);
     });
     const gameScopeSelect = document.getElementById("gameScopeSelect");
     const gameScopeValueMulti = document.getElementById("gameScopeValueMulti");
@@ -3736,7 +4226,7 @@
       values.forEach((value, index) => {
         const label = document.createElement("label");
         label.className = "multi-option";
-        label.innerHTML = `<input type="checkbox" value="${value}" ${index === 0 ? "checked" : ""}> <span>${value}</span>`;
+        label.innerHTML = `<input type="checkbox" value="${value}"> <span>${value}</span>`;
         gameScopeValueMenu.appendChild(label);
       });
       syncGameScopeSummary();
@@ -3785,10 +4275,6 @@
       "渠道类型": {
         operators: ["=", "≠"],
         valueHtml: '<select><option>请选择</option><option>自然流量</option><option>代理渠道</option><option>广告投放</option></select>'
-      },
-      "渠道ID": {
-        operators: ["=", "≠"],
-        valueHtml: '<select><option>请选择</option><option>CH-1001</option><option>CH-2038</option><option>CH-5096</option></select>'
       },
       "VIP等级": {
         operators: ["=", "≠"],
@@ -3845,16 +4331,24 @@
       pill.classList.toggle("is-disabled", !enabled);
       toggleButton.textContent = enabled ? "停用" : "启用";
     }
+    const activityTableBody = document.querySelector(".table-wrap tbody");
+    activityTableBody.addEventListener("click", event => {
+      const editButton = event.target.closest(".edit-row");
+      if (editButton) {
+        openActivityRowForEdit(editButton.closest("tr"));
+        return;
+      }
+      const toggleButton = event.target.closest(".toggle-status");
+      if (!toggleButton) return;
+      const row = toggleButton.closest("tr");
+      const enabling = row.dataset.status !== "enabled";
+      if (!window.confirm(`确认${enabling ? "启用" : "停用"}该活动吗？`)) return;
+      setRowStatus(row, enabling);
+      if (statusFilter.value) applyStatusFilter();
+    });
     function visibleRowChecks() {
       return rowChecks.filter(check => !check.closest("tr").hidden);
     }
-    document.querySelectorAll(".toggle-status").forEach(button => {
-      button.addEventListener("click", () => {
-        const row = button.closest("tr");
-        setRowStatus(row, row.dataset.status !== "enabled");
-        if (statusFilter.value) applyStatusFilter();
-      });
-    });
     const checkAllRows = document.getElementById("checkAllRows");
     const rowChecks = Array.from(document.querySelectorAll(".row-check"));
     function syncCheckAll() {
@@ -3871,8 +4365,13 @@
     });
     rowChecks.forEach(check => check.addEventListener("change", syncCheckAll));
     function bulkSetStatus(enabled) {
-      rowChecks
-        .filter(check => check.checked)
+      const selected = rowChecks.filter(check => check.checked);
+      if (!selected.length) {
+        window.alert("请先选择活动");
+        return;
+      }
+      if (!window.confirm(`确认批量${enabled ? "启用" : "停用"}已选择的 ${selected.length} 个活动吗？`)) return;
+      selected
         .forEach(check => setRowStatus(check.closest("tr"), enabled));
       if (statusFilter.value) {
         applyStatusFilter();
@@ -3884,18 +4383,128 @@
     document.getElementById("bulkDisableButton").addEventListener("click", () => bulkSetStatus(false));
     const statusFilter = document.getElementById("statusFilter");
     function applyStatusFilter() {
-      const value = statusFilter.value;
+      const statusValue = statusFilter.value;
+      const nameValue = document.getElementById("activityNameFilter").value.trim().toLowerCase();
+      const typeValue = document.getElementById("activityTypeFilter").value;
+      const packageValues = document.getElementById("packageFilter").value.split(",").filter(Boolean);
+      const startValue = document.getElementById("activityStartFilter").value;
+      const endValue = document.getElementById("activityEndFilter").value;
       rowChecks.forEach(check => {
         check.checked = false;
         const row = check.closest("tr");
-        row.hidden = Boolean(value) && row.dataset.status !== value;
+        const cells = row.children;
+        const rowPackage = cells[2].textContent.trim();
+        const rowName = cells[4].textContent.trim().toLowerCase();
+        const rowType = cells[5].textContent.trim();
+        const rowStart = cells[10].textContent.trim().replaceAll("/", "-").replace(" ", "T");
+        const rowEnd = cells[11].textContent.trim().replaceAll("/", "-").replace(" ", "T");
+        const packageMatched = !packageValues.length || packageValues.includes("all") || packageValues.includes(rowPackage);
+        row.hidden = !(
+          (!statusValue || row.dataset.status === statusValue) &&
+          (!nameValue || rowName.includes(nameValue)) &&
+          (!typeValue || rowType === typeValue) &&
+          packageMatched &&
+          (!startValue || rowStart >= startValue) &&
+          (!endValue || rowEnd <= endValue)
+        );
       });
       syncCheckAll();
     }
     document.getElementById("queryButton").addEventListener("click", applyStatusFilter);
     document.getElementById("resetButton").addEventListener("click", () => {
       statusFilter.value = "";
+      document.getElementById("activityNameFilter").value = "";
+      document.getElementById("activityTypeFilter").value = "";
+      document.getElementById("activityStartFilter").value = "";
+      document.getElementById("activityEndFilter").value = "";
+      document.getElementById("packageFilter").value = "";
+      syncPackageControl(document.getElementById("packageFilter"));
       applyStatusFilter();
+    });
+
+    function rejectRuleInput(input, message) {
+      input.setAttribute("aria-invalid", "true");
+      input.focus();
+      window.alert(message);
+      return false;
+    }
+    function validateFirstDepositRules(form) {
+      if (form !== rechargeActivityForm) return true;
+      const rows = Array.from(form.querySelectorAll(".first-deposit-rule-table tbody tr"));
+      if (!rows.length) {
+        window.alert("请至少配置一条首充规则");
+        return false;
+      }
+      for (let index = 0; index < rows.length; index += 1) {
+        const inputs = Array.from(rows[index].querySelectorAll("input"));
+        inputs.forEach(input => input.removeAttribute("aria-invalid"));
+        const [thresholdInput, rewardInput, capInput] = inputs;
+        const threshold = Number(thresholdInput.value);
+        const reward = Number(rewardInput.value);
+        const cap = Number(capInput.value);
+        const rowLabel = `第 ${index + 1} 条首充规则`;
+        if (!thresholdInput.value.trim() || !Number.isFinite(threshold) || threshold <= 0) {
+          return rejectRuleInput(thresholdInput, `${rowLabel}的单笔充值金额必须大于0`);
+        }
+        if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) {
+          return rejectRuleInput(rewardInput, `${rowLabel}的赠送礼金必须大于0`);
+        }
+        if (!capInput.value.trim() || !Number.isFinite(cap) || cap < 0) {
+          return rejectRuleInput(capInput, `${rowLabel}的单笔赠送上限必须大于或等于0`);
+        }
+      }
+      return true;
+    }
+    rechargeActivityForm.addEventListener("input", event => {
+      if (event.target.matches(".first-deposit-rule-table input")) {
+        event.target.removeAttribute("aria-invalid");
+      }
+    });
+
+    document.getElementById("confirmDrawerButton").addEventListener("click", () => {
+      const form = activityForms.find(item => !item.hidden);
+      const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
+      const packageInput = form.querySelector('input[id$="PackageId"]');
+      const dates = Array.from(form.querySelectorAll('input[type="datetime-local"]'));
+      if (!nameInput.value.trim() || !packageInput.value || dates.some(input => !input.value)) {
+        window.alert("请完整填写活动名称、包ID和活动时间");
+        return;
+      }
+      if (dates[0].value >= dates[1].value) {
+        window.alert("活动结束时间必须晚于开始时间");
+        return;
+      }
+      if (!validateFirstDepositRules(form)) return;
+      const expiryType = form.querySelector(".reward-expiry-type");
+      const expiryDays = form.querySelector(".reward-expiry-days-input");
+      if (expiryType && expiryType.value === "natural-day") {
+        const days = Number(expiryDays.value);
+        if (!Number.isInteger(days) || days < 1) {
+          window.alert("请输入大于0的礼金过期自然日天数");
+          expiryDays.focus();
+          return;
+        }
+      }
+      if (activeEditRow) {
+        activeEditRow.children[2].textContent = packageInput.value;
+        activeEditRow.children[4].textContent = nameInput.value.trim();
+        activeEditRow.children[10].textContent = dates[0].value.replace("T", " ").replaceAll("-", "/");
+        activeEditRow.children[11].textContent = dates[1].value.replace("T", " ").replaceAll("-", "/");
+        window.alert("活动修改已保存");
+      } else {
+        const row = document.createElement("tr");
+        const activityType = form.querySelector(".activity-type-select").value;
+        const rowNumber = activityTableBody.children.length + 1;
+        const formatDate = value => value.replace("T", " ").replaceAll("-", "/");
+        row.dataset.status = "inactive";
+        row.innerHTML = `<td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 ${rowNumber} 行"></td><td>${rowNumber}</td><td>${packageInput.value}</td><td>ACT-${Date.now()}</td><td>${nameInput.value.trim()}</td><td>${activityType}</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb is-empty">-</span></td><td>当前用户</td><td>${formatDate(dates[0].value)}</td><td>${formatDate(dates[1].value)}</td><td><span class="status-pill is-disabled">未启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td>`;
+        activityTableBody.appendChild(row);
+        const newCheck = row.querySelector(".row-check");
+        rowChecks.push(newCheck);
+        newCheck.addEventListener("change", syncCheckAll);
+        window.alert("活动已保存为未启用；请在列表中确认配置后再启用");
+      }
+      closeDrawer();
     });
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
