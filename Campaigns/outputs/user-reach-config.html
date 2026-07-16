@@ -856,6 +856,20 @@
       z-index: 201;
     }
 
+    .tip.tip-left:hover::after,
+    .tip.tip-left:focus::after {
+      right: calc(100% + 8px);
+      left: auto;
+    }
+
+    .tip.tip-left:hover::before,
+    .tip.tip-left:focus::before {
+      right: calc(100% + 3px);
+      left: auto;
+      border-right-color: transparent;
+      border-left-color: var(--gray-900);
+    }
+
     .help {
       margin-top: 4px;
       color: var(--muted);
@@ -868,6 +882,7 @@
       color: var(--muted);
       font-size: 12px;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .radio-line,
@@ -2230,6 +2245,8 @@
         popupClaimEnabled: rewardEnabled,
         rewardAmount: rewardEnabled ? String(50 + rowIndex * 10) : "",
         rewardMultiplier: rewardEnabled ? "1" : "",
+        rewardExpiryType: rewardEnabled && rowIndex % 2 === 0 ? "natural-day" : "none",
+        rewardExpiryDays: rewardEnabled && rowIndex % 2 === 0 ? "7" : "",
         rewardScopeType: rewardEnabled ? "venue" : "",
         rewardScopeValues: rewardEnabled ? ["Slot", "Casino"] : [],
         popupEnabled,
@@ -2343,6 +2360,13 @@
         const rewardInputs = rewardFields.querySelectorAll('input:not([type="checkbox"])');
         if (rewardInputs[0]) rewardInputs[0].value = snapshot.rewardAmount;
         if (rewardInputs[1]) rewardInputs[1].value = snapshot.rewardMultiplier;
+        const expiryType = rewardFields.querySelector("[data-reward-expiry-type]");
+        if (expiryType) {
+          expiryType.value = snapshot.rewardExpiryType || "none";
+          syncRewardExpiryRule();
+          const expiryDays = rewardFields.querySelector("[data-reward-expiry-days-input]");
+          if (expiryDays) expiryDays.value = snapshot.rewardExpiryDays || "";
+        }
         const scope = rewardFields.querySelector("[data-scope-type]");
         if (scope) {
           scope.value = snapshot.rewardScopeType;
@@ -2607,6 +2631,11 @@
               ${field("是否开启弹窗领取", '<span class="switch-row"><button class="switch" type="button" aria-pressed="false" data-popup-claim-switch></button><span data-popup-claim-text>已关闭</span></span>')}
               ${field("礼金金额", '<input placeholder="请输入">', false, true)}
               ${field("礼金倍率", '<input type="number" placeholder="请输入">', false, true)}
+              ${field("礼金过期规则", '<select data-reward-expiry-type><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>', false, false, "运营发放的体育礼金不累计")}
+              <div class="field" data-reward-expiry-days hidden>
+                <label><span class="required">*</span> 过期天数 <span class="label-help">按自然日计算</span><span class="tip tip-left" tabindex="0" data-tip="礼金到账当日为第1个自然日，到期日23:59:59过期。">?</span></label>
+                <input type="number" min="1" step="1" placeholder="请输入大于0的自然日天数" data-reward-expiry-days-input>
+              </div>
               ${field("礼金适用范围", '<select data-scope-type data-scope-target="reward"><option value="">请选择</option><option value="venue">指定场馆</option><option value="all">无限制</option><option value="category">指定游戏分类</option><option value="game">指定游戏</option></select>', false, true)}
               <div class="field" data-scope-value="reward"></div>
             </div>
@@ -2949,6 +2978,17 @@
       }
     }
 
+    function syncRewardExpiryRule() {
+      const type = form.querySelector("[data-reward-expiry-type]");
+      const daysField = form.querySelector("[data-reward-expiry-days]");
+      const daysInput = form.querySelector("[data-reward-expiry-days-input]");
+      if (!type || !daysField || !daysInput) return;
+      const usesNaturalDay = type.value === "natural-day";
+      daysField.hidden = !usesNaturalDay;
+      daysInput.disabled = !usesNaturalDay;
+      if (!usesNaturalDay) daysInput.value = "";
+    }
+
     function syncJumpTarget(select) {
       const target = form.querySelector(`[data-jump-target="${select.dataset.jumpScope}"]`);
       if (!target) return;
@@ -3140,6 +3180,16 @@
             showToast("请选择适用范围值");
             return false;
           }
+        }
+      }
+
+      const rewardExpiryType = form.querySelector("[data-reward-expiry-type]");
+      const rewardExpiryDays = form.querySelector("[data-reward-expiry-days-input]");
+      if (visible(rewardExpiryType) && rewardExpiryType.value === "natural-day") {
+        const days = Number(rewardExpiryDays && rewardExpiryDays.value);
+        if (!rewardExpiryDays || !Number.isInteger(days) || days < 1) {
+          showToast("请输入大于0的礼金过期自然日天数");
+          return false;
         }
       }
 
@@ -3562,6 +3612,7 @@
       if (event.target.matches("[data-range-type]")) syncRangePanels();
       if (event.target.matches("[data-jump-type]")) syncJumpTarget(event.target);
       if (event.target.matches("[data-scope-type]")) syncScopeValue(event.target);
+      if (event.target.matches("[data-reward-expiry-type]")) syncRewardExpiryRule();
       if (event.target.matches("[data-validity-type]")) syncValidityTime();
       if (event.target.matches("[data-app-push-checkbox]")) syncAppPushConfigState(!event.target.checked);
       if (event.target.matches("[data-condition-type]")) renderConditionRow(event.target.closest(".condition-row"));
