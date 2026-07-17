@@ -1,12 +1,124 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SUPERX - 活动优化</title>
-  <meta http-equiv="refresh" content="0; url=Campaigns/outputs/admin-config-replica.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Add Money</title>
+  <meta name="theme-color" content="#004d3e">
+  <style>
+    :root{--green:#005443;--green2:#00735a;--mint:#24b99a;--gold:#efbd00;--ink:#181a1d;--muted:#6d7079;--line:#28383c}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#e8e7ed;color:var(--ink)}
+    button{font:inherit;color:inherit}
+    .app{width:100%;max-width:390px;min-height:100dvh;margin:auto;background:#f8f7fb;position:relative;overflow:hidden;box-shadow:0 0 24px #0002}
+    .topbar{height:54px;background:#004b3e;color:#fff;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;border-top:2px solid #9b7d15}
+    .topbar h1{font-size:20px;text-align:center;margin:0;font-weight:600}.back,.support{border:0;background:transparent;color:#dce5e4;font-size:32px;height:100%}.support{font-size:23px}
+    .wallet{height:122px;padding:18px 28px;color:#fff;background:linear-gradient(135deg,#00392f,#00725a)}
+    .wallet-row{display:flex;align-items:center;gap:11px;font-weight:700;font-size:21px}.wallet-icon{font-size:23px}
+    .balance{font-size:21px;font-weight:700;margin:8px 0 0 29px}.wallet-rule{height:1px;background:#ffffff55;margin:14px 0 0 28px}
+    .view-bonus{float:right;margin-top:-30px;border:0;background:transparent;color:#d5b70a;font-size:16px}
+    .screen{display:none;min-height:calc(100dvh - 176px)}.screen.active{display:block}
+    .bonus-page{padding:15px 12px 108px}.section-title{font-size:17px;font-weight:700;margin:0 0 12px}
+    .bonus-option{position:relative;min-height:78px;display:grid;grid-template-columns:35px 1fr 82px;align-items:center;gap:8px;padding:10px 8px;border:2px solid transparent;border-radius:10px;margin-bottom:7px;background:#fff}
+    .bonus-option.none{grid-template-columns:35px 1fr;min-height:57px}.bonus-option.selected{border-color:var(--green)}
+    .radio{width:25px;height:25px;border:2px solid #222;border-radius:50%;display:grid;place-items:center}
+    .selected .radio:after{content:"";width:13px;height:13px;background:#1db493;border-radius:50%}
+    .offer-label{display:inline-block;background:#22b798;color:#fff;border-radius:20px;padding:3px 18px;font-style:italic;font-weight:700;font-size:18px;line-height:1;margin-bottom:8px}
+    .offer-copy{font-size:16px;line-height:1.25}.offer-art{width:78px;height:78px;border-radius:6px;display:grid;place-items:center;color:#f6cf38;font-size:31px;font-weight:900;transform:rotate(-1deg);background:linear-gradient(140deg,#00735c,#16a582);text-shadow:1px 2px #705600}
+    .offer-art.red{background:linear-gradient(140deg,#b5253f,#ef5870)}
+    .sticky-action{position:absolute;left:22px;right:22px;bottom:56px}.primary{width:100%;height:52px;border:0;border-radius:5px;background:var(--gold);font-size:20px}
+    .secure{text-align:center;color:#6e7279;font-size:13px;margin:12px 0}.secure:before{content:"♢";font-size:20px;margin-right:7px}
+    .payment-trust{margin:12px 0 4px;text-align:center}.payment-trust .secure{margin:0 0 10px}.payment-logos{display:flex;align-items:center;justify-content:center;gap:8px}.pay-logo{height:27px;min-width:58px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #d9dce3;border-radius:5px;box-shadow:0 2px 6px #26323812;font-weight:800;font-size:14px;line-height:1}.pay-logo.visa{color:#183a8f;font-style:italic;font-size:17px;letter-spacing:.3px}.pay-logo.paytm{color:#152a75}.pay-logo.paytm em{color:#08a9e4;font-style:normal}.pay-logo.upi{color:#50545a;font-style:italic}.pay-logo.upi:before{content:"";width:5px;height:14px;margin-right:5px;background:linear-gradient(135deg,#f58220 0 48%,#128c45 49%);transform:skew(-18deg)}
+    .tabs-page{padding:24px 17px}.seg-tabs{display:flex;gap:28px}.seg{flex:1;height:38px;border:1.5px solid #49545a;border-radius:22px;background:transparent;font-size:15px}.seg.active{background:var(--green2);border-color:var(--green2);color:#fff}
+    .empty{text-align:center;color:#5f5c67;padding-top:132px}.gift{font-size:112px;line-height:1;color:#77737d}.empty h2{font-size:23px;margin:10px 0 27px}.empty p{font-size:16px;line-height:1.45;margin:0 auto;width:85%}
+    .deposit-page{padding:14px 17px 86px}.pay-tabs{display:none}.pay-tab{flex:1;height:47px;border:1.8px solid var(--line);border-radius:26px;background:transparent;font-size:18px}.pay-tab.active{background:var(--green2);color:#fff;border-color:var(--green2);font-weight:700}.five{position:absolute;right:-3px;top:-14px;background:#e9b400;border-radius:24px;padding:10px 23px;font-weight:700}
+    .math{margin:0 -2px 7px;padding:0 5px;height:65px;background:#fff;display:flex;align-items:center;justify-content:space-between}.metric{text-align:center}.metric small{display:block;color:#777;font-size:10px;margin-bottom:8px}.metric b{font-size:18px;white-space:nowrap}.gold{color:#d9ab00}.op{font-weight:700}
+    .tax{display:none}
+    .amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.amount{height:64px;border:1.5px solid var(--line);background:transparent;border-radius:4px;color:#676771;font-size:18px}.amount.active{background:#08785e;color:#fff;font-weight:700;border-color:#08785e}
+    .deposit-btn{margin-top:20px}.promo{margin-top:28px;background:linear-gradient(135deg,#008066,#0d9775);color:#fff;border-radius:10px;min-height:94px;padding:27px 10px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:16px}.promo strong{color:#f2c400}.change{border:1px solid #fff;border-radius:5px;background:transparent;color:#fff;padding:9px 12px;font-size:16px}
+    .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:65px;background:#f5f4f8;border-top:1px solid #ddd;display:flex;justify-content:space-around;color:#595a62}.nav-item{width:20%;border:0;background:transparent;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav-item span{font-size:22px}.nav-item.active{color:#004f41;font-weight:700}
+    @media (min-width:600px){body{min-height:100dvh;display:grid;place-items:center;padding:24px}.app{width:390px;height:844px;min-height:844px;border-radius:22px}.screen{min-height:668px}}
+  </style>
 </head>
 <body>
-  <a href="Campaigns/outputs/admin-config-replica.html">打开活动优化预览</a>
+  <main class="app">
+    <header class="topbar">
+      <button class="back" id="back" aria-label="Back">‹</button>
+      <h1 id="title">Add Money</h1>
+      <button class="support" aria-label="Support">☏</button>
+    </header>
+    <section class="wallet" id="wallet">
+      <div class="wallet-row"><span class="wallet-icon">▱</span><span>Total Wallet</span></div>
+      <div class="balance">₹ 119.62</div>
+      <button class="view-bonus" id="viewBonus">History</button>
+      <div class="wallet-rule"></div>
+    </section>
+
+    <section class="screen active" id="bonuses">
+      <div class="bonus-page">
+        <p class="section-title">Available bonuses</p>
+        <button class="bonus-option none" data-bonus="none"><span class="radio"></span><span class="offer-copy">No thanks, I don't want any bonus.</span></button>
+        <button class="bonus-option selected" data-bonus="10"><span class="radio"></span><span><span class="offer-label">One-Time Offer</span><br><span class="offer-copy">Get extra 10% of your deposit.</span></span><span class="offer-art">10%</span></button>
+        <button class="bonus-option" data-bonus="100"><span class="radio"></span><span><span class="offer-label">Welcome Offer</span><br><span class="offer-copy">Get 100% bonus up to ₹2000 if you deposit ₹1000 or more.</span></span><span class="offer-art red">100%</span></button>
+      </div>
+      <div class="sticky-action"><button class="primary" id="claim">Deposit and get extra 10%</button><p class="secure">100% secure payments, fast withdrawals.</p></div>
+    </section>
+
+    <section class="screen" id="bonusStatus">
+      <div class="tabs-page">
+        <div class="seg-tabs"><button class="seg active">Active</button><button class="seg">History</button></div>
+        <div class="empty"><div class="gift">🎁</div><h2 id="emptyTitle">No Active Bonuses.</h2><p id="emptyCopy">When you claim a bonus, you will see the status here.</p></div>
+      </div>
+    </section>
+
+    <section class="screen" id="deposit">
+      <div class="deposit-page">
+        <div class="pay-tabs"><button class="pay-tab active" data-pay="deposit">Deposit</button><button class="pay-tab" data-pay="upi">UPI</button><span class="five">+5%</span></div>
+        <div class="math" id="math"></div>
+        <div class="amounts">
+          <button class="amount">₹100</button><button class="amount">₹200</button><button class="amount">₹300</button>
+          <button class="amount">₹500</button><button class="amount active">₹1000</button><button class="amount">₹2000</button>
+          <button class="amount">₹5000</button><button class="amount">₹10000</button><button class="amount">₹20000</button>
+        </div>
+        <button class="primary deposit-btn">Deposit</button>
+        <div class="payment-trust">
+          <p class="secure">100% secure payments, fast withdrawals.</p>
+          <div class="payment-logos" aria-label="Accepted payment methods">
+            <span class="pay-logo visa">VISA</span>
+            <span class="pay-logo paytm">pay<em>tm</em></span>
+            <span class="pay-logo upi">UPI</span>
+          </div>
+        </div>
+        <div class="promo" id="promo"><span>Get extra <strong>10%</strong> of your deposit.</span><button class="change">Change</button></div>
+      </div>
+      <nav class="bottom-nav">
+        <button class="nav-item"><span>⌂</span>Home</button><button class="nav-item"><span>◇</span>Game</button><button class="nav-item active"><span>▣</span>Deposit</button><button class="nav-item"><span>▻</span>Live Casino</button><button class="nav-item"><span>▤</span>Profile</button>
+      </nav>
+    </section>
+  </main>
+  <script>
+    const screens={bonuses:document.querySelector('#bonuses'),bonusStatus:document.querySelector('#bonusStatus'),deposit:document.querySelector('#deposit')};
+    let current='bonuses', bonus='10', pay='deposit', amount=1000;
+    const show=(name)=>{Object.values(screens).forEach(s=>s.classList.remove('active'));screens[name].classList.add('active');current=name;document.querySelector('#title').textContent=name==='bonusStatus'?'Bonuses':'Add Money';document.querySelector('#wallet').style.display=name==='bonusStatus'?'none':'block';};
+    const bonusText=()=>bonus==='100'?'Get 100% bonus up to ₹1000 if you deposit ₹2000 or more.':bonus==='10'?'Get extra 10% of your deposit.':'No bonus selected.';
+    function renderMath(){
+      const bonusValue=bonus==='100'?amount:bonus==='10'?Math.round(amount*.1):0, upi=pay==='upi'?Math.round(amount*.05):0;
+      const parts=[['You Pay',`₹${amount}`],['Bonus',`₹${bonusValue}`]];
+      if(pay==='upi')parts.push(['UPICash',`₹${upi}`]);
+      parts.push(['You Get',`₹${amount+bonusValue+upi}`]);
+      document.querySelector('#math').innerHTML=parts.map((x,i)=>`${i?'<span class="op">'+(i===parts.length-1?'=':'+')+'</span>':''}<span class="metric"><small>${x[0]}</small><b class="${i===1?'gold':''}">${x[1]}</b></span>`).join('');
+      document.querySelector('#promo span').innerHTML=bonusText().replace(/(10%|100%)/,'<strong>$1</strong>');
+    }
+    document.querySelectorAll('[data-bonus]').forEach(el=>el.onclick=()=>{bonus=el.dataset.bonus;document.querySelectorAll('[data-bonus]').forEach(x=>x.classList.toggle('selected',x===el));document.querySelector('#claim').textContent=bonus==='100'?'Deposit and get bonus':bonus==='10'?'Deposit and get extra 10%':'Deposit without bonus';renderMath();});
+    document.querySelector('#claim').onclick=()=>{show('deposit');renderMath()};
+    const setBonusTab=(name)=>{document.querySelectorAll('.seg').forEach(x=>x.classList.toggle('active',x.textContent.trim()===name));document.querySelector('#emptyTitle').textContent=name==='History'?'No Bonus History.':'No Active Bonuses.';document.querySelector('#emptyCopy').textContent=name==='History'?'Your previous bonus records will appear here.':'When you claim a bonus, you will see the status here.';};
+    document.querySelector('#viewBonus').onclick=()=>{show('bonusStatus');setBonusTab('History');};
+    document.querySelector('#back').onclick=()=>show(current==='bonusStatus'?'bonuses':current==='deposit'?'bonuses':'deposit');
+    document.querySelectorAll('[data-pay]').forEach(el=>el.onclick=()=>{pay=el.dataset.pay;document.querySelectorAll('[data-pay]').forEach(x=>x.classList.toggle('active',x===el));renderMath()});
+    document.querySelectorAll('.amount').forEach(el=>el.onclick=()=>{amount=Number(el.textContent.replace(/[^\d]/g,''));document.querySelectorAll('.amount').forEach(x=>x.classList.toggle('active',x===el));renderMath()});
+    document.querySelector('.change').onclick=()=>show('bonuses');
+    document.querySelectorAll('.seg').forEach(el=>el.onclick=()=>setBonusTab(el.textContent.trim()));
+    renderMath();
+  </script>
 </body>
 </html>
