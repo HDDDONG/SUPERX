@@ -10,7 +10,7 @@
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#e8e7ed;color:var(--ink)}
     button{font:inherit;color:inherit}
-    .app{width:100%;max-width:390px;min-height:100dvh;margin:auto;background:#f8f7fb;position:relative;overflow:hidden;box-shadow:0 0 24px #0002}
+    .stage{width:100%}.app{width:100%;max-width:390px;min-height:100dvh;margin:auto;background:#f8f7fb;position:relative;overflow:hidden;box-shadow:0 0 24px #0002}.requirements{display:none}
     .topbar{height:54px;background:#004b3e;color:#fff;display:grid;grid-template-columns:52px 1fr 52px;align-items:center;border-top:2px solid #9b7d15}
     .topbar h1{font-size:20px;text-align:center;margin:0;font-weight:600}.back,.support{border:0;background:transparent;color:#dce5e4;font-size:32px;height:100%}.support{font-size:23px}
     .wallet{height:122px;padding:18px 28px;color:#fff;background:linear-gradient(135deg,#00392f,#00725a)}
@@ -37,10 +37,11 @@
     .amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.amount{height:64px;border:1.5px solid var(--line);background:transparent;border-radius:4px;color:#676771;font-size:18px}.amount.active{background:#08785e;color:#fff;font-weight:700;border-color:#08785e}
     .deposit-btn{margin-top:20px}.promo{margin-top:28px;background:linear-gradient(135deg,#008066,#0d9775);color:#fff;border-radius:10px;min-height:94px;padding:27px 10px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:16px}.promo strong{color:#f2c400}.change{border:1px solid #fff;border-radius:5px;background:transparent;color:#fff;padding:9px 12px;font-size:16px}
     .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:65px;background:#f5f4f8;border-top:1px solid #ddd;display:flex;justify-content:space-around;color:#595a62}.nav-item{width:20%;border:0;background:transparent;font-size:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.nav-item span{font-size:22px}.nav-item.active{color:#004f41;font-weight:700}
-    @media (min-width:600px){body{min-height:100dvh;display:grid;place-items:center;padding:24px}.app{width:390px;height:844px;min-height:844px;border-radius:22px}.screen{min-height:668px}}
+    @media (min-width:900px){body{min-height:100dvh;display:grid;place-items:center;padding:32px}.stage{width:auto;display:flex;align-items:center;gap:42px}.app{width:390px;height:844px;min-height:844px;margin:0;border-radius:22px}.screen{min-height:668px}.requirements{display:block;width:390px;background:#fff;border:1px solid #e1e3e8;border-radius:18px;padding:28px;box-shadow:0 14px 36px #1c294015}.requirements h2{margin:0 0 22px;color:#005443;font-size:22px}.requirements ol{margin:0;padding-left:24px}.requirements li{padding-left:7px;margin-bottom:20px;font-size:16px;line-height:1.65;color:#30343a}.requirements li:last-child{margin-bottom:0}.requirements strong{color:#00866a}}
   </style>
 </head>
 <body>
+  <div class="stage">
   <main class="app">
     <header class="topbar">
       <button class="back" id="back" aria-label="Back">‹</button>
@@ -54,7 +55,7 @@
       <div class="wallet-rule"></div>
     </section>
 
-    <section class="screen active" id="bonuses">
+    <section class="screen" id="bonuses">
       <div class="bonus-page">
         <p class="section-title">Available bonuses</p>
         <button class="bonus-option none" data-bonus="none"><span class="radio"></span><span class="offer-copy">No thanks, I don't want any bonus.</span></button>
@@ -71,7 +72,7 @@
       </div>
     </section>
 
-    <section class="screen" id="deposit">
+    <section class="screen active" id="deposit">
       <div class="deposit-page">
         <div class="pay-tabs"><button class="pay-tab active" data-pay="deposit">Deposit</button><button class="pay-tab" data-pay="upi">UPI</button><span class="five">+5%</span></div>
         <div class="math" id="math"></div>
@@ -96,9 +97,18 @@
       </nav>
     </section>
   </main>
+  <aside class="requirements" aria-label="Product requirements">
+    <h2>交互需求</h2>
+    <ol>
+      <li>用户进入页面时，<strong>默认选中默认活动</strong>，不弹起底部弹窗。</li>
+      <li>点击充值按钮等<strong>无活动属性</strong>的按钮或入口时，直接拉起底部弹窗。</li>
+      <li>用户可以在充值页点击 <strong>Change</strong>，重新切换活动。</li>
+    </ol>
+  </aside>
+  </div>
   <script>
     const screens={bonuses:document.querySelector('#bonuses'),bonusStatus:document.querySelector('#bonusStatus'),deposit:document.querySelector('#deposit')};
-    let current='bonuses', bonus='10', pay='deposit', amount=1000;
+    let current='deposit', bonus='10', pay='deposit', amount=1000;
     const show=(name)=>{Object.values(screens).forEach(s=>s.classList.remove('active'));screens[name].classList.add('active');current=name;document.querySelector('#title').textContent=name==='bonusStatus'?'Bonuses':'Add Money';document.querySelector('#wallet').style.display=name==='bonusStatus'?'none':'block';};
     const bonusText=()=>bonus==='100'?'Get 100% bonus up to ₹1000 if you deposit ₹2000 or more.':bonus==='10'?'Get extra 10% of your deposit.':'No bonus selected.';
     function renderMath(){
