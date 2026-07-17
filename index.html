@@ -18,15 +18,15 @@
     .balance{font-size:21px;font-weight:700;margin:8px 0 0 29px}.wallet-rule{height:1px;background:#ffffff55;margin:14px 0 0 28px}
     .view-bonus{float:right;margin-top:-30px;border:0;background:transparent;color:#d5b70a;font-size:16px}
     .screen{display:none;min-height:calc(100dvh - 176px)}.screen.active{display:block}
-    .bonus-page{padding:15px 12px 108px}.section-title{font-size:17px;font-weight:700;margin:0 0 12px}
-    .bonus-option{position:relative;min-height:78px;display:grid;grid-template-columns:35px 1fr 82px;align-items:center;gap:8px;padding:10px 8px;border:2px solid transparent;border-radius:10px;margin-bottom:7px;background:#fff}
+    #bonuses{position:absolute;inset:0;z-index:20;min-height:0;background:#071d1899;align-items:flex-end}#bonuses.active{display:flex}.bonus-sheet{position:relative;width:100%;height:62%;min-height:520px;background:#f8f7fb;border-radius:22px 22px 0 0;box-shadow:0 -12px 32px #001d1740;overflow:hidden}.sheet-handle{width:42px;height:5px;border-radius:4px;background:#c6c9ce;margin:10px auto 4px}.sheet-close{position:absolute;right:13px;top:12px;width:32px;height:32px;border:0;border-radius:50%;background:#e9ecef;color:#3f454a;font-size:22px;line-height:1;z-index:2}.bonus-page{padding:8px 12px 96px}.section-title{font-size:18px;font-weight:700;margin:0 0 10px}
+    .bonus-option{position:relative;min-height:70px;display:grid;grid-template-columns:31px 1fr 70px;align-items:center;gap:7px;padding:7px;border:2px solid transparent;border-radius:10px;margin-bottom:6px;background:#fff}
     .bonus-option.none{grid-template-columns:35px 1fr;min-height:57px}.bonus-option.selected{border-color:var(--green)}
     .radio{width:25px;height:25px;border:2px solid #222;border-radius:50%;display:grid;place-items:center}
     .selected .radio:after{content:"";width:13px;height:13px;background:#1db493;border-radius:50%}
-    .offer-label{display:inline-block;background:#22b798;color:#fff;border-radius:20px;padding:3px 18px;font-style:italic;font-weight:700;font-size:18px;line-height:1;margin-bottom:8px}
-    .offer-copy{font-size:16px;line-height:1.25}.offer-art{width:78px;height:78px;border-radius:6px;display:grid;place-items:center;color:#f6cf38;font-size:31px;font-weight:900;transform:rotate(-1deg);background:linear-gradient(140deg,#00735c,#16a582);text-shadow:1px 2px #705600}
+    .offer-label{display:inline-block;background:#22b798;color:#fff;border-radius:20px;padding:3px 15px;font-style:italic;font-weight:700;font-size:16px;line-height:1;margin-bottom:6px}
+    .offer-copy{font-size:14px;line-height:1.2}.offer-art{width:66px;height:66px;border-radius:6px;display:grid;place-items:center;color:#f6cf38;font-size:27px;font-weight:900;transform:rotate(-1deg);background:linear-gradient(140deg,#00735c,#16a582);text-shadow:1px 2px #705600}
     .offer-art.red{background:linear-gradient(140deg,#b5253f,#ef5870)}
-    .sticky-action{position:absolute;left:22px;right:22px;bottom:56px}.primary{width:100%;height:52px;border:0;border-radius:5px;background:var(--gold);font-size:20px}
+    .sticky-action{position:absolute;left:18px;right:18px;bottom:6px}.sticky-action .primary{height:46px;font-size:17px}.sticky-action .secure{margin:5px 0;font-size:11px}.primary{width:100%;height:52px;border:0;border-radius:5px;background:var(--gold);font-size:20px}
     .secure{text-align:center;color:#6e7279;font-size:13px;margin:12px 0}.secure:before{content:"♢";font-size:20px;margin-right:7px}
     .payment-trust{margin:12px 0 4px;text-align:center}.payment-trust .secure{margin:0 0 10px}.payment-logos{display:flex;align-items:center;justify-content:center;gap:8px}.pay-logo{height:27px;min-width:58px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #d9dce3;border-radius:5px;box-shadow:0 2px 6px #26323812;font-weight:800;font-size:14px;line-height:1}.pay-logo.visa{color:#183a8f;font-style:italic;font-size:17px;letter-spacing:.3px}.pay-logo.paytm{color:#152a75}.pay-logo.paytm em{color:#08a9e4;font-style:normal}.pay-logo.upi{color:#50545a;font-style:italic}.pay-logo.upi:before{content:"";width:5px;height:14px;margin-right:5px;background:linear-gradient(135deg,#f58220 0 48%,#128c45 49%);transform:skew(-18deg)}
     .tabs-page{padding:24px 17px}.seg-tabs{display:flex;gap:28px}.seg{flex:1;height:38px;border:1.5px solid #49545a;border-radius:22px;background:transparent;font-size:15px}.seg.active{background:var(--green2);border-color:var(--green2);color:#fff}
@@ -55,14 +55,17 @@
       <div class="wallet-rule"></div>
     </section>
 
-    <section class="screen" id="bonuses">
-      <div class="bonus-page">
-        <p class="section-title">Available bonuses</p>
-        <button class="bonus-option none" data-bonus="none"><span class="radio"></span><span class="offer-copy">No thanks, I don't want any bonus.</span></button>
-        <button class="bonus-option selected" data-bonus="10"><span class="radio"></span><span><span class="offer-label">One-Time Offer</span><br><span class="offer-copy">Get extra 10% of your deposit.</span></span><span class="offer-art">10%</span></button>
-        <button class="bonus-option" data-bonus="100"><span class="radio"></span><span><span class="offer-label">Welcome Offer</span><br><span class="offer-copy">Get 100% bonus up to ₹2000 if you deposit ₹1000 or more.</span></span><span class="offer-art red">100%</span></button>
+    <section class="screen" id="bonuses" aria-label="Choose a bonus">
+      <div class="bonus-sheet">
+        <div class="sheet-handle"></div><button class="sheet-close" aria-label="Close bonus selector">×</button>
+        <div class="bonus-page">
+          <p class="section-title">Available bonuses</p>
+          <button class="bonus-option none" data-bonus="none"><span class="radio"></span><span class="offer-copy">No thanks, I don't want any bonus.</span></button>
+          <button class="bonus-option selected" data-bonus="10"><span class="radio"></span><span><span class="offer-label">One-Time Offer</span><br><span class="offer-copy">Get extra 10% of your deposit.</span></span><span class="offer-art">10%</span></button>
+          <button class="bonus-option" data-bonus="100"><span class="radio"></span><span><span class="offer-label">Welcome Offer</span><br><span class="offer-copy">Get 100% bonus up to ₹2000 if you deposit ₹1000 or more.</span></span><span class="offer-art red">100%</span></button>
+        </div>
+        <div class="sticky-action"><button class="primary" id="claim">Use selected bonus</button><p class="secure">100% secure payments, fast withdrawals.</p></div>
       </div>
-      <div class="sticky-action"><button class="primary" id="claim">Deposit and get extra 10%</button><p class="secure">100% secure payments, fast withdrawals.</p></div>
     </section>
 
     <section class="screen" id="bonusStatus">
@@ -109,7 +112,7 @@
   <script>
     const screens={bonuses:document.querySelector('#bonuses'),bonusStatus:document.querySelector('#bonusStatus'),deposit:document.querySelector('#deposit')};
     let current='deposit', bonus='10', pay='deposit', amount=1000;
-    const show=(name)=>{Object.values(screens).forEach(s=>s.classList.remove('active'));screens[name].classList.add('active');current=name;document.querySelector('#title').textContent=name==='bonusStatus'?'Bonuses':'Add Money';document.querySelector('#wallet').style.display=name==='bonusStatus'?'none':'block';};
+    const show=(name)=>{Object.values(screens).forEach(s=>s.classList.remove('active'));if(name==='bonuses'){screens.deposit.classList.add('active');screens.bonuses.classList.add('active')}else{screens[name].classList.add('active')}current=name;document.querySelector('#title').textContent=name==='bonusStatus'?'Bonuses':'Add Money';document.querySelector('#wallet').style.display=name==='bonusStatus'?'none':'block';};
     const bonusText=()=>bonus==='100'?'Get 100% bonus up to ₹1000 if you deposit ₹2000 or more.':bonus==='10'?'Get extra 10% of your deposit.':'No bonus selected.';
     function renderMath(){
       const bonusValue=bonus==='100'?amount:bonus==='10'?Math.round(amount*.1):0, upi=pay==='upi'?Math.round(amount*.05):0;
@@ -119,7 +122,7 @@
       document.querySelector('#math').innerHTML=parts.map((x,i)=>`${i?'<span class="op">'+(i===parts.length-1?'=':'+')+'</span>':''}<span class="metric"><small>${x[0]}</small><b class="${i===1?'gold':''}">${x[1]}</b></span>`).join('');
       document.querySelector('#promo span').innerHTML=bonusText().replace(/(10%|100%)/,'<strong>$1</strong>');
     }
-    document.querySelectorAll('[data-bonus]').forEach(el=>el.onclick=()=>{bonus=el.dataset.bonus;document.querySelectorAll('[data-bonus]').forEach(x=>x.classList.toggle('selected',x===el));document.querySelector('#claim').textContent=bonus==='100'?'Deposit and get bonus':bonus==='10'?'Deposit and get extra 10%':'Deposit without bonus';renderMath();});
+    document.querySelectorAll('[data-bonus]').forEach(el=>el.onclick=()=>{bonus=el.dataset.bonus;document.querySelectorAll('[data-bonus]').forEach(x=>x.classList.toggle('selected',x===el));document.querySelector('#claim').textContent=bonus==='none'?'Continue without bonus':'Use selected bonus';renderMath();});
     document.querySelector('#claim').onclick=()=>{show('deposit');renderMath()};
     const setBonusTab=(name)=>{document.querySelectorAll('.seg').forEach(x=>x.classList.toggle('active',x.textContent.trim()===name));document.querySelector('#emptyTitle').textContent=name==='History'?'No Bonus History.':'No Active Bonuses.';document.querySelector('#emptyCopy').textContent=name==='History'?'Your previous bonus records will appear here.':'When you claim a bonus, you will see the status here.';};
     document.querySelector('#viewBonus').onclick=()=>{show('bonusStatus');setBonusTab('History');};
@@ -127,6 +130,8 @@
     document.querySelectorAll('[data-pay]').forEach(el=>el.onclick=()=>{pay=el.dataset.pay;document.querySelectorAll('[data-pay]').forEach(x=>x.classList.toggle('active',x===el));renderMath()});
     document.querySelectorAll('.amount').forEach(el=>el.onclick=()=>{amount=Number(el.textContent.replace(/[^\d]/g,''));document.querySelectorAll('.amount').forEach(x=>x.classList.toggle('active',x===el));renderMath()});
     document.querySelector('.change').onclick=()=>show('bonuses');
+    document.querySelector('.sheet-close').onclick=()=>show('deposit');
+    document.querySelector('#bonuses').onclick=e=>{if(e.target===e.currentTarget)show('deposit')};
     document.querySelectorAll('.seg').forEach(el=>el.onclick=()=>setBonusTab(el.textContent.trim()));
     renderMath();
   </script>
