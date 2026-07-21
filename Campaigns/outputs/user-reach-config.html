@@ -605,6 +605,492 @@
 
     .table-wrap { overflow: auto; }
 
+    .frontend-preview {
+      padding: 20px;
+      border-top: 1px solid var(--line);
+      background: var(--gray-50);
+    }
+
+    .frontend-preview-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) minmax(260px, 360px);
+      justify-content: center;
+      align-items: start;
+      gap: 24px;
+    }
+
+    .phone-preview {
+      position: relative;
+      width: 390px;
+      max-width: 100%;
+      height: min(760px, calc(100vh - 190px));
+      min-height: 620px;
+      overflow: hidden;
+      border: 8px solid #252827;
+      border-radius: 28px;
+      background: #101312;
+      color: #f7f8f8;
+      box-shadow: 0 18px 40px rgba(24, 32, 29, 0.2);
+    }
+
+    .phone-screen {
+      height: 100%;
+      overflow: auto;
+      scrollbar-width: none;
+      background: #111413;
+    }
+
+    .phone-screen::-webkit-scrollbar { display: none; }
+
+    .message-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      height: 68px;
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      align-items: center;
+      padding: 0 14px;
+      background: #1a211e;
+      border-bottom: 1px solid #242b28;
+    }
+
+    .message-back {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 6px;
+      background: #252b29;
+      color: #f5f7f6;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .message-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    .message-tabs {
+      position: sticky;
+      top: 68px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin: 16px;
+      padding: 4px;
+      border-radius: 12px;
+      background: #202422;
+    }
+
+    .message-tab {
+      position: relative;
+      min-height: 42px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #aeb3b1;
+      font-size: 17px;
+    }
+
+    .message-tab.is-active {
+      background: #333936;
+      color: #ffffff;
+    }
+
+    .message-badge {
+      display: inline-flex;
+      min-width: 22px;
+      height: 18px;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5px;
+      border-radius: 10px;
+      background: #ff4e4e;
+      color: #fff;
+      padding: 0 5px;
+      font-size: 11px;
+      font-weight: 750;
+      vertical-align: 2px;
+    }
+
+    .message-list {
+      display: grid;
+      gap: 12px;
+      padding: 0 16px 18px;
+    }
+
+    .message-card {
+      border: 1px solid #323735;
+      border-radius: 12px;
+      background: #292c2b;
+      padding: 14px 14px 12px;
+    }
+
+    .message-time {
+      color: #c8ccca;
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .message-card-title {
+      margin-top: 12px;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: 750;
+    }
+
+    .message-copy {
+      margin-top: 8px;
+      color: #858a88;
+      font-size: 13px;
+      line-height: 19px;
+    }
+
+    .message-action {
+      width: 100%;
+      min-height: 42px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+      border: 0;
+      border-top: 1px solid #383c3a;
+      background: transparent;
+      color: #15dc83;
+      padding: 12px 0 0;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .message-action-arrow { font-size: 24px; line-height: 18px; }
+
+    .announcement-card {
+      margin: 0 16px;
+      border: 1px solid #3b403e;
+      border-radius: 8px;
+      background: #292d2b;
+      padding: 10px 8px 0;
+    }
+
+    .announcement-title {
+      margin-top: 8px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .announcement-copy {
+      margin-top: 8px;
+      color: #b5bab7;
+      font-size: 13px;
+      line-height: 19px;
+    }
+
+    .announcement-art {
+      width: 120px;
+      height: 120px;
+      display: grid;
+      place-items: center;
+      margin-top: 8px;
+      border-radius: 3px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .announcement-art svg {
+      width: 106px;
+      height: 106px;
+    }
+
+    .announcement-extra {
+      max-height: 0;
+      overflow: hidden;
+      color: #8f9592;
+      font-size: 12px;
+      line-height: 18px;
+      transition: max-height 180ms ease, margin-top 180ms ease;
+    }
+
+    .announcement-card.is-expanded .announcement-extra {
+      max-height: 64px;
+      margin-top: 8px;
+    }
+
+    .show-all {
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .show-all-arrow {
+      display: inline-block;
+      margin-left: 5px;
+      transition: transform 180ms ease;
+    }
+
+    .announcement-card.is-expanded .show-all-arrow { transform: rotate(180deg); }
+
+    .announcement-end {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 18px auto;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .announcement-end::before,
+    .announcement-end::after {
+      content: "";
+      width: 82px;
+      height: 1px;
+      background: #303533;
+    }
+
+    .announcement-modal-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.66);
+      padding: 20px;
+    }
+
+    .announcement-modal-layer[hidden] { display: none; }
+
+    .announcement-modal-card {
+      width: 100%;
+      border: 1px solid #3b403e;
+      border-radius: 16px;
+      background: #232725;
+      padding: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    .announcement-modal-head {
+      display: grid;
+      grid-template-columns: 1fr 34px;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .announcement-modal-title {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .announcement-modal-time {
+      margin-top: 4px;
+      color: #7f8783;
+      font-size: 12px;
+    }
+
+    .announcement-close {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 4px;
+      background: #3a403d;
+      color: #fff;
+      font-size: 26px;
+      line-height: 24px;
+    }
+
+    .announcement-modal-body {
+      margin-top: 14px;
+      border-radius: 8px;
+      background: #292d2b;
+      padding: 12px;
+      color: #c4c8c6;
+      font-size: 13px;
+    }
+
+    .announcement-modal-action {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #23e687, #7be76d);
+      color: #07130d;
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .reward-modal-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(2, 9, 5, 0.78), rgba(2, 9, 5, 0.88)),
+        radial-gradient(circle at 22% 25%, #1d692f 0 12%, transparent 13%),
+        radial-gradient(circle at 75% 32%, #765c11 0 14%, transparent 15%),
+        #07120b;
+      padding: 28px 20px;
+    }
+
+    .reward-modal-layer[hidden] { display: none; }
+
+    .reward-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.48);
+      color: #fff;
+      font-size: 25px;
+      line-height: 30px;
+    }
+
+    .reward-popup-card {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      border: 2px solid #fff6a6;
+      border-radius: 34px 34px 42px 42px;
+      background: linear-gradient(150deg, #fff8a8 0%, #ffe165 50%, #ffc93f 100%);
+      padding: 84px 24px 22px;
+      color: #e44324;
+      text-align: center;
+      box-shadow: 0 0 22px rgba(255, 246, 151, 0.9), 0 20px 50px rgba(0, 0, 0, 0.52);
+    }
+
+    .reward-popup-card::before {
+      content: "🎁";
+      position: absolute;
+      top: -84px;
+      left: 50%;
+      width: 190px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      transform: translateX(-50%) rotate(-3deg);
+      border-radius: 44% 44% 24% 24%;
+      background: linear-gradient(145deg, #fff483, #ffc735);
+      font-size: 96px;
+      filter: drop-shadow(0 8px 8px rgba(184, 103, 0, 0.35));
+    }
+
+    .reward-popup-kicker {
+      color: #de6531;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .reward-popup-amount {
+      margin-top: 8px;
+      color: #f12e28;
+      font-size: 30px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
+    }
+
+    .reward-popup-merge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      margin-top: 12px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 4px 12px;
+      color: #a95b17;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .reward-receive {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 22px;
+      border: 3px solid #fff5b1;
+      border-radius: 24px;
+      background: linear-gradient(#ff1f12, #ff7415);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 750;
+      box-shadow: 0 0 12px rgba(255, 51, 20, 0.75);
+    }
+
+    .reward-rule-note {
+      border: 1px solid #c7ddff;
+      border-radius: 7px;
+      background: #f2f7ff;
+      padding: 9px 11px;
+      color: #4a6282;
+      font-size: 12px;
+      line-height: 19px;
+    }
+
+    .preview-notes {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .preview-notes h2 {
+      margin: 0;
+      color: var(--gray-900);
+      font-size: 18px;
+    }
+
+    .preview-notes p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    .preview-source {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .preview-source-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--gray-700);
+      font-size: 12px;
+    }
+
+    .preview-source-row strong { color: var(--gray-900); }
+
+    .frontend-placeholder {
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--gray-300);
+      border-radius: 12px;
+      background: var(--panel);
+      color: var(--muted);
+      text-align: center;
+      padding: 32px;
+    }
+
     table {
       width: max-content;
       min-width: 100%;
@@ -1551,6 +2037,9 @@
       .overview-metric { border-top: 1px solid var(--line); }
       .overview-metric:nth-child(-n + 2) { border-top: 0; }
       .overview-metric:nth-child(odd) { border-left: 0; }
+      .frontend-preview { padding: 12px; }
+      .frontend-preview-layout { grid-template-columns: 1fr; }
+      .phone-preview { margin: 0 auto; }
     }
   </style>
 </head>
@@ -1602,6 +2091,15 @@
           <button class="submenu-item" type="button" data-module="announcementConfig">公告配置</button>
         </div>
       </div>
+      <div class="menu-group is-collapsed" data-menu-group>
+        <button class="menu-title" type="button" aria-expanded="false">
+          <span>前台交互展示</span><span class="menu-arrow">⌄</span>
+        </button>
+        <div class="submenu" id="frontendDisplayNav">
+          <button class="submenu-item" type="button" data-module="frontendMail">站内信</button>
+          <button class="submenu-item" type="button" data-module="frontendAnnouncement">公告</button>
+        </div>
+      </div>
     </aside>
 
     <main class="main">
@@ -1610,7 +2108,7 @@
         <div class="breadcrumb">
           <span>运营</span>
           <span>/</span>
-          <span>用户触达</span>
+          <span id="breadcrumbSection">用户触达</span>
           <span>/</span>
           <span class="breadcrumb-current" id="breadcrumbCurrent">站内信配置</span>
         </div>
@@ -1627,7 +2125,9 @@
           </div>
         </div>
 
-        <div class="table-wrap">
+        <section class="frontend-preview" id="frontendPreview" hidden></section>
+
+        <div class="table-wrap" id="tableWrap">
           <table>
             <thead id="tableHead"></thead>
             <tbody id="tableBody"></tbody>
@@ -1706,6 +2206,22 @@
 
   <script>
     const reachModules = {
+      frontendMail: {
+        key: "frontendMail",
+        name: "站内信",
+        section: "前台交互展示",
+        viewType: "frontendPreview",
+        previewType: "mail",
+        canAdd: false
+      },
+      frontendAnnouncement: {
+        key: "frontendAnnouncement",
+        name: "公告",
+        section: "前台交互展示",
+        viewType: "frontendPreview",
+        previewType: "announcement",
+        canAdd: false
+      },
       mailRecord: {
         key: "mailRecord",
         name: "站内信统计",
@@ -1949,6 +2465,8 @@
     const searchResults = document.getElementById("moduleSearchResults");
     const filterGrid = document.getElementById("filterGrid");
     const statsOverview = document.getElementById("statsOverview");
+    const frontendPreview = document.getElementById("frontendPreview");
+    const tableWrap = document.getElementById("tableWrap");
 
     const filterColumnMap = {
       name: ["站内信名称", "公告名称"],
@@ -1997,18 +2515,157 @@
       }).join("");
     }
 
+    function renderFrontendPreview(config) {
+      const announcementArtwork = `
+        <svg viewBox="0 0 120 120" role="img" aria-label="公告图片">
+          <rect width="120" height="120" fill="#ffffff"/>
+          <path d="M28 44 35 17 54 35M92 44 84 16 67 35" fill="#f1a623" stroke="#c87b0a" stroke-width="3"/>
+          <path d="M31 66c0-24 13-38 29-38s31 14 31 38c0 23-15 38-31 38S31 89 31 66Z" fill="#f2ad2b" stroke="#bd7307" stroke-width="3"/>
+          <ellipse cx="49" cy="57" rx="12" ry="9" fill="#fff"/><ellipse cx="75" cy="57" rx="12" ry="9" fill="#fff"/>
+          <circle cx="53" cy="57" r="4" fill="#24221d"/><circle cx="79" cy="57" r="4" fill="#24221d"/>
+          <path d="M37 52c7-5 14-6 22-3M69 49c8-3 15-2 22 3" stroke="#312a20" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="61" cy="78" rx="24" ry="17" fill="#f8dfaa"/>
+          <path d="M55 70c3-3 9-3 12 0-1 6-10 6-12 0Z" fill="#2b241d"/>
+          <path d="M61 75c0 9-9 12-16 8M61 75c2 8 10 11 17 7" fill="none" stroke="#32261c" stroke-width="3" stroke-linecap="round"/>
+          <path d="M75 91c10-7 18-6 25-1-5 7-14 11-25 9" fill="#f2ad2b" stroke="#bd7307" stroke-width="3"/>
+        </svg>
+      `;
+      if (config.previewType === "announcement") {
+        frontendPreview.innerHTML = `
+          <div class="frontend-preview-layout">
+            <div class="phone-preview" aria-label="公告前台效果预览">
+              <div class="phone-screen">
+                <header class="message-header">
+                  <button class="message-back" type="button" aria-label="返回">‹</button>
+                  <div class="message-title">Message Center</div>
+                  <span></span>
+                </header>
+                <div class="message-tabs" role="tablist" aria-label="消息中心分类">
+                  <button class="message-tab is-active" type="button" role="tab" aria-selected="true">Announcement</button>
+                  <button class="message-tab" type="button" role="tab" aria-selected="false" data-preview-target="frontendMail">Messages <span class="message-badge">19</span></button>
+                </div>
+                <article class="announcement-card" data-announcement-card>
+                  <div class="message-time">21/07/2026 09:07:30</div>
+                  <div class="announcement-title">whitetest</div>
+                  <div class="announcement-copy">whitetest</div>
+                  <div class="announcement-art">${announcementArtwork}</div>
+                  <div class="announcement-extra">Announcement details are expanded here. The content is sourced from the configured announcement body.</div>
+                  <button class="show-all" type="button" data-show-all>Show All <span class="show-all-arrow">⌄</span></button>
+                  <button class="message-action" type="button" data-open-announcement-modal>do now <span class="message-action-arrow">›</span></button>
+                </article>
+                <div class="announcement-end">No more</div>
+              </div>
+              <div class="announcement-modal-layer" data-announcement-modal hidden>
+                <section class="announcement-modal-card" role="dialog" aria-modal="true" aria-label="公告弹窗">
+                  <header class="announcement-modal-head">
+                    <div>
+                      <div class="announcement-modal-title">whitetest</div>
+                      <div class="announcement-modal-time">2026-07-21 09:07:30</div>
+                    </div>
+                    <button class="announcement-close" type="button" data-close-announcement-modal aria-label="关闭公告弹窗">×</button>
+                  </header>
+                  <div class="announcement-modal-body">
+                    <div>whitetest</div>
+                    <div class="announcement-art">${announcementArtwork}</div>
+                  </div>
+                  <button class="announcement-modal-action" type="button" data-announcement-action>do now</button>
+                </section>
+              </div>
+            </div>
+            <aside class="preview-notes">
+              <h2>公告前台展示</h2>
+              <p>按提供截图还原公告列表与公告弹窗。内容与后台公告配置的前台展示及弹窗配置对应。</p>
+              <div class="preview-source">
+                <div class="preview-source-row"><span>内容来源</span><strong>公告配置</strong></div>
+                <div class="preview-source-row"><span>展示字段</span><strong>标题、内容、图片</strong></div>
+                <div class="preview-source-row"><span>操作来源</span><strong>按钮文案、跳转目标</strong></div>
+                <div class="preview-source-row"><span>弹窗来源</span><strong>弹窗展示配置</strong></div>
+              </div>
+            </aside>
+          </div>
+        `;
+        return;
+      }
+
+      const messages = [
+        ["15/07/2026 20:03:41", "Your first deposit bonus is waiting"],
+        ["15/07/2026 15:33:35", "Your first deposit bonus is waiting"],
+        ["15/07/2026 13:10:36", "Your first deposit bonus is waiting"],
+        ["14/07/2026 20:03:14", "Your first deposit bonus is waiting"]
+      ];
+      frontendPreview.innerHTML = `
+        <div class="frontend-preview-layout">
+          <div class="phone-preview" aria-label="站内信前台效果预览">
+            <div class="phone-screen">
+              <header class="message-header">
+                <button class="message-back" type="button" aria-label="返回">‹</button>
+                <div class="message-title">Message Center</div>
+                <span></span>
+              </header>
+              <div class="message-tabs" role="tablist" aria-label="消息中心分类">
+                <button class="message-tab" type="button" role="tab" aria-selected="false" data-preview-target="frontendAnnouncement">Announcement</button>
+                <button class="message-tab is-active" type="button" role="tab" aria-selected="true">Messages <span class="message-badge">24</span></button>
+              </div>
+              <div class="message-list">
+                ${messages.map(([time, title], index) => `
+                  <article class="message-card">
+                    <div class="message-time">${time}</div>
+                    <div class="message-card-title">${title}</div>
+                    <div class="message-copy">You have not made your first deposit yet. Deposit now to unlock more benefits, gameplay, and rewards.</div>
+                    <button class="message-action" type="button" ${index === 0 ? "data-open-reward-modal" : "data-message-action"}>Do Now <span class="message-action-arrow">›</span></button>
+                  </article>
+                `).join("")}
+              </div>
+            </div>
+            <div class="reward-modal-layer" data-reward-modal hidden>
+              <button class="reward-modal-close" type="button" data-close-reward-modal aria-label="关闭礼金弹窗">×</button>
+              <section class="reward-popup-card" role="dialog" aria-modal="true" aria-label="站内信礼金弹窗">
+                <div class="reward-popup-kicker">Congratulations!</div>
+                <div class="reward-popup-amount">250 INR</div>
+                <div class="reward-popup-merge">3份未领取礼金已合并</div>
+                <button class="reward-receive" type="button" data-receive-all-rewards>Receive</button>
+              </section>
+            </div>
+          </div>
+          <aside class="preview-notes">
+            <h2>站内信前台展示</h2>
+            <p>按提供截图还原消息中心列表。页面内容与后台站内信配置中的前台展示字段对应。</p>
+            <p class="reward-rule-note"><strong>礼金合并领取规则：</strong>当出现多个未领取礼金时，将全部可领取金额累加到第一个礼金弹窗上；用户点击一次 Receive 即一次性领取全部未领取礼金。每笔礼金仍按自身过期规则校验，仅未过期礼金参与累加。</p>
+            <button class="btn primary" type="button" data-open-reward-modal>查看礼金弹窗</button>
+            <div class="preview-source">
+              <div class="preview-source-row"><span>内容来源</span><strong>站内信配置</strong></div>
+              <div class="preview-source-row"><span>展示字段</span><strong>标题、内容</strong></div>
+              <div class="preview-source-row"><span>操作来源</span><strong>按钮文案、跳转目标</strong></div>
+              <div class="preview-source-row"><span>弹窗展示页面</span><strong>后台礼金配置选择</strong></div>
+              <div class="preview-source-row"><span>未读数量</span><strong>24</strong></div>
+            </div>
+          </aside>
+        </div>
+      `;
+    }
+
     function renderModule(moduleKey) {
       const config = reachModules[moduleKey];
       if (!config) return;
       currentModule = moduleKey;
       if (!openedTabs.includes(moduleKey)) openedTabs.push(moduleKey);
+      document.getElementById("breadcrumbSection").textContent = config.section || "用户触达";
       document.getElementById("breadcrumbCurrent").textContent = config.name;
       document.querySelectorAll(".submenu-item").forEach((button) => {
         button.classList.toggle("is-selected", button.dataset.module === moduleKey);
       });
-      document.getElementById("addBtn").hidden = config.canAdd === false;
-      document.getElementById("pageToolbar").hidden = config.canAdd === false;
+      const isFrontendPreview = config.viewType === "frontendPreview";
+      document.getElementById("filters").hidden = isFrontendPreview;
+      document.getElementById("pageToolbar").hidden = isFrontendPreview || config.canAdd === false;
+      document.getElementById("addBtn").hidden = isFrontendPreview || config.canAdd === false;
+      tableWrap.hidden = isFrontendPreview;
+      frontendPreview.hidden = !isFrontendPreview;
       renderTabs();
+      if (isFrontendPreview) {
+        statsOverview.hidden = true;
+        renderFrontendPreview(config);
+        return;
+      }
       renderFilters();
       renderTable();
     }
@@ -2243,6 +2900,7 @@
         jumpTarget: eventName.includes("提现") ? "提现页" : eventName.includes("梦幻体育") ? "赛事大厅" : "充值页",
         rewardEnabled,
         popupClaimEnabled: rewardEnabled,
+        popupClaimPage: rewardEnabled ? "home" : "",
         rewardAmount: rewardEnabled ? String(50 + rowIndex * 10) : "",
         rewardMultiplier: rewardEnabled ? "1" : "",
         rewardExpiryType: rewardEnabled && rowIndex % 2 === 0 ? "natural-day" : "none",
@@ -2355,6 +3013,9 @@
       }
       setSwitchState("[data-reward-switch]", snapshot.rewardEnabled, "[data-reward-text]", "已开启", "已关闭", "[data-reward-fields]");
       setSwitchState("[data-popup-claim-switch]", snapshot.popupClaimEnabled, "[data-popup-claim-text]", "已开启", "已关闭");
+      syncPopupClaimState(false);
+      const popupClaimPage = form.querySelector("[data-popup-claim-page]");
+      if (popupClaimPage) popupClaimPage.value = snapshot.popupClaimPage || "";
       const rewardFields = form.querySelector("[data-reward-fields]");
       if (rewardFields) {
         const rewardInputs = rewardFields.querySelectorAll('input:not([type="checkbox"])');
@@ -2629,9 +3290,21 @@
             ${field("是否开启礼金配置", '<span class="switch-row"><button class="switch is-on" type="button" aria-pressed="true" data-reward-switch></button><span data-reward-text>已开启</span></span>')}
             <div class="field full reward-fields-grid" data-reward-fields>
               ${field("是否开启弹窗领取", '<span class="switch-row"><button class="switch" type="button" aria-pressed="false" data-popup-claim-switch></button><span data-popup-claim-text>已关闭</span></span>')}
+              <div class="field" data-popup-claim-page-field hidden>
+                <label><span class="required">*</span> 弹窗展示页面</label>
+                <select data-popup-claim-page disabled>
+                  <option value="">请选择</option>
+                  <option value="home">首页</option>
+                  <option value="task">任务页</option>
+                  <option value="member">会员中心</option>
+                  <option value="deposit">充值页</option>
+                  <option value="wallet">钱包页</option>
+                </select>
+              </div>
+              <div class="field full reward-rule-note" data-popup-claim-note hidden>当存在多个未领取礼金时，将全部可领取金额累加到第一个礼金弹窗；用户点击一次“领取”即一次性领取全部未领取礼金。每笔礼金仍按自身过期规则校验，仅未过期礼金参与累加。</div>
               ${field("礼金金额", '<input placeholder="请输入">', false, true)}
               ${field("礼金倍率", '<input type="number" placeholder="请输入">', false, true)}
-              ${field("礼金过期规则", '<select data-reward-expiry-type><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>', false, false, "运营发放的体育礼金不累计")}
+              ${field("礼金过期规则", '<select data-reward-expiry-type><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>', false, false, "每笔礼金分别按自身规则计算有效期。")}
               <div class="field" data-reward-expiry-days hidden>
                 <label><span class="required">*</span> 过期天数 <span class="label-help">按自然日计算</span><span class="tip tip-left" tabindex="0" data-tip="礼金到账当日为第1个自然日，到期日23:59:59过期。">?</span></label>
                 <input type="number" min="1" step="1" placeholder="请输入大于0的自然日天数" data-reward-expiry-days-input>
@@ -2663,7 +3336,7 @@
             <div data-popup-fields class="field full">
               <div class="popup-config-grid">
                 ${field("弹窗间隔时间", '<input type="number" min="0" placeholder="请输入">', false, false, "单位：小时")}
-                ${field("弹窗展示顺序", '<input type="number" min="0" placeholder="数字越大越靠前">')}
+                ${field("全局顺序", '<input type="number" min="0" placeholder="数字越大越靠前">')}
                 ${field("弹窗按钮跳转", '<select data-jump-type data-jump-scope="popup"><option value="">请选择</option><option value="none">无跳转</option><option value="page">跳转到指定页面</option><option value="external">外链</option></select>', false, true)}
                 <div class="field" data-jump-target="popup"></div>
                 <div class="field full">
@@ -2957,6 +3630,7 @@
       if (!blocked) {
         if (rewardText) rewardText.textContent = rewardSwitch.getAttribute("aria-pressed") === "true" ? "已开启" : "已关闭";
         if (popupClaim) popupClaim.disabled = false;
+        syncPopupClaimState(false);
         return;
       }
       rewardSwitch.setAttribute("aria-pressed", "false");
@@ -2976,6 +3650,7 @@
         const popupClaimText = form.querySelector("[data-popup-claim-text]");
         if (popupClaimText) popupClaimText.textContent = "已关闭";
       }
+      syncPopupClaimState();
     }
 
     function syncRewardExpiryRule() {
@@ -2987,6 +3662,19 @@
       daysField.hidden = !usesNaturalDay;
       daysInput.disabled = !usesNaturalDay;
       if (!usesNaturalDay) daysInput.value = "";
+    }
+
+    function syncPopupClaimState(clearWhenHidden = true) {
+      const popupClaim = form.querySelector("[data-popup-claim-switch]");
+      const pageField = form.querySelector("[data-popup-claim-page-field]");
+      const pageSelect = form.querySelector("[data-popup-claim-page]");
+      const note = form.querySelector("[data-popup-claim-note]");
+      if (!popupClaim || !pageField || !pageSelect) return;
+      const enabled = !popupClaim.disabled && popupClaim.getAttribute("aria-pressed") === "true";
+      pageField.hidden = !enabled;
+      pageSelect.disabled = !enabled;
+      if (note) note.hidden = !enabled;
+      if (!enabled && clearWhenHidden) pageSelect.value = "";
     }
 
     function syncJumpTarget(select) {
@@ -3185,6 +3873,8 @@
 
       const rewardExpiryType = form.querySelector("[data-reward-expiry-type]");
       const rewardExpiryDays = form.querySelector("[data-reward-expiry-days-input]");
+      const popupClaimPage = form.querySelector("[data-popup-claim-page]");
+      if (!requireValue(popupClaimPage, "请选择弹窗展示页面")) return false;
       if (visible(rewardExpiryType) && rewardExpiryType.value === "natural-day") {
         const days = Number(rewardExpiryDays && rewardExpiryDays.value);
         if (!rewardExpiryDays || !Number.isInteger(days) || days < 1) {
@@ -3475,7 +4165,7 @@
       searchResults.innerHTML = modules.length ? modules.map((item) => `
         <button class="search-result" type="button" data-search-module="${item.key}">
           <span class="search-result-title">${item.name}</span>
-          <span class="search-result-path">运营 / 用户触达 / ${item.name}</span>
+          <span class="search-result-path">运营 / ${item.section || "用户触达"} / ${item.name}</span>
         </button>
       `).join("") : '<div class="search-result"><span class="search-result-title">无匹配模块</span></div>';
       searchResults.classList.add("is-open");
@@ -3504,10 +4194,60 @@
       });
     });
 
-    document.getElementById("sideNav").addEventListener("click", (event) => {
+    document.querySelector(".sidebar").addEventListener("click", (event) => {
       const target = event.target.closest("[data-module]");
       if (!target || !reachModules[target.dataset.module]) return;
       renderModule(target.dataset.module);
+    });
+
+    frontendPreview.addEventListener("click", (event) => {
+      const previewTarget = event.target.closest("[data-preview-target]");
+      if (previewTarget) {
+        renderModule(previewTarget.dataset.previewTarget);
+        return;
+      }
+      const showAll = event.target.closest("[data-show-all]");
+      if (showAll) {
+        const card = showAll.closest("[data-announcement-card]");
+        const expanded = !card.classList.contains("is-expanded");
+        card.classList.toggle("is-expanded", expanded);
+        showAll.firstChild.textContent = expanded ? "Show Less " : "Show All ";
+        showAll.setAttribute("aria-expanded", String(expanded));
+        return;
+      }
+      const announcementModal = frontendPreview.querySelector("[data-announcement-modal]");
+      if (event.target.closest("[data-open-announcement-modal]")) {
+        if (announcementModal) announcementModal.hidden = false;
+        return;
+      }
+      if (event.target.closest("[data-close-announcement-modal]")) {
+        if (announcementModal) announcementModal.hidden = true;
+        return;
+      }
+      if (event.target === announcementModal) {
+        announcementModal.hidden = true;
+        return;
+      }
+      if (event.target.closest("[data-announcement-action]")) {
+        showToast("已触发公告按钮跳转");
+        return;
+      }
+      const rewardModal = frontendPreview.querySelector("[data-reward-modal]");
+      if (event.target.closest("[data-open-reward-modal]")) {
+        if (rewardModal) rewardModal.hidden = false;
+        return;
+      }
+      if (event.target.closest("[data-close-reward-modal]") || event.target === rewardModal) {
+        if (rewardModal) rewardModal.hidden = true;
+        return;
+      }
+      if (event.target.closest("[data-receive-all-rewards]")) {
+        if (rewardModal) rewardModal.hidden = true;
+        showToast("已一次性领取3笔礼金，共250 INR");
+        return;
+      }
+      if (event.target.closest("[data-message-action]")) showToast("已触发站内信按钮跳转");
+      if (event.target.closest(".message-back")) showToast("已返回上一页");
     });
 
     pageTabs.addEventListener("click", (event) => {
@@ -3678,7 +4418,10 @@
       const popupSwitch = event.target.closest("[data-popup-switch]");
       if (popupSwitch) toggleControlledSection(popupSwitch, "[data-popup-text]", "[data-popup-fields]", "展示", "不展示");
       const rewardSwitch = event.target.closest("[data-reward-switch]");
-      if (rewardSwitch) toggleControlledSection(rewardSwitch, "[data-reward-text]", "[data-reward-fields]", "已开启", "已关闭");
+      if (rewardSwitch) {
+        toggleControlledSection(rewardSwitch, "[data-reward-text]", "[data-reward-fields]", "已开启", "已关闭");
+        syncPopupClaimState();
+      }
       const popupClaimSwitch = event.target.closest("[data-popup-claim-switch]");
       if (popupClaimSwitch) {
         const enabled = popupClaimSwitch.getAttribute("aria-pressed") !== "true";
@@ -3686,6 +4429,7 @@
         popupClaimSwitch.classList.toggle("is-on", enabled);
         const text = popupClaimSwitch.closest(".switch-row").querySelector("[data-popup-claim-text]");
         if (text) text.textContent = enabled ? "已开启" : "已关闭";
+        syncPopupClaimState();
       }
       const addCondition = event.target.closest("[data-add-condition]");
       if (addCondition) {
@@ -3737,9 +4481,12 @@
         group.classList.add("is-collapsed");
         group.querySelector(".menu-title").setAttribute("aria-expanded", "false");
       });
-      const reachGroup = document.getElementById("sideNav").closest("[data-menu-group]");
-      reachGroup.classList.remove("is-collapsed");
-      reachGroup.querySelector(".menu-title").setAttribute("aria-expanded", "true");
+      const targetButton = document.querySelector(`[data-module="${target.dataset.searchModule}"]`);
+      const targetGroup = targetButton && targetButton.closest("[data-menu-group]");
+      if (targetGroup) {
+        targetGroup.classList.remove("is-collapsed");
+        targetGroup.querySelector(".menu-title").setAttribute("aria-expanded", "true");
+      }
       renderModule(target.dataset.searchModule);
       searchInput.value = "";
       searchResults.classList.remove("is-open");
