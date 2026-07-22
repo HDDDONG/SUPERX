@@ -2267,7 +2267,7 @@
         viewType: "statistics",
         canAdd: false,
         overview: { contentLabel: "站内信触达", readColumn: "已读状态", clickColumn: "站内信点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "站内信名称", "站内信ID", "推送类型", "触达方式", "APP推送配置名称", "已读状态", "点击状态", "是否赠送礼金", "礼金金额", "领取状态", "发送时间", "发送状态", "操作"],
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "站内信名称", "站内信ID", "推送类型", "触达方式", "APP推送配置名称", "已读状态", "点击状态", "是否赠送礼金", "礼金金额", "领取状态", "发送时间", "状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
@@ -2285,7 +2285,7 @@
           { key: "giftStatus", label: "是否赠送礼金", type: "select", options: ["是", "否"] },
           { key: "claimStatus", label: "领取状态", type: "select", options: ["无礼金", "未领取", "已领取", "已过期"] },
           { key: "sendTime", label: "发送时间", type: "daterange", span: 2 },
-          { key: "status", label: "发送状态", type: "select", options: ["成功", "失败"] }
+          { key: "status", label: "状态", type: "select", options: ["成功", "失败"] }
         ],
         rows: [
           ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "系统推送", "站内信", "-", "已读", "已点击", "否", "-", "无礼金", "2026/07/10 13:02:39", "成功"],
