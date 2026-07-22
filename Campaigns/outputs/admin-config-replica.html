@@ -283,6 +283,7 @@
       padding: 16px 12px;
       background: var(--gray-600);
       border-right: 1px solid var(--line);
+      overflow-y: auto;
     }
 
     .menu-group {
@@ -319,7 +320,7 @@
     .submenu {
       margin-top: 8px;
       padding-left: 12px;
-      max-height: 120px;
+      max-height: 420px;
       opacity: 1;
       overflow: hidden;
       transform: translateY(0);
@@ -362,6 +363,35 @@
       background: var(--gray-200);
       color: var(--text);
       font-weight: 650;
+    }
+
+    .submenu-section-title {
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      color: var(--gray-100);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .submenu-item.is-third-level {
+      position: relative;
+      min-height: 28px;
+      padding-left: 28px;
+      font-size: 12px;
+    }
+
+    .submenu-item.is-third-level::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 50%;
+      width: 8px;
+      border-left: 1px solid rgba(255,255,255,.35);
+      border-bottom: 1px solid rgba(255,255,255,.35);
+      border-radius: 0 0 0 4px;
     }
 
     .main {
@@ -476,6 +506,21 @@
 
     .page-content.is-active {
       display: block;
+    }
+
+    .external-module-content.is-active {
+      display: block;
+      height: calc(100vh - 148px);
+      min-height: 620px;
+      background: var(--gray-50);
+    }
+
+    .external-module-frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: var(--gray-50);
     }
 
     .field label {
@@ -1197,7 +1242,7 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: 640px;
+      width: 800px;
       max-width: calc(100vw - 32px);
       height: 100vh;
       display: flex;
@@ -1207,10 +1252,6 @@
       box-shadow: -12px 0 32px rgba(15, 23, 42, .16);
       z-index: 70;
       transition: transform 220ms ease;
-    }
-
-    .drawer.is-wide {
-      width: 800px;
     }
 
     .drawer.is-hidden {
@@ -1491,6 +1532,15 @@
     .rescue-interval-table col:nth-child(4) { width: 17%; }
     .rescue-interval-table col:nth-child(5) { width: 12%; }
 
+    .loss-return-table col:nth-child(1) { width: 38%; }
+    .loss-return-table col:nth-child(2) { width: 27%; }
+    .loss-return-table col:nth-child(3) { width: 27%; }
+    .loss-return-table col:nth-child(4) { width: 8%; }
+
+    .loss-return-table .inline input {
+      min-width: 0;
+    }
+
     .rescue-interval-table th,
     .rescue-interval-table td {
       vertical-align: middle;
@@ -1575,6 +1625,33 @@
     .help-tip.tip-open-down::after {
       top: calc(100% + 8px);
       bottom: auto;
+    }
+
+    .loss-return-basic-summary .help-tip::after {
+      width: 260px;
+      max-width: calc(100vw - 48px);
+    }
+
+    .loss-return-basic-summary .rule-summary-item {
+      position: relative;
+    }
+
+    .loss-return-basic-summary .rule-summary-item > label {
+      position: relative;
+      min-height: 18px;
+    }
+
+    .loss-return-basic-summary .rule-summary-item > label .help-tip {
+      position: absolute;
+      top: -2px;
+      right: 0;
+      margin-left: 0;
+      z-index: 20;
+    }
+
+    .loss-return-basic-summary .rule-summary-item:has(.help-tip:hover),
+    .loss-return-basic-summary .rule-summary-item:has(.help-tip:focus-visible) {
+      z-index: 30;
     }
 
     .help-tip:hover::after,
@@ -1800,6 +1877,14 @@
       padding: 12px 14px 0;
     }
 
+    .front-action-config {
+      display: grid;
+      grid-template-columns: 256px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--gray-0);
+    }
+
     .front-assets {
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
@@ -1944,6 +2029,31 @@
       line-height: 1.2;
     }
 
+    .popup-rule-preview {
+      grid-column: 1 / -1;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--gray-25);
+    }
+
+    .popup-rule-preview strong { display: block; margin-bottom: 8px; font-size: 12px; }
+
+    .popup-rule-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 88px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--gray-0);
+      font-size: 11px;
+    }
+
+    .popup-rule-preview-grid span { padding: 7px 9px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .popup-rule-preview-grid span:nth-child(3n) { border-right: 0; }
+    .popup-rule-preview-grid span:nth-last-child(-n + 3) { border-bottom: 0; }
+    .popup-rule-preview-grid .head { color: var(--gray-600); background: var(--gray-50); font-weight: 700; }
+
     .custom-title {
       display: flex;
       align-items: center;
@@ -2063,7 +2173,380 @@
       font-size: 12px;
     }
 
+    .tier-front-page { padding: 20px; background: #f7f9fc; min-height: calc(100vh - 150px); }
+    .tier-front-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+    .tier-front-head h2 { margin: 0 0 6px; font-size: 20px; color: var(--gray-900); }
+    .tier-front-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .tier-front-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .tier-front-actions select { width: 250px; }
+    .tier-flow-strip { display: flex; align-items: stretch; gap: 6px; padding: 12px; margin-bottom: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--gray-0); overflow: hidden; }
+    .tier-flow-step { flex: 1 1 0; min-width: 0; padding: 10px 8px; border: 1px solid #dce5f2; border-radius: 8px; background: #f8faff; text-align: center; color: var(--gray-700); font-size: 12px; line-height: 1.35; }
+    .tier-flow-step b { display: block; margin-bottom: 3px; color: #315b9f; font-size: 13px; }
+    .tier-flow-step.is-first { background: #edf5ff; border-color: #8fbaff; }
+    .tier-flow-arrow { display: grid; place-items: center; color: #8fa0b8; flex: 0 0 12px; }
+    .tier-flow-note { margin: -6px 0 16px; color: var(--muted); font-size: 12px; }
+    .tier-front-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .tier-front-stage { min-width: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--gray-0); overflow: hidden; }
+    .tier-front-stage.is-wide { grid-column: 1 / -1; }
+    .tier-front-stage.is-disabled { opacity: .58; }
+    .tier-stage-head { display: flex; align-items: center; gap: 9px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    .tier-stage-number { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #315b9f; color: #fff; font-size: 12px; font-weight: 700; flex: 0 0 auto; }
+    .tier-stage-title { min-width: 0; flex: 1; }
+    .tier-stage-title b { display: block; color: var(--gray-900); }
+    .tier-stage-title span { color: var(--muted); font-size: 12px; }
+    .tier-stage-body { padding: 14px; }
+    .tier-popup-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .tier-popup-option { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 9px; background: #fbfcfe; }
+    .tier-popup-option.is-selected { border-color: #6c9df4; box-shadow: inset 0 0 0 1px #6c9df4; }
+    .tier-option-label { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 10px; font-weight: 700; }
+    .tier-option-label span { color: #315b9f; font-size: 12px; }
+    .tier-preview { width: 100%; max-width: 360px; margin: 0 auto; padding: 14px; border-radius: 14px; background: #17233a; color: white; text-align: center; }
+    .tier-preview-hero { height: 78px; display: grid; place-items: center; margin-bottom: 10px; border-radius: 10px; background: linear-gradient(135deg,#2854d9,#6a8cff); font-size: 24px; font-weight: 800; }
+    .tier-preview h4 { margin: 7px 0 4px; }
+    .tier-preview p { margin: 0 0 10px; color: #cbd5e6; font-size: 12px; }
+    .tier-rule-mini { width: 100%; margin: 8px 0 10px; border-collapse: collapse; font-size: 11px; }
+    .tier-rule-mini th,.tier-rule-mini td { padding: 6px 4px; border: 1px solid #43516a; color: #e9eef7; }
+    .tier-preview-button { width: 100%; height: 34px; border: 0; border-radius: 8px; background: #ffb32c; color: #17233a; font-weight: 700; }
+    .tier-config-summary { display: grid; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+    .tier-config-row { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: 8px; font-size: 12px; }
+    .tier-config-row span:first-child { color: var(--muted); }
+    .tier-config-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--gray-800); }
+    .tier-front-switch { width: 42px; height: 22px; padding: 2px; border: 0; border-radius: 999px; background: #adb9c9; }
+    .tier-front-switch::before { content: ""; display: block; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform .18s; }
+    .tier-front-switch.is-on { background: #315b9f; }
+    .tier-front-switch.is-on::before { transform: translateX(20px); }
+    .tier-banner-preview { position: relative; min-height: 108px; padding: 18px; border-radius: 10px; overflow: hidden; background: linear-gradient(120deg,#173a86,#356beb); color: white; }
+    .tier-banner-preview.is-center { background: linear-gradient(120deg,#71400e,#e39b20); }
+    .tier-banner-preview b { display: block; max-width: 70%; font-size: 17px; }
+    .tier-banner-preview span { display: block; margin-top: 6px; max-width: 70%; font-size: 12px; opacity: .82; }
+    .tier-banner-preview button { position: absolute; right: 14px; bottom: 14px; border: 0; border-radius: 7px; padding: 7px 12px; color: #244b93; font-weight: 700; }
+    .tier-card-preview { display: grid; grid-template-columns: 44px minmax(0, 1fr) 28px 82px; gap: 10px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+    .tier-card-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 10px; background: #284fc5; color: white; font-size: 23px; font-weight: 800; }
+    .tier-card-copy { min-width: 0; }
+    .tier-card-copy b,.tier-card-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tier-card-copy span { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .tier-info-button { display: grid; place-items: center; width: 24px; height: 24px; border: 0; border-radius: 50%; background: #315b9f; color: white; font-weight: 800; }
+    .tier-card-cta { height: 34px; border: 0; border-radius: 8px; background: #315b9f; color: white; font-weight: 700; }
+    .tier-detail-preview { padding: 14px; border-radius: 10px; background: #f5f8ff; }
+    .tier-detail-preview h4 { margin: 0 0 4px; }
+    .tier-detail-preview p { margin: 0 0 10px; color: var(--muted); font-size: 12px; }
+    .tier-progress { height: 7px; margin: 10px 0 12px; border-radius: 99px; background: #dfe7f4; overflow: hidden; }
+    .tier-progress::before { content: ""; display: block; width: 60%; height: 100%; background: #315b9f; }
+    .tier-detail-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+    .tier-detail-tiers div { padding: 7px 4px; border: 1px solid #d9e2ef; border-radius: 7px; background: white; text-align: center; font-size: 11px; }
+    .tier-front-feedback { position: sticky; bottom: 12px; width: fit-content; max-width: 100%; margin: 14px auto 0; padding: 8px 14px; border-radius: 99px; background: #253b5b; color: white; font-size: 12px; opacity: 0; transform: translateY(5px); transition: .2s; pointer-events: none; }
+    .tier-front-feedback.is-visible { opacity: 1; transform: none; }
+
+    .tf-layout { display: grid; grid-template-columns: 280px minmax(440px, 1fr); gap: 20px; align-items: start; max-width: 1040px; margin: 0 auto; }
+    .tf-aside { position: sticky; top: 16px; display: grid; gap: 12px; }
+    .tf-aside-card { border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; }
+    .tf-aside-title { padding: 14px 16px; border-bottom: 1px solid var(--line); font-weight: 700; color: #1f2d42; }
+    .tf-path { display: grid; padding: 8px 0; }
+    .tf-path-item { position: relative; display: grid; grid-template-columns: 28px minmax(0,1fr); gap: 10px; padding: 10px 16px; color: #52627a; font-size: 12px; }
+    .tf-path-item:not(:last-child)::after { content: ""; position: absolute; left: 29px; top: 37px; width: 1px; height: 16px; background: #ccd7e6; }
+    .tf-path-index { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #edf3fc; color: #315b9f; font-weight: 800; }
+    .tf-path-item.is-primary .tf-path-index { background: #315b9f; color: #fff; }
+    .tf-path-item b { display: block; margin-bottom: 2px; color: #24344d; font-size: 13px; }
+    .tf-path-branch { margin: 0 14px 14px; padding: 10px 12px; border-radius: 8px; background: #f2f6fc; color: #687890; font-size: 12px; line-height: 1.55; }
+    .tf-setting-list { display: grid; padding: 6px 14px 14px; }
+    .tf-setting { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 43px; border-bottom: 1px solid #edf1f6; font-size: 12px; }
+    .tf-setting:last-child { border-bottom: 0; }
+    .tf-setting b { display: block; color: #2c3b50; }
+    .tf-setting small { color: #8794a7; }
+    .tf-preview-stack { display: grid; gap: 18px; justify-items: end; min-width: 0; }
+    .tf-alternative-divider { width: 360px; margin-left: auto; display: flex; align-items: center; gap: 10px; color: #8795a9; font-size: 12px; }
+    .tf-alternative-divider::before,.tf-alternative-divider::after { content: ""; height: 1px; flex: 1; background: repeating-linear-gradient(90deg,#c6d2e2 0 6px,transparent 6px 11px); }
+    .tf-flow-connector { width: 360px; min-height: 74px; margin: -8px 0 -8px auto; display: grid; justify-items: center; align-content: center; color: #61728b; }
+    .tf-flow-line { position: relative; width: 2px; height: 38px; background: #7395ca; }
+    .tf-flow-line::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 9px; height: 9px; border-right: 2px solid #315b9f; border-bottom: 2px solid #315b9f; transform: translateX(-50%) rotate(45deg); }
+    .tf-flow-action { margin-top: 8px; padding: 5px 11px; border: 1px solid #cbd8ea; border-radius: 999px; background: #f4f7fc; color: #315b9f; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .tf-device-section { width: 100%; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .tf-device-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .tf-device-head .tier-stage-number { width: 28px; height: 28px; }
+    .tf-device-head div { flex: 1; min-width: 0; }
+    .tf-device-head b { display: block; color: #203047; font-size: 15px; }
+    .tf-device-head span { color: #7d8ba0; font-size: 12px; }
+    .tf-phone-wrap { display: flex; justify-content: flex-end; }
+    .tf-phone { position: relative; width: 360px; height: 700px; border: 7px solid #151b27; border-radius: 38px; background: #f4f6fb; box-shadow: 0 18px 42px rgba(35,51,78,.18); overflow: hidden; color: #17243a; flex: 0 0 auto; }
+    .tf-phone::before { content: ""; position: absolute; z-index: 9; left: 50%; top: 8px; width: 106px; height: 25px; transform: translateX(-50%); border-radius: 18px; background: #151b27; }
+    .tf-statusbar { position: relative; z-index: 8; display: flex; justify-content: space-between; align-items: center; height: 42px; padding: 7px 20px 0; background: #fff; font-size: 11px; font-weight: 700; }
+    .tf-appbar { display: flex; justify-content: space-between; align-items: center; height: 52px; padding: 0 18px; background: #fff; border-bottom: 1px solid #e8edf5; }
+    .tf-appbar b { font-size: 17px; }
+    .tf-appbar span { color: #61728c; font-size: 12px; }
+    .tf-screen { position: relative; height: calc(100% - 94px); padding: 14px; overflow: hidden; }
+    .tf-screen.is-darkened::after { content: ""; position: absolute; inset: 0; z-index: 3; background: rgba(12,19,32,.7); }
+    .tf-home-balance { padding: 16px; border-radius: 16px; background: linear-gradient(135deg,#172d65,#315fc7); color: #fff; }
+    .tf-home-balance small { opacity: .72; }
+    .tf-home-balance strong { display: block; margin: 6px 0 14px; font-size: 25px; }
+    .tf-home-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .tf-home-actions span { padding: 8px 4px; border-radius: 8px; background: rgba(255,255,255,.14); text-align: center; font-size: 11px; }
+    .tf-real-banner { position: relative; height: 126px; margin-top: 14px; padding: 20px; border-radius: 16px; overflow: hidden; background: linear-gradient(120deg,#341870,#724fe8); color: #fff; }
+    .tf-real-banner.is-gold { background: linear-gradient(120deg,#5a3210,#e59a28); }
+    .tf-real-banner::after { content: "₹"; position: absolute; right: 18px; top: 7px; font-size: 78px; font-weight: 900; opacity: .16; }
+    .tf-real-banner b { position: relative; z-index: 1; display: block; max-width: 220px; font-size: 18px; line-height: 1.3; }
+    .tf-real-banner span { position: relative; z-index: 1; display: block; margin-top: 7px; font-size: 12px; opacity: .82; }
+    .tf-real-banner button { position: absolute; z-index: 2; left: 20px; bottom: 14px; height: 30px; padding: 0 13px; border: 0; border-radius: 7px; background: #fff; color: #5735b6; font-weight: 700; }
+    .tf-mini-section-title { display: flex; justify-content: space-between; margin: 18px 2px 10px; font-weight: 700; }
+    .tf-mini-section-title span { color: #8995a7; font-size: 12px; font-weight: 400; }
+    .tf-game-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+    .tf-game-grid div { height: 64px; display: grid; place-items: center; border-radius: 12px; background: #fff; border: 1px solid #e7ecf3; color: #6c7c91; font-size: 11px; }
+    .tf-bottom-nav { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4,1fr); height: 58px; padding-top: 9px; background: #fff; border-top: 1px solid #e4eaf2; color: #8290a3; text-align: center; font-size: 10px; }
+    .tf-bottom-nav span.is-active { color: #315b9f; font-weight: 700; }
+    .tf-popup-modal { position: absolute; z-index: 5; left: 25px; right: 25px; top: 50%; transform: translateY(-50%); padding: 18px; border-radius: 22px; background: #fff; text-align: center; box-shadow: 0 18px 50px rgba(0,0,0,.32); }
+    .tf-popup-close { position: absolute; right: 12px; top: 10px; width: 26px; height: 26px; border: 0; border-radius: 50%; background: #eef2f7; color: #596a81; }
+    .tf-popup-art { height: 142px; margin: -3px 0 14px; border-radius: 15px; background: radial-gradient(circle at 72% 28%,#ffd167 0 14%,transparent 15%),linear-gradient(135deg,#172b6d,#555ce8); color: #fff; display: grid; place-items: center; font-size: 46px; font-weight: 900; }
+    .tf-popup-modal h3 { margin: 0 0 5px; font-size: 20px; }
+    .tf-popup-modal p { margin: 0 0 13px; color: #77859a; font-size: 12px; }
+    .tf-popup-cta { width: 100%; height: 42px; border: 0; border-radius: 10px; background: #315b9f; color: #fff; font-weight: 800; }
+    .tf-popup-table { width: 100%; margin: 10px 0 14px; border-collapse: separate; border-spacing: 0 6px; font-size: 12px; }
+    .tf-popup-table th { color: #8190a5; font-weight: 500; }
+    .tf-popup-table td { padding: 8px; background: #f1f5fb; }
+    .tf-popup-table td:first-child { border-radius: 7px 0 0 7px; }
+    .tf-popup-table td:last-child { border-radius: 0 7px 7px 0; color: #315b9f; font-weight: 800; }
+    .tf-center-tabs { display: flex; gap: 22px; padding: 4px 4px 12px; color: #7d899b; font-size: 13px; }
+    .tf-center-tabs b { color: #263a58; border-bottom: 2px solid #315b9f; padding-bottom: 7px; }
+    .tf-activity-list { display: grid; gap: 10px; margin-top: 12px; }
+    .tf-activity-card { display: grid; grid-template-columns: 46px minmax(0,1fr) 24px 72px; gap: 9px; align-items: center; padding: 12px; border-radius: 13px; background: #fff; border: 1px solid #e3e9f2; }
+    .tf-activity-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg,#173a86,#416de6); color: #fff; font-size: 23px; font-weight: 900; }
+    .tf-activity-copy { min-width: 0; }
+    .tf-activity-copy b,.tf-activity-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tf-activity-copy b { font-size: 13px; }
+    .tf-activity-copy span { margin-top: 4px; color: #8390a2; font-size: 10px; }
+    .tf-activity-card .tier-info-button { width: 22px; height: 22px; font-size: 11px; }
+    .tf-activity-card .tier-card-cta { height: 32px; font-size: 12px; }
+    .tf-detail-hero { margin: -14px -14px 0; padding: 26px 20px 22px; background: linear-gradient(135deg,#172d65,#426fe2); color: white; }
+    .tf-detail-hero small { opacity: .75; }
+    .tf-detail-hero h3 { margin: 7px 0; font-size: 21px; }
+    .tf-detail-hero strong { font-size: 28px; }
+    .tf-detail-panel { margin-top: 12px; padding: 14px; border-radius: 14px; background: #fff; }
+    .tf-detail-panel h4 { margin: 0 0 10px; }
+    .tf-tier-row { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 10px 0; border-bottom: 1px solid #edf1f6; font-size: 12px; }
+    .tf-tier-row:last-child { border: 0; }
+    .tf-tier-row strong { color: #315b9f; }
+    .tf-detail-cta { position: absolute; left: 14px; right: 14px; bottom: 18px; height: 44px; border: 0; border-radius: 11px; background: #315b9f; color: #fff; font-weight: 800; }
+    .tf-config-foot { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; width: 360px; margin-top: 14px; margin-left: auto; }
+    .tf-config-foot div { min-width: 0; padding: 9px 10px; border-radius: 8px; background: #f5f7fb; }
+    .tf-config-foot span,.tf-config-foot b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tf-config-foot span { margin-bottom: 3px; color: #8895a7; font-size: 10px; }
+    .tf-config-foot b { color: #33445c; font-size: 11px; }
+    [data-preview-target].is-disabled,.tf-real-banner.is-disabled,.tf-activity-card.is-disabled { opacity: .38; filter: grayscale(.35); }
+
+    .tf-layout.tf-horizontal { grid-template-columns: minmax(0,1fr); max-width: none; }
+    .tf-horizontal .tf-aside { position: static; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .tf-horizontal .tf-path { grid-template-columns: repeat(5,minmax(0,1fr)); padding: 10px; }
+    .tf-horizontal .tf-path-item { grid-template-columns: 24px minmax(0,1fr); padding: 8px; }
+    .tf-horizontal .tf-path-item:not(:last-child)::after { left: auto; right: -5px; top: 21px; width: 10px; height: 1px; }
+    .tf-horizontal .tf-path-index { width: 24px; height: 24px; }
+    .tf-horizontal .tf-setting-list { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0 12px; }
+    .tf-horizontal .tf-preview-stack { display: grid; grid-template-columns: minmax(0,1fr) 34px minmax(0,1fr) 34px minmax(0,1fr) 34px minmax(0,1fr) 34px minmax(0,1fr); gap: 6px; align-items: start; justify-items: stretch; }
+    .tf-horizontal .tf-device-section { min-width: 0; padding: 10px; border-radius: 12px; }
+    .tf-horizontal .tf-device-head { align-items: flex-start; min-height: 58px; margin-bottom: 8px; gap: 7px; }
+    .tf-horizontal .tf-device-head .tier-stage-number { width: 24px; height: 24px; font-size: 10px; }
+    .tf-horizontal .tf-device-head b { font-size: 12px; line-height: 1.25; }
+    .tf-horizontal .tf-device-head span { font-size: 9px; line-height: 1.35; }
+    .tf-horizontal .tf-phone-wrap { justify-content: center; }
+    .tf-horizontal .tf-phone { width: 100%; height: 390px; border-width: 4px; border-radius: 24px; box-shadow: 0 10px 24px rgba(35,51,78,.14); }
+    .tf-horizontal .tf-phone::before { top: 5px; width: 58px; height: 15px; }
+    .tf-horizontal .tf-statusbar { height: 27px; padding: 4px 10px 0; font-size: 7px; }
+    .tf-horizontal .tf-appbar { height: 34px; padding: 0 10px; }
+    .tf-horizontal .tf-appbar b { font-size: 11px; }
+    .tf-horizontal .tf-appbar span { font-size: 7px; }
+    .tf-horizontal .tf-screen { height: calc(100% - 61px); padding: 8px; }
+    .tf-horizontal .tf-home-balance { padding: 10px; border-radius: 9px; }
+    .tf-horizontal .tf-home-balance small { font-size: 7px; }
+    .tf-horizontal .tf-home-balance strong { margin: 3px 0 7px; font-size: 15px; }
+    .tf-horizontal .tf-home-actions { gap: 4px; }
+    .tf-horizontal .tf-home-actions span { padding: 5px 2px; border-radius: 5px; font-size: 7px; }
+    .tf-horizontal .tf-popup-modal { left: 10px; right: 10px; padding: 10px; border-radius: 13px; }
+    .tf-horizontal .tf-popup-close { right: 7px; top: 6px; width: 18px; height: 18px; font-size: 9px; }
+    .tf-horizontal .tf-popup-art { height: 78px; margin-bottom: 7px; border-radius: 8px; font-size: 27px; }
+    .tf-horizontal .tf-popup-modal h3 { margin-bottom: 3px; font-size: 12px; }
+    .tf-horizontal .tf-popup-modal p { margin-bottom: 7px; font-size: 7px; }
+    .tf-horizontal .tf-popup-table { margin: 5px 0 7px; border-spacing: 0 3px; font-size: 7px; }
+    .tf-horizontal .tf-popup-table td { padding: 4px 3px; }
+    .tf-horizontal .tf-popup-cta { height: 28px; border-radius: 6px; font-size: 9px; }
+    .tf-popup-style-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 7px; }
+    .tf-popup-style-button { height: 24px; border: 1px solid #d7e0ed; border-radius: 6px; background: #f5f7fb; color: #74839a; font-size: 8px; }
+    .tf-popup-style-button.is-selected { border-color: #315b9f; background: #eaf1fc; color: #315b9f; font-weight: 700; }
+    .tf-popup-visual.is-hidden { display: none; }
+    .tf-horizontal .tf-real-banner { height: 82px; margin-top: 8px; padding: 11px; border-radius: 9px; }
+    .tf-horizontal .tf-real-banner::after { right: 8px; font-size: 46px; }
+    .tf-horizontal .tf-real-banner b { max-width: 75%; font-size: 10px; }
+    .tf-horizontal .tf-real-banner span { margin-top: 4px; font-size: 7px; }
+    .tf-horizontal .tf-real-banner button { left: 11px; bottom: 8px; height: 20px; padding: 0 7px; border-radius: 4px; font-size: 7px; }
+    .tf-horizontal .tf-mini-section-title { margin: 10px 1px 6px; font-size: 9px; }
+    .tf-horizontal .tf-mini-section-title span { font-size: 7px; }
+    .tf-horizontal .tf-game-grid { gap: 4px; }
+    .tf-horizontal .tf-game-grid div { height: 36px; border-radius: 7px; font-size: 7px; }
+    .tf-horizontal .tf-bottom-nav { height: 36px; padding-top: 6px; font-size: 6px; }
+    .tf-horizontal .tf-center-tabs { gap: 8px; padding: 2px 2px 7px; font-size: 7px; }
+    .tf-horizontal .tf-center-tabs b { padding-bottom: 4px; }
+    .tf-horizontal .tf-activity-list { gap: 5px; margin-top: 7px; }
+    .tf-horizontal .tf-activity-card { grid-template-columns: 28px minmax(0,1fr) 15px 41px; gap: 4px; padding: 6px; border-radius: 7px; }
+    .tf-horizontal .tf-activity-icon { width: 28px; height: 28px; border-radius: 7px; font-size: 13px; }
+    .tf-horizontal .tf-activity-copy b { font-size: 7px; }
+    .tf-horizontal .tf-activity-copy span { margin-top: 2px; font-size: 6px; }
+    .tf-horizontal .tf-activity-card .tier-info-button { width: 15px; height: 15px; font-size: 7px; }
+    .tf-horizontal .tf-activity-card .tier-card-cta { height: 21px; border-radius: 5px; font-size: 7px; }
+    .tf-horizontal .tf-detail-hero { margin: -8px -8px 0; padding: 15px 11px 12px; }
+    .tf-horizontal .tf-detail-hero small { font-size: 7px; }
+    .tf-horizontal .tf-detail-hero h3 { margin: 4px 0; font-size: 12px; }
+    .tf-horizontal .tf-detail-hero strong { font-size: 17px; }
+    .tf-horizontal .tf-detail-panel { margin-top: 7px; padding: 8px; border-radius: 8px; }
+    .tf-horizontal .tf-detail-panel h4 { margin-bottom: 5px; font-size: 9px; }
+    .tf-horizontal .tf-tier-row { padding: 6px 0; font-size: 7px; }
+    .tf-horizontal .tf-detail-cta { left: 8px; right: 8px; bottom: 10px; height: 28px; border-radius: 7px; font-size: 9px; }
+    .tf-horizontal .tf-config-foot { grid-template-columns: 1fr; gap: 3px; width: 100%; margin-top: 7px; }
+    .tf-horizontal .tf-config-foot div { padding: 5px 6px; }
+    .tf-horizontal .tf-config-foot span { display: inline; margin-right: 4px; font-size: 7px; }
+    .tf-horizontal .tf-config-foot b { display: inline; font-size: 7px; }
+    .tf-horizontal .tf-flow-connector { width: 34px; min-height: 450px; margin: 0; align-content: center; }
+    .tf-horizontal .tf-flow-line { width: 25px; height: 2px; }
+    .tf-horizontal .tf-flow-line::after { left: auto; right: -1px; bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+    .tf-horizontal .tf-flow-action { width: 76px; margin-top: 10px; padding: 4px; border-radius: 6px; background: #fff; white-space: normal; text-align: center; line-height: 1.35; font-size: 7px; }
+    .tf-recharge-amounts { display: grid; grid-template-columns: repeat(3,1fr); gap: 5px; margin: 10px 0; }
+    .tf-recharge-amounts button { height: 34px; border: 1px solid #dbe3ef; border-radius: 7px; background: #fff; color: #2f4058; font-size: 8px; }
+    .tf-recharge-amounts button.is-selected { border-color: #315b9f; background: #edf3fd; color: #315b9f; font-weight: 700; }
+    .tf-pay-method { display: flex; align-items: center; gap: 7px; margin-top: 7px; padding: 8px; border: 1px solid #e0e7f0; border-radius: 8px; background: #fff; font-size: 8px; }
+    .tf-pay-method b { margin-left: auto; color: #315b9f; }
+    .tf-deposit-phone { background: #0c120f; color: #f6f8f6; }
+    .tf-deposit-phone .tf-statusbar,.tf-deposit-phone .tf-appbar { background: #17201b; color: #fff; border-color: #26322c; }
+    .tf-deposit-phone .tf-screen { background: #0c120f; padding: 14px 12px; }
+    .tf-deposit-promo { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 16px; border: 1px solid #2fca83; border-radius: 12px; background: linear-gradient(120deg,#073b2b,#226849); }
+    .tf-deposit-promo b { font-size: 16px; font-weight: 500; }
+    .tf-deposit-promo button { height: 34px; padding: 0 14px; border: 0; border-radius: 8px; background: #ffd21b; color: #1d241f; font-weight: 800; }
+    .tf-deposit-equation { display: grid; grid-template-columns: 1fr 18px 1fr 18px 1fr; align-items: center; margin-top: 12px; padding: 13px 8px; border: 1px solid #313a35; border-radius: 11px; background: #1a1d1b; text-align: center; }
+    .tf-deposit-equation small { display: block; margin-bottom: 5px; color: #b3bbb6; }
+    .tf-deposit-equation strong { font-size: 19px; }
+    .tf-deposit-equation .is-bonus { color: #ffd438; }
+    .tf-deposit-sign { color: #abb3ae; font-size: 18px; }
+    .tf-deposit-label { margin: 14px 0 8px; color: #cbd1cd; font-size: 13px; }
+    .tf-deposit-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }
+    .tf-deposit-amount { position: relative; height: 62px; border: 1px solid #334038; border-radius: 10px; background: #1a1d1b; color: #d9dedb; font-size: 14px; overflow: hidden; }
+    .tf-deposit-amount.is-selected { border: 2px solid #2ee58c; color: #fff; }
+    .tf-deposit-amount.is-selected::after { content: "✓"; position: absolute; right: -1px; bottom: -1px; display: grid; place-items: center; width: 22px; height: 20px; border-radius: 10px 0 7px 0; background: #2ee58c; color: #092116; font-size: 11px; font-weight: 900; }
+    .tf-deposit-bonus-tag { position: absolute; right: 0; top: 0; min-width: 48px; padding: 3px 7px; border-radius: 0 8px 0 10px; background: #ff3652; color: #fff; font-size: 9px; }
+    .tf-deposit-custom { display: flex; justify-content: space-between; align-items: center; height: 52px; margin-top: 10px; padding: 0 14px; border: 1px solid #303a34; border-radius: 10px; background: #1a1d1b; }
+    .tf-deposit-custom strong { color: #ffca36; }
+    .tf-deposit-multiplier { margin: 14px 0 10px; color: #ffc831; font-size: 13px; }
+    .tf-deposit-pay { width: 100%; height: 44px; border: 0; border-radius: 10px; background: linear-gradient(90deg,#22e78b,#9bee68); color: #07120b; font-size: 15px; font-weight: 900; }
+    .tf-deposit-secure { margin-top: 12px; color: #aab4ae; font-size: 10px; text-align: center; }
+    .tf-focus-screen { display: grid; align-content: center; height: 100%; padding-bottom: 50px; }
+    .tf-focus-note { margin: 0 4px 12px; color: #8290a4; font-size: 12px; text-align: center; }
+    .tf-focus-screen .tf-real-banner { margin-top: 0; }
+    .tf-focus-screen .tf-activity-card { background: #fff; box-shadow: 0 10px 26px rgba(35,51,78,.1); }
+    .tf-top-module-screen { height: 100%; padding-top: 18px; }
+    .tf-top-module-screen .tf-real-banner { margin-top: 0; }
+    .tf-current-activity-block { margin-top: 18px; }
+    .tf-canvas-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid var(--line); border-bottom: 0; border-radius: 12px 12px 0 0; background: #fff; }
+    .tf-canvas-toolbar b { color: #26364e; }
+    .tf-canvas-toolbar span { color: #7f8da1; font-size: 12px; }
+    .tf-canvas-actions { display: flex; gap: 6px; }
+    .tf-canvas-actions button { width: 32px; height: 32px; border: 1px solid #d8e1ed; border-radius: 8px; background: #fff; color: #315b9f; font-size: 18px; }
+    .tf-direct-flow-map { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 14px; border: 1px solid var(--line); border-bottom: 0; background: #f7f9fc; }
+    .tf-direct-flow { display: grid; grid-template-columns: auto minmax(28px,1fr) auto minmax(28px,1fr) auto; align-items: center; gap: 7px; color: #60718a; font-size: 11px; }
+    .tf-direct-flow b { color: #284e8c; }
+    .tf-direct-flow + .tf-direct-flow { padding-left: 14px; border-left: 1px solid #d8e1ed; }
+    .tf-direct-line { position: relative; height: 2px; background: #7898c9; }
+    .tf-direct-line::after { content: ""; position: absolute; right: -1px; top: 50%; width: 7px; height: 7px; border-top: 2px solid #315b9f; border-right: 2px solid #315b9f; transform: translateY(-50%) rotate(45deg); }
+    .tf-device-section.is-jump-highlight { animation: tfJumpHighlight 1.2s ease; }
+    @keyframes tfJumpHighlight { 0%,100% { box-shadow: none; } 35% { box-shadow: 0 0 0 4px rgba(49,91,159,.24); } }
+    .tf-fullsize .tf-preview-stack { position: relative; display: flex; align-items: flex-start; gap: 18px; padding: 220px 18px 18px; border: 1px solid var(--line); border-radius: 0 0 12px 12px; background: #eef2f8; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+    .tf-fullsize .tf-device-section { flex: 0 0 398px; width: 398px; padding: 18px; border-radius: 14px; scroll-snap-align: start; }
+    .tf-fullsize .tf-device-head { min-height: 54px; margin-bottom: 14px; gap: 10px; }
+    .tf-fullsize .tf-device-head .tier-stage-number { width: 28px; height: 28px; font-size: 11px; }
+    .tf-fullsize .tf-device-head b { font-size: 15px; }
+    .tf-fullsize .tf-device-head span { font-size: 12px; }
+    .tf-fullsize .tf-phone { width: 360px; height: 700px; border-width: 7px; border-radius: 38px; box-shadow: 0 18px 42px rgba(35,51,78,.18); }
+    .tf-fullsize .tf-phone::before { top: 8px; width: 106px; height: 25px; }
+    .tf-fullsize .tf-statusbar { height: 42px; padding: 7px 20px 0; font-size: 11px; }
+    .tf-fullsize .tf-appbar { height: 52px; padding: 0 18px; }
+    .tf-fullsize .tf-appbar b { font-size: 17px; }
+    .tf-fullsize .tf-appbar span { font-size: 12px; }
+    .tf-fullsize .tf-screen { height: calc(100% - 94px); padding: 14px; }
+    .tf-fullsize .tf-home-balance { padding: 16px; border-radius: 16px; }
+    .tf-fullsize .tf-home-balance small { font-size: 11px; }
+    .tf-fullsize .tf-home-balance strong { margin: 6px 0 14px; font-size: 25px; }
+    .tf-fullsize .tf-home-actions { gap: 8px; }
+    .tf-fullsize .tf-home-actions span { padding: 8px 4px; border-radius: 8px; font-size: 11px; }
+    .tf-fullsize .tf-popup-style-tabs { width: 360px; margin: 0 auto 10px; gap: 6px; }
+    .tf-fullsize .tf-popup-style-button { height: 30px; font-size: 12px; }
+    .tf-fullsize .tf-popup-modal { left: 25px; right: 25px; padding: 18px; border-radius: 22px; }
+    .tf-fullsize .tf-popup-close { right: 12px; top: 10px; width: 26px; height: 26px; font-size: 13px; }
+    .tf-fullsize .tf-popup-art { height: 142px; margin-bottom: 14px; border-radius: 15px; font-size: 46px; }
+    .tf-fullsize .tf-popup-modal h3 { margin-bottom: 5px; font-size: 20px; }
+    .tf-fullsize .tf-popup-modal p { margin-bottom: 13px; font-size: 12px; }
+    .tf-fullsize .tf-popup-table { margin: 10px 0 14px; border-spacing: 0 6px; font-size: 12px; }
+    .tf-fullsize .tf-popup-table td { padding: 8px; }
+    .tf-fullsize .tf-popup-cta { height: 42px; border-radius: 10px; font-size: 13px; }
+    .tf-fullsize .tf-real-banner { height: 126px; margin-top: 14px; padding: 20px; border-radius: 16px; }
+    .tf-fullsize .tf-real-banner::after { right: 18px; font-size: 78px; }
+    .tf-fullsize .tf-real-banner b { max-width: 70%; font-size: 18px; }
+    .tf-fullsize .tf-real-banner span { margin-top: 7px; font-size: 12px; }
+    .tf-fullsize .tf-real-banner button { left: 20px; bottom: 14px; height: 30px; padding: 0 13px; border-radius: 7px; font-size: 12px; }
+    .tf-fullsize .tf-mini-section-title { margin: 18px 2px 10px; font-size: 14px; }
+    .tf-fullsize .tf-mini-section-title span { font-size: 12px; }
+    .tf-fullsize .tf-game-grid { gap: 8px; }
+    .tf-fullsize .tf-game-grid div { height: 64px; border-radius: 12px; font-size: 11px; }
+    .tf-fullsize .tf-bottom-nav { height: 58px; padding-top: 9px; font-size: 10px; }
+    .tf-fullsize .tf-center-tabs { gap: 22px; padding: 4px 4px 12px; font-size: 13px; }
+    .tf-fullsize .tf-center-tabs b { padding-bottom: 7px; }
+    .tf-fullsize .tf-activity-list { gap: 10px; margin-top: 12px; }
+    .tf-fullsize .tf-activity-card { grid-template-columns: 46px minmax(0,1fr) 24px 72px; gap: 9px; padding: 12px; border-radius: 13px; }
+    .tf-fullsize .tf-activity-icon { width: 46px; height: 46px; border-radius: 12px; font-size: 23px; }
+    .tf-fullsize .tf-activity-copy b { font-size: 13px; }
+    .tf-fullsize .tf-activity-copy span { margin-top: 4px; font-size: 10px; }
+    .tf-fullsize .tf-activity-card .tier-info-button { width: 22px; height: 22px; font-size: 11px; }
+    .tf-fullsize .tf-activity-card .tier-card-cta { height: 32px; border-radius: 8px; font-size: 12px; }
+    .tf-fullsize .tf-detail-hero { margin: -14px -14px 0; padding: 26px 20px 22px; }
+    .tf-fullsize .tf-detail-hero small { font-size: 11px; }
+    .tf-fullsize .tf-detail-hero h3 { margin: 7px 0; font-size: 21px; }
+    .tf-fullsize .tf-detail-hero strong { font-size: 28px; }
+    .tf-fullsize .tf-detail-panel { margin-top: 12px; padding: 14px; border-radius: 14px; }
+    .tf-fullsize .tf-detail-panel h4 { margin-bottom: 10px; font-size: 14px; }
+    .tf-fullsize .tf-tier-row { padding: 10px 0; font-size: 12px; }
+    .tf-fullsize .tf-detail-cta { left: 14px; right: 14px; bottom: 18px; height: 44px; border-radius: 11px; font-size: 13px; }
+    .tf-fullsize .tf-config-foot { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; width: 360px; margin-top: 14px; }
+    .tf-fullsize .tf-config-foot div { padding: 9px 10px; }
+    .tf-fullsize .tf-config-foot span,.tf-fullsize .tf-config-foot b { display: block; font-size: 10px; }
+    .tf-fullsize .tf-flow-connector { flex: 0 0 92px; width: 92px; min-height: 820px; margin: 0; }
+    .tf-fullsize .tf-flow-line { width: 58px; height: 2px; }
+    .tf-fullsize .tf-flow-action { width: 92px; padding: 7px 5px; font-size: 10px; }
+    .tf-unified-flow-svg { position: absolute; left: 0; top: 10px; width: 2098px; height: 200px; overflow: visible; pointer-events: none; }
+    .tf-unified-flow-svg > path { fill: none; stroke-width: 2.5; }
+    .tf-unified-flow-svg .flow-blue { stroke: #3b6fd8; }
+    .tf-unified-flow-svg .flow-purple { stroke: #7857d6; }
+    .tf-unified-flow-svg .flow-green { stroke: #27a778; }
+    .tf-unified-flow-svg .flow-orange { stroke: #e4862b; }
+    .tf-unified-flow-svg text { font-size: 11px; font-weight: 700; paint-order: stroke; stroke: #eef2f8; stroke-width: 5px; stroke-linejoin: round; }
+    .tf-unified-flow-svg .text-blue { fill: #315fbd; }
+    .tf-unified-flow-svg .text-purple { fill: #6845c6; }
+    .tf-unified-flow-svg .text-green { fill: #218861; }
+    .tf-unified-flow-svg .text-orange { fill: #c96d17; }
+    .tf-unified-flow-svg .flow-port { stroke: #fff; stroke-width: 3; }
+    .tf-unified-flow-svg .port-blue { fill: #3b6fd8; }
+    .tf-unified-flow-svg .port-purple { fill: #7857d6; }
+    .tf-unified-flow-svg .port-green { fill: #27a778; }
+    .tf-unified-flow-svg .port-orange { fill: #e4862b; }
+
     @media (max-width: 760px) {
+      .tf-layout { grid-template-columns: 1fr; }
+      .tf-aside { position: static; }
+      .tf-phone-wrap { justify-content: center; }
+      .tf-config-foot { margin-right: auto; }
+      .tf-flow-connector,.tf-alternative-divider { margin-right: auto; }
+      .tf-horizontal .tf-aside { grid-template-columns: 1fr; }
+      .tf-horizontal .tf-preview-stack { grid-template-columns: 1fr; }
+      .tf-horizontal .tf-flow-connector { width: 100%; min-height: 70px; margin: 0; }
+      .tf-horizontal .tf-flow-line { width: 2px; height: 34px; }
+      .tier-front-head { flex-direction: column; }
+      .tier-front-actions,.tier-front-actions select { width: 100%; }
+      .tier-flow-strip { display: grid; grid-template-columns: 1fr; }
+      .tier-flow-arrow { transform: rotate(90deg); }
+      .tier-front-grid { grid-template-columns: 1fr; }
+      .tier-popup-options { grid-template-columns: 1fr; }
+      .tier-card-preview { grid-template-columns: 44px minmax(0,1fr) 28px; }
+      .tier-card-cta { grid-column: 1 / -1; }
       .shell {
         grid-template-columns: 1fr;
         grid-template-rows: 56px auto minmax(0, 1fr);
@@ -2159,15 +2642,22 @@
       <div class="menu-group">
         <button class="menu-title" type="button" aria-expanded="true"><span>运营管理</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
-          <button class="submenu-item is-selected" type="button" data-page-title="活动列表">活动管理</button>
-          <button class="submenu-item" type="button" data-page-title="前端活动展示">前端活动展示</button>
+          <div class="submenu-section-title">活动管理</div>
+          <button class="submenu-item is-third-level is-selected" type="button" data-page-title="活动列表" data-breadcrumb-module="活动管理">活动列表</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="前台交互" data-breadcrumb-module="活动管理">前台交互</button>
+          <div class="submenu-section-title">用户触达</div>
+          <button class="submenu-item is-third-level" type="button" data-page-title="站内信配置" data-breadcrumb-module="用户触达">站内信配置</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="站内信统计" data-breadcrumb-module="用户触达">站内信统计</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="站内信前台交互" data-breadcrumb-module="用户触达">站内信前台交互</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="公告配置" data-breadcrumb-module="用户触达">公告配置</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="公告统计" data-breadcrumb-module="用户触达">公告统计</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="公告前台交互" data-breadcrumb-module="用户触达">公告前台交互</button>
         </div>
       </div>
       <div class="menu-group is-collapsed">
-        <button class="menu-title" type="button" aria-expanded="false"><span>一级菜单二</span><span class="menu-arrow">▼</span></button>
+        <button class="menu-title" type="button" aria-expanded="false"><span>前端需求</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
-          <button class="submenu-item" type="button">功能模块一</button>
-          <button class="submenu-item" type="button">功能模块二</button>
+          <button class="submenu-item" type="button" data-page-title="充值页优化" data-breadcrumb-module="前端需求">充值页优化</button>
         </div>
       </div>
     </aside>
@@ -2184,7 +2674,7 @@
           <span id="breadcrumbParent">运营管理</span>
           <span>/</span>
           <span id="breadcrumbModule">活动管理</span>
-          <span>/</span>
+          <span id="breadcrumbModuleSeparator">/</span>
           <span class="breadcrumb-current" id="breadcrumbCurrent">活动列表</span>
         </div>
         <div class="page-content is-active" id="activityListContent">
@@ -2275,6 +2765,8 @@
               <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 12 行"></td><td>12</td><td>IN03</td><td>01KVAB5D2H6AJFNYWABBN93P80</td><td>阶梯充值测试</td><td>周期首充</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/15 00:00</td><td>2026/08/14 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 13 行"></td><td>13</td><td>IN01</td><td>01KPPBSEND20260709A</td><td>笔笔充值礼金</td><td>笔笔送</td><td><span class="table-thumb">POPUP</span></td><td>70</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 14 行"></td><td>14</td><td>IN02</td><td>01KSTEPDEP20260709B</td><td>累计充值阶梯礼金</td><td>阶梯充值</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="enabled" data-audience="newbie" data-exclusive-display="true"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 15 行"></td><td>15</td><td>IN01</td><td>01KNEWBIE20260717</td><td>新人首充专享礼金</td><td>新人首充</td><td><span class="table-thumb">POPUP</span></td><td>200</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/17 00:00</td><td>2026/08/16 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 16 行"></td><td>16</td><td>IN01</td><td>01KLOSSRETURN20260720</td><td>24小时亏损救援</td><td>输返</td><td><span class="table-thumb">POPUP</span></td><td>180</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -2394,6 +2886,108 @@
               </section>
             </div>
           </div>
+        </div>
+        <div class="page-content" id="tierFrontendContent">
+          <div class="tier-front-page">
+            <div class="tier-front-head">
+              <div>
+                <h2>阶梯充值前端</h2>
+                <p>按用户真实点击路径配置和预览；用户进入 App 后，活动弹窗是第一触点。</p>
+              </div>
+              <div class="tier-front-actions">
+                <select aria-label="选择阶梯充值活动"><option>累计充值阶梯礼金 · IN02</option></select>
+                <button class="btn primary" id="saveTierFrontButton" type="button">保存前端配置</button>
+              </div>
+            </div>
+
+            <div class="tf-layout tf-horizontal tf-fullsize">
+              <aside class="tf-aside">
+                <div class="tf-aside-card">
+                  <div class="tf-aside-title">用户真实路径</div>
+                  <div class="tf-path">
+                    <div class="tf-path-item is-primary"><span class="tf-path-index">1</span><div><b>进入 App · 活动弹窗</b>第一触点，图文或规则二选一</div></div>
+                    <div class="tf-path-item"><span class="tf-path-index">2</span><div><b>首页 Banner</b>点击后进入活动中心</div></div>
+                    <div class="tf-path-item"><span class="tf-path-index">3</span><div><b>活动中心</b>顶部 Banner 与活动卡片</div></div>
+                    <div class="tf-path-item"><span class="tf-path-index">4</span><div><b>活动详情</b>查看阶梯、进度和规则</div></div>
+                    <div class="tf-path-item"><span class="tf-path-index">5</span><div><b>充值页面</b>展示本次活动加赠</div></div>
+                  </div>
+                  <div class="tf-path-branch">快捷分支：活动弹窗“立即充值”和活动卡片“去充值”均可直接进入第 05 个充值页面。</div>
+                </div>
+                <div class="tf-aside-card">
+                  <div class="tf-aside-title">展示位置配置</div>
+                  <div class="tf-setting-list">
+                    <div class="tf-setting"><div><b>活动弹窗</b><small>当前：规则形式</small></div><button class="tier-front-switch is-on" data-target="popup" type="button" aria-label="活动弹窗开关" aria-pressed="true"></button></div>
+                    <div class="tf-setting"><div><b>首页 Banner</b><small>跳转：活动中心</small></div><button class="tier-front-switch is-on" data-target="home-banner" type="button" aria-label="首页 Banner 开关" aria-pressed="true"></button></div>
+                    <div class="tf-setting"><div><b>活动中心 Banner</b><small>跳转：活动详情</small></div><button class="tier-front-switch is-on" data-target="center-banner" type="button" aria-label="活动中心 Banner 开关" aria-pressed="true"></button></div>
+                    <div class="tf-setting"><div><b>活动中心卡片</b><small>按钮：去充值</small></div><button class="tier-front-switch is-on" data-target="center-card" type="button" aria-label="活动中心卡片开关" aria-pressed="true"></button></div>
+                  </div>
+                </div>
+              </aside>
+
+              <div class="tf-canvas-toolbar"><div><b>完整真机流程</b><span>　每台真机仅展示当前需求对应模块</span></div><div class="tf-canvas-actions"><button id="tierCanvasPrev" type="button" aria-label="查看上一个真机模块">‹</button><button id="tierCanvasNext" type="button" aria-label="查看下一个真机模块">›</button></div></div>
+              <div class="tf-preview-stack" id="tierPhoneCanvas" tabindex="0" aria-label="横向完整真机流程画布">
+                <svg class="tf-unified-flow-svg" viewBox="0 0 2098 200" role="img" aria-label="各真机操作直达目标真机的统一流程">
+                  <defs>
+                    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3b6fd8"></path></marker>
+                    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7857d6"></path></marker>
+                    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#27a778"></path></marker>
+                    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e4862b"></path></marker>
+                  </defs>
+                  <circle class="flow-port port-blue" cx="338" cy="190" r="7"></circle>
+                  <path class="flow-blue" d="M338 190 V34 H486 V190" marker-end="url(#arrowBlue)"></path><text class="text-blue" x="365" y="28">关闭弹窗</text>
+                  <circle class="flow-port port-purple" cx="356" cy="190" r="7"></circle>
+                  <path class="flow-purple" d="M356 190 V16 H1734 V190" marker-end="url(#arrowPurple)"></path><text class="text-purple" x="940" y="12">点击“立即充值”</text>
+                  <circle class="flow-port port-blue" cx="486" cy="190" r="7"></circle>
+                  <circle class="flow-port port-blue" cx="754" cy="190" r="7"></circle>
+                  <path class="flow-blue" d="M754 190 V70 H902 V190" marker-end="url(#arrowBlue)"></path><text class="text-blue" x="760" y="64">点击首页 Banner</text>
+                  <circle class="flow-port port-blue" cx="902" cy="190" r="7"></circle>
+                  <circle class="flow-port port-green" cx="1158" cy="190" r="7"></circle>
+                  <path class="flow-green" d="M1158 190 V106 H1318 V190" marker-end="url(#arrowGreen)"></path><text class="text-green" x="1112" y="100">Banner“查看详情” / 卡片“!”</text>
+                  <circle class="flow-port port-green" cx="1318" cy="190" r="7"></circle>
+                  <circle class="flow-port port-orange" cx="1178" cy="190" r="7"></circle>
+                  <path class="flow-orange" d="M1178 190 V142 H1752 V190" marker-end="url(#arrowOrange)"></path><text class="text-orange" x="1362" y="136">卡片“去充值”</text>
+                  <circle class="flow-port port-orange" cx="1752" cy="190" r="7"></circle>
+                  <circle class="flow-port port-orange" cx="1574" cy="190" r="7"></circle>
+                  <path class="flow-orange" d="M1574 190 V170 H1770 V190" marker-end="url(#arrowOrange)"></path><text class="text-orange" x="1594" y="164">点击“立即充值”</text>
+                  <circle class="flow-port port-orange" cx="1770" cy="190" r="7"></circle>
+                </svg>
+                <section class="tf-device-section tier-front-stage" data-tier-stage="popup" data-preview-target="popup">
+                  <div class="tf-device-head"><span class="tier-stage-number">01</span><div><b>活动弹窗</b><span>进入 App 后第一触点</span></div></div>
+                  <div class="tier-popup-option is-selected" hidden></div>
+                  <div class="tf-popup-style-tabs"><button class="tf-popup-style-button" data-popup-style="graphic" type="button">图片形式</button><button class="tf-popup-style-button is-selected" data-popup-style="rule" type="button">规则形式</button></div>
+                  <div class="tf-phone-wrap"><div class="tf-phone"><div class="tf-statusbar"><span>9:41</span><span>● ● ︿</span></div><div class="tf-appbar"><b>SUPERX</b><span>活动弹窗</span></div><div class="tf-screen is-darkened"><div class="tf-popup-modal"><button class="tf-popup-close" data-flow-jump="home-banner" type="button">×</button><div class="tf-popup-visual is-hidden" data-popup-panel="graphic"><div class="tf-popup-art">₹</div><h3>累计充值阶梯礼金</h3><p>充值越多，解锁奖励越高</p></div><div class="tf-popup-visual" data-popup-panel="rule"><h3>累计充值阶梯礼金</h3><p>已累计 ₹600 · 下一档 ₹1,000</p><table class="tf-popup-table"><tr><th>累计充值</th><th>可得礼金</th></tr><tr><td>₹500</td><td>₹50</td></tr><tr><td>₹1,000</td><td>₹120</td></tr><tr><td>₹3,000</td><td>₹500</td></tr></table></div><button class="tf-popup-cta tier-front-action" data-flow-jump="recharge" data-message="活动弹窗按钮 → 充值页面" type="button">立即充值</button></div></div></div></div>
+                  <div class="tf-config-foot"><div><span>当前样式</span><b id="popupStyleSummary">规则形式</b></div><div><span>按钮</span><b>立即充值</b></div><div><span>跳转</span><b>充值页面</b></div></div>
+                </section>
+
+                <section class="tf-device-section tier-front-stage" data-tier-stage="home-banner" data-preview-target="home-banner">
+                  <div class="tf-device-head"><span class="tier-stage-number">02</span><div><b>首页 · Banner 展示</b><span>用户关闭弹窗后看到首页入口</span></div></div>
+                  <div class="tf-phone-wrap"><div class="tf-phone"><div class="tf-statusbar"><span>9:41</span><span>● ● ︿</span></div><div class="tf-appbar"><b>首页</b><span>Banner 展示位</span></div><div class="tf-screen"><div class="tf-top-module-screen"><div class="tf-real-banner"><b>累计充值 解锁阶梯礼金</b><span>最高可得 ₹500</span><button class="tier-front-action" data-flow-jump="center-banner" data-message="首页 Banner → 活动中心" type="button">查看活动</button></div></div></div></div></div>
+                  <div class="tf-config-foot"><div><span>按钮文案</span><b>查看活动</b></div><div><span>跳转页面</span><b>活动中心</b></div><div><span>素材来源</span><b>首页 Banner</b></div></div>
+                </section>
+
+                <section class="tf-device-section tier-front-stage" data-tier-stage="center-banner">
+                  <div class="tf-device-head"><span class="tier-stage-number">03</span><div><b>活动中心 · Banner 与卡片</b><span>Banner 顶部展示，当前活动卡片紧随其后</span></div></div>
+                  <div class="tf-phone-wrap"><div class="tf-phone"><div class="tf-statusbar"><span>9:41</span><span>● ● ︿</span></div><div class="tf-appbar"><b>活动中心</b><span>进行中的活动</span></div><div class="tf-screen"><div class="tf-top-module-screen"><div class="tf-real-banner is-gold"><b>充值达标 礼金自动发放</b><span>活动剩余 07 天</span><button class="tier-front-action" data-flow-jump="detail" data-message="活动中心 Banner → 活动详情" type="button">查看详情</button></div><div class="tf-current-activity-block"><div class="tf-mini-section-title">当前活动 <span>1 项</span></div><div class="tf-activity-card"><div class="tf-activity-icon">₹</div><div class="tf-activity-copy"><b>累计充值阶梯礼金</b><span>已累计 ₹600 · 剩余 07 天</span></div><button class="tier-info-button tier-front-action" data-flow-jump="detail" data-message="活动卡片详情图标 → 活动详情" aria-label="查看活动详情" type="button">!</button><button class="tier-card-cta tier-front-action" data-flow-jump="recharge" data-message="活动卡片按钮 → 充值页面" type="button">去充值</button></div></div></div></div></div></div>
+                  <div class="tf-config-foot"><div><span>Banner 跳转</span><b>活动详情</b></div><div><span>卡片按钮</span><b>去充值</b></div><div><span>详情入口</span><b>实底 ! 图标</b></div></div>
+                </section>
+
+                <section class="tf-device-section tier-front-stage" data-tier-stage="detail">
+                  <div class="tf-device-head"><span class="tier-stage-number">04</span><div><b>活动详情 · 阶梯规则</b><span>仅展示当前活动的进度与规则</span></div></div>
+                  <div class="tf-phone-wrap"><div class="tf-phone"><div class="tf-statusbar"><span>9:41</span><span>● ● ︿</span></div><div class="tf-appbar"><b>‹　活动详情</b><span>规则</span></div><div class="tf-screen"><div class="tf-detail-hero"><small>累计充值阶梯礼金</small><h3>充值越多，奖励越高</h3><strong>₹600</strong><small> / 下一档 ₹1,000</small><div class="tier-progress"></div></div><div class="tf-detail-panel"><h4>阶梯奖励</h4><div class="tf-tier-row"><span>累计充值 ₹500</span><strong>已获得 ₹50</strong></div><div class="tf-tier-row"><span>累计充值 ₹1,000</span><strong>可得 ₹120</strong></div><div class="tf-tier-row"><span>累计充值 ₹3,000</span><strong>可得 ₹500</strong></div></div><div class="tf-detail-panel"><h4>活动说明</h4><p class="hint">活动期间累计充值达到对应档位后，礼金自动发放至钱包。</p></div><button class="tf-detail-cta tier-front-action" data-flow-jump="recharge" data-message="活动详情按钮 → 充值页面" type="button">立即充值</button></div></div></div>
+                  <div class="tf-config-foot"><div><span>规则来源</span><b>活动阶梯配置</b></div><div><span>按钮文案</span><b>立即充值</b></div><div><span>跳转页面</span><b>充值页面</b></div></div>
+                </section>
+                <section class="tf-device-section tier-front-stage" data-tier-stage="recharge">
+                  <div class="tf-device-head"><span class="tier-stage-number">05</span><div><b>充值页面 · 活动模块</b><span>仅展示本次充值对应的活动加赠</span></div></div>
+                  <div class="tf-phone-wrap"><div class="tf-phone tf-deposit-phone"><div class="tf-statusbar"><span>9:41</span><span>● ● ︿</span></div><div class="tf-appbar"><b>‹　Deposit</b><span>₹ 29　🎁</span></div><div class="tf-screen"><div class="tf-deposit-promo"><b>Receive up to ₹477 bonus</b><button class="tier-front-action" data-message="打开充值活动选择" type="button">Change</button></div><div class="tf-deposit-equation"><div><small>You Pay</small><strong id="depositPayValue">₹300</strong></div><span class="tf-deposit-sign">+</span><div><small>Bonus</small><strong class="is-bonus" id="depositBonusValue">₹66</strong></div><span class="tf-deposit-sign">=</span><div><small>You Get</small><strong id="depositGetValue">₹366</strong></div></div><div class="tf-deposit-label">Deposit Amount</div><div class="tf-deposit-grid"><button class="tf-deposit-amount" data-amount="100" data-bonus="36" type="button"><span class="tf-deposit-bonus-tag">+36</span>₹100</button><button class="tf-deposit-amount is-selected" data-amount="300" data-bonus="66" type="button"><span class="tf-deposit-bonus-tag">+66</span>₹300</button><button class="tf-deposit-amount" data-amount="500" data-bonus="97" type="button"><span class="tf-deposit-bonus-tag">+97</span>₹500</button><button class="tf-deposit-amount" data-amount="1000" data-bonus="177" type="button"><span class="tf-deposit-bonus-tag">+177</span>₹1,000</button><button class="tf-deposit-amount" data-amount="2000" data-bonus="377" type="button"><span class="tf-deposit-bonus-tag">+377</span>₹2,000</button><button class="tf-deposit-amount" data-amount="5000" data-bonus="477" type="button"><span class="tf-deposit-bonus-tag">+477</span>₹5,000</button><button class="tf-deposit-amount" data-amount="10000" data-bonus="477" type="button"><span class="tf-deposit-bonus-tag">+477</span>₹10,000</button><button class="tf-deposit-amount" data-amount="15000" data-bonus="477" type="button"><span class="tf-deposit-bonus-tag">+477</span>₹15,000</button><button class="tf-deposit-amount" data-amount="20000" data-bonus="477" type="button"><span class="tf-deposit-bonus-tag">+477</span>₹20,000</button></div><div class="tf-deposit-custom"><span id="depositInputValue">₹300</span><strong id="depositExtraValue">Extra +66</strong></div><div class="tf-deposit-multiplier">Multiplier: 5x</div><button class="tf-deposit-pay tier-front-action" data-message="进入支付：充值 ₹300，活动加赠 ₹66" type="button">Go to Payment</button><div class="tf-deposit-secure">✓　100% secure payments, fast withdrawals.</div></div></div></div>
+                  <div class="tf-config-foot"><div><span>当前活动</span><b>阶梯充值礼金</b></div><div><span>充值金额</span><b id="depositConfigAmount">₹300</b></div><div><span>预计加赠</span><b id="depositConfigBonus">+₹66</b></div></div>
+                </section>
+              </div>
+            </div>
+            <div class="tier-front-feedback" id="tierFrontFeedback" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="page-content external-module-content" id="externalModuleContent">
+          <iframe class="external-module-frame" id="externalModuleFrame" title="统一后台模块内容"></iframe>
         </div>
       </section>
     </main>
@@ -2543,6 +3137,9 @@
           </div>
         </div>
         <div class="language-box activity-center-material">
+          <div class="front-action-config">
+            <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+          </div>
           <div class="language-tabs">
             <button class="language-tab active" type="button">英语</button>
             <button class="language-tab" type="button">印地语</button>
@@ -2557,6 +3154,7 @@
                 <label>活动宣传文案（前台）</label>
                 <input value="首充后满足补水条件即可获得礼金。">
               </div>
+              <div class="field"><label class="required">活动中心按钮文案</label><input value="立即参与"></div>
             </div>
             <div class="field">
               <label>详情图</label>
@@ -2637,7 +3235,7 @@
       </div>
 
       <div id="rechargeActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。</div>
+        <div class="context-note" id="firstDepositContextNote">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
@@ -2645,6 +3243,10 @@
           <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-01T00:00"></div>
           <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-07-31T23:59"></div>
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option selected>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
+          <div class="field" id="newbieExclusiveField" hidden>
+            <label>是否独立展示<span class="help-tip" tabindex="0" data-tip="仅新人首充使用。开启后，新手用户命中本活动时隐藏全部常规活动；关闭后，本活动与常规活动同时展示。">?</span></label>
+            <div class="switch-row"><button class="switch is-on" id="newbieExclusiveDisplaySwitch" type="button" aria-pressed="true"></button><span id="newbieExclusiveDisplayText">独立展示</span></div>
+          </div>
         </div>
 
         <div class="section-title">参与条件</div>
@@ -2698,10 +3300,6 @@
               <div class="rule-summary-item">
                 <label class="required">流水倍率</label>
                 <input value="3.00">
-              </div>
-              <div class="rule-summary-item">
-                <label>新手活动<span class="help-tip" tabindex="0" data-tip="开启后，仅从未充值用户可进入该活动；用户进入活动后，后续充值仍按当前活动规则继续累计。">?</span></label>
-                <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
               </div>
             </div>
 
@@ -2781,6 +3379,9 @@
             </div>
           </div>
           <div class="language-box activity-center-material">
+            <div class="front-action-config">
+              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+            </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
               <button class="language-tab" type="button">印地语</button>
@@ -2795,6 +3396,7 @@
                   <label>活动宣传文案（前台）</label>
                   <input value="充值达标即可领取对应奖励。">
                 </div>
+                <div class="field"><label class="required">活动中心按钮文案</label><input value="去充值"></div>
               </div>
             <div class="field">
               <label>详情图</label>
@@ -3015,6 +3617,9 @@
             </div>
           </div>
           <div class="language-box activity-center-material">
+            <div class="front-action-config">
+              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div>
+            </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
               <button class="language-tab" type="button">印地语</button>
@@ -3023,6 +3628,7 @@
               <div class="front-copy">
                 <div class="field"><label class="required">活动名称（前台）</label><input value="每日返水"></div>
                 <div class="field"><label>活动宣传文案（前台）</label><input value="每日有效流水达标即可获得返水。"></div>
+                <div class="field"><label class="required">活动中心按钮文案</label><input value="查看详情"></div>
               </div>
               <div class="field">
                 <label>详情图</label>
@@ -3139,10 +3745,6 @@
                 <label class="required">流水倍率</label>
                 <input value="3.00">
               </div>
-              <div class="rule-summary-item">
-                <label>新手活动<span class="help-tip" tabindex="0" data-tip="开启后，仅从未充值用户可进入该活动；用户进入活动后，后续充值仍按当前活动规则继续累计。">?</span></label>
-                <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
-              </div>
             </div>
 
             <div class="rule-subtitle">区间参数配置</div>
@@ -3222,6 +3824,9 @@
             </div>
           </div>
           <div class="language-box activity-center-material">
+            <div class="front-action-config">
+              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+            </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
               <button class="language-tab" type="button">印地语</button>
@@ -3230,6 +3835,7 @@
               <div class="front-copy">
                 <div class="field"><label class="required">活动名称（前台）</label><input value="笔笔充值礼金"></div>
                 <div class="field"><label>活动宣传文案（前台）</label><input value="每笔充值达标即可获得对应礼金。"></div>
+                <div class="field"><label class="required">活动中心按钮文案</label><input value="去充值"></div>
               </div>
               <div class="field">
                 <label>详情图</label>
@@ -3368,10 +3974,6 @@
                 <label class="required">流水倍率</label>
                 <input value="3.00">
               </div>
-              <div class="rule-summary-item">
-                <label>新手活动<span class="help-tip" tabindex="0" data-tip="开启后，仅从未充值用户可进入该活动；用户进入活动后，后续充值仍按当前活动规则继续累计。">?</span></label>
-                <div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>关闭</span></div>
-              </div>
             </div>
 
             <div class="rule-subtitle">区间参数配置</div>
@@ -3451,6 +4053,9 @@
             </div>
           </div>
           <div class="language-box activity-center-material">
+            <div class="front-action-config">
+              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+            </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
               <button class="language-tab" type="button">印地语</button>
@@ -3459,6 +4064,7 @@
               <div class="front-copy">
                 <div class="field"><label class="required">活动名称（前台）</label><input value="累计充值阶梯礼金"></div>
                 <div class="field"><label>活动宣传文案（前台）</label><input value="累计充值达到阶梯即可领取对应礼金。"></div>
+                <div class="field"><label class="required">活动中心按钮文案</label><input value="去充值"></div>
               </div>
               <div class="field">
                 <label>详情图</label>
@@ -3489,26 +4095,108 @@
             <div class="popup-fields">
               <div class="field popup-visibility-field">
                 <label class="required">弹窗是否展示</label>
-                <div class="switch-row"><button class="switch popup-switch" type="button" aria-pressed="false"></button><span>不展示</span></div>
+                <div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div>
               </div>
-              <div class="field" hidden><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div>
-              <div class="field" hidden><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="60"></div>
-              <div class="field" hidden><label class="required">弹窗按钮跳转</label><select><option selected>无跳转</option><option>跳转到指定页面</option><option>外链</option></select></div>
-              <div class="field" hidden><label class="required">跳转目标</label><select><option>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div>
+              <div class="field"><label class="required">弹窗前台展示类型</label><select class="popup-display-type-select"><option>图片形式</option><option selected>规则形式</option></select></div>
+              <div class="field"><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div>
+              <div class="field"><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="60"></div>
+              <div class="field"><label class="required">弹窗按钮跳转</label><select class="popup-jump-select"><option>无跳转</option><option selected>跳转到指定页面</option><option>外链</option></select></div>
+              <div class="field popup-target-field"><label class="required">跳转目标</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
             </div>
           </div>
-          <div class="language-box popup-material" hidden>
+          <div class="language-box popup-material">
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
               <button class="language-tab" type="button">印地语</button>
             </div>
             <div class="language-content">
-              <div class="field popup-image-field">
+              <div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="去充值"></div>
+              <div class="field popup-image-field" hidden>
                 <label class="required">弹窗图片上传</label>
                 <div class="popup-image-slot">IMAGE<br>POPUP</div>
               </div>
+              <div class="popup-rule-preview">
+                <strong>规则形式预览 <span class="field-tip">自动读取当前阶梯规则，无需重复配置</span></strong>
+                <div class="popup-rule-preview-grid">
+                  <span class="head">累计充值</span><span class="head">奖励礼金</span><span class="head">状态</span>
+                  <span>100 INR</span><span>3 INR</span><span>已达成</span>
+                  <span>500 INR</span><span>20 INR</span><span>已达成</span>
+                  <span>1,000 INR</span><span>50 INR</span><span>进行中</span>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div id="lossReturnActivityForm" hidden>
+        <div class="context-note">配置逻辑：用户充值条件按当前活动重置周期内的累计值判断。每个活动重置周期结束时，系统根据该周期内指定统计范围的净亏损计算并发放礼金，随后清空需要按周期累计的统计值；非累计统计结果、用户身份、活动配置和历史发放记录均不受影响。选择“不重置”时，累计值在整个活动有效期内持续累加，并在活动结束时统一结算发放。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="lossReturnActivityName" value="24小时亏损救援"></div>
+          <div class="field"><label class="required">包ID</label><input id="lossReturnPackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-20T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-08-19T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option selected>输返</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件</div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head"><div class="condition-cell"><span class="condition-label">条件类型</span></div><div class="condition-cell"><span class="condition-label">条件值</span></div><div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div></div>
+              <div class="condition-row"><div class="condition-cell"><select class="condition-type"><option selected>用户充值</option><option>累计充值</option><option>用户标签</option><option>VIP等级</option><option>上级ID</option></select></div><div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>≥</option></select><div class="unit-input"><input class="user-recharge-condition-input" type="number" min="0.01" step="0.01" value="32"><span class="unit condition-currency-unit">USD</span></div></div></div><div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">−</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">基础规则配置</div>
+            <div class="rule-summary loss-return-basic-summary">
+              <div class="rule-summary-item"><label class="required">活动重置周期<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="每个活动重置周期结束时，系统先根据本周期累计值结算并发放礼金，再清空需要按周期累计的统计值。非累计统计结果和历史记录不清空；选择不重置时，在活动结束时统一结算发放。">?</span></label><select id="lossReturnResetCycle"><option>不重置</option><option>每日重置</option><option selected>每周重置</option><option>每月重置</option></select></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">统计范围<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="仅统计所选范围内的净亏损；净亏损按有效投注减有效返奖计算，小于或等于0时不发放奖励。">?</span></label><select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option>指定游戏分类</option><option selected>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field"><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi" data-default-values="Super Ace,Fortune Tiger"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+              <div class="rule-summary-item"><label class="required">币种</label><select id="lossReturnCurrency"><option selected>USD</option><option>INR</option><option>BRL</option><option>PHP</option></select></div>
+              <div class="rule-summary-item"><label>单活动周期返还上限<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="填0表示不限制；每个活动重置周期独立计算，实际返还金额超过上限时按上限发放。选择不重置时，整个活动有效期视为一个周期。">?</span></label><div class="unit-input"><input id="lossReturnRewardCap" type="number" min="0" step="0.01" value="0"><span class="unit">USD</span></div></div>
+            </div>
+
+            <div class="rule-subtitle config-table-title"><span>亏损阶梯配置</span><button class="circle-btn rule-table-add" type="button" aria-label="新增亏损阶梯" title="新增亏损阶梯">+</button></div>
+            <table class="subsidy-rule-table loss-return-table">
+              <colgroup><col><col><col><col></colgroup>
+              <thead><tr><th class="has-help">累计亏损达到<span class="help-tip" tabindex="0" data-tip="按活动重置周期内的累计净亏损匹配：【最小值】≤累计净亏损＜【最大值】；最后一档最大值可留空，表示无上限。区间不可重叠。">?</span></th><th>返还比例</th><th>流水倍率</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td><div class="inline"><input class="loss-min" value="5"><span>–</span><input class="loss-max" value="50"></div></td><td><div class="unit-input"><input class="loss-rate" value="10"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+                <tr><td><div class="inline"><input class="loss-min" value="50"><span>–</span><input class="loss-max" value="200"></div></td><td><div class="unit-input"><input class="loss-rate" value="15"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+                <tr><td><div class="inline"><input class="loss-min" value="200"><span>–</span><input class="loss-max" value="500"></div></td><td><div class="unit-input"><input class="loss-rate" value="20"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+                <tr><td><div class="inline"><input class="loss-min" value="500"><span>–</span><input class="loss-max" value="2000"></div></td><td><div class="unit-input"><input class="loss-rate" value="30"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+                <tr><td><div class="inline"><input class="loss-min" value="2000"><span>–</span><input class="loss-max" value="5000"></div></td><td><div class="unit-input"><input class="loss-rate" value="40"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+                <tr><td><div class="inline"><input class="loss-min" value="5000"><span>–</span><input class="loss-max" value="" placeholder="不限"></div></td><td><div class="unit-input"><input class="loss-rate" value="50"><span class="unit">%</span></div></td><td><div class="unit-input"><input class="loss-turnover" value="5"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前阶梯" title="删除当前阶梯">−</button></div></td></tr>
+              </tbody>
+            </table>
+
+            <div class="rule-subtitle">礼金配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item"><label class="required">结算与发放方式</label><select><option selected>每个活动重置周期结束自动发放</option><option>每个活动重置周期结束后手动领取</option></select></div>
+              <div class="rule-summary-item"><label class="required">礼金是否需要领取</label><div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>不需要领取</span></div></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">礼金适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">适用范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">前台展示</div>
+        <div class="front-subsection">
+          <div class="front-subtitle">活动中心配置</div>
+          <div class="front-global-config"><div class="field"><label class="required">是否在活动中心展示</label><div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div></div>
+          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Loss Rescue 50%"></div><div class="field"><label>活动宣传文案（前台）</label><input value="指定游戏净亏损最高返还50%"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
+        </div>
+        <div class="front-subsection">
+          <div class="front-subtitle">弹窗配置</div>
+          <div class="popup-config"><div class="popup-fields"><div class="field popup-visibility-field"><label class="required">弹窗是否展示</label><div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div><div class="field"><label class="required">弹窗前台展示类型</label><select class="popup-display-type-select"><option>图片形式</option><option selected>规则形式</option></select></div><div class="field"><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div><div class="field"><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="180"></div><div class="field"><label class="required">弹窗按钮跳转</label><select class="popup-jump-select"><option>无跳转</option><option selected>跳转到指定页面</option></select></div><div class="field popup-target-field"><label class="required">跳转目标</label><select><option>活动详情页</option><option selected>充值页面</option></select></div></div></div>
+          <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="Deposit"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取亏损阶梯，无需重复配置</span></strong><div class="popup-rule-preview-grid"><span class="head">累计亏损达到</span><span class="head">返还比例</span><span class="head">流水</span><span>5–50 USD</span><span>10%</span><span>5倍</span><span>50–200 USD</span><span>15%</span><span>5倍</span><span>5,000 USD以上</span><span>50%</span><span>5倍</span></div></div></div></div>
         </div>
       </div>
     </div>
@@ -3604,6 +4292,7 @@
     });
     const breadcrumbParent = document.getElementById("breadcrumbParent");
     const breadcrumbModule = document.getElementById("breadcrumbModule");
+    const breadcrumbModuleSeparator = document.getElementById("breadcrumbModuleSeparator");
     const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
     const pageTabs = document.getElementById("pageTabs");
     function findSubmenu(parent, title) {
@@ -3622,10 +4311,27 @@
       });
       renderPageContent(title);
     }
+    const externalModuleRoutes = {
+      "站内信配置": "user-reach-config.html?embed=1&module=mailConfig",
+      "站内信统计": "user-reach-config.html?embed=1&module=mailRecord",
+      "站内信前台交互": "user-reach-config.html?embed=1&module=frontendMail",
+      "公告配置": "user-reach-config.html?embed=1&module=announcementConfig",
+      "公告统计": "user-reach-config.html?embed=1&module=announcementRecord",
+      "公告前台交互": "user-reach-config.html?embed=1&module=frontendAnnouncement",
+      "充值页优化": "../../index.html?embed=1"
+    };
+    const externalModuleFrame = document.getElementById("externalModuleFrame");
     function renderPageContent(title) {
-      const isFrontendShow = title === "前端活动展示";
-      document.getElementById("activityListContent").classList.toggle("is-active", !isFrontendShow);
-      document.getElementById("frontendShowContent").classList.toggle("is-active", isFrontendShow);
+      const isActivityList = title === "活动列表";
+      const isActivityFrontend = title === "前台交互";
+      const externalRoute = externalModuleRoutes[title] || "";
+      document.getElementById("activityListContent").classList.toggle("is-active", isActivityList);
+      document.getElementById("frontendShowContent").classList.remove("is-active");
+      document.getElementById("tierFrontendContent").classList.toggle("is-active", isActivityFrontend);
+      document.getElementById("externalModuleContent").classList.toggle("is-active", Boolean(externalRoute));
+      if (externalRoute && externalModuleFrame.getAttribute("src") !== externalRoute) {
+        externalModuleFrame.src = externalRoute;
+      }
     }
     function openTab(parent, title, menuTitle = title) {
       const existing = Array.from(pageTabs.querySelectorAll(".page-tab")).find(tab => tab.dataset.parent === parent && tab.dataset.title === title);
@@ -3663,13 +4369,103 @@
       document.querySelectorAll(".submenu-item").forEach(item => item.classList.remove("is-selected"));
       button.classList.add("is-selected");
       breadcrumbParent.textContent = parent;
-      breadcrumbModule.textContent = menuTitle;
+      const moduleTitle = button.dataset.breadcrumbModule || menuTitle;
+      breadcrumbModule.textContent = moduleTitle;
+      const hasSeparateModuleLevel = moduleTitle !== parent;
+      breadcrumbModule.hidden = !hasSeparateModuleLevel;
+      breadcrumbModuleSeparator.hidden = !hasSeparateModuleLevel;
       breadcrumbCurrent.textContent = title;
       if (shouldOpenTab) openTab(parent, title, menuTitle);
       activateTab(parent, title);
     }
     document.querySelectorAll(".submenu-item").forEach(button => {
       button.addEventListener("click", () => setActiveSubmenu(button));
+    });
+    const tierFrontFeedback = document.getElementById("tierFrontFeedback");
+    let tierFeedbackTimer;
+    function showTierFrontFeedback(message) {
+      window.clearTimeout(tierFeedbackTimer);
+      tierFrontFeedback.textContent = message;
+      tierFrontFeedback.classList.add("is-visible");
+      tierFeedbackTimer = window.setTimeout(() => tierFrontFeedback.classList.remove("is-visible"), 2200);
+    }
+    document.querySelectorAll(".tier-front-action").forEach(button => {
+      button.addEventListener("click", () => showTierFrontFeedback(button.dataset.message));
+    });
+    document.querySelectorAll(".tf-popup-style-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const style = button.dataset.popupStyle;
+        document.querySelectorAll(".tf-popup-style-button").forEach(item => item.classList.toggle("is-selected", item === button));
+        document.querySelectorAll(".tf-popup-visual").forEach(panel => panel.classList.toggle("is-hidden", panel.dataset.popupPanel !== style));
+        const label = style === "graphic" ? "图片形式" : "规则形式";
+        document.getElementById("popupStyleSummary").textContent = label;
+        showTierFrontFeedback(`活动弹窗已切换为${label}`);
+      });
+    });
+    const tierPhoneCanvas = document.getElementById("tierPhoneCanvas");
+    document.getElementById("tierCanvasPrev").addEventListener("click", () => {
+      tierPhoneCanvas.scrollBy({ left: -508, behavior: "smooth" });
+      showTierFrontFeedback("已切换到上一个完整真机模块");
+    });
+    document.getElementById("tierCanvasNext").addEventListener("click", () => {
+      tierPhoneCanvas.scrollBy({ left: 508, behavior: "smooth" });
+      showTierFrontFeedback("已切换到下一个完整真机模块");
+    });
+    let tierJumpHighlightTimer;
+    const tierStageLabels = { "home-banner": "02 首页 Banner", "center-banner": "03 活动中心", detail: "04 活动详情", recharge: "05 充值页面" };
+    document.querySelectorAll("[data-flow-jump]").forEach(button => {
+      button.addEventListener("click", () => {
+        const targetKey = button.dataset.flowJump;
+        const target = document.querySelector(`[data-tier-stage="${targetKey}"]`);
+        const targetLeft = target.getBoundingClientRect().left - tierPhoneCanvas.getBoundingClientRect().left + tierPhoneCanvas.scrollLeft;
+        tierPhoneCanvas.scrollTo({ left: targetLeft - 18, behavior: "smooth" });
+        target.classList.remove("is-jump-highlight");
+        window.requestAnimationFrame(() => target.classList.add("is-jump-highlight"));
+        window.clearTimeout(tierJumpHighlightTimer);
+        tierJumpHighlightTimer = window.setTimeout(() => target.classList.remove("is-jump-highlight"), 1300);
+        const actionText = button.classList.contains("tf-popup-close") ? "关闭弹窗" : button.textContent.trim();
+        showTierFrontFeedback(`${actionText} → 已跳转到 ${tierStageLabels[targetKey]}`);
+      });
+    });
+    const depositPayButton = document.querySelector(".tf-deposit-pay");
+    document.querySelectorAll(".tf-deposit-amount").forEach(button => {
+      button.addEventListener("click", () => {
+        const amount = Number(button.dataset.amount);
+        const bonus = Number(button.dataset.bonus);
+        const formatInr = value => `₹${value.toLocaleString("en-IN")}`;
+        document.querySelectorAll(".tf-deposit-amount").forEach(item => item.classList.toggle("is-selected", item === button));
+        document.getElementById("depositPayValue").textContent = formatInr(amount);
+        document.getElementById("depositBonusValue").textContent = formatInr(bonus);
+        document.getElementById("depositGetValue").textContent = formatInr(amount + bonus);
+        document.getElementById("depositInputValue").textContent = formatInr(amount);
+        document.getElementById("depositExtraValue").textContent = `Extra +${bonus}`;
+        document.getElementById("depositConfigAmount").textContent = formatInr(amount);
+        document.getElementById("depositConfigBonus").textContent = `+${formatInr(bonus)}`;
+        depositPayButton.dataset.message = `进入支付：充值 ${formatInr(amount)}，活动加赠 ${formatInr(bonus)}`;
+        showTierFrontFeedback(`已选择充值 ${formatInr(amount)}，预计加赠 ${formatInr(bonus)}`);
+      });
+    });
+    document.querySelectorAll(".tier-front-switch").forEach(button => {
+      button.addEventListener("click", () => {
+        const enabled = !button.classList.contains("is-on");
+        button.classList.toggle("is-on", enabled);
+        button.setAttribute("aria-pressed", String(enabled));
+        let controlledStages;
+        if (button.dataset.target === "center-banner") controlledStages = document.querySelectorAll(".tf-real-banner.is-gold");
+        else if (button.dataset.target === "center-card") controlledStages = document.querySelectorAll(".tf-current-activity-block .tf-activity-card");
+        else controlledStages = button.dataset.target ? document.querySelectorAll(`[data-preview-target="${button.dataset.target}"]`) : [button.closest(".tier-front-stage")];
+        controlledStages.forEach(stage => { if (stage) stage.classList.toggle("is-disabled", !enabled); });
+        showTierFrontFeedback(`${button.getAttribute("aria-label")}已${enabled ? "开启" : "关闭"}`);
+      });
+    });
+    document.getElementById("saveTierFrontButton").addEventListener("click", () => {
+      const popupEnabled = document.querySelector('[data-target="popup"]').classList.contains("is-on");
+      const selectedPopupType = document.querySelector(".tier-popup-option.is-selected");
+      if (popupEnabled && !selectedPopupType) {
+        showTierFrontFeedback("保存失败：开启弹窗时必须选择图片形式或规则形式");
+        return;
+      }
+      showTierFrontFeedback("已保存：弹窗为第一触点，全部跳转配置校验通过");
     });
     pageTabs.addEventListener("click", event => {
       const tab = event.target.closest(".page-tab");
@@ -3752,7 +4548,13 @@
     const rebateActivityForm = document.getElementById("rebateActivityForm");
     const perDepositActivityForm = document.getElementById("perDepositActivityForm");
     const tieredRechargeActivityForm = document.getElementById("tieredRechargeActivityForm");
-    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm];
+    const lossReturnActivityForm = document.getElementById("lossReturnActivityForm");
+    document.querySelectorAll("#activityTypeFilter, .activity-type-select").forEach(select => {
+      if (!Array.from(select.options).some(option => option.value === "输返")) {
+        select.add(new Option("输返", "输返"));
+      }
+    });
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm];
     const defaultActivityCoreState = activityForms.map(form => {
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
       const packageInput = form.querySelector('input[id$="PackageId"]');
@@ -3802,20 +4604,33 @@
       if (!event.target.closest(".package-multi")) document.querySelectorAll(".package-multi").forEach(item => item.classList.remove("is-open"));
     });
     function syncActivityForm(activityType = "补水活动") {
-      const normalizedType = activityType === "充值活动" ? "周期首充" : activityType;
-      const isFirstDeposit = normalizedType === "周期首充" || normalizedType === "新人首充";
+      const normalizedType = activityType === "充值活动"
+        ? "周期首充"
+        : activityType === "新手充值" ? "新人首充" : activityType;
+      const isNewbieDeposit = normalizedType === "新人首充";
+      const isFirstDeposit = normalizedType === "周期首充" || isNewbieDeposit;
       const isRebate = normalizedType === "返水活动";
       const isPerDeposit = normalizedType === "笔笔送";
       const isTieredRecharge = normalizedType === "阶梯充值";
-      drawer.classList.toggle("is-wide", isFirstDeposit);
-      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge;
+      const isLossReturn = normalizedType === "输返";
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn;
       rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
       tieredRechargeActivityForm.hidden = !isTieredRecharge;
+      lossReturnActivityForm.hidden = !isLossReturn;
+      const newbieExclusiveField = document.getElementById("newbieExclusiveField");
+      const firstDepositContextNote = document.getElementById("firstDepositContextNote");
+      newbieExclusiveField.hidden = !isNewbieDeposit;
+      firstDepositContextNote.textContent = isNewbieDeposit
+        ? "活动定位：新人首充为独立活动类型，仅系统判定为新手的用户可见并参与；是否隐藏常规活动由“是否独立展示”控制。奖励仍按下方首充金额规则计算。"
+        : "配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。";
       document.querySelectorAll(".activity-type-select").forEach(select => {
         select.value = normalizedType;
       });
+      if (!drawer.classList.contains("is-hidden")) {
+        requestAnimationFrame(validateTooltipBoundaries);
+      }
     }
     function resetActivityCoreState() {
       defaultActivityCoreState.forEach(state => {
@@ -3834,6 +4649,9 @@
       if (tbody && firstDepositDefaultRows.length) {
         tbody.replaceChildren(...firstDepositDefaultRows.map(row => row.cloneNode(true)));
       }
+      const exclusiveSwitch = document.getElementById("newbieExclusiveDisplaySwitch");
+      exclusiveSwitch.setAttribute("aria-pressed", "true");
+      syncNewbieExclusiveDisplay();
     }
     function openDrawer(mode = "活动新增", activityType = "补水活动") {
       const isCreate = mode === "活动新增";
@@ -3886,6 +4704,12 @@
         if (dates[1]) dates[1].value = endTime;
       });
       openDrawer("活动编辑", activityType);
+      if (activityType === "新人首充" || activityType === "新手充值") {
+        const exclusiveSwitch = document.getElementById("newbieExclusiveDisplaySwitch");
+        const exclusive = row.dataset.exclusiveDisplay !== "false";
+        exclusiveSwitch.setAttribute("aria-pressed", String(exclusive));
+        syncNewbieExclusiveDisplay();
+      }
     }
 
     function validateTooltipBoundaries() {
@@ -3908,6 +4732,10 @@
           tip.dataset.boundaryValidated = "skipped-offscreen";
           return;
         }
+        if (rect.top < safeTop || rect.bottom > safeBottom) {
+          tip.dataset.boundaryValidated = "skipped-partial-offscreen";
+          return;
+        }
         const tooltipWidth = Math.min(320, document.documentElement.clientWidth * 0.58);
         const tooltipHeight = Math.max(36, Math.ceil((tip.dataset.tip || "").length / 22) * 18 + 16);
         let projectedLeft = rect.left + rect.width / 2 - tooltipWidth / 2;
@@ -3923,7 +4751,7 @@
         }
         let projectedTop = rect.top - 8 - tooltipHeight;
         let projectedBottom = rect.top - 8;
-        if (projectedTop < safeTop) {
+        if (tip.dataset.tipPlacement === "down" || projectedTop < safeTop) {
           tip.classList.add("tip-open-down");
           projectedTop = rect.bottom + 8;
           projectedBottom = projectedTop + tooltipHeight;
@@ -3994,50 +4822,49 @@
 
     document.querySelectorAll(".subsidy-rule-table").forEach(table => {
       const tbody = table.querySelector("tbody");
-      let title = table.previousElementSibling;
-      while (title && !title.classList.contains("rule-subtitle")) title = title.previousElementSibling;
-      if (!tbody || !title || !title.classList.contains("rule-subtitle")) return;
-      title.classList.add("config-table-title");
-      const addButton = document.createElement("button");
-      addButton.className = "circle-btn rule-row-add";
-      addButton.type = "button";
-      addButton.textContent = "+";
-      addButton.setAttribute("aria-label", "新增规则");
-      addButton.title = "新增规则";
-      title.appendChild(addButton);
+      if (!tbody) return;
+      const titleAddButton = table.previousElementSibling?.querySelector(".rule-table-add");
 
-      const prepareRows = () => {
-        const rows = Array.from(tbody.querySelectorAll("tr"));
-        rows.forEach(row => {
-          const actions = row.querySelector(".mini-actions");
-          if (!actions) return;
-          const buttons = Array.from(actions.querySelectorAll("button"));
-          buttons.slice(0, -1).forEach(button => button.remove());
-          const removeButton = actions.querySelector("button");
-          if (!removeButton) return;
-          removeButton.classList.add("rule-row-remove");
-          removeButton.textContent = "−";
-          removeButton.setAttribute("aria-label", "删除当前规则");
-          removeButton.title = rows.length === 1 ? "至少保留一条" : "删除当前规则";
-          removeButton.disabled = rows.length === 1;
-        });
-      };
-
-      addButton.addEventListener("click", () => {
-        const template = tbody.querySelector("tr");
-        if (!template) return;
-        const row = template.cloneNode(true);
+      const insertEmptyRowAfter = currentRow => {
+        const row = currentRow.cloneNode(true);
         row.querySelectorAll("input").forEach(input => {
           input.value = "";
           input.removeAttribute("aria-invalid");
         });
         row.querySelectorAll("textarea").forEach(input => { input.value = ""; });
         row.querySelectorAll("select").forEach(select => { select.selectedIndex = 0; });
-        tbody.appendChild(row);
+        row.querySelectorAll(".reward-mode-select").forEach(syncRewardMode);
+        currentRow.insertAdjacentElement("afterend", row);
+      };
+
+      const prepareRows = () => {
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        rows.forEach(row => {
+          const actions = row.querySelector(".mini-actions");
+          if (!actions) return;
+          actions.innerHTML = titleAddButton
+            ? '<button class="circle-btn rule-row-remove" type="button" aria-label="删除当前规则">−</button>'
+            : '<button class="circle-btn rule-row-add" type="button" aria-label="在当前行后新增规则" title="在当前行后新增规则">+</button><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前规则">−</button>';
+          const removeButton = actions.querySelector(".rule-row-remove");
+          removeButton.title = rows.length === 1 ? "至少保留一条规则" : "删除当前规则";
+          removeButton.disabled = rows.length === 1;
+        });
+      };
+
+      titleAddButton?.addEventListener("click", () => {
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        insertEmptyRowAfter(rows[rows.length - 1]);
         prepareRows();
       });
 
       tbody.addEventListener("click", event => {
+        const addButton = event.target.closest(".rule-row-add");
+        if (addButton) {
+          const currentRow = addButton.closest("tr");
+          insertEmptyRowAfter(currentRow);
+          prepareRows();
+          return;
+        }
         const removeButton = event.target.closest(".rule-row-remove");
         if (!removeButton || removeButton.disabled) return;
         removeButton.closest("tr").remove();
@@ -4062,7 +4889,37 @@
         section.querySelectorAll(".popup-material").forEach(field => {
           field.hidden = !enabled;
         });
+        const jumpSelect = config.querySelector(".popup-jump-select");
+        if (enabled && jumpSelect) jumpSelect.dispatchEvent(new Event("change"));
       });
+    });
+    document.querySelectorAll(".popup-jump-select").forEach(select => {
+      const section = select.closest(".front-subsection");
+      const targetField = section.querySelector(".popup-target-field");
+      const buttonCopyField = section.querySelector(".popup-button-copy-field");
+      const syncPopupJump = (clearHidden = false) => {
+        const enabled = select.value !== "无跳转";
+        targetField.hidden = !enabled;
+        buttonCopyField.hidden = !enabled;
+        if (!enabled && clearHidden) {
+          targetField.querySelector("select").selectedIndex = -1;
+          buttonCopyField.querySelector("input").value = "";
+        }
+      };
+      select.addEventListener("change", () => syncPopupJump(true));
+      syncPopupJump(false);
+    });
+    document.querySelectorAll(".popup-display-type-select").forEach(select => {
+      const section = select.closest(".front-subsection");
+      const imageField = section.querySelector(".popup-image-field");
+      const rulePreview = section.querySelector(".popup-rule-preview");
+      const syncPopupDisplayType = () => {
+        const isRuleMode = select.value === "规则形式";
+        imageField.hidden = isRuleMode;
+        rulePreview.hidden = !isRuleMode;
+      };
+      select.addEventListener("change", syncPopupDisplayType);
+      syncPopupDisplayType();
     });
     document.querySelectorAll(".activity-center-switch").forEach(button => {
       button.addEventListener("click", () => {
@@ -4133,6 +4990,7 @@
       const valueMulti = valueField.querySelector(".scope-linkage-value-multi");
       const valueTrigger = valueField.querySelector(".scope-linkage-value-trigger");
       const valueMenu = valueField.querySelector(".scope-linkage-value-menu");
+      const defaultValues = (valueMulti.dataset.defaultValues || "").split(",").filter(Boolean);
       const selectedValues = () => Array.from(valueMenu.querySelectorAll("input:checked")).map(input => input.value);
       const syncSummary = () => {
         const selected = selectedValues();
@@ -4146,7 +5004,7 @@
         values.forEach((value, index) => {
           const label = document.createElement("label");
           label.className = "multi-option";
-          label.innerHTML = `<input type="checkbox" value="${value}"> <span>${value}</span>`;
+          label.innerHTML = `<input type="checkbox" value="${value}"${defaultValues.includes(value) ? " checked" : ""}> <span>${value}</span>`;
           valueMenu.appendChild(label);
         });
         if (!values.length) {
@@ -4262,7 +5120,24 @@
         if (box) box.hidden = !enabled;
       });
     });
+    const newbieExclusiveDisplaySwitch = document.getElementById("newbieExclusiveDisplaySwitch");
+    const newbieExclusiveDisplayText = document.getElementById("newbieExclusiveDisplayText");
+    function syncNewbieExclusiveDisplay() {
+      const enabled = newbieExclusiveDisplaySwitch.getAttribute("aria-pressed") === "true";
+      newbieExclusiveDisplaySwitch.classList.toggle("is-on", enabled);
+      newbieExclusiveDisplayText.textContent = enabled ? "独立展示" : "与常规活动同时展示";
+    }
+    newbieExclusiveDisplaySwitch.addEventListener("click", () => {
+      const enabled = newbieExclusiveDisplaySwitch.getAttribute("aria-pressed") !== "true";
+      newbieExclusiveDisplaySwitch.setAttribute("aria-pressed", String(enabled));
+      syncNewbieExclusiveDisplay();
+    });
+    syncNewbieExclusiveDisplay();
     const conditionTypeConfig = {
+      "用户充值": {
+        operators: ["≥"],
+        valueHtml: '<div class="unit-input"><input class="user-recharge-condition-input" type="number" min="0.01" step="0.01" value="32"><span class="unit condition-currency-unit">USD</span></div>'
+      },
       "累计充值": {
         operators: ["≥", "<", "介于"],
         valueHtml: '<div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div>',
@@ -4290,6 +5165,10 @@
       const config = conditionTypeConfig[typeSelect.value] || conditionTypeConfig["累计充值"];
       const valueWrap = row.querySelector(".condition-value");
       valueWrap.innerHTML = `<select class="condition-operator">${config.operators.map(item => `<option>${item}</option>`).join("")}</select>${config.valueHtml}`;
+      const currencyUnit = row.querySelector(".condition-currency-unit");
+      if (currencyUnit && row.closest("#lossReturnActivityForm")) {
+        currencyUnit.textContent = document.getElementById("lossReturnCurrency")?.value || "USD";
+      }
     }
     function renderConditionValueByOperator(operatorSelect) {
       const row = operatorSelect.closest(".condition-row");
@@ -4299,8 +5178,18 @@
       const currentValueNode = row.querySelector(".condition-value > :last-child");
       currentValueNode.outerHTML = operatorSelect.value === "介于" ? config.rangeValueHtml : config.valueHtml;
     }
+    function syncConditionRemoveButtons(conditionMatrix) {
+      const rows = Array.from(conditionMatrix.querySelectorAll(".condition-row"));
+      rows.forEach(row => {
+        const removeButton = row.querySelector(".condition-remove");
+        if (!removeButton) return;
+        removeButton.disabled = rows.length === 1;
+        removeButton.title = rows.length === 1 ? "至少保留一条参与条件" : "删除当前参与条件";
+      });
+    }
     document.querySelectorAll(".condition-matrix").forEach(conditionMatrix => {
       conditionMatrix.querySelectorAll(".condition-row").forEach(renderConditionRow);
+      syncConditionRemoveButtons(conditionMatrix);
       conditionMatrix.addEventListener("change", event => {
         if (event.target.classList.contains("condition-type")) {
           renderConditionRow(event.target.closest(".condition-row"));
@@ -4313,13 +5202,18 @@
         if (event.target.closest(".condition-add")) {
           const template = conditionMatrix.querySelector(".condition-row");
           const row = template.cloneNode(true);
-          row.querySelector(".condition-type").value = "累计充值";
+          row.querySelector(".condition-type").value = conditionMatrix.closest("#lossReturnActivityForm") ? "用户充值" : "累计充值";
           renderConditionRow(row);
+          row.querySelectorAll("input, textarea").forEach(input => { input.value = ""; });
           conditionMatrix.appendChild(row);
+          syncConditionRemoveButtons(conditionMatrix);
         }
         if (event.target.closest(".condition-remove")) {
           const rows = conditionMatrix.querySelectorAll(".condition-row");
-          if (rows.length > 1) event.target.closest(".condition-row").remove();
+          if (rows.length > 1) {
+            event.target.closest(".condition-row").remove();
+            syncConditionRemoveButtons(conditionMatrix);
+          }
         }
       });
     });
@@ -4342,7 +5236,12 @@
       if (!toggleButton) return;
       const row = toggleButton.closest("tr");
       const enabling = row.dataset.status !== "enabled";
-      if (!window.confirm(`确认${enabling ? "启用" : "停用"}该活动吗？`)) return;
+      const activityType = row.children[5].textContent.trim();
+      const exclusiveDisplay = row.dataset.exclusiveDisplay !== "false";
+      const confirmation = enabling && (activityType === "新人首充" || activityType === "新手充值")
+        ? `确认启用新人首充活动吗？该活动仅对新手用户生效；当前设置为${exclusiveDisplay ? "独立展示，将隐藏全部常规活动" : "与常规活动同时展示"}。`
+        : `确认${enabling ? "启用" : "停用"}该活动吗？`;
+      if (!window.confirm(confirmation)) return;
       setRowStatus(row, enabling);
       if (statusFilter.value) applyStatusFilter();
     });
@@ -4370,7 +5269,14 @@
         window.alert("请先选择活动");
         return;
       }
-      if (!window.confirm(`确认批量${enabled ? "启用" : "停用"}已选择的 ${selected.length} 个活动吗？`)) return;
+      const selectedNewbieRows = selected
+        .map(check => check.closest("tr"))
+        .filter(row => row.children[5].textContent.trim() === "新人首充");
+      const hasExclusiveNewbie = selectedNewbieRows.some(row => row.dataset.exclusiveDisplay !== "false");
+      const newbieImpact = enabled && selectedNewbieRows.length
+        ? `其中包含 ${selectedNewbieRows.length} 个新人首充活动；${hasExclusiveNewbie ? "独立展示配置会对新手用户隐藏全部常规活动。" : "当前均与常规活动同时展示。"}`
+        : "";
+      if (!window.confirm(`确认批量${enabled ? "启用" : "停用"}已选择的 ${selected.length} 个活动吗？${newbieImpact}`)) return;
       selected
         .forEach(check => setRowStatus(check.closest("tr"), enabled));
       if (statusFilter.value) {
@@ -4461,6 +5367,91 @@
       }
     });
 
+    function syncLossReturnPreview() {
+      const preview = lossReturnActivityForm.querySelector(".popup-rule-preview-grid");
+      if (!preview) return;
+      const currency = document.getElementById("lossReturnCurrency").value;
+      preview.replaceChildren();
+      ["累计亏损达到", "返还比例", "流水"].forEach(textValue => {
+        const cell = document.createElement("span");
+        cell.className = "head";
+        cell.textContent = textValue;
+        preview.appendChild(cell);
+      });
+      lossReturnActivityForm.querySelectorAll(".loss-return-table tbody tr").forEach(row => {
+        const minimum = row.querySelector(".loss-min").value.trim() || "—";
+        const maximum = row.querySelector(".loss-max").value.trim();
+        const rate = row.querySelector(".loss-rate").value.trim() || "—";
+        const turnover = row.querySelector(".loss-turnover").value.trim() || "—";
+        [`${minimum}${maximum ? `–${maximum}` : "以上"} ${currency}`, `${rate}%`, `${turnover}倍`].forEach(textValue => {
+          const cell = document.createElement("span");
+          cell.textContent = textValue;
+          preview.appendChild(cell);
+        });
+      });
+    }
+
+    function validateLossReturnRules(form) {
+      if (form !== lossReturnActivityForm) return true;
+      const thresholdInput = form.querySelector(".user-recharge-condition-input");
+      const capInput = document.getElementById("lossReturnRewardCap");
+      if (!thresholdInput) {
+        window.alert("请至少配置一条“用户充值”参与条件");
+        form.querySelector(".condition-type")?.focus();
+        return false;
+      }
+      if (!thresholdInput.value || Number(thresholdInput.value) <= 0) return rejectRuleInput(thresholdInput, "用户充值参与条件金额必须大于0");
+      if (capInput.value === "" || Number(capInput.value) < 0) return rejectRuleInput(capInput, "单活动周期返还上限必须大于或等于0");
+      const gameScopeField = form.querySelector(".scope-linkage-component");
+      const gameScopeValueField = gameScopeField.nextElementSibling;
+      if (!gameScopeValueField.hidden && !gameScopeValueField.querySelector("input:checked")) {
+        window.alert("请选择统计范围值");
+        gameScopeValueField.querySelector(".multi-trigger").focus();
+        return false;
+      }
+      const rows = Array.from(form.querySelectorAll(".loss-return-table tbody tr"));
+      if (!rows.length) {
+        window.alert("请至少配置一条亏损阶梯");
+        return false;
+      }
+      let previousMaximum = null;
+      for (let index = 0; index < rows.length; index += 1) {
+        const row = rows[index];
+        const minimumInput = row.querySelector(".loss-min");
+        const maximumInput = row.querySelector(".loss-max");
+        const rateInput = row.querySelector(".loss-rate");
+        const turnoverInput = row.querySelector(".loss-turnover");
+        [minimumInput, maximumInput, rateInput, turnoverInput].forEach(input => input.removeAttribute("aria-invalid"));
+        const minimum = Number(minimumInput.value);
+        const maximum = maximumInput.value.trim() === "" ? null : Number(maximumInput.value);
+        const rate = Number(rateInput.value);
+        const turnover = Number(turnoverInput.value);
+        const rowLabel = `第 ${index + 1} 条亏损阶梯`;
+        if (!minimumInput.value.trim() || !Number.isFinite(minimum) || minimum < 0) return rejectRuleInput(minimumInput, `${rowLabel}的亏损下限必须大于或等于0`);
+        if (maximum === null && index !== rows.length - 1) return rejectRuleInput(maximumInput, `只有最后一条亏损阶梯可以不设置上限`);
+        if (maximum !== null && (!Number.isFinite(maximum) || maximum <= minimum)) return rejectRuleInput(maximumInput, `${rowLabel}的亏损上限必须大于下限`);
+        if (previousMaximum !== null && minimum < previousMaximum) return rejectRuleInput(minimumInput, `${rowLabel}与上一条亏损区间重叠`);
+        if (!rateInput.value.trim() || !Number.isFinite(rate) || rate <= 0 || rate > 100) return rejectRuleInput(rateInput, `${rowLabel}的返还比例必须大于0且不超过100%`);
+        if (!turnoverInput.value.trim() || !Number.isFinite(turnover) || turnover <= 0) return rejectRuleInput(turnoverInput, `${rowLabel}的流水倍率必须大于0`);
+        previousMaximum = maximum;
+      }
+      return true;
+    }
+    lossReturnActivityForm.addEventListener("input", event => {
+      if (event.target.matches("input")) event.target.removeAttribute("aria-invalid");
+      if (event.target.closest(".loss-return-table")) syncLossReturnPreview();
+    });
+    document.getElementById("lossReturnCurrency").addEventListener("change", event => {
+      lossReturnActivityForm.querySelectorAll(".condition-currency-unit, #lossReturnRewardCap + .unit").forEach(unit => {
+        unit.textContent = event.target.value;
+      });
+      syncLossReturnPreview();
+    });
+    lossReturnActivityForm.addEventListener("click", event => {
+      if (event.target.closest(".rule-table-add, .rule-row-add, .rule-row-remove")) setTimeout(syncLossReturnPreview, 0);
+    });
+    syncLossReturnPreview();
+
     document.getElementById("confirmDrawerButton").addEventListener("click", () => {
       const form = activityForms.find(item => !item.hidden);
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
@@ -4475,6 +5466,7 @@
         return;
       }
       if (!validateFirstDepositRules(form)) return;
+      if (!validateLossReturnRules(form)) return;
       const expiryType = form.querySelector(".reward-expiry-type");
       const expiryDays = form.querySelector(".reward-expiry-days-input");
       if (expiryType && expiryType.value === "natural-day") {
@@ -4486,10 +5478,15 @@
         }
       }
       if (activeEditRow) {
+        const activityType = form.querySelector(".activity-type-select").value;
         activeEditRow.children[2].textContent = packageInput.value;
         activeEditRow.children[4].textContent = nameInput.value.trim();
         activeEditRow.children[10].textContent = dates[0].value.replace("T", " ").replaceAll("-", "/");
         activeEditRow.children[11].textContent = dates[1].value.replace("T", " ").replaceAll("-", "/");
+        if (activityType === "新人首充") {
+          activeEditRow.dataset.audience = "newbie";
+          activeEditRow.dataset.exclusiveDisplay = document.getElementById("newbieExclusiveDisplaySwitch").getAttribute("aria-pressed");
+        }
         window.alert("活动修改已保存");
       } else {
         const row = document.createElement("tr");
@@ -4497,6 +5494,10 @@
         const rowNumber = activityTableBody.children.length + 1;
         const formatDate = value => value.replace("T", " ").replaceAll("-", "/");
         row.dataset.status = "inactive";
+        if (activityType === "新人首充") {
+          row.dataset.audience = "newbie";
+          row.dataset.exclusiveDisplay = document.getElementById("newbieExclusiveDisplaySwitch").getAttribute("aria-pressed");
+        }
         row.innerHTML = `<td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 ${rowNumber} 行"></td><td>${rowNumber}</td><td>${packageInput.value}</td><td>ACT-${Date.now()}</td><td>${nameInput.value.trim()}</td><td>${activityType}</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb is-empty">-</span></td><td>当前用户</td><td>${formatDate(dates[0].value)}</td><td>${formatDate(dates[1].value)}</td><td><span class="status-pill is-disabled">未启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td>`;
         activityTableBody.appendChild(row);
         const newCheck = row.querySelector(".row-check");

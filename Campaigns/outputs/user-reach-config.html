@@ -1663,12 +1663,6 @@
       max-width: 100%;
     }
 
-    .schedule-cycle-field {
-      width: 256px;
-      max-width: 100%;
-      margin-bottom: 12px;
-    }
-
     .schedule-time-box {
       display: grid;
       gap: 8px;
@@ -1685,8 +1679,21 @@
     }
 
     .schedule-time-header {
+      align-items: end;
       color: var(--muted);
       font-size: 12px;
+      font-weight: 650;
+    }
+
+    .schedule-cycle-column {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .schedule-cycle-column label {
+      margin: 0;
+      color: var(--gray-700);
       font-weight: 650;
     }
 
@@ -2041,6 +2048,35 @@
       .frontend-preview-layout { grid-template-columns: 1fr; }
       .phone-preview { margin: 0 auto; }
     }
+
+    body.is-embedded {
+      background: var(--gray-50);
+      overflow-x: hidden;
+    }
+
+    body.is-embedded .shell {
+      display: block;
+      min-height: 100vh;
+    }
+
+    body.is-embedded .topbar,
+    body.is-embedded .sidebar,
+    body.is-embedded .page-tabs,
+    body.is-embedded .breadcrumb {
+      display: none;
+    }
+
+    body.is-embedded .main {
+      display: block;
+      min-width: 0;
+      padding: 0;
+    }
+
+    body.is-embedded .panel {
+      min-height: 100vh;
+      border: 0;
+      border-radius: 0;
+    }
   </style>
 </head>
 <body>
@@ -2292,7 +2328,7 @@
         idLabel: "",
         summary: "站内信配置是规则维度配置表，用于维护发送规则、事件触发、推送范围、展示内容和启停状态。",
         canAdd: true,
-        columns: ["序号", "站内信名称", "站内信ID", "包ID", "推送类型", "推送范围", "预计推送人数", "是否开启APP推送", "是否开启礼金配置", "修改人", "修改时间", "配置状态", "操作"],
+        columns: ["序号", "站内信名称", "站内信ID", "包ID", "推送类型", "推送范围", "预计推送人数", "是否开启APP推送", "是否开启礼金配置", "修改人", "修改时间", "推送状态", "配置状态", "操作"],
         filters: [
           { key: "name", label: "站内信名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "站内信ID", type: "input", placeholder: "请输入" },
@@ -2306,14 +2342,14 @@
           { key: "status", label: "配置状态", type: "select", options: ["未启用", "已启用", "已停用"] }
         ],
         rows: [
-          ["1", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "all", "系统推送", "条件用户", "12,860", "是", "否", "system", "2026/07/10 13:02:39", "已启用"],
-          ["2", "充值失败", "01KX59F3H4G4H16FKEJC80Q306", "IN01、IN02", "系统推送", "条件用户", "1,246", "是", "否", "system", "2026/07/10 11:24:36", "已启用"],
-          ["3", "新人注册当日充值提醒", "01KWQ246YQ5QDSYB44V8VPYKJ5", "IN01", "系统推送", "条件用户", "3,580", "是", "是", "superx-saas-admin", "2026/07/04 22:46:58", "已启用"],
-          ["4", "新人未充值每日提醒", "01KWQ240X7BAD9KAKYVVCHZVM81", "IN02", "系统推送", "条件用户", "8,930", "是", "是", "superx-saas-admin", "2026/07/04 22:46:52", "已停用"],
-          ["5", "新手任务每日提醒", "01KWQ1X4V63ZN8FKVDAQ02XHM3", "IN02", "系统推送", "条件用户", "5,620", "否", "否", "superx-saas-admin", "2026/07/04 22:46:44", "已启用"],
-          ["6", "送钱来了", "01KVWFP59VPR0F0A4X4AG1Z6C9", "IN01", "手动推送", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/06/24 15:04:40", "未启用"],
-          ["7", "梦幻体育每日推送", "01KVT1ZNWBETF9MQ6D94W2J5QH", "IN03", "定时推送", "全体用户", "65,420", "是", "否", "superx-saas-admin", "2026/06/23 16:26:33", "已启用"],
-          ["8", "梦幻体育比赛开始前提醒", "01KVT1Y14K40F4SRSSTBFB7B1N", "IN03", "系统推送", "条件用户", "18,760", "是", "否", "superx-saas-admin", "2026/06/23 16:25:37", "已启用"]
+          ["1", "充值成功", "01KX5F13ZPEZAX72APG4TAVT78", "all", "系统推送", "条件用户", "12,860", "是", "否", "system", "2026/07/10 13:02:39", "监听中", "已启用"],
+          ["2", "充值失败", "01KX59F3H4G4H16FKEJC80Q306", "IN01、IN02", "系统推送", "条件用户", "1,246", "是", "否", "system", "2026/07/10 11:24:36", "监听中", "已启用"],
+          ["3", "新人注册当日充值提醒", "01KWQ246YQ5QDSYB44V8VPYKJ5", "IN01", "系统推送", "条件用户", "3,580", "是", "是", "superx-saas-admin", "2026/07/04 22:46:58", "监听中", "已启用"],
+          ["4", "新人未充值每日提醒", "01KWQ240X7BAD9KAKYVVCHZVM81", "IN02", "系统推送", "条件用户", "8,930", "是", "是", "superx-saas-admin", "2026/07/04 22:46:52", "已停止", "已停用"],
+          ["5", "新手任务每日提醒", "01KWQ1X4V63ZN8FKVDAQ02XHM3", "IN02", "系统推送", "条件用户", "5,620", "否", "否", "superx-saas-admin", "2026/07/04 22:46:44", "监听中", "已启用"],
+          ["6", "送钱来了", "01KVWFP59VPR0F0A4X4AG1Z6C9", "IN01", "手动推送", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/06/24 15:04:40", "未推送", "未启用"],
+          ["7", "梦幻体育每日推送", "01KVT1ZNWBETF9MQ6D94W2J5QH", "IN03", "定时推送", "全体用户", "65,420", "是", "否", "superx-saas-admin", "2026/06/23 16:26:33", "执行中", "已启用"],
+          ["8", "梦幻体育比赛开始前提醒", "01KVT1Y14K40F4SRSSTBFB7B1N", "IN03", "系统推送", "条件用户", "18,760", "是", "否", "superx-saas-admin", "2026/06/23 16:25:37", "监听中", "已启用"]
         ],
         delivery: ["站内信", "APP推送"],
         defaultDelivery: "站内信",
@@ -2344,7 +2380,7 @@
         viewType: "statistics",
         canAdd: false,
         overview: { contentLabel: "公告触达", readColumn: "阅读状态", clickColumn: "点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "推送类型", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
@@ -2354,7 +2390,6 @@
           { key: "userSource", label: "用户来源", type: "select", options: ["Ads", "Invite", "H5"] },
           { key: "name", label: "公告名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "公告ID", type: "input", placeholder: "请输入" },
-          { key: "push", label: "推送类型", type: "select", options: ["手动公告", "定时公告", "系统公告"] },
           { key: "popupDisplay", label: "是否弹窗展示", type: "select", options: ["是", "否"] },
           { key: "readStatus", label: "阅读状态", type: "select", options: ["未读", "已读"] },
           { key: "clickStatus", label: "点击状态", type: "select", options: ["未点击", "已点击"] },
@@ -2362,23 +2397,23 @@
           { key: "status", label: "状态", type: "select", options: ["成功", "失败"] }
         ],
         rows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "手动公告", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "系统公告", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "系统公告", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "定时公告", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "系统公告", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
         ],
-        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
+        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
         detailRows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "Web页", "手动公告", "指定用户", "公告 + APP推送", "是", "首页", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "已点击", "成功", "已开启", "已点击", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "功能页", "系统公告", "条件用户", "公告 + APP推送", "是", "首页", "2026/07/10 11:24:36", "未读", "-", "未点击", "成功", "已开启", "未点击", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "功能页", "系统公告", "条件用户", "公告", "否", "-", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已点击", "-", "-", "-", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "Web页", "定时公告", "全体用户", "公告", "是", "首页", "2026/07/04 22:46:52", "未读", "-", "未点击", "-", "-", "-", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "不跳转", "系统公告", "条件用户", "公告", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "未点击", "-", "-", "-", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "Web页", "指定用户", "公告 + APP推送", "是", "首页", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "已点击", "成功", "已开启", "已点击", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "功能页", "条件用户", "公告 + APP推送", "是", "首页", "2026/07/10 11:24:36", "未读", "-", "未点击", "成功", "已开启", "未点击", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "功能页", "条件用户", "公告", "否", "-", "2026/07/04 22:46:58", "已读", "2026/07/04 23:01:12", "已点击", "-", "-", "-", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "Web页", "全体用户", "公告", "是", "首页", "2026/07/04 22:46:52", "未读", "-", "未点击", "-", "-", "-", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "不跳转", "条件用户", "公告", "否", "-", "2026/06/24 15:04:40", "已读", "2026/06/24 15:05:10", "未点击", "-", "-", "-", "成功"]
         ],
         detailGroups: [
           { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源"] },
-          { title: "公告信息", fields: ["公告名称", "公告ID", "跳转类型", "推送类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间"] },
+          { title: "公告信息", fields: ["公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间"] },
           { title: "触达结果", fields: ["阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"] }
         ],
         delivery: [],
@@ -2402,14 +2437,13 @@
         name: "公告配置",
         nameLabel: "公告名称",
         idLabel: "公告ID",
-        summary: "公告配置是规则维度配置表，用于维护公告内容、系统公告事件、推送范围、弹窗配置和启停状态。",
+        summary: "公告配置是规则维度配置表，用于维护公告内容、展示范围、弹窗配置和启停状态。",
         canAdd: true,
-        columns: ["序号", "公告名称", "公告ID", "包ID", "推送类型", "生效周期", "推送范围", "预计推送人数", "是否开启APP推送", "弹窗是否展示", "修改人", "修改时间", "状态", "操作"],
+        columns: ["序号", "公告名称", "公告ID", "包ID", "生效周期", "推送范围", "预计推送人数", "是否开启APP推送", "弹窗是否展示", "修改人", "修改时间", "状态", "操作"],
         filters: [
           { key: "name", label: "公告名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "公告ID", type: "input", placeholder: "请输入" },
           { key: "packageId", label: "包ID", type: "packageMulti" },
-          { key: "push", label: "推送类型", type: "select", options: ["手动公告", "定时公告", "系统公告"] },
           { key: "validity", label: "生效周期", type: "select", options: ["永久有效", "自定义"] },
           { key: "range", label: "推送范围", type: "select", options: ["全体用户", "指定用户", "条件用户"] },
           { key: "appPush", label: "是否开启APP推送", type: "select", options: ["是", "否"] },
@@ -2419,20 +2453,19 @@
           { key: "status", label: "状态", type: "select", options: ["未启用", "已启用", "已停用"] }
         ],
         rows: [
-          ["1", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "all", "手动公告", "永久有效", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/07/09 12:28:58", "已启用"],
-          ["2", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "IN01、IN03", "系统公告", "自定义", "条件用户", "28,460", "是", "是", "system_fantasy_daily_push", "2026/07/08 08:20:22", "已启用"],
-          ["3", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "IN01", "系统公告", "永久有效", "条件用户", "12,860", "是", "否", "system", "2026/07/07 08:20:10", "已启用"],
-          ["4", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "IN02", "定时公告", "自定义", "全体用户", "42,180", "否", "是", "superx-saas-admin", "2026/07/06 08:20:36", "未启用"],
-          ["5", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "IN02", "系统公告", "永久有效", "条件用户", "620", "否", "否", "system", "2026/07/05 08:20:17", "已停用"]
+          ["1", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "all", "永久有效", "指定用户", "2", "否", "是", "superx-saas-admin", "2026/07/09 12:28:58", "已启用"],
+          ["2", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "IN01、IN03", "自定义", "条件用户", "28,460", "是", "是", "system_fantasy_daily_push", "2026/07/08 08:20:22", "已启用"],
+          ["3", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "IN01", "永久有效", "条件用户", "12,860", "是", "否", "system", "2026/07/07 08:20:10", "已启用"],
+          ["4", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "IN02", "自定义", "全体用户", "42,180", "否", "是", "superx-saas-admin", "2026/07/06 08:20:36", "未启用"],
+          ["5", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "IN02", "永久有效", "条件用户", "620", "否", "否", "system", "2026/07/05 08:20:17", "已停用"]
         ],
         delivery: ["公告", "APP推送"],
         defaultDelivery: "公告",
-        pushTypeOptions: ["手动公告", "定时公告", "系统公告"],
         contentTitle: "公告配置",
         contentNameLabel: "公告标题",
         contentBodyLabel: "公告内容",
         features: {
-          pushType: true,
+          pushType: false,
           validity: true,
           popup: true,
           reward: false,
@@ -2446,8 +2479,12 @@
       }
     };
 
-    const openedTabs = ["mailConfig"];
-    let currentModule = "mailConfig";
+    const pageParameters = new URLSearchParams(window.location.search);
+    const embeddedMode = pageParameters.get("embed") === "1";
+    const requestedModule = pageParameters.get("module");
+    if (embeddedMode) document.body.classList.add("is-embedded");
+    let currentModule = reachModules[requestedModule] ? requestedModule : "mailConfig";
+    const openedTabs = [currentModule];
     let currentLanguage = "en";
     let languageDrafts = createEmptyLanguageDrafts();
     let currentDrawerMode = "add";
@@ -2816,6 +2853,10 @@
             const disabled = value.includes("停") || value.includes("未启用") ? " is-disabled" : "";
             return `<td><span class="status-pill${disabled}">${value}</span></td>`;
           }
+          if (config.columns[index] === "推送状态") {
+            const disabled = /未推送|已停止/.test(String(value)) ? " is-disabled" : "";
+            return `<td><span class="status-pill push-status-pill${disabled}">${value}</span></td>`;
+          }
           if (config.columns[index] === "包ID") {
             return `<td>${String(value).split("、").map((item) => `<span class="tag">${item}</span>`).join("")}</td>`;
           }
@@ -2825,7 +2866,7 @@
           return `<td title="${value}">${value}</td>`;
         }).join("");
         const status = row[row.length - 1];
-        return `<tr data-row-index="${rowIndex}">${cells}<td>${renderRowActions(status)}</td></tr>`;
+        return `<tr data-row-index="${rowIndex}">${cells}<td>${renderRowActions(status, row, config)}</td></tr>`;
       }).join("");
     }
 
@@ -2841,11 +2882,14 @@
       return data;
     }
 
-    function renderRowActions(status) {
+    function renderRowActions(status, row, config) {
       if (currentModule === "mailConfig" || currentModule === "announcementConfig") {
         const nextAction = /停|未启用/.test(String(status)) ? "enable" : "disable";
         const nextText = nextAction === "enable" ? "启用" : "停用";
-        return `<div class="actions"><button class="btn text" type="button" data-action="edit">编辑</button><button class="btn text" type="button" data-action="copy">复制</button><button class="btn text" type="button" data-action="detail">详情</button><button class="btn text danger" type="button" data-action="${nextAction}">${nextText}</button></div>`;
+        const pushTypeIndex = config.columns.indexOf("推送类型");
+        const isManualPush = currentModule === "mailConfig" && pushTypeIndex >= 0 && row[pushTypeIndex] === "手动推送";
+        const immediatePush = isManualPush ? '<button class="btn text" type="button" data-action="immediatePush">立即推送</button>' : '';
+        return `<div class="actions">${immediatePush}<button class="btn text" type="button" data-action="edit">编辑</button><button class="btn text" type="button" data-action="copy">复制</button><button class="btn text" type="button" data-action="detail">详情</button><button class="btn text danger" type="button" data-action="${nextAction}">${nextText}</button></div>`;
       }
       if (currentModule === "mailRecord" || currentModule === "announcementRecord") {
         return '<div class="actions"><button class="btn text" type="button" data-action="recordDetail">详情</button></div>';
@@ -2909,7 +2953,6 @@
         rewardScopeValues: rewardEnabled ? ["Slot", "Casino"] : [],
         popupEnabled,
         popupInterval: popupEnabled ? "24" : "",
-        popupOrder: popupEnabled ? String(100 - rowIndex) : "",
         popupJumpType: popupEnabled ? "none" : "",
         popupAsset: popupEnabled ? { name: `${config.key}-${rowIndex + 1}-popup.png` } : null,
         languages: {
@@ -3040,7 +3083,6 @@
       if (popupFields) {
         const popupInputs = popupFields.querySelectorAll('input:not([type="file"])');
         if (popupInputs[0]) popupInputs[0].value = snapshot.popupInterval;
-        if (popupInputs[1]) popupInputs[1].value = snapshot.popupOrder;
         const popupJump = popupFields.querySelector('[data-jump-type][data-jump-scope="popup"]');
         if (popupJump) { popupJump.value = snapshot.popupJumpType; syncJumpTarget(popupJump); }
         if (snapshot.popupAsset) {
@@ -3151,7 +3193,7 @@
                   <select data-condition-type>
                     <option value="">请选择</option>
                     <option>用户标签</option>
-                    <option>事件类型</option>
+                    ${config.features.pushType ? "<option>事件类型</option>" : ""}
                     <option>VIP等级</option>
                     <option>累计充值</option>
                   </select>
@@ -3173,19 +3215,18 @@
             <label>定时推送时间配置</label>
             <button class="mini-btn" type="button" data-add-schedule-time aria-label="新增推送时间" title="新增推送时间">+</button>
           </div>
-          <div class="schedule-cycle-field">
-            <label><span class="required">*</span> 推送周期</label>
-            <select data-schedule-cycle>
-              <option value="">请选择</option>
-              <option value="daily">每天</option>
-              <option value="weekly">每周</option>
-              <option value="monthly">每月</option>
-              <option value="custom">自定义</option>
-            </select>
-          </div>
-          <div class="schedule-time-box" data-schedule-time-list hidden>
+          <div class="schedule-time-box" data-schedule-time-list>
             <div class="schedule-time-header" data-schedule-time-header>
-              <span data-schedule-primary-label>推送周期</span>
+              <div class="schedule-cycle-column">
+                <label><span class="required">*</span> 推送周期</label>
+                <select data-schedule-cycle aria-label="推送周期">
+                  <option value="">请选择</option>
+                  <option value="daily">每天</option>
+                  <option value="weekly">每周</option>
+                  <option value="monthly">每月</option>
+                  <option value="custom">自定义</option>
+                </select>
+              </div>
               <span>推送时间</span>
               <span>操作</span>
             </div>
@@ -3335,12 +3376,11 @@
             ${field("弹窗是否展示", '<span class="switch-row"><button class="switch is-on" type="button" aria-pressed="true" data-popup-switch></button><span data-popup-text>展示</span></span>')}
             <div data-popup-fields class="field full">
               <div class="popup-config-grid">
-                ${field("弹窗间隔时间", '<input type="number" min="0" placeholder="请输入">', false, false, "单位：小时")}
-                ${field("全局顺序", '<input type="number" min="0" placeholder="数字越大越靠前">')}
-                ${field("弹窗按钮跳转", '<select data-jump-type data-jump-scope="popup"><option value="">请选择</option><option value="none">无跳转</option><option value="page">跳转到指定页面</option><option value="external">外链</option></select>', false, true)}
+                ${field("公告弹窗间隔时间", '<input type="number" min="0" placeholder="请输入">', false, false, "单位：小时")}
+                ${field("公告弹窗按钮跳转", '<select data-jump-type data-jump-scope="popup"><option value="">请选择</option><option value="none">无跳转</option><option value="page">跳转到指定页面</option><option value="external">外链</option></select>', false, true)}
                 <div class="field" data-jump-target="popup"></div>
                 <div class="field full">
-                  <label>弹窗图片上传</label>
+                  <label>公告弹窗图片上传</label>
                   <div class="asset-upload">
                     <div class="asset-preview">
                       <img alt="弹窗图片预览" data-asset-preview>
@@ -3540,7 +3580,7 @@
       const rangeField = range.closest(".field");
       const rangeHelp = rangeField && rangeField.querySelector(".label-help");
       if (isSystemPush) {
-        const systemLabel = pushType.value.includes("公告") ? "系统公告" : "系统推送";
+        const systemLabel = "系统推送";
         range.value = "condition";
         range.disabled = true;
         if (rangeHelp) rangeHelp.textContent = `${systemLabel}按事件触发，默认使用条件用户。`;
@@ -3966,6 +4006,10 @@
       const type = row.querySelector("[data-condition-type]");
       const value = row.querySelector("[data-condition-value]");
       if (!type || !value) return;
+      if (currentModule === "announcementConfig") {
+        [...type.options].filter((option) => option.textContent === "事件类型").forEach((option) => option.remove());
+        if (type.value === "事件类型") type.value = "";
+      }
       value.innerHTML = type.value ? conditionValueMap[type.value] : "";
       syncSpecialEventConfigs();
     }
@@ -4047,9 +4091,8 @@
       const header = panel.querySelector("[data-schedule-primary-label]");
       if (!list) return;
       list.querySelectorAll(".schedule-time-row").forEach((row) => row.remove());
-      list.hidden = !cycle;
+      list.hidden = false;
       if (!cycle) {
-        if (header) header.textContent = "配置项";
         syncScheduleTimeList(list);
         return;
       }
@@ -4297,6 +4340,31 @@
     tableBody.addEventListener("click", (event) => {
       const action = event.target.closest("[data-action]");
       if (!action) return;
+      if (action.dataset.action === "immediatePush") {
+        const row = action.closest("tr");
+        const configStatus = Array.from(row.querySelectorAll(".status-pill")).find((pill) => !pill.classList.contains("push-status-pill"));
+        if (!configStatus || configStatus.textContent.trim() !== "已启用") {
+          showToast("请先启用当前配置，再执行立即推送");
+          return;
+        }
+        const pushStatus = row.querySelector(".push-status-pill");
+        const rowIndex = Number(row.dataset.rowIndex || 0);
+        const pushStatusIndex = reachModules.mailConfig.columns.indexOf("推送状态");
+        if (pushStatus) {
+          pushStatus.textContent = "推送中";
+          pushStatus.classList.remove("is-disabled");
+        }
+        action.disabled = true;
+        showToast("推送任务已提交");
+        window.setTimeout(() => {
+          if (pushStatus) pushStatus.textContent = "已推送";
+          if (pushStatusIndex >= 0 && reachModules.mailConfig.rows[rowIndex]) {
+            reachModules.mailConfig.rows[rowIndex][pushStatusIndex] = "已推送";
+          }
+          action.disabled = false;
+        }, 800);
+        return;
+      }
       if (action.dataset.action === "delete") {
         pendingDeleteRow = action.closest("tr");
         const deleteText = currentModule.endsWith("Record")
@@ -4522,13 +4590,16 @@
       }
       if (pendingStatusButton) {
         const row = pendingStatusButton.closest("tr");
-        const pill = row && row.querySelector(".status-pill");
+        const pill = row && Array.from(row.querySelectorAll(".status-pill")).find((item) => !item.classList.contains("push-status-pill"));
         if (pill) {
           const isEnable = pendingStatusAction === "enable";
           pill.textContent = isEnable ? "已启用" : "已停用";
           pill.classList.toggle("is-disabled", !isEnable);
           pendingStatusButton.textContent = isEnable ? "停用" : "启用";
           pendingStatusButton.dataset.action = isEnable ? "disable" : "enable";
+          const rowIndex = Number(row.dataset.rowIndex || 0);
+          const dataRow = reachModules[currentModule].rows[rowIndex];
+          if (dataRow) dataRow[dataRow.length - 1] = isEnable ? "已启用" : "已停用";
         }
       }
       pendingStatusButton = null;
