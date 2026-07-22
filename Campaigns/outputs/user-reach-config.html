@@ -2381,8 +2381,8 @@
         summary: "公告统计是用户维度结果表，只查询谁收到了哪条公告，以及阅读、点击和弹窗展示结果。",
         viewType: "statistics",
         canAdd: false,
-        overview: { contentLabel: "公告触达", readColumn: "阅读状态", clickColumn: "点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "触达方式", "APP推送配置名称", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
+        overview: { contentLabel: "公告触达", readColumn: "已读状态", clickColumn: "点击状态" },
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "触达方式", "APP推送配置名称", "是否弹窗展示", "展示时间", "已读状态", "点击状态", "状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
@@ -2395,7 +2395,7 @@
           { key: "delivery", label: "触达方式", type: "select", options: ["公告", "公告 + APP推送"] },
           { key: "appPushConfigName", label: "APP推送配置名称", type: "input", placeholder: "请输入" },
           { key: "popupDisplay", label: "是否弹窗展示", type: "select", options: ["是", "否"] },
-          { key: "readStatus", label: "阅读状态", type: "select", options: ["未读", "已读"] },
+          { key: "readStatus", label: "已读状态", type: "select", options: ["未读", "已读"] },
           { key: "clickStatus", label: "点击状态", type: "select", options: ["未点击", "已点击"] },
           { key: "sendTime", label: "展示时间", type: "daterange", span: 2 },
           { key: "status", label: "状态", type: "select", options: ["成功", "失败"] }
@@ -2407,7 +2407,7 @@
           ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "公告", "-", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
           ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "公告", "-", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
         ],
-        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "APP推送配置名称", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
+        detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "APP推送配置名称", "是否弹窗展示", "弹窗展示位置", "展示时间", "已读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
         detailRows: [
           ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "Web页", "指定用户", "公告 + APP推送", "首页高价值用户 Push", "是", "首页", "2026/07/10 13:02:39", "已读", "2026/07/10 13:08:21", "已点击", "成功", "已开启", "已点击", "成功"],
           ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "功能页", "条件用户", "公告 + APP推送", "梦幻体育每日提醒 Push", "是", "首页", "2026/07/10 11:24:36", "未读", "-", "未点击", "成功", "已开启", "未点击", "成功"],
@@ -2418,7 +2418,7 @@
         detailGroups: [
           { title: "用户信息", fields: ["用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源"] },
           { title: "公告信息", fields: ["公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "APP推送配置名称", "是否弹窗展示", "弹窗展示位置", "展示时间"] },
-          { title: "触达结果", fields: ["阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"] }
+          { title: "触达结果", fields: ["已读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"] }
         ],
         delivery: [],
         contentTitle: "公告统计",
