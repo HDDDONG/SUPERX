@@ -3345,7 +3345,7 @@
               <div class="field full reward-rule-note" data-popup-claim-note hidden>当存在多个未领取礼金时，将全部可领取金额累加到第一个礼金弹窗；用户点击一次“领取”即一次性领取全部未领取礼金。每笔礼金仍按自身过期规则校验，仅未过期礼金参与累加。</div>
               ${field("礼金金额", '<input placeholder="请输入">', false, true)}
               ${field("礼金倍率", '<input type="number" placeholder="请输入">', false, true)}
-              ${field("礼金过期规则", '<select data-reward-expiry-type><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>', false, false, "每笔礼金分别按自身规则计算有效期。")}
+              ${field("礼金领取过期规则", '<select data-reward-expiry-type><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>', false, false, "每笔礼金分别按自身规则计算有效期。")}
               <div class="field" data-reward-expiry-days hidden>
                 <label><span class="required">*</span> 过期天数 <span class="label-help">按自然日计算</span><span class="tip tip-left" tabindex="0" data-tip="礼金到账当日为第1个自然日，到期日23:59:59过期。">?</span></label>
                 <input type="number" min="1" step="1" placeholder="请输入大于0的自然日天数" data-reward-expiry-days-input>
