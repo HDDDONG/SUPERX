@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>SUPERX · 活动中心</title>
+  <style>
+    :root {
+      --navy: #07152f;
+      --navy-2: #0c2045;
+      --blue: #315bff;
+      --cyan: #27d3ff;
+      --lime: #d8ff55;
+      --orange: #ff8a3d;
+      --ink: #17233c;
+      --muted: #74809a;
+      --line: #e8edf5;
+      --paper: #f3f6fb;
+      --white: #fff;
+      --success: #16a56d;
+      --shadow: 0 18px 60px rgba(5, 17, 44, .18);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(49,91,255,.12), transparent 31%),
+        radial-gradient(circle at 88% 82%, rgba(39,211,255,.13), transparent 30%),
+        #eef2f8;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    button { font: inherit; }
+    button, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+    .stage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(360px, 430px);
+      justify-content: center;
+      align-items: center;
+      gap: 46px;
+      padding: 32px;
+    }
+    .intro { align-self: center; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: #315bff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+    .intro h1 { margin: 0; font-size: clamp(36px, 5vw, 60px); line-height: 1.04; letter-spacing: -.04em; }
+    .intro h1 span { color: var(--blue); }
+    .intro > p { margin: 20px 0 28px; color: #62708d; font-size: 15px; line-height: 1.8; }
+    .legend { display: grid; gap: 10px; }
+    .legend-item { display: flex; align-items: center; gap: 10px; color: #43516c; font-size: 13px; }
+    .legend-item i { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px rgba(49,91,255,.1); }
+
+    .phone {
+      position: relative;
+      width: 100%;
+      height: min(860px, calc(100vh - 40px));
+      min-height: 680px;
+      overflow: hidden;
+      border: 9px solid #071226;
+      border-radius: 38px;
+      background: var(--paper);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.75) inset;
+    }
+    .app { position: absolute; inset: 0; overflow: hidden; background: var(--paper); }
+    .screen { position: absolute; inset: 0; display: flex; flex-direction: column; transition: transform .28s ease, opacity .28s ease; }
+    .screen.is-hidden { pointer-events: none; transform: translateX(28px); opacity: 0; }
+
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 58px;
+      padding: 10px 18px;
+      color: white;
+      background: var(--navy);
+    }
+    .brand { display: flex; align-items: center; gap: 9px; font-weight: 900; letter-spacing: .03em; }
+    .brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; color: var(--navy); background: var(--lime); font-size: 12px; transform: rotate(-6deg); }
+    .icon-btn { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 12px; color: inherit; background: rgba(255,255,255,.09); cursor: pointer; }
+    .icon-btn svg { width: 19px; height: 19px; }
+
+    .scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { display: none; }
+    .hero {
+      position: relative;
+      min-height: 190px;
+      padding: 30px 20px 34px;
+      overflow: hidden;
+      color: white;
+      background: linear-gradient(135deg, #07152f 0%, #16377d 56%, #315bff 100%);
+    }
+    .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; }
+    .hero::before { width: 210px; height: 210px; right: -82px; top: -84px; border: 40px solid rgba(216,255,85,.12); }
+    .hero::after { width: 110px; height: 110px; right: 50px; bottom: -80px; background: rgba(39,211,255,.14); }
+    .hero-copy { position: relative; z-index: 1; max-width: 250px; }
+    .hero-badge { display: inline-flex; padding: 5px 9px; border-radius: 999px; color: var(--navy); background: var(--lime); font-size: 10px; font-weight: 900; }
+    .hero h2 { margin: 10px 0 5px; font-size: 28px; line-height: 1.12; letter-spacing: -.03em; }
+    .hero p { margin: 0; color: rgba(255,255,255,.72); font-size: 12px; }
+    .coin-stack { position: absolute; z-index: 1; right: 22px; bottom: 23px; width: 92px; height: 82px; }
+    .coin { position: absolute; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 50%; border: 5px solid #ffbd42; color: #7b4200; background: linear-gradient(145deg, #ffe27a, #ff9d28); box-shadow: 0 10px 18px rgba(2,9,26,.25); font-weight: 900; }
+    .coin:nth-child(1) { right: 0; top: 0; transform: rotate(13deg); }
+    .coin:nth-child(2) { left: 0; bottom: 0; transform: rotate(-12deg) scale(.82); }
+
+    .tabs { position: sticky; z-index: 3; top: 0; display: flex; gap: 4px; padding: 12px 16px 8px; background: rgba(243,246,251,.96); backdrop-filter: blur(12px); }
+    .tab { padding: 8px 12px; border: 0; border-radius: 999px; color: #78849b; background: transparent; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .tab.active { color: white; background: var(--navy); box-shadow: 0 6px 18px rgba(7,21,47,.16); }
+    .content { padding: 8px 14px 86px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin: 6px 2px 12px; }
+    .section-head h3 { margin: 0; font-size: 16px; }
+    .section-head span { color: var(--muted); font-size: 11px; }
+
+    .campaign-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px minmax(0,1fr) 56px;
+      align-items: center;
+      gap: 10px;
+      min-height: 72px;
+      margin-bottom: 8px;
+      padding: 10px 11px;
+      border: 1px solid #e8edf5;
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 3px 12px rgba(30,47,83,.045);
+      cursor: default;
+    }
+    .campaign-card.is-progress { align-items: start; min-height: 94px; }
+    .campaign-icon {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 12px;
+      color: var(--lime);
+      background: linear-gradient(145deg, #0b1b3d, #315bff);
+      box-shadow: 0 6px 14px rgba(49,91,255,.16);
+      font-size: 21px;
+      font-weight: 950;
+    }
+    .campaign-icon::after { content: ""; position: absolute; width: 28px; height: 28px; right: -14px; top: -13px; border: 7px solid rgba(255,255,255,.12); border-radius: 50%; }
+    .campaign-icon.orange { color: #fff0a8; background: linear-gradient(145deg, #6c1d42, #ff754b); box-shadow: 0 6px 14px rgba(255,117,75,.15); }
+    .campaign-icon.green { color: white; background: linear-gradient(145deg, #064238, #18b37c); box-shadow: 0 6px 14px rgba(24,179,124,.15); }
+    .campaign-main { min-width: 0; }
+    .campaign-head, .campaign-sub { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+    .campaign-title { display: flex; align-items: center; gap: 5px; min-width: 0; }
+    .campaign-head strong { overflow: hidden; color: var(--ink); font-size: 12px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .detail-info { flex: 0 0 auto; width: 16px; height: 16px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; color: white; background: #31415f; box-shadow: 0 3px 8px rgba(24,37,63,.16); font-size: 10px; line-height: 1; font-weight: 900; cursor: pointer; }
+    .campaign-reward { flex: 0 0 auto; padding: 3px 6px; border-radius: 7px; color: var(--blue); background: #edf1ff; font-size: 9px; font-weight: 900; white-space: nowrap; }
+    .campaign-sub { margin-top: 3px; }
+    .campaign-sub small { overflow: hidden; color: var(--muted); font-size: 9px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .campaign-sub .countdown { flex: 0 0 auto; color: #96a0b3; font-size: 8px; white-space: nowrap; }
+    .progress-label { display: flex; justify-content: space-between; gap: 10px; color: #66738d; font-size: 11px; }
+    .progress-label b { color: var(--ink); }
+    .progress { height: 8px; margin: 9px 0 11px; overflow: hidden; border-radius: 999px; background: #edf1f7; }
+    .progress span { display: block; width: 60%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--cyan)); transition: width .35s ease; }
+    .campaign-progress { margin-top: 8px; }
+    .campaign-progress .progress-label { font-size: 8px; }
+    .campaign-progress .progress { height: 5px; margin: 5px 0 0; }
+    .card-action { width: 56px; height: 28px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 9px; color: white; background: var(--blue); box-shadow: 0 6px 14px rgba(49,91,255,.18); font-size: 9px; line-height: 1; font-weight: 850; white-space: nowrap; cursor: pointer; }
+
+    .bottom-nav { position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; height: 67px; display: grid; grid-template-columns: repeat(4,1fr); padding: 8px 6px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(230,235,244,.9); background: rgba(255,255,255,.96); backdrop-filter: blur(14px); }
+    .nav-item { display: grid; place-items: center; align-content: center; gap: 3px; border: 0; color: #98a2b7; background: none; font-size: 9px; cursor: pointer; }
+    .nav-item svg { width: 18px; height: 18px; }
+    .nav-item.active { color: var(--blue); font-weight: 800; }
+
+    .detail-top { flex: 0 0 auto; height: 58px; display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; gap: 6px; padding: 8px 13px; color: white; background: var(--navy); }
+    .detail-top h2 { margin: 0; text-align: center; font-size: 15px; }
+    .detail-hero { position: relative; padding: 25px 18px 30px; color: white; background: linear-gradient(145deg, #07152f, #315bff); overflow: hidden; }
+    .detail-hero::after { content: "₹"; position: absolute; right: 10px; top: -24px; color: rgba(255,255,255,.08); font-size: 150px; font-weight: 950; }
+    .detail-hero h3 { position: relative; z-index: 1; margin: 0 0 6px; font-size: 24px; }
+    .detail-hero p { position: relative; z-index: 1; margin: 0; color: rgba(255,255,255,.68); font-size: 11px; }
+    .timer { position: relative; z-index: 1; display: inline-flex; margin-top: 16px; padding: 7px 10px; border-radius: 10px; background: rgba(0,0,0,.18); font-size: 10px; }
+    .progress-card { position: relative; z-index: 2; margin: -15px 14px 13px; padding: 16px; border-radius: 18px; background: white; box-shadow: 0 12px 30px rgba(15,33,70,.12); }
+    .progress-card .amounts { display: flex; align-items: baseline; justify-content: space-between; }
+    .progress-card .amounts strong { font-size: 21px; }
+    .progress-card .amounts span { color: var(--muted); font-size: 10px; }
+    .progress-card p { margin: 0; color: #63708a; font-size: 11px; }
+    .tier-section { padding: 0 14px 94px; }
+    .tier-section h4, .rule-block h4 { margin: 18px 2px 11px; font-size: 14px; }
+    .tier-list { display: grid; gap: 10px; }
+    .tier { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 11px; min-height: 68px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 15px; background: white; }
+    .tier.is-current { border-color: rgba(49,91,255,.35); box-shadow: 0 0 0 3px rgba(49,91,255,.07); }
+    .tier.is-done { background: #f2fbf7; border-color: #c9edde; }
+    .tier-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; color: #8a5a00; background: #fff1c8; font-weight: 900; font-size: 13px; }
+    .tier.is-done .tier-icon { color: white; background: var(--success); }
+    .tier-copy b { display: block; font-size: 12px; }
+    .tier-copy small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .tier-state { padding: 6px 9px; border-radius: 9px; color: #8490a6; background: #f1f4f8; font-size: 9px; font-weight: 800; }
+    .tier.is-done .tier-state { color: var(--success); background: #dff6ec; }
+    .tier.is-current .tier-state { color: var(--blue); background: #e8edff; }
+    .rule-block { padding: 0 2px 18px; color: #69758e; font-size: 10px; line-height: 1.7; }
+    .rule-block ol { margin: 0; padding-left: 18px; }
+    .sticky-cta { position: absolute; z-index: 7; left: 0; right: 0; bottom: 0; display: flex; gap: 10px; padding: 11px 14px max(11px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: rgba(255,255,255,.96); backdrop-filter: blur(12px); }
+    .primary { flex: 1; height: 44px; border: 0; border-radius: 13px; color: white; background: var(--blue); box-shadow: 0 10px 22px rgba(49,91,255,.28); font-weight: 850; cursor: pointer; }
+    .secondary { height: 44px; padding: 0 17px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: white; font-weight: 750; cursor: pointer; }
+
+    .sheet-wrap { position: absolute; z-index: 20; inset: 0; display: grid; align-items: end; background: rgba(4,12,28,.52); backdrop-filter: blur(3px); transition: opacity .22s ease; }
+    .sheet-wrap[hidden] { display: none; }
+    .sheet { max-height: 83%; overflow-y: auto; border-radius: 24px 24px 0 0; background: white; box-shadow: 0 -22px 60px rgba(3,12,31,.24); scrollbar-width: none; }
+    .sheet::-webkit-scrollbar { display: none; }
+    .sheet-head { position: sticky; z-index: 2; top: 0; display: flex; align-items: center; justify-content: space-between; padding: 17px 18px 13px; border-bottom: 1px solid var(--line); background: white; }
+    .sheet-head h3 { margin: 0; font-size: 16px; }
+    .sheet-body { padding: 15px 17px calc(18px + env(safe-area-inset-bottom)); }
+    .recharge-promo { padding: 13px; border-radius: 15px; color: white; background: linear-gradient(135deg, var(--navy), var(--blue)); }
+    .recharge-promo b { display: block; font-size: 12px; }
+    .recharge-promo span { display: block; margin-top: 5px; color: rgba(255,255,255,.68); font-size: 10px; }
+    .label { display: block; margin: 18px 0 10px; font-size: 12px; font-weight: 800; }
+    .amount-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
+    .amount { height: 46px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: #f8faff; font-weight: 800; cursor: pointer; }
+    .amount.active { color: var(--blue); border-color: var(--blue); background: #edf1ff; box-shadow: 0 0 0 2px rgba(49,91,255,.08); }
+    .forecast { min-height: 74px; margin: 14px 0; padding: 12px 13px; border: 1px solid #dfe6ff; border-radius: 14px; background: #f5f7ff; }
+    .forecast b { display: block; color: var(--blue); font-size: 12px; }
+    .forecast p { margin: 5px 0 0; color: #63708a; font-size: 10px; line-height: 1.55; }
+    .pay-btn { width: 100%; height: 46px; border: 0; border-radius: 13px; color: white; background: var(--blue); font-weight: 850; cursor: pointer; }
+
+    .campaign-popup-wrap { position: absolute; z-index: 25; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(4,12,28,.62); backdrop-filter: blur(4px); }
+    .campaign-popup-wrap[hidden] { display: none; }
+    .campaign-popup { position: relative; width: min(100%, 304px); overflow: hidden; border-radius: 24px; background: white; box-shadow: 0 24px 70px rgba(1,9,28,.36); }
+    .popup-close { position: absolute; z-index: 2; right: 12px; top: 12px; width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 50%; color: white; background: rgba(3,12,31,.3); font-size: 15px; cursor: pointer; }
+    .campaign-popup-head { position: relative; padding: 20px 18px 15px; color: white; background: linear-gradient(135deg, #07152f, #315bff); }
+    .campaign-popup-head span { display: block; color: var(--lime); font-size: 9px; font-weight: 850; }
+    .campaign-popup-head h3 { margin: 5px 0 3px; font-size: 18px; }
+    .campaign-popup-head p { margin: 0; color: rgba(255,255,255,.68); font-size: 9px; }
+    .campaign-popup-body { padding: 13px 15px 16px; }
+    .popup-current { padding: 10px 11px; border: 1px solid #e1e7ff; border-radius: 12px; background: #f5f7ff; }
+    .popup-current-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+    .popup-current-top b { color: var(--blue); font-size: 14px; }
+    .popup-current-top span { color: var(--muted); font-size: 8px; }
+    .popup-current .progress { height: 5px; margin: 7px 0 0; }
+    .popup-tier-table { width: 100%; margin: 10px 0 12px; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; font-size: 9px; }
+    .popup-tier-table th { height: 27px; padding: 0 8px; color: #7c879d; background: #f5f7fa; text-align: left; font-weight: 750; }
+    .popup-tier-table td { height: 29px; padding: 0 8px; border-top: 1px solid var(--line); color: #4f5d77; }
+    .popup-tier-table th:last-child, .popup-tier-table td:last-child { text-align: right; }
+    .popup-tier-state { display: inline-flex; padding: 3px 6px; border-radius: 999px; color: #8893a7; background: #f0f3f7; font-size: 8px; white-space: nowrap; }
+    .popup-tier-state.done { color: var(--success); background: #e4f7ef; }
+    .popup-tier-state.current { color: var(--blue); background: #e9edff; }
+    .popup-action { width: 100%; height: 40px; border: 0; border-radius: 12px; color: white; background: var(--blue); box-shadow: 0 9px 20px rgba(49,91,255,.24); font-weight: 850; cursor: pointer; }
+
+    .toast { position: absolute; z-index: 30; left: 50%; top: 70px; max-width: calc(100% - 34px); padding: 10px 14px; border-radius: 12px; color: white; background: rgba(7,21,47,.94); box-shadow: 0 12px 26px rgba(2,10,28,.24); font-size: 11px; transform: translate(-50%, -16px); opacity: 0; pointer-events: none; transition: .25s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 820px) {
+      body { background: var(--paper); }
+      .stage { display: block; min-height: 100vh; padding: 0; }
+      .intro { display: none; }
+      .phone { width: 100%; height: 100vh; min-height: 620px; border: 0; border-radius: 0; box-shadow: none; }
+    }
+    @media (max-height: 730px) and (min-width: 821px) {
+      .phone { min-height: 620px; }
+      .intro h1 { font-size: 42px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="intro" aria-label="原型说明">
+      <div class="eyebrow">SUPERX Campaign</div>
+      <h1>阶梯充值<br><span>前台活动中心</span></h1>
+      <p>从活动发现、进度查看到充值解锁奖励，形成完整的用户转化闭环。右侧为可交互前台原型。</p>
+      <div class="legend">
+        <div class="legend-item"><i></i><span>点击第一张活动卡进入阶梯充值详情</span></div>
+        <div class="legend-item"><i></i><span>点击“去充值”查看金额选择与奖励预估</span></div>
+        <div class="legend-item"><i></i><span>完成模拟充值后，进度与档位状态同步更新</span></div>
+      </div>
+    </section>
+
+    <section class="phone" aria-label="移动端活动中心原型">
+      <div class="app">
+        <section class="screen" id="centerScreen">
+          <header class="topbar">
+            <div class="brand"><span class="brand-mark">SX</span> SUPERX</div>
+            <button class="icon-btn" id="openCampaignPopup" type="button" aria-label="活动消息">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 20h4"/></svg>
+            </button>
+          </header>
+          <div class="scroll" id="centerScroll">
+            <section class="hero">
+              <div class="hero-copy">
+                <span class="hero-badge">LIMITED REWARDS</span>
+                <h2>充值越多<br>奖励越高</h2>
+                <p>累计充值解锁多档礼金，最高可得 ₹500</p>
+              </div>
+              <div class="coin-stack" aria-hidden="true"><span class="coin">₹</span><span class="coin">₹</span></div>
+            </section>
+            <nav class="tabs" aria-label="活动分类">
+              <button class="tab active" type="button" data-filter="all">全部</button>
+              <button class="tab" type="button" data-filter="recharge">充值活动</button>
+              <button class="tab" type="button" data-filter="game">游戏活动</button>
+              <button class="tab" type="button" data-filter="vip">VIP</button>
+            </nav>
+            <div class="content">
+              <div class="section-head"><h3>热门活动</h3><span>3 个活动进行中</span></div>
+
+              <article class="campaign-card is-progress" data-category="recharge">
+                <div class="campaign-icon" aria-hidden="true">₹</div>
+                <div class="campaign-main">
+                  <div class="campaign-head"><div class="campaign-title"><strong>累计充值解锁阶梯礼金</strong><button class="detail-info" id="tierDetailButton" type="button" aria-label="查看阶梯充值活动详情">!</button></div><span class="campaign-reward">最高 ₹500</span></div>
+                  <div class="campaign-sub"><small>达到档位后奖励自动发放</small><span class="countdown">剩余 07天</span></div>
+                  <div class="campaign-progress">
+                    <div class="progress-label"><span>已累计 <b id="cardCurrent">₹600</b></span><span>下一档 ₹1,000</span></div>
+                    <div class="progress"><span id="cardProgress"></span></div>
+                  </div>
+                </div>
+                <button class="card-action" id="tierCampaign" type="button">去充值</button>
+              </article>
+
+              <article class="campaign-card" data-category="recharge">
+                <div class="campaign-icon orange" aria-hidden="true">+</div>
+                <div class="campaign-main">
+                  <div class="campaign-head"><div class="campaign-title"><strong>新人首充专享加赠</strong><button class="detail-info" type="button" data-demo-toast="新人首充活动详情为示意入口" aria-label="查看新人首充活动详情">!</button></div><span class="campaign-reward">最高 +100%</span></div>
+                  <div class="campaign-sub"><small>首次充值即可参与</small><span class="countdown">新用户专享</span></div>
+                </div>
+                <button class="card-action" type="button" data-demo-toast="当前用户不满足新人条件">去充值</button>
+              </article>
+
+              <article class="campaign-card" data-category="game">
+                <div class="campaign-icon green" aria-hidden="true">★</div>
+                <div class="campaign-main">
+                  <div class="campaign-head"><div class="campaign-title"><strong>周末挑战赛</strong><button class="detail-info" type="button" data-demo-toast="周末挑战赛活动详情为示意入口" aria-label="查看周末挑战赛活动详情">!</button></div><span class="campaign-reward">额外奖励</span></div>
+                  <div class="campaign-sub"><small>完成指定游戏任务赢奖励</small><span class="countdown">周日 23:59 结束</span></div>
+                </div>
+                <button class="card-action" type="button" data-demo-toast="游戏活动详情为示意入口">去参与</button>
+              </article>
+            </div>
+          </div>
+          <nav class="bottom-nav" aria-label="底部导航">
+            <button class="nav-item" type="button" data-demo-toast="已切换至首页"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 11 9-8 9 8v9H3Z"/></svg><span>首页</span></button>
+            <button class="nav-item" type="button" data-demo-toast="已切换至游戏"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 10h10l3 7a3 3 0 0 1-5 3l-1-2h-4l-1 2a3 3 0 0 1-5-3Z"/><path d="M8 13v3M6.5 14.5h3M16 14.5h.01"/></svg><span>游戏</span></button>
+            <button class="nav-item active" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v8H4v-8M2 7h20v5H2Z"/><path d="M12 7v13M12 7H7.5a2.5 2.5 0 1 1 2.2-3.7ZM12 7h4.5a2.5 2.5 0 1 0-2.2-3.7Z"/></svg><span>活动</span></button>
+            <button class="nav-item" type="button" data-demo-toast="已切换至我的"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>我的</span></button>
+          </nav>
+        </section>
+
+        <section class="screen is-hidden" id="detailScreen" aria-hidden="true">
+          <header class="detail-top">
+            <button class="icon-btn" id="backButton" type="button" aria-label="返回活动中心"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+            <h2>阶梯充值</h2>
+            <button class="icon-btn" type="button" data-demo-toast="分享链接已复制" aria-label="分享"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg></button>
+          </header>
+          <div class="scroll" id="detailScroll">
+            <section class="detail-hero">
+              <h3>充值越多，奖励越高</h3>
+              <p>活动周期内累计充值，逐档解锁礼金奖励</p>
+              <div class="timer">活动剩余&nbsp; 07天 12:36:08</div>
+            </section>
+            <section class="progress-card">
+              <div class="amounts"><strong id="detailCurrent">₹600</strong><span>下一档目标 ₹1,000</span></div>
+              <div class="progress"><span id="detailProgress"></span></div>
+              <p id="gapCopy">再充值 ₹400，可解锁 ₹50 礼金</p>
+            </section>
+            <section class="tier-section">
+              <h4>阶梯奖励</h4>
+              <div class="tier-list" id="tierList"></div>
+              <div class="rule-block">
+                <h4>活动规则</h4>
+                <ol>
+                  <li>活动期间，成功充值金额将累计计入当前活动周期。</li>
+                  <li>达到阶梯门槛后，对应礼金自动发放至礼金账户。</li>
+                  <li>退款、撤销或拒付订单不计入累计充值金额。</li>
+                  <li>每个阶梯在当前活动周期内仅可获得一次。</li>
+                </ol>
+              </div>
+            </section>
+          </div>
+          <footer class="sticky-cta"><button class="secondary" type="button" data-demo-toast="规则已展示在页面底部">活动规则</button><button class="primary" id="openRecharge" type="button">去充值</button></footer>
+        </section>
+
+        <div class="campaign-popup-wrap" id="campaignPopup">
+          <section class="campaign-popup" role="dialog" aria-modal="true" aria-labelledby="campaignPopupTitle">
+            <button class="popup-close" id="closeCampaignPopup" type="button" aria-label="关闭活动弹窗">✕</button>
+            <div class="campaign-popup-head">
+              <span>阶梯充值活动</span>
+              <h3 id="campaignPopupTitle">累计充值阶梯礼金</h3>
+              <p>活动剩余 07天 · 达标后奖励自动发放</p>
+            </div>
+            <div class="campaign-popup-body">
+              <div class="popup-current">
+                <div class="popup-current-top"><span>本周期已累计</span><b id="popupCurrent">₹600</b></div>
+                <div class="progress"><span id="popupProgress"></span></div>
+              </div>
+              <table class="popup-tier-table" aria-label="阶梯充值奖励">
+                <thead><tr><th>累计充值</th><th>奖励礼金</th><th>状态</th></tr></thead>
+                <tbody id="popupTierRows"></tbody>
+              </table>
+              <button class="popup-action" id="campaignPopupAction" type="button">去充值</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="sheet-wrap" id="rechargeSheet" hidden>
+          <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="rechargeTitle">
+            <header class="sheet-head"><h3 id="rechargeTitle">选择充值金额</h3><button class="icon-btn" id="closeRecharge" type="button" aria-label="关闭" style="color:#66738d;background:#f2f5f9">✕</button></header>
+            <div class="sheet-body">
+              <div class="recharge-promo"><b>阶梯充值活动进行中</b><span id="sheetCurrent">当前已累计 ₹600，再充 ₹400 解锁下一档奖励</span></div>
+              <span class="label">充值金额</span>
+              <div class="amount-grid" id="amountGrid">
+                <button class="amount" type="button" data-amount="100">₹100</button>
+                <button class="amount" type="button" data-amount="300">₹300</button>
+                <button class="amount active" type="button" data-amount="500">₹500</button>
+                <button class="amount" type="button" data-amount="1000">₹1,000</button>
+                <button class="amount" type="button" data-amount="2000">₹2,000</button>
+                <button class="amount" type="button" data-amount="5000">₹5,000</button>
+              </div>
+              <div class="forecast" aria-live="polite"><b id="forecastTitle">本次充值后预计累计 ₹1,100</b><p id="forecastCopy">将解锁 ₹1,000 档位，预计获得 ₹50 礼金。最终结果以充值成功后的服务端计算为准。</p></div>
+              <button class="pay-btn" id="payButton" type="button">立即充值 ₹500</button>
+            </div>
+          </section>
+        </div>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const tiers = [
+        { threshold: 100, reward: 3 },
+        { threshold: 500, reward: 20 },
+        { threshold: 1000, reward: 50 },
+        { threshold: 3000, reward: 180 },
+        { threshold: 5000, reward: 500 }
+      ];
+      let current = 600;
+      let selectedAmount = 500;
+      let toastTimer;
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+      const money = value => `₹${Number(value).toLocaleString('en-IN')}`;
+      const nextTier = value => tiers.find(tier => tier.threshold > value) || null;
+
+      function showToast(message) {
+        const toast = $('#toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      function updateProgress() {
+        const next = nextTier(current);
+        const previous = [...tiers].reverse().find(tier => tier.threshold <= current)?.threshold || 0;
+        const target = next?.threshold || tiers.at(-1).threshold;
+        const percent = next ? Math.min(100, ((current - previous) / (target - previous)) * 100) : 100;
+        $('#cardCurrent').textContent = money(current);
+        $('#detailCurrent').textContent = money(current);
+        $('#popupCurrent').textContent = money(current);
+        $('#cardProgress').style.width = `${percent}%`;
+        $('#detailProgress').style.width = `${percent}%`;
+        $('#popupProgress').style.width = `${percent}%`;
+        $('#sheetCurrent').textContent = next
+          ? `当前已累计 ${money(current)}，再充 ${money(next.threshold - current)} 解锁下一档奖励`
+          : `当前已累计 ${money(current)}，全部阶梯奖励均已解锁`;
+        $('#gapCopy').textContent = next
+          ? `再充值 ${money(next.threshold - current)}，可解锁 ${money(next.reward)} 礼金`
+          : '恭喜，当前活动的全部阶梯奖励均已解锁';
+        renderTiers();
+      }
+
+      function renderTiers() {
+        const next = nextTier(current);
+        $('#tierList').innerHTML = tiers.map((tier, index) => {
+          const done = current >= tier.threshold;
+          const isCurrent = next?.threshold === tier.threshold;
+          const state = done ? '已发放' : isCurrent ? '进行中' : '未达到';
+          return `<article class="tier ${done ? 'is-done' : ''} ${isCurrent ? 'is-current' : ''}">
+            <span class="tier-icon">${done ? '✓' : index + 1}</span>
+            <span class="tier-copy"><b>累计充值 ${money(tier.threshold)}</b><small>奖励 ${money(tier.reward)} 礼金 · 1倍流水</small></span>
+            <span class="tier-state">${state}</span>
+          </article>`;
+        }).join('');
+        $('#popupTierRows').innerHTML = tiers.map(tier => {
+          const done = current >= tier.threshold;
+          const isCurrent = next?.threshold === tier.threshold;
+          const state = done ? '已发放' : isCurrent ? '进行中' : '未达到';
+          const stateClass = done ? 'done' : isCurrent ? 'current' : '';
+          return `<tr><td>${money(tier.threshold)}</td><td>${money(tier.reward)}</td><td><span class="popup-tier-state ${stateClass}">${state}</span></td></tr>`;
+        }).join('');
+      }
+
+      function updateForecast() {
+        const after = current + selectedAmount;
+        const unlocked = tiers.filter(tier => tier.threshold > current && tier.threshold <= after);
+        const reward = unlocked.reduce((total, tier) => total + tier.reward, 0);
+        $('#forecastTitle').textContent = `本次充值后预计累计 ${money(after)}`;
+        $('#forecastCopy').textContent = unlocked.length
+          ? `将解锁 ${unlocked.map(tier => money(tier.threshold)).join('、')} 档位，预计获得 ${money(reward)} 礼金。最终结果以充值成功后的服务端计算为准。`
+          : `本次充值尚未达到新档位，累计进度将更新。最终结果以充值成功后的服务端计算为准。`;
+        $('#payButton').textContent = `立即充值 ${money(selectedAmount)}`;
+      }
+
+      function openDetail() {
+        $('#centerScreen').classList.add('is-hidden');
+        $('#centerScreen').setAttribute('aria-hidden', 'true');
+        $('#detailScreen').classList.remove('is-hidden');
+        $('#detailScreen').setAttribute('aria-hidden', 'false');
+        $('#detailScroll').scrollTop = 0;
+      }
+
+      function closeDetail() {
+        $('#detailScreen').classList.add('is-hidden');
+        $('#detailScreen').setAttribute('aria-hidden', 'true');
+        $('#centerScreen').classList.remove('is-hidden');
+        $('#centerScreen').setAttribute('aria-hidden', 'false');
+      }
+
+      function openRechargeSheet() {
+        updateForecast();
+        $('#rechargeSheet').hidden = false;
+      }
+
+      function closeCampaignPopup() {
+        $('#campaignPopup').hidden = true;
+      }
+
+      $('#tierCampaign').addEventListener('click', openRechargeSheet);
+      $('#tierDetailButton').addEventListener('click', openDetail);
+      $('#backButton').addEventListener('click', closeDetail);
+      $('#openRecharge').addEventListener('click', openRechargeSheet);
+      $('#openCampaignPopup').addEventListener('click', () => { $('#campaignPopup').hidden = false; });
+      $('#closeCampaignPopup').addEventListener('click', closeCampaignPopup);
+      $('#campaignPopupAction').addEventListener('click', () => { closeCampaignPopup(); openRechargeSheet(); });
+      $('#campaignPopup').addEventListener('click', event => { if (event.target === $('#campaignPopup')) closeCampaignPopup(); });
+      $('#closeRecharge').addEventListener('click', () => { $('#rechargeSheet').hidden = true; });
+      $('#rechargeSheet').addEventListener('click', event => {
+        if (event.target === $('#rechargeSheet')) $('#rechargeSheet').hidden = true;
+      });
+
+      $('#amountGrid').addEventListener('click', event => {
+        const button = event.target.closest('[data-amount]');
+        if (!button) return;
+        selectedAmount = Number(button.dataset.amount);
+        $$('.amount', $('#amountGrid')).forEach(item => item.classList.toggle('active', item === button));
+        updateForecast();
+      });
+
+      $('#payButton').addEventListener('click', () => {
+        const before = current;
+        current += selectedAmount;
+        const unlocked = tiers.filter(tier => tier.threshold > before && tier.threshold <= current);
+        $('#rechargeSheet').hidden = true;
+        updateProgress();
+        updateForecast();
+        showToast(unlocked.length ? `充值成功，已解锁 ${unlocked.length} 档奖励` : '充值成功，累计进度已更新');
+      });
+
+      $$('.tab').forEach(tab => tab.addEventListener('click', () => {
+        $$('.tab').forEach(item => item.classList.toggle('active', item === tab));
+        const filter = tab.dataset.filter;
+        $$('.campaign-card').forEach(card => {
+          card.hidden = filter !== 'all' && card.dataset.category !== filter;
+        });
+      }));
+
+      document.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-demo-toast]');
+        if (trigger) { event.stopPropagation(); showToast(trigger.dataset.demoToast); }
+      });
+
+      updateProgress();
+      updateForecast();
+    })();
+  </script>
+</body>
+</html>
