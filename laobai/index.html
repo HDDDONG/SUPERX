@@ -1541,6 +1541,11 @@
       min-width: 0;
     }
 
+    .wager-rebate-table col:nth-child(1) { width: 34%; }
+    .wager-rebate-table col:nth-child(2) { width: 28%; }
+    .wager-rebate-table col:nth-child(3) { width: 28%; }
+    .wager-rebate-table col:nth-child(4) { width: 10%; }
+
     .rescue-interval-table th,
     .rescue-interval-table td {
       vertical-align: middle;
@@ -2699,6 +2704,8 @@
                 <option>返水活动</option>
                 <option>笔笔送</option>
                 <option>阶梯充值</option>
+                <option>输返</option>
+                <option>打码返利</option>
               </select>
             </div>
             <div class="field field-size-1">
@@ -2768,6 +2775,7 @@
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 14 行"></td><td>14</td><td>IN02</td><td>01KSTEPDEP20260709B</td><td>累计充值阶梯礼金</td><td>阶梯充值</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled" data-audience="newbie" data-exclusive-display="true"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 15 行"></td><td>15</td><td>IN01</td><td>01KNEWBIE20260717</td><td>新人首充专享礼金</td><td>新人首充</td><td><span class="table-thumb">POPUP</span></td><td>200</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/17 00:00</td><td>2026/08/16 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 16 行"></td><td>16</td><td>IN01</td><td>01KLOSSRETURN20260720</td><td>24小时亏损救援</td><td>输返</td><td><span class="table-thumb">POPUP</span></td><td>180</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 17 行"></td><td>17</td><td>IN01</td><td>01KWAGERREBATE20260722</td><td>每日打码阶梯返利</td><td>打码返利</td><td><span class="table-thumb">POPUP</span></td><td>170</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/22 00:00</td><td>2026/08/21 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -4200,6 +4208,63 @@
           <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="Deposit"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取亏损阶梯，无需重复配置</span></strong><div class="popup-rule-preview-grid"><span class="head">累计亏损达到</span><span class="head">返还比例</span><span class="head">流水</span><span>5–50 USD</span><span>10%</span><span>5倍</span><span>50–200 USD</span><span>15%</span><span>5倍</span><span>5,000 USD以上</span><span>50%</span><span>5倍</span></div></div></div></div>
         </div>
       </div>
+
+      <div id="wagerRebateActivityForm" hidden>
+        <div class="context-note">配置逻辑：系统在单个活动重置周期内累计统计范围中的有效流水；累计值达到档位门槛时立即发放该档礼金，每个档位每周期仅发放一次。高档奖励与低档奖励逐档累计发放；周期结束后清空累计有效流水和本周期档位达成状态，历史发放记录不清空。选择“不重置”时，整个活动有效期视为一个周期。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="wagerRebateActivityName" value="每日打码阶梯返利"></div>
+          <div class="field"><label class="required">包ID</label><input id="wagerRebatePackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-07-22T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-08-21T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option selected>打码返利</option></select></div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">基础规则配置</div>
+            <div class="rule-summary loss-return-basic-summary">
+              <div class="rule-summary-item"><label class="required">活动重置周期<span class="help-tip" tabindex="0" data-tip="周期结束后清空本周期累计有效流水和档位达成状态；历史礼金发放记录不清空。不重置表示整个活动有效期内持续累计，每档仅发放一次。">?</span></label><select id="wagerRebateResetCycle"><option>不重置</option><option selected>每日重置</option><option>每周重置</option><option>每月重置</option></select></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">统计范围<span class="help-tip" tabindex="0" data-tip="仅累计所选范围内平台统一口径的有效流水；无效、取消、退款或未结算注单不计入。">?</span></label><select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option>指定游戏分类</option><option selected>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field"><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi" data-default-values="Super Ace,Fortune Tiger"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+              <div class="rule-summary-item"><label class="required">币种</label><select id="wagerRebateCurrency"><option>USD</option><option selected>INR</option><option>BRL</option><option>PHP</option></select></div>
+              <div class="rule-summary-item"><label class="required">奖励累计方式<span class="help-tip" tabindex="0" data-tip="达到多个档位时，各档奖励分别发放。例如达到10,000时，已达到的1,000、5,000和10,000档均各发放一次。">?</span></label><select id="wagerRebateRewardMode"><option selected>逐档累计发放</option></select></div>
+              <div class="rule-summary-item"><label class="required">结算与发放方式</label><select id="wagerRebateSettlement"><option selected>达标后立即发放</option></select></div>
+            </div>
+
+            <div class="rule-subtitle config-table-title"><span>打码返利档位</span><button class="circle-btn rule-table-add" type="button" aria-label="新增打码返利档位" title="新增打码返利档位">+</button></div>
+            <table class="subsidy-rule-table wager-rebate-table">
+              <colgroup><col><col><col><col></colgroup>
+              <thead><tr><th class="has-help">累计有效流水达到<span class="help-tip" tabindex="0" data-tip="按活动重置周期内累计有效流水判断；累计值大于或等于门槛时，该档立即达成。门槛必须按升序配置且不可重复。">?</span></th><th>返利金额</th><th>流水倍率</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="1000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="10"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="5000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="70"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="10000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="180"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+              </tbody>
+            </table>
+
+            <div class="rule-subtitle">礼金配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item"><label class="required">礼金是否需要领取</label><div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>不需要领取</span></div></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">礼金适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">适用范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">前台展示</div>
+        <div class="front-subsection">
+          <div class="front-subtitle">活动中心配置</div>
+          <div class="front-global-config"><div class="field"><label class="required">是否在活动中心展示</label><div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div></div>
+          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Wager & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="累计有效流水，逐档解锁返利"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看进度"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
+        </div>
+        <div class="front-subsection">
+          <div class="front-subtitle">弹窗配置</div>
+          <div class="popup-config"><div class="popup-fields"><div class="field popup-visibility-field"><label class="required">弹窗是否展示</label><div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div><div class="field"><label class="required">弹窗前台展示类型</label><select class="popup-display-type-select"><option>图片形式</option><option selected>规则形式</option></select></div><div class="field"><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div><div class="field"><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="170"></div><div class="field"><label class="required">弹窗按钮跳转</label><select class="popup-jump-select"><option>无跳转</option><option selected>跳转到指定页面</option></select></div><div class="field popup-target-field"><label class="required">跳转目标</label><select><option selected>活动详情页</option><option>游戏大厅</option></select></div></div></div>
+          <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="View Progress"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取打码返利档位，无需重复配置</span></strong><div class="popup-rule-preview-grid"><span class="head">累计有效流水达到</span><span class="head">返利金额</span><span class="head">流水</span><span>1,000 INR</span><span>10 INR</span><span>1倍</span><span>5,000 INR</span><span>70 INR</span><span>1倍</span><span>10,000 INR</span><span>180 INR</span><span>1倍</span></div></div></div></div>
+        </div>
+      </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" id="cancelDrawerButton" type="button">取消</button>
@@ -4551,12 +4616,15 @@
     const perDepositActivityForm = document.getElementById("perDepositActivityForm");
     const tieredRechargeActivityForm = document.getElementById("tieredRechargeActivityForm");
     const lossReturnActivityForm = document.getElementById("lossReturnActivityForm");
+    const wagerRebateActivityForm = document.getElementById("wagerRebateActivityForm");
     document.querySelectorAll("#activityTypeFilter, .activity-type-select").forEach(select => {
-      if (!Array.from(select.options).some(option => option.value === "输返")) {
-        select.add(new Option("输返", "输返"));
-      }
+      ["输返", "打码返利"].forEach(activityType => {
+        if (!Array.from(select.options).some(option => option.value === activityType)) {
+          select.add(new Option(activityType, activityType));
+        }
+      });
     });
-    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm];
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm];
     const defaultActivityCoreState = activityForms.map(form => {
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
       const packageInput = form.querySelector('input[id$="PackageId"]');
@@ -4570,6 +4638,7 @@
       };
     });
     let firstDepositDefaultRows = [];
+    const wagerRebateDefaultRows = Array.from(wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr")).map(row => row.cloneNode(true));
     const packageOptions = ["all", "IN01", "IN02", "IN03"];
     function syncPackageControl(input) {
       const root = input.nextElementSibling;
@@ -4615,12 +4684,14 @@
       const isPerDeposit = normalizedType === "笔笔送";
       const isTieredRecharge = normalizedType === "阶梯充值";
       const isLossReturn = normalizedType === "输返";
-      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn;
+      const isWagerRebate = normalizedType === "打码返利";
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate;
       rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
       tieredRechargeActivityForm.hidden = !isTieredRecharge;
       lossReturnActivityForm.hidden = !isLossReturn;
+      wagerRebateActivityForm.hidden = !isWagerRebate;
       const newbieExclusiveField = document.getElementById("newbieExclusiveField");
       const firstDepositContextNote = document.getElementById("firstDepositContextNote");
       newbieExclusiveField.hidden = !isNewbieDeposit;
@@ -4651,6 +4722,11 @@
       if (tbody && firstDepositDefaultRows.length) {
         tbody.replaceChildren(...firstDepositDefaultRows.map(row => row.cloneNode(true)));
       }
+      const wagerTbody = wagerRebateActivityForm.querySelector(".wager-rebate-table tbody");
+      if (wagerTbody && wagerRebateDefaultRows.length) {
+        wagerTbody.replaceChildren(...wagerRebateDefaultRows.map(row => row.cloneNode(true)));
+        syncWagerRebatePreview();
+      }
       const exclusiveSwitch = document.getElementById("newbieExclusiveDisplaySwitch");
       exclusiveSwitch.setAttribute("aria-pressed", "true");
       syncNewbieExclusiveDisplay();
@@ -4675,7 +4751,6 @@
       drawer.querySelector(".drawer-body").scrollTop = 0;
       requestAnimationFrame(() => {
         syncCopyCounters(drawer);
-        validateTooltipBoundaries();
       });
     }
     function closeDrawer() {
@@ -4768,10 +4843,15 @@
       return passed;
     }
     window.addEventListener("resize", validateTooltipBoundaries);
+    drawer.addEventListener("transitionend", event => {
+      if (event.target === drawer && event.propertyName === "transform" && !drawer.classList.contains("is-hidden")) {
+        validateTooltipBoundaries();
+      }
+    });
     drawer.querySelector(".drawer-body").addEventListener("scroll", validateTooltipBoundaries, { passive: true });
     window.runTooltipDeliveryValidation = () => {
       const visibleForm = activityForms.find(item => !item.hidden);
-      const tips = visibleForm ? Array.from(visibleForm.querySelectorAll(".help-tip")) : [];
+      const tips = visibleForm ? Array.from(visibleForm.querySelectorAll(".help-tip")).filter(tip => tip.getClientRects().length > 0) : [];
       const passed = tips.length > 0 && tips.every(tip => tip.dataset.boundaryEverValidated === "true");
       drawer.dataset.tooltipDeliveryValidation = passed ? "passed" : "failed";
       if (!passed) console.error("Tooltip delivery validation incomplete");
@@ -5454,6 +5534,79 @@
     });
     syncLossReturnPreview();
 
+    function syncWagerRebatePreview() {
+      const preview = wagerRebateActivityForm.querySelector(".popup-rule-preview-grid");
+      if (!preview) return;
+      const currency = document.getElementById("wagerRebateCurrency").value;
+      preview.replaceChildren();
+      ["累计有效流水达到", "返利金额", "流水"].forEach(textValue => {
+        const cell = document.createElement("span");
+        cell.className = "head";
+        cell.textContent = textValue;
+        preview.appendChild(cell);
+      });
+      wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr").forEach(row => {
+        const thresholdValue = Number(row.querySelector(".wager-threshold").value);
+        const rewardValue = Number(row.querySelector(".wager-reward").value);
+        const turnoverValue = row.querySelector(".wager-turnover").value.trim() || "—";
+        const threshold = Number.isFinite(thresholdValue) && thresholdValue > 0 ? thresholdValue.toLocaleString("en-US") : "—";
+        const reward = Number.isFinite(rewardValue) && rewardValue > 0 ? rewardValue.toLocaleString("en-US") : "—";
+        [`${threshold} ${currency}`, `${reward} ${currency}`, `${turnoverValue}倍`].forEach(textValue => {
+          const cell = document.createElement("span");
+          cell.textContent = textValue;
+          preview.appendChild(cell);
+        });
+      });
+    }
+
+    function validateWagerRebateRules(form) {
+      if (form !== wagerRebateActivityForm) return true;
+      const statisticScope = form.querySelector(".scope-linkage-component");
+      const statisticScopeValue = statisticScope.nextElementSibling;
+      if (!statisticScopeValue.hidden && !statisticScopeValue.querySelector("input:checked")) {
+        window.alert("请选择统计范围值");
+        statisticScopeValue.querySelector(".multi-trigger").focus();
+        return false;
+      }
+      const rows = Array.from(form.querySelectorAll(".wager-rebate-table tbody tr"));
+      if (!rows.length) {
+        window.alert("请至少配置一条打码返利档位");
+        return false;
+      }
+      let previousThreshold = 0;
+      for (let index = 0; index < rows.length; index += 1) {
+        const row = rows[index];
+        const thresholdInput = row.querySelector(".wager-threshold");
+        const rewardInput = row.querySelector(".wager-reward");
+        const turnoverInput = row.querySelector(".wager-turnover");
+        [thresholdInput, rewardInput, turnoverInput].forEach(input => input.removeAttribute("aria-invalid"));
+        const threshold = Number(thresholdInput.value);
+        const reward = Number(rewardInput.value);
+        const turnover = Number(turnoverInput.value);
+        const rowLabel = `第 ${index + 1} 条打码返利档位`;
+        if (!thresholdInput.value.trim() || !Number.isFinite(threshold) || threshold <= 0) return rejectRuleInput(thresholdInput, `${rowLabel}的累计有效流水门槛必须大于0`);
+        if (threshold <= previousThreshold) return rejectRuleInput(thresholdInput, `${rowLabel}的累计有效流水门槛必须大于上一档`);
+        if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) return rejectRuleInput(rewardInput, `${rowLabel}的返利金额必须大于0`);
+        if (!turnoverInput.value.trim() || !Number.isFinite(turnover) || turnover <= 0) return rejectRuleInput(turnoverInput, `${rowLabel}的流水倍率必须大于0`);
+        previousThreshold = threshold;
+      }
+      return true;
+    }
+    wagerRebateActivityForm.addEventListener("input", event => {
+      if (event.target.matches("input")) event.target.removeAttribute("aria-invalid");
+      if (event.target.closest(".wager-rebate-table")) syncWagerRebatePreview();
+    });
+    document.getElementById("wagerRebateCurrency").addEventListener("change", event => {
+      wagerRebateActivityForm.querySelectorAll(".wager-currency-unit").forEach(unit => {
+        unit.textContent = event.target.value;
+      });
+      syncWagerRebatePreview();
+    });
+    wagerRebateActivityForm.addEventListener("click", event => {
+      if (event.target.closest(".rule-table-add, .rule-row-add, .rule-row-remove")) setTimeout(syncWagerRebatePreview, 0);
+    });
+    syncWagerRebatePreview();
+
     document.getElementById("confirmDrawerButton").addEventListener("click", () => {
       const form = activityForms.find(item => !item.hidden);
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
@@ -5469,6 +5622,7 @@
       }
       if (!validateFirstDepositRules(form)) return;
       if (!validateLossReturnRules(form)) return;
+      if (!validateWagerRebateRules(form)) return;
       const expiryType = form.querySelector(".reward-expiry-type");
       const expiryDays = form.querySelector(".reward-expiry-days-input");
       if (expiryType && expiryType.value === "natural-day") {
