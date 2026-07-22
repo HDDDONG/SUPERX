@@ -2380,7 +2380,7 @@
         viewType: "statistics",
         canAdd: false,
         overview: { contentLabel: "公告触达", readColumn: "阅读状态", clickColumn: "点击状态" },
-        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
+        columns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "触达方式", "是否弹窗展示", "展示时间", "阅读状态", "点击状态", "状态", "操作"],
         filters: [
           { key: "userId", label: "用户ID", type: "input", placeholder: "请输入" },
           { key: "userNickname", label: "用户昵称", type: "input", placeholder: "请输入" },
@@ -2390,6 +2390,7 @@
           { key: "userSource", label: "用户来源", type: "select", options: ["Ads", "Invite", "H5"] },
           { key: "name", label: "公告名称", type: "input", placeholder: "请输入" },
           { key: "id", label: "公告ID", type: "input", placeholder: "请输入" },
+          { key: "delivery", label: "触达方式", type: "select", options: ["公告", "公告 + APP推送"] },
           { key: "popupDisplay", label: "是否弹窗展示", type: "select", options: ["是", "否"] },
           { key: "readStatus", label: "阅读状态", type: "select", options: ["未读", "已读"] },
           { key: "clickStatus", label: "点击状态", type: "select", options: ["未点击", "已点击"] },
@@ -2397,11 +2398,11 @@
           { key: "status", label: "状态", type: "select", options: ["成功", "失败"] }
         ],
         rows: [
-          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
-          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
-          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
-          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
-          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
+          ["1", "10023891", "player_891", "VIP 3", "正式账号", "IN01", "Invite", "超长公告测试", "01KX0BNQYV077554JAGXZZZ70B", "公告 + APP推送", "是", "2026/07/10 13:02:39", "已读", "已点击", "成功"],
+          ["2", "10023892", "player_892", "VIP 1", "正式账号", "IN02", "H5", "梦幻体育每日推送", "01KWZT4CS1DQ6GM7A6RQAQRVGJ", "公告 + APP推送", "是", "2026/07/10 11:24:36", "未读", "未点击", "成功"],
+          ["3", "10023893", "player_893", "VIP 4", "正式账号", "IN03", "Ads", "充值成功公告", "01KWX7QAZ79GZRN3H9DKQZH9AR", "公告", "否", "2026/07/04 22:46:58", "已读", "已点击", "成功"],
+          ["4", "10023894", "player_894", "VIP 2", "测试账号", "IN01", "Invite", "维护公告", "01KWDSB8KE0RFGE8YVWPT2A18R", "公告", "是", "2026/07/04 22:46:52", "未读", "未点击", "成功"],
+          ["5", "10023895", "player_895", "VIP 2", "风控账号", "IN01", "Invite", "提现失败公告", "01KW6253M30S2AK1WFQQ5K0PYJ", "公告", "否", "2026/06/24 15:04:40", "已读", "未点击", "成功"]
         ],
         detailColumns: ["序号", "用户ID", "用户昵称", "VIP等级", "账号类型", "包ID", "用户来源", "公告名称", "公告ID", "跳转类型", "推送范围", "触达方式", "是否弹窗展示", "弹窗展示位置", "展示时间", "阅读状态", "阅读时间", "点击状态", "APP推送状态", "通知权限状态", "APP推送点击状态", "状态"],
         detailRows: [
