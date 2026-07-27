@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>充提US · 绑卡信息</title>
+  <style>
+    html { filter:grayscale(1); }
+    :root { --bg:#f4f6f8; --paper:#fff; --ink:#202832; --muted:#7b8490; --line:#e3e7ec; --deep:#303842; --mid:#626b75; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; overflow-x:hidden; color:var(--ink); background:var(--bg); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    button,input,select { font:inherit; }
+    button { cursor:pointer; }
+    .page { min-height:100vh; padding:20px; }
+    .panel { max-width:1180px; margin:0 auto; background:var(--paper); }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .panel-head h1 { margin:0; font-size:18px; }
+    .panel-head p { margin:5px 0 0; color:var(--muted); font-size:11px; }
+    .content { padding:16px 18px 26px; }
+    .toolbar { display:flex; align-items:center; justify-content:flex-start; gap:10px; margin-bottom:12px; }
+    .btn { min-height:34px; padding:0 15px; border:1px solid #ccd2da; border-radius:6px; color:var(--ink); background:#fff; }
+    .btn.primary { color:#fff; border-color:var(--deep); background:var(--deep); }
+    .table-wrap { overflow:auto; border:1px solid var(--line); }
+    table { width:100%; min-width:820px; border-collapse:collapse; font-size:12px; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
+    th { color:#5f6873; background:#f7f8fa; }
+    tbody tr:last-child td { border-bottom:0; }
+    .account-type { display:inline-flex; align-items:center; padding:4px 7px; border-radius:999px; color:#fff; background:var(--mid); font-size:10px; font-weight:700; }
+    .action { padding:0; border:0; color:#3c4652; background:transparent; text-decoration:underline; }
+    .empty { padding:50px 16px!important; color:var(--muted); text-align:center!important; }
+    .editor { margin-top:14px; padding:14px; border:1px solid var(--line); background:#f7f8fa; }
+    .editor[hidden] { display:none; }
+    .editor h2 { margin:0 0 12px; font-size:14px; }
+    .editor-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    .field label { display:block; margin-bottom:5px; color:var(--muted); font-size:11px; }
+    .field input,.field select { width:100%; height:36px; padding:0 10px; border:1px solid #d8dde4; border-radius:6px; background:#fff; }
+    .editor-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
+    .detail-view { margin-top:14px; padding:14px; border:1px solid var(--line); background:#f7f8fa; }
+    .detail-view[hidden] { display:none; }
+    .detail-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+    .detail-head h2 { margin:0; font-size:14px; }
+    .detail-head div { display:flex; align-items:center; gap:12px; }
+    .detail-head small { color:var(--muted); font-size:10px; }
+    .detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    .detail-fields,.dynamic-fields { display:contents; }
+    .detail-item { padding:10px; border:1px solid var(--line); background:#fff; }
+    .detail-item span { display:block; color:var(--muted); font-size:10px; }
+    .detail-item b { display:block; margin-top:5px; overflow-wrap:anywhere; font-size:12px; }
+    .toast { position:fixed; z-index:10; left:50%; top:18px; padding:9px 14px; border-radius:7px; color:#fff; background:var(--deep); font-size:12px; opacity:0; pointer-events:none; transform:translate(-50%,-8px); transition:.2s ease; }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    @media (max-width:620px) {
+      .page { padding:10px; }
+      .panel-head,.toolbar { align-items:flex-start; flex-direction:column; }
+      .editor-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <header class="panel-head">
+        <div><h1>绑卡信息</h1><p>仅维护会员提现收款账户，不包含会员列表及其他充提需求。</p></div>
+      </header>
+      <div class="content">
+        <div class="toolbar"><button class="btn primary" id="addAccount" type="button">新增</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>账户类型</th><th>更新时间</th><th>操作</th></tr></thead>
+            <tbody id="accountRows"></tbody>
+          </table>
+        </div>
+        <section class="detail-view" id="accountDetail" hidden>
+          <div class="detail-head"><h2 id="detailTitle">绑定账户详情</h2><div><small id="detailUpdated"></small><button class="btn" id="detailClose" type="button">关闭</button></div></div>
+          <div class="detail-grid">
+            <div class="detail-fields" id="detailFields"></div>
+          </div>
+        </section>
+        <form class="editor" id="accountEditor" hidden>
+          <h2 id="editorTitle">新增绑定账户</h2>
+          <div class="editor-grid">
+            <div class="field" id="accountTypeField"><label>账户类型</label><select id="accountType"><option>CashApp</option><option>PayPal</option><option>ACH</option><option>Card</option><option>Chime</option><option>Zelle</option></select></div>
+            <div class="dynamic-fields" id="editorFields"></div>
+          </div>
+          <div class="editor-actions"><button class="btn" id="editorCancel" type="button">取消</button><button class="btn primary" type="submit">保存</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const accountFieldConfigs = {
+      CashApp:[{key:"cashtag",label:"CashApp账号",placeholder:"例如 $test123"}],
+      PayPal:[{key:"email",label:"PayPal邮箱",placeholder:"请输入PayPal邮箱",type:"email"}],
+      ACH:[
+        {key:"accountNo",label:"银行账户号码",placeholder:"4-17位数字",inputmode:"numeric"},
+        {key:"routingNo",label:"ACH路由号码",placeholder:"9位数字",inputmode:"numeric"}
+      ],
+      Card:[
+        {key:"cardNo",label:"银行卡号",placeholder:"请输入银行卡号",inputmode:"numeric"},
+        {key:"expiry",label:"卡过期时间",placeholder:"MM/YYYY"}
+      ],
+      Chime:[{key:"chimeAccount",label:"Chime账号",placeholder:"例如 $test123"}],
+      Zelle:[{key:"zelleAccount",label:"Zelle邮箱或手机号",placeholder:"请输入邮箱或手机号"}]
+    };
+    let accounts = [
+      {id:1,type:"CashApp",values:{cashtag:"$wh•••888"},updated:"2026/07/27 12:06:18"},
+      {id:2,type:"PayPal",values:{email:"wh•••@example.com"},updated:"2026/07/27 10:18:36"},
+      {id:3,type:"ACH",values:{accountNo:"•••• •••• 4021",routingNo:"•••0593"},updated:"2026/07/26 18:20:04"}
+    ];
+    let editingId = null;
+    const rows = document.getElementById("accountRows");
+    const editor = document.getElementById("accountEditor");
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g,character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
+    }
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"),1400);
+    }
+    function renderAccounts() {
+      rows.innerHTML = accounts.length ? accounts.map(item => `<tr><td><span class="account-type">${item.type}</span></td><td>${item.updated}</td><td><button class="action" type="button" data-detail="${item.id}">详情</button>　<button class="action" type="button" data-edit="${item.id}">编辑</button>　<button class="action" type="button" data-delete="${item.id}">删除</button></td></tr>`).join("") : '<tr><td class="empty" colspan="3">暂无绑卡信息</td></tr>';
+      rows.querySelectorAll("[data-detail]").forEach(button => button.addEventListener("click",() => openDetail(Number(button.dataset.detail))));
+      rows.querySelectorAll("[data-edit]").forEach(button => button.addEventListener("click",() => openEditor(Number(button.dataset.edit))));
+      rows.querySelectorAll("[data-delete]").forEach(button => button.addEventListener("click",() => {
+        accounts = accounts.filter(item => item.id !== Number(button.dataset.delete));
+        renderAccounts();
+        showToast("绑定账户已删除");
+      }));
+    }
+    function openEditor(id = null) {
+      closeDetail();
+      editingId = id;
+      const item = accounts.find(account => account.id === id);
+      document.getElementById("editorTitle").textContent = item ? `编辑 ${item.type}` : "新增绑定账户";
+      document.getElementById("accountType").value = item?.type || "CashApp";
+      document.getElementById("accountTypeField").hidden = Boolean(item);
+      renderEditorFields(item?.type || "CashApp",item?.values || {});
+      editor.hidden = false;
+    }
+    function renderEditorFields(type,values = {}) {
+      document.getElementById("editorFields").innerHTML = accountFieldConfigs[type].map(field => `<div class="field"><label>${field.label}</label><input data-account-key="${field.key}" type="${field.type || "text"}" ${field.inputmode ? `inputmode="${field.inputmode}"` : ""} required placeholder="${field.placeholder}" value="${escapeHtml(values[field.key] || "")}"></div>`).join("");
+    }
+    function closeEditor() {
+      editor.hidden = true;
+      editingId = null;
+      editor.reset();
+      document.getElementById("accountTypeField").hidden = false;
+    }
+    function openDetail(id) {
+      closeEditor();
+      const item = accounts.find(account => account.id === id);
+      if (!item) return;
+      document.getElementById("detailTitle").textContent = `${item.type} 绑定详情`;
+      document.getElementById("detailUpdated").textContent = `更新时间：${item.updated}`;
+      document.getElementById("detailFields").innerHTML = accountFieldConfigs[item.type].map(field => `<div class="detail-item"><span>${field.label}</span><b>${escapeHtml(item.values[field.key] || "-")}</b></div>`).join("");
+      document.getElementById("accountDetail").hidden = false;
+    }
+    function closeDetail() {
+      document.getElementById("accountDetail").hidden = true;
+    }
+    document.getElementById("addAccount").addEventListener("click",() => openEditor());
+    document.getElementById("accountType").addEventListener("change",event => renderEditorFields(event.target.value));
+    document.getElementById("editorCancel").addEventListener("click",closeEditor);
+    document.getElementById("detailClose").addEventListener("click",closeDetail);
+    editor.addEventListener("submit",event => {
+      event.preventDefault();
+      const type = editingId ? accounts.find(item => item.id === editingId).type : document.getElementById("accountType").value;
+      const values = Object.fromEntries(Array.from(document.querySelectorAll("[data-account-key]")).map(input => [input.dataset.accountKey,input.value.trim()]));
+      const record = {
+        id:editingId || Date.now(),
+        type,
+        values,
+        updated:"2026/07/27 14:30:00"
+      };
+      if (editingId) accounts = accounts.map(item => item.id === editingId ? record : item);
+      else accounts.push(record);
+      renderAccounts();
+      closeEditor();
+      showToast("绑卡信息已保存");
+    });
+    renderAccounts();
+  </script>
+</body>
+</html>

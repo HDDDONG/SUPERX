@@ -1006,6 +1006,18 @@
       display: block;
     }
 
+    .multi-menu[popover] {
+      inset: auto;
+      margin: 0;
+    }
+
+    .multi-menu:popover-open {
+      position: fixed;
+      right: auto;
+      display: block;
+      z-index: 140;
+    }
+
     .multi-option {
       position: relative;
       width: 100%;
@@ -1358,6 +1370,49 @@
       gap: 14px 18px;
     }
 
+    .activity-validity-field {
+      min-width: 0;
+    }
+
+    .validity-label-row {
+      min-height: 18px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .validity-label-row > label {
+      min-width: 0;
+      margin: 0;
+    }
+
+    .permanent-validity-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+      color: var(--gray-700);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .permanent-validity-value {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--gray-50);
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      color: var(--gray-700);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
     .span-2 { grid-column: span 2; }
 
     .required::before {
@@ -1399,7 +1454,8 @@
       overflow: hidden;
     }
 
-    .rule-box.has-floating-tip {
+    .rule-box.has-floating-tip,
+    .rule-box.has-floating-menu {
       overflow: visible;
     }
 
@@ -1532,19 +1588,31 @@
     .rescue-interval-table col:nth-child(4) { width: 17%; }
     .rescue-interval-table col:nth-child(5) { width: 12%; }
 
-    .loss-return-table col:nth-child(1) { width: 38%; }
-    .loss-return-table col:nth-child(2) { width: 27%; }
-    .loss-return-table col:nth-child(3) { width: 27%; }
-    .loss-return-table col:nth-child(4) { width: 8%; }
+    .loss-return-table col:nth-child(1) { width: 36%; }
+    .loss-return-table col:nth-child(2) { width: 26%; }
+    .loss-return-table col:nth-child(3) { width: 26%; }
+    .loss-return-table col:nth-child(4) { width: 12%; }
 
     .loss-return-table .inline input {
       min-width: 0;
     }
 
-    .wager-rebate-table col:nth-child(1) { width: 34%; }
-    .wager-rebate-table col:nth-child(2) { width: 28%; }
-    .wager-rebate-table col:nth-child(3) { width: 28%; }
-    .wager-rebate-table col:nth-child(4) { width: 10%; }
+    .wager-rebate-table col:nth-child(1) { width: 25%; }
+    .wager-rebate-table col:nth-child(2) { width: 22%; }
+    .wager-rebate-table col:nth-child(3) { width: 23%; }
+    .wager-rebate-table col:nth-child(4) { width: 18%; }
+    .wager-rebate-table col:nth-child(5) { width: 12%; }
+
+    .wager-rebate-table select {
+      min-width: 0;
+    }
+
+    .operation-head {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     .rescue-interval-table th,
     .rescue-interval-table td {
@@ -1566,6 +1634,10 @@
 
     .subsidy-rule-table .times-input {
       max-width: 100%;
+    }
+
+    .unit-input.is-unitless input {
+      padding-right: 8px;
     }
 
     .th-hint {
@@ -1671,6 +1743,58 @@
     .help-tip.tip-open-left:hover::after,
     .help-tip.tip-open-left:focus-visible::after {
       transform: translate(0, 0);
+    }
+
+    .help-tip::after {
+      display: none !important;
+    }
+
+    .tooltip-layer {
+      --tooltip-arrow-left: 50%;
+      position: fixed;
+      z-index: 10000;
+      width: max-content;
+      max-width: min(320px, calc(100vw - 16px));
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--gray-700);
+      color: var(--gray-0);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, .2);
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 500;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .12s ease, visibility .12s ease;
+    }
+
+    .tooltip-layer.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tooltip-layer::after {
+      content: "";
+      position: absolute;
+      left: var(--tooltip-arrow-left);
+      width: 0;
+      height: 0;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+    }
+
+    .tooltip-layer[data-placement="top"]::after {
+      top: 100%;
+      border-top-color: var(--gray-700);
+    }
+
+    .tooltip-layer[data-placement="bottom"]::after {
+      bottom: 100%;
+      border-bottom-color: var(--gray-700);
     }
 
     .condition-matrix {
@@ -1781,8 +1905,13 @@
     }
 
     .circle-btn {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 28px;
+      padding: 0;
       border: 1px solid var(--line);
       border-radius: 50%;
       background: var(--gray-0);
@@ -1884,10 +2013,17 @@
 
     .front-action-config {
       display: grid;
-      grid-template-columns: 256px;
+      grid-template-columns: repeat(2, minmax(0, 256px));
+      gap: 14px 28px;
+      align-items: start;
       padding: 12px 14px;
       border-bottom: 1px solid var(--line);
       background: var(--gray-0);
+    }
+
+    .front-action-config .field[hidden],
+    .front-action-config [hidden] {
+      display: none;
     }
 
     .front-assets {
@@ -2287,6 +2423,8 @@
     .tf-home-actions span { padding: 8px 4px; border-radius: 8px; background: rgba(255,255,255,.14); text-align: center; font-size: 11px; }
     .tf-real-banner { position: relative; height: 126px; margin-top: 14px; padding: 20px; border-radius: 16px; overflow: hidden; background: linear-gradient(120deg,#341870,#724fe8); color: #fff; }
     .tf-real-banner.is-gold { background: linear-gradient(120deg,#5a3210,#e59a28); }
+    #tierFrontendContent .tf-real-banner { background: #4a4a4a; }
+    #tierFrontendContent .tf-real-banner.is-gold { background: #747474; }
     .tf-real-banner::after { content: "₹"; position: absolute; right: 18px; top: 7px; font-size: 78px; font-weight: 900; opacity: .16; }
     .tf-real-banner b { position: relative; z-index: 1; display: block; max-width: 220px; font-size: 18px; line-height: 1.3; }
     .tf-real-banner span { position: relative; z-index: 1; display: block; margin-top: 7px; font-size: 12px; opacity: .82; }
@@ -2300,6 +2438,7 @@
     .tf-popup-modal { position: absolute; z-index: 5; left: 25px; right: 25px; top: 50%; transform: translateY(-50%); padding: 18px; border-radius: 22px; background: #fff; text-align: center; box-shadow: 0 18px 50px rgba(0,0,0,.32); }
     .tf-popup-close { position: absolute; right: 12px; top: 10px; width: 26px; height: 26px; border: 0; border-radius: 50%; background: #eef2f7; color: #596a81; }
     .tf-popup-art { height: 142px; margin: -3px 0 14px; border-radius: 15px; background: radial-gradient(circle at 72% 28%,#ffd167 0 14%,transparent 15%),linear-gradient(135deg,#172b6d,#555ce8); color: #fff; display: grid; place-items: center; font-size: 46px; font-weight: 900; }
+    #tierFrontendContent .tf-popup-art { background: #2d2d2d; }
     .tf-popup-modal h3 { margin: 0 0 5px; font-size: 20px; }
     .tf-popup-modal p { margin: 0 0 13px; color: #77859a; font-size: 12px; }
     .tf-popup-cta { width: 100%; height: 42px; border: 0; border-radius: 10px; background: #315b9f; color: #fff; font-weight: 800; }
@@ -2313,6 +2452,7 @@
     .tf-activity-list { display: grid; gap: 10px; margin-top: 12px; }
     .tf-activity-card { display: grid; grid-template-columns: 46px minmax(0,1fr) 24px 72px; gap: 9px; align-items: center; padding: 12px; border-radius: 13px; background: #fff; border: 1px solid #e3e9f2; }
     .tf-activity-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg,#173a86,#416de6); color: #fff; font-size: 23px; font-weight: 900; }
+    #tierFrontendContent .tf-activity-icon { background: #929292; }
     .tf-activity-copy { min-width: 0; }
     .tf-activity-copy b,.tf-activity-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .tf-activity-copy b { font-size: 13px; }
@@ -2519,20 +2659,20 @@
     .tf-fullsize .tf-flow-action { width: 92px; padding: 7px 5px; font-size: 10px; }
     .tf-unified-flow-svg { position: absolute; left: 0; top: 10px; width: 2098px; height: 200px; overflow: visible; pointer-events: none; }
     .tf-unified-flow-svg > path { fill: none; stroke-width: 2.5; }
-    .tf-unified-flow-svg .flow-blue { stroke: #3b6fd8; }
-    .tf-unified-flow-svg .flow-purple { stroke: #7857d6; }
-    .tf-unified-flow-svg .flow-green { stroke: #27a778; }
-    .tf-unified-flow-svg .flow-orange { stroke: #e4862b; }
+    .tf-unified-flow-svg .flow-blue { stroke: #3d3d3d; }
+    .tf-unified-flow-svg .flow-purple { stroke: #606060; }
+    .tf-unified-flow-svg .flow-green { stroke: #858585; }
+    .tf-unified-flow-svg .flow-orange { stroke: #aaa; }
     .tf-unified-flow-svg text { font-size: 11px; font-weight: 700; paint-order: stroke; stroke: #eef2f8; stroke-width: 5px; stroke-linejoin: round; }
-    .tf-unified-flow-svg .text-blue { fill: #315fbd; }
-    .tf-unified-flow-svg .text-purple { fill: #6845c6; }
-    .tf-unified-flow-svg .text-green { fill: #218861; }
-    .tf-unified-flow-svg .text-orange { fill: #c96d17; }
+    .tf-unified-flow-svg .text-blue { fill: #3d3d3d; }
+    .tf-unified-flow-svg .text-purple { fill: #606060; }
+    .tf-unified-flow-svg .text-green { fill: #777; }
+    .tf-unified-flow-svg .text-orange { fill: #8f8f8f; }
     .tf-unified-flow-svg .flow-port { stroke: #fff; stroke-width: 3; }
-    .tf-unified-flow-svg .port-blue { fill: #3b6fd8; }
-    .tf-unified-flow-svg .port-purple { fill: #7857d6; }
-    .tf-unified-flow-svg .port-green { fill: #27a778; }
-    .tf-unified-flow-svg .port-orange { fill: #e4862b; }
+    .tf-unified-flow-svg .port-blue { fill: #3d3d3d; }
+    .tf-unified-flow-svg .port-purple { fill: #606060; }
+    .tf-unified-flow-svg .port-green { fill: #858585; }
+    .tf-unified-flow-svg .port-orange { fill: #aaa; }
 
     @media (max-width: 760px) {
       .tf-layout { grid-template-columns: 1fr; }
@@ -2618,7 +2758,7 @@
       </div>
       <div class="module-search">
         <span class="search-icon">⌕</span>
-        <input id="moduleSearchInput" type="search" placeholder="搜索后台功能" autocomplete="off">
+        <input id="moduleSearchInput" type="search" placeholder="搜索功能" autocomplete="off">
         <div class="search-results" id="moduleSearchResults"></div>
       </div>
       <div class="topbar-right">
@@ -2649,21 +2789,26 @@
         <div class="submenu">
           <div class="submenu-section-title">活动管理</div>
           <button class="submenu-item is-third-level is-selected" type="button" data-page-title="活动列表" data-breadcrumb-module="活动管理">活动列表</button>
-          <button class="submenu-item is-third-level" type="button" data-page-title="前台交互" data-breadcrumb-module="活动管理">前台交互</button>
           <div class="submenu-section-title">用户触达</div>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信配置" data-breadcrumb-module="用户触达">站内信配置</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信统计" data-breadcrumb-module="用户触达">站内信统计</button>
-          <button class="submenu-item is-third-level" type="button" data-page-title="站内信前台交互" data-breadcrumb-module="用户触达">站内信前台交互</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="公告配置" data-breadcrumb-module="用户触达">公告配置</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="公告统计" data-breadcrumb-module="用户触达">公告统计</button>
-          <button class="submenu-item is-third-level" type="button" data-page-title="公告前台交互" data-breadcrumb-module="用户触达">公告前台交互</button>
         </div>
       </div>
       <div class="menu-group is-collapsed">
         <button class="menu-title" type="button" aria-expanded="false"><span>前端需求</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
           <button class="submenu-item" type="button" data-page-title="充值页优化" data-breadcrumb-module="前端需求">充值页优化</button>
-          <button class="submenu-item" type="button" data-page-title="阶梯充值活动中心" data-breadcrumb-module="前端需求">阶梯充值活动中心</button>
+          <button class="submenu-item" type="button" data-page-title="充提US" data-breadcrumb-module="前端需求">充提US</button>
+          <div class="submenu-section-title">活动前端需求</div>
+          <button class="submenu-item is-third-level" type="button" data-page-title="活动前台交互" data-breadcrumb-module="活动前端需求">活动前台交互</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="阶梯充值活动中心" data-breadcrumb-module="活动前端需求">阶梯充值活动中心</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="打码返利前台" data-breadcrumb-module="活动前端需求">打码返利前台</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="输返前台" data-breadcrumb-module="活动前端需求">输返前台</button>
+          <div class="submenu-section-title">用户触达前端需求</div>
+          <button class="submenu-item is-third-level" type="button" data-page-title="站内信前台交互" data-breadcrumb-module="用户触达前端需求">站内信前台交互</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="公告前台交互" data-breadcrumb-module="用户触达前端需求">公告前台交互</button>
         </div>
       </div>
     </aside>
@@ -2896,7 +3041,7 @@
             </div>
           </div>
         </div>
-        <div class="page-content" id="tierFrontendContent">
+        <div class="page-content" id="tierFrontendContent" style="filter: grayscale(1);">
           <div class="tier-front-page">
             <div class="tier-front-head">
               <div>
@@ -2937,10 +3082,10 @@
               <div class="tf-preview-stack" id="tierPhoneCanvas" tabindex="0" aria-label="横向完整真机流程画布">
                 <svg class="tf-unified-flow-svg" viewBox="0 0 2098 200" role="img" aria-label="各真机操作直达目标真机的统一流程">
                   <defs>
-                    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3b6fd8"></path></marker>
-                    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7857d6"></path></marker>
-                    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#27a778"></path></marker>
-                    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e4862b"></path></marker>
+                    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3d3d3d"></path></marker>
+                    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#606060"></path></marker>
+                    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#858585"></path></marker>
+                    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#aaaaaa"></path></marker>
                   </defs>
                   <circle class="flow-port port-blue" cx="338" cy="190" r="7"></circle>
                   <path class="flow-blue" d="M338 190 V34 H486 V190" marker-end="url(#arrowBlue)"></path><text class="text-blue" x="365" y="28">关闭弹窗</text>
@@ -3003,6 +3148,7 @@
   </div>
 
   <div class="drawer-mask is-hidden" id="drawerMask"></div>
+  <div class="tooltip-layer" id="tooltipLayer" role="tooltip" aria-hidden="true"></div>
   <aside class="drawer is-hidden" id="drawer" aria-hidden="true" inert>
     <div class="drawer-header">
       <div class="drawer-title" id="drawerTitle">活动编辑</div>
@@ -3010,7 +3156,7 @@
     </div>
     <div class="drawer-body">
       <div id="rescueActivityForm">
-      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数和游戏范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
+      <div class="context-note">适用条件：用户没有第一次提现时。配置逻辑：系统先校验参与条件、累计可补次数和取值范围等触发限制，再按用户累计充值金额匹配充值区间；当用户余额达到对应触发余额时，按区间配置补水到用户钱包；发放后的补水礼金需满足打码倍率后才可提现。</div>
       <div class="section-title">基本信息</div>
       <div class="form-grid">
         <div class="field"><label class="required">活动名称</label><input id="drawerConfigName" value="首充亏损补水保护"></div>
@@ -3020,7 +3166,7 @@
         <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option selected>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
       </div>
 
-      <div class="section-title">参与条件</div>
+      <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
       <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on" id="conditionSwitch" type="button" aria-pressed="true"></button><span id="conditionSwitchText">已开启</span></div></div>
       <div class="rule-box" id="conditionRuleBox" style="margin-top: 14px;">
         <div class="rule-body">
@@ -3064,7 +3210,7 @@
               <div class="unit-input"><input value="5"><span class="unit">次</span></div>
             </div>
             <div class="rule-summary-item">
-              <label class="required">游戏范围</label>
+              <label class="required">取值范围</label>
               <select id="gameScopeSelect"><option>不限游戏</option><option selected>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
             </div>
             <div class="rule-summary-item" id="gameScopeValueField">
@@ -3081,7 +3227,7 @@
             <thead>
               <tr>
                 <th class="has-help">充值区间<span class="help-tip" tabindex="0" data-tip="区间边界为【最小值】≤【X】＜【最大值】。区间不可重叠，可断开；断开区间不命中规则。">?</span></th>
-                <th class="has-help">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额为锁定钱包、可提现钱包和在途金额之和，并按游戏范围判断；非指定范围产生的消耗导致余额降低时，不命中规则。">?</span></th>
+                <th class="has-help">触发余额<span class="help-tip" tabindex="0" data-tip="触发余额为锁定钱包、可提现钱包和在途金额之和，并按取值范围判断；非指定范围产生的消耗导致余额降低时，不命中规则。">?</span></th>
                 <th>补水金额</th>
                 <th>可补次数</th>
                 <th>操作</th>
@@ -3147,7 +3293,7 @@
         </div>
         <div class="language-box activity-center-material">
           <div class="front-action-config">
-            <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+            <div class="field"><label class="required">活动中心按钮跳转</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
           </div>
           <div class="language-tabs">
             <button class="language-tab active" type="button">英语</button>
@@ -3258,7 +3404,7 @@
           </div>
         </div>
 
-        <div class="section-title">参与条件</div>
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
         <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
@@ -3292,7 +3438,7 @@
                 <select><option selected>不重置</option><option>每日重置</option><option>每周重置</option><option>每月重置</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-component">
-                <label class="required">游戏范围</label>
+                <label class="required">取值范围</label>
                 <select class="scope-linkage-select"><option>不限游戏</option><option selected>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field" hidden>
@@ -3301,10 +3447,6 @@
                   <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
                   <div class="multi-menu scope-linkage-value-menu"></div>
                 </div>
-              </div>
-              <div class="rule-summary-item">
-                <label class="required">币种</label>
-                <select><option selected>INR</option><option>BRL</option><option>PHP</option></select>
               </div>
               <div class="rule-summary-item">
                 <label class="required">流水倍率</label>
@@ -3389,7 +3531,7 @@
           </div>
           <div class="language-box activity-center-material">
             <div class="front-action-config">
-              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+              <div class="field"><label class="required">活动中心按钮跳转</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
             </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
@@ -3486,7 +3628,7 @@
       </div>
 
       <div id="rebateActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统按活动有效期、重置周期和参与条件校验用户资格；再按返水取值类型、游戏范围和返水档位计算返水金额，生成的礼金按礼金配置控制领取、倍率和适用范围。</div>
+        <div class="context-note">配置逻辑：系统按活动有效期、重置周期和参与条件校验用户资格；再按返水取值类型、取值范围和返水档位计算返水金额，生成的礼金按礼金配置控制领取、倍率和适用范围。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rebateActivityName" value="每日返水"></div>
@@ -3496,7 +3638,7 @@
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option selected>返水活动</option><option>笔笔送</option><option>阶梯充值</option></select></div>
         </div>
 
-        <div class="section-title">参与条件</div>
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
         <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
@@ -3548,7 +3690,7 @@
                 <input placeholder="请输入" value="1.00">
               </div>
               <div class="rule-summary-item scope-linkage-component">
-                <label class="required">游戏范围</label>
+                <label class="required">取值范围</label>
                 <select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option selected>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field">
@@ -3627,7 +3769,7 @@
           </div>
           <div class="language-box activity-center-material">
             <div class="front-action-config">
-              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div>
+              <div class="field"><label class="required">活动中心按钮跳转</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div>
             </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
@@ -3692,7 +3834,7 @@
       </div>
 
       <div id="perDepositActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户每笔充值命中单笔充值金额规则后，根据该行奖励形式和赠送值计算赠送礼金，并受游戏范围、单笔赠送上限、单用户累计赠送上限和礼金配置共同影响。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户每笔充值命中单笔充值金额规则后，根据该行奖励形式和赠送值计算赠送礼金，并受取值范围、单笔赠送上限、单用户累计赠送上限和礼金配置共同影响。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="perDepositActivityName" value="笔笔充值礼金"></div>
@@ -3702,7 +3844,7 @@
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option selected>笔笔送</option><option>阶梯充值</option></select></div>
         </div>
 
-        <div class="section-title">参与条件</div>
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
         <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
@@ -3736,7 +3878,7 @@
                 <select><option selected>不重置</option><option>每日重置</option><option>每周重置</option><option>每月重置</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-component">
-                <label class="required">游戏范围</label>
+                <label class="required">取值范围</label>
                 <select class="scope-linkage-select"><option>不限游戏</option><option selected>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field" hidden>
@@ -3745,10 +3887,6 @@
                   <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
                   <div class="multi-menu scope-linkage-value-menu"></div>
                 </div>
-              </div>
-              <div class="rule-summary-item">
-                <label class="required">币种</label>
-                <select><option selected>INR</option><option>BRL</option><option>PHP</option></select>
               </div>
               <div class="rule-summary-item">
                 <label class="required">流水倍率</label>
@@ -3834,7 +3972,7 @@
           </div>
           <div class="language-box activity-center-material">
             <div class="front-action-config">
-              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+              <div class="field"><label class="required">活动中心按钮跳转</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
             </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
@@ -3911,7 +4049,7 @@
       </div>
 
       <div id="tieredRechargeActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户在当前周期内累计充值达到对应阶梯后，可按该阶梯配置领取礼金，每个阶梯受领取限制、游戏范围和礼金配置共同控制。</div>
+        <div class="context-note">配置逻辑：系统先校验活动有效期、参与条件和重置周期；用户在当前周期内累计充值达到对应阶梯后，可按该阶梯配置领取礼金，每个阶梯受领取限制、取值范围和礼金配置共同控制。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="tieredRechargeActivityName" value="累计充值阶梯礼金"></div>
@@ -3921,7 +4059,7 @@
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option selected>阶梯充值</option></select></div>
         </div>
 
-        <div class="section-title">参与条件</div>
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
         <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
@@ -3965,7 +4103,7 @@
                 <select><option>不重置</option><option selected>每日重置</option><option>每周重置</option><option>每月重置</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-component">
-                <label class="required">游戏范围</label>
+                <label class="required">取值范围</label>
                 <select class="scope-linkage-select"><option selected>不限游戏</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option><option>Fantasy</option><option>Sports</option></select>
               </div>
               <div class="rule-summary-item scope-linkage-value-field" hidden>
@@ -3974,10 +4112,6 @@
                   <button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button>
                   <div class="multi-menu scope-linkage-value-menu"></div>
                 </div>
-              </div>
-              <div class="rule-summary-item">
-                <label class="required">币种</label>
-                <select><option selected>INR</option><option>BRL</option><option>PHP</option></select>
               </div>
               <div class="rule-summary-item">
                 <label class="required">流水倍率</label>
@@ -4063,7 +4197,7 @@
           </div>
           <div class="language-box activity-center-material">
             <div class="front-action-config">
-              <div class="field"><label class="required">活动中心按钮跳转页面</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
+              <div class="field"><label class="required">活动中心按钮跳转</label><select><option>活动详情页</option><option selected>充值页面</option><option>游戏大厅</option></select></div>
             </div>
             <div class="language-tabs">
               <button class="language-tab active" type="button">英语</button>
@@ -4139,7 +4273,7 @@
       </div>
 
       <div id="lossReturnActivityForm" hidden>
-        <div class="context-note">配置逻辑：用户充值条件按当前活动重置周期内的累计值判断。每个活动重置周期结束时，系统根据该周期内指定统计范围的净亏损计算并发放礼金，随后清空需要按周期累计的统计值；非累计统计结果、用户身份、活动配置和历史发放记录均不受影响。选择“不重置”时，累计值在整个活动有效期内持续累加，并在活动结束时统一结算发放。</div>
+        <div class="context-note">配置逻辑：结算规则由活动类型固定，不作为运营配置项。输返活动在每个活动重置周期结束时，根据该周期内指定统计范围的净亏损计算并生成礼金，随后清空需要按周期累计的统计值；非累计统计结果、用户身份、活动配置和历史发放记录均不受影响。选择“不重置”时，累计值在整个活动有效期内持续累加，并在活动结束时统一结算。礼金是否需要用户领取，单独由礼金配置控制。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="lossReturnActivityName" value="24小时亏损救援"></div>
@@ -4149,7 +4283,7 @@
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option selected>输返</option></select></div>
         </div>
 
-        <div class="section-title">参与条件</div>
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
         <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch is-on condition-toggle" type="button" aria-pressed="true"></button><span>已开启</span></div></div>
         <div class="rule-box">
           <div class="rule-body">
@@ -4168,7 +4302,6 @@
               <div class="rule-summary-item"><label class="required">活动重置周期<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="每个活动重置周期结束时，系统先根据本周期累计值结算并发放礼金，再清空需要按周期累计的统计值。非累计统计结果和历史记录不清空；选择不重置时，在活动结束时统一结算发放。">?</span></label><select id="lossReturnResetCycle"><option>不重置</option><option>每日重置</option><option selected>每周重置</option><option>每月重置</option></select></div>
               <div class="rule-summary-item scope-linkage-component"><label class="required">统计范围<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="仅统计所选范围内的净亏损；净亏损按有效投注减有效返奖计算，小于或等于0时不发放奖励。">?</span></label><select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option>指定游戏分类</option><option selected>指定游戏</option></select></div>
               <div class="rule-summary-item scope-linkage-value-field"><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi" data-default-values="Super Ace,Fortune Tiger"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
-              <div class="rule-summary-item"><label class="required">币种</label><select id="lossReturnCurrency"><option selected>USD</option><option>INR</option><option>BRL</option><option>PHP</option></select></div>
               <div class="rule-summary-item"><label>单活动周期返还上限<span class="help-tip" tabindex="0" data-tip-placement="down" data-tip="填0表示不限制；每个活动重置周期独立计算，实际返还金额超过上限时按上限发放。选择不重置时，整个活动有效期视为一个周期。">?</span></label><div class="unit-input"><input id="lossReturnRewardCap" type="number" min="0" step="0.01" value="0"><span class="unit">USD</span></div></div>
             </div>
 
@@ -4188,7 +4321,6 @@
 
             <div class="rule-subtitle">礼金配置</div>
             <div class="rule-summary">
-              <div class="rule-summary-item"><label class="required">结算与发放方式</label><select><option selected>每个活动重置周期结束自动发放</option><option>每个活动重置周期结束后手动领取</option></select></div>
               <div class="rule-summary-item"><label class="required">礼金是否需要领取</label><div class="switch-row"><button class="switch" type="button" aria-pressed="false"></button><span>不需要领取</span></div></div>
               <div class="rule-summary-item scope-linkage-component"><label class="required">礼金适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏</option></select></div>
               <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">适用范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
@@ -4200,7 +4332,7 @@
         <div class="front-subsection">
           <div class="front-subtitle">活动中心配置</div>
           <div class="front-global-config"><div class="field"><label class="required">是否在活动中心展示</label><div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div></div>
-          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Loss Rescue 50%"></div><div class="field"><label>活动宣传文案（前台）</label><input value="指定游戏净亏损最高返还50%"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
+          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转</label><select><option selected>活动详情页</option><option>充值页面</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Loss Rescue 50%"></div><div class="field"><label>活动宣传文案（前台）</label><input value="指定游戏净亏损最高返还50%"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
         </div>
         <div class="front-subsection">
           <div class="front-subtitle">弹窗配置</div>
@@ -4210,7 +4342,7 @@
       </div>
 
       <div id="wagerRebateActivityForm" hidden>
-        <div class="context-note">配置逻辑：系统在单个活动重置周期内累计统计范围中的有效流水；累计值达到档位门槛时立即发放该档礼金，每个档位每周期仅发放一次。高档奖励与低档奖励逐档累计发放；周期结束后清空累计有效流水和本周期档位达成状态，历史发放记录不清空。选择“不重置”时，整个活动有效期视为一个周期。</div>
+        <div class="context-note">配置逻辑：系统先校验参与条件；未开启参与条件时，默认全部用户可参与。结算规则由活动类型固定，不作为运营配置项。打码返利活动在单个活动重置周期内累计统计范围中的有效流水，并在周期结束时匹配已达到的最高档位，仅生成该档对应返利；固定值直接发放配置金额，百分比按本周期实际累计有效流水 × 返利比例计算。结算后清空累计有效流水，历史发放记录不清空。选择“不重置”时，在活动结束时统一结算。礼金是否需要用户领取，单独由礼金配置控制。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="wagerRebateActivityName" value="每日打码阶梯返利"></div>
@@ -4220,27 +4352,43 @@
           <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option selected>打码返利</option></select></div>
         </div>
 
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch condition-toggle" type="button" aria-pressed="false"></button><span>已关闭</span></div></div>
+        <div class="rule-box" hidden>
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head">
+                <div class="condition-cell"><span class="condition-label">条件类型</span></div>
+                <div class="condition-cell"><span class="condition-label">条件值</span></div>
+                <div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件" title="新增条件">+</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option selected>用户标签</option><option>VIP等级</option><option>上级ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>=</option><option>≠</option></select><select><option selected>请选择</option><option>未首提</option><option>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件" title="至少保留一条参与条件">−</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="section-title">规则配置</div>
         <div class="rule-box">
           <div class="rule-body">
             <div class="rule-subtitle">基础规则配置</div>
             <div class="rule-summary loss-return-basic-summary">
-              <div class="rule-summary-item"><label class="required">活动重置周期<span class="help-tip" tabindex="0" data-tip="周期结束后清空本周期累计有效流水和档位达成状态；历史礼金发放记录不清空。不重置表示整个活动有效期内持续累计，每档仅发放一次。">?</span></label><select id="wagerRebateResetCycle"><option>不重置</option><option selected>每日重置</option><option>每周重置</option><option>每月重置</option></select></div>
+              <div class="rule-summary-item"><label class="required">活动重置周期<span class="help-tip" tabindex="0" data-tip="周期结束时按本周期累计有效流水匹配最高已达档位并发放对应返利，随后清空累计值；历史发放记录不清空。不重置表示在活动结束时统一结算。">?</span></label><select id="wagerRebateResetCycle"><option>不重置</option><option selected>每日重置</option><option>每周重置</option><option>每月重置</option></select></div>
               <div class="rule-summary-item scope-linkage-component"><label class="required">统计范围<span class="help-tip" tabindex="0" data-tip="仅累计所选范围内平台统一口径的有效流水；无效、取消、退款或未结算注单不计入。">?</span></label><select class="scope-linkage-select"><option>不限游戏</option><option>指定场馆</option><option>指定游戏分类</option><option selected>指定游戏</option></select></div>
               <div class="rule-summary-item scope-linkage-value-field"><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi" data-default-values="Super Ace,Fortune Tiger"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
-              <div class="rule-summary-item"><label class="required">币种</label><select id="wagerRebateCurrency"><option>USD</option><option selected>INR</option><option>BRL</option><option>PHP</option></select></div>
-              <div class="rule-summary-item"><label class="required">奖励累计方式<span class="help-tip" tabindex="0" data-tip="达到多个档位时，各档奖励分别发放。例如达到10,000时，已达到的1,000、5,000和10,000档均各发放一次。">?</span></label><select id="wagerRebateRewardMode"><option selected>逐档累计发放</option></select></div>
-              <div class="rule-summary-item"><label class="required">结算与发放方式</label><select id="wagerRebateSettlement"><option selected>达标后立即发放</option></select></div>
             </div>
 
             <div class="rule-subtitle config-table-title"><span>打码返利档位</span><button class="circle-btn rule-table-add" type="button" aria-label="新增打码返利档位" title="新增打码返利档位">+</button></div>
             <table class="subsidy-rule-table wager-rebate-table">
-              <colgroup><col><col><col><col></colgroup>
-              <thead><tr><th class="has-help">累计有效流水达到<span class="help-tip" tabindex="0" data-tip="按活动重置周期内累计有效流水判断；累计值大于或等于门槛时，该档立即达成。门槛必须按升序配置且不可重复。">?</span></th><th>返利金额</th><th>流水倍率</th><th>操作</th></tr></thead>
+              <colgroup><col><col><col><col><col></colgroup>
+              <thead><tr><th class="has-help">累计有效流水达到<span class="help-tip" tabindex="0" data-tip="结算时按本周期累计有效流水匹配门槛：取小于或等于累计有效流水的最高一档，只发放该档对应返利。门槛必须按升序配置且不可重复。">?</span></th><th class="has-help">返利金额类型<span class="help-tip" tabindex="0" data-tip="固定值直接发放配置金额；百分比按结算时本周期实际累计有效流水乘以返利比例计算。">?</span></th><th>返利值</th><th>流水倍率</th><th>操作</th></tr></thead>
               <tbody>
-                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="1000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="10"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
-                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="5000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="70"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
-                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="10000"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-reward" type="number" min="0.01" step="0.01" value="180"><span class="unit wager-currency-unit">INR</span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="1000"></div></td><td><select class="wager-reward-type"><option value="">请选择</option><option selected>固定值</option><option>百分比</option></select></td><td><div class="unit-input is-unitless"><input class="wager-reward" type="number" min="0.01" step="0.01" value="10"><span class="unit wager-reward-unit" hidden></span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="5000"></div></td><td><select class="wager-reward-type"><option value="">请选择</option><option selected>固定值</option><option>百分比</option></select></td><td><div class="unit-input is-unitless"><input class="wager-reward" type="number" min="0.01" step="0.01" value="70"><span class="unit wager-reward-unit" hidden></span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
+                <tr><td><div class="unit-input"><input class="wager-threshold" type="number" min="0.01" step="0.01" value="10000"></div></td><td><select class="wager-reward-type"><option value="">请选择</option><option selected>固定值</option><option>百分比</option></select></td><td><div class="unit-input is-unitless"><input class="wager-reward" type="number" min="0.01" step="0.01" value="180"><span class="unit wager-reward-unit" hidden></span></div></td><td><div class="unit-input"><input class="wager-turnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></td><td><div class="mini-actions"><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前档位" title="删除当前档位">−</button></div></td></tr>
               </tbody>
             </table>
 
@@ -4257,12 +4405,12 @@
         <div class="front-subsection">
           <div class="front-subtitle">活动中心配置</div>
           <div class="front-global-config"><div class="field"><label class="required">是否在活动中心展示</label><div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div></div>
-          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转页面</label><select><option selected>活动详情页</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Wager & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="累计有效流水，逐档解锁返利"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看进度"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
+          <div class="language-box activity-center-material"><div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转</label><select><option selected>活动详情页</option><option>游戏大厅</option></select></div></div><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Wager & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="累计有效流水，结算匹配对应返利"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看进度"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div></div>
         </div>
         <div class="front-subsection">
           <div class="front-subtitle">弹窗配置</div>
           <div class="popup-config"><div class="popup-fields"><div class="field popup-visibility-field"><label class="required">弹窗是否展示</label><div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div><div class="field"><label class="required">弹窗前台展示类型</label><select class="popup-display-type-select"><option>图片形式</option><option selected>规则形式</option></select></div><div class="field"><label class="required">弹窗间隔时间</label><select><option selected>每天</option><option>6小时</option><option>3小时</option></select></div><div class="field"><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input value="170"></div><div class="field"><label class="required">弹窗按钮跳转</label><select class="popup-jump-select"><option>无跳转</option><option selected>跳转到指定页面</option></select></div><div class="field popup-target-field"><label class="required">跳转目标</label><select><option selected>活动详情页</option><option>游戏大厅</option></select></div></div></div>
-          <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="View Progress"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取打码返利档位，无需重复配置</span></strong><div class="popup-rule-preview-grid"><span class="head">累计有效流水达到</span><span class="head">返利金额</span><span class="head">流水</span><span>1,000 INR</span><span>10 INR</span><span>1倍</span><span>5,000 INR</span><span>70 INR</span><span>1倍</span><span>10,000 INR</span><span>180 INR</span><span>1倍</span></div></div></div></div>
+          <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="View Progress"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取档位，结算时仅匹配一个对应档位</span></strong><div class="popup-rule-preview-grid"><span class="head">累计有效流水达到</span><span class="head">返利金额</span><span class="head">流水</span><span>1,000 INR</span><span>10 INR</span><span>1倍</span><span>5,000 INR</span><span>70 INR</span><span>1倍</span><span>10,000 INR</span><span>180 INR</span><span>1倍</span></div></div></div></div>
         </div>
       </div>
     </div>
@@ -4380,17 +4528,20 @@
     const externalModuleRoutes = {
       "站内信配置": "user-reach-config.html?embed=1&module=mailConfig",
       "站内信统计": "user-reach-config.html?embed=1&module=mailRecord",
-      "站内信前台交互": "user-reach-config.html?embed=1&module=frontendMail",
+      "站内信前台交互": "frontend-flow.html?type=mail",
       "公告配置": "user-reach-config.html?embed=1&module=announcementConfig",
       "公告统计": "user-reach-config.html?embed=1&module=announcementRecord",
-      "公告前台交互": "user-reach-config.html?embed=1&module=frontendAnnouncement",
-      "充值页优化": "recharge.html?embed=1",
-      "阶梯充值活动中心": "activity-center-tier-recharge.html"
+      "公告前台交互": "frontend-flow.html?type=announcement",
+      "充值页优化": "frontend-flow.html?type=recharge",
+      "充提US": "us-payment-prototype.html",
+      "阶梯充值活动中心": "frontend-flow.html?type=tier",
+      "打码返利前台": "wager-rebate-frontend.html",
+      "输返前台": "wager-rebate-frontend.html?mode=loss-return"
     };
     const externalModuleFrame = document.getElementById("externalModuleFrame");
     function renderPageContent(title) {
       const isActivityList = title === "活动列表";
-      const isActivityFrontend = title === "前台交互";
+      const isActivityFrontend = title === "活动前台交互" || title === "前台交互";
       const externalRoute = externalModuleRoutes[title] || "";
       document.getElementById("activityListContent").classList.toggle("is-active", isActivityList);
       document.getElementById("frontendShowContent").classList.remove("is-active");
@@ -4609,6 +4760,8 @@
     const drawer = document.getElementById("drawer");
     const drawerMask = document.getElementById("drawerMask");
     const drawerTitle = document.getElementById("drawerTitle");
+    const tooltipLayer = document.getElementById("tooltipLayer");
+    let activeHelpTip = null;
     let activeEditRow = null;
     const rescueActivityForm = document.getElementById("rescueActivityForm");
     const rechargeActivityForm = document.getElementById("rechargeActivityForm");
@@ -4625,6 +4778,64 @@
       });
     });
     const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm];
+    function syncPermanentResetConstraint(form, permanent) {
+      const resetCycle = form.querySelector("#lossReturnResetCycle, #wagerRebateResetCycle");
+      if (!resetCycle) return;
+      const noResetOption = Array.from(resetCycle.options).find(option => option.textContent.trim() === "不重置");
+      if (!noResetOption) return;
+      noResetOption.disabled = permanent;
+      noResetOption.title = permanent ? "永久有效活动必须选择重置周期，不能使用不重置" : "";
+      if (permanent && resetCycle.value === noResetOption.value) {
+        const dailyOption = Array.from(resetCycle.options).find(option => option.textContent.trim() === "每日重置");
+        if (dailyOption) resetCycle.value = dailyOption.value;
+      }
+    }
+    function syncPermanentValidity(form, permanent, { clearEnd = true } = {}) {
+      const endInput = Array.from(form.querySelectorAll('input[type="datetime-local"]'))[1];
+      const switchButton = form.querySelector(".activity-permanent-switch");
+      const permanentValue = form.querySelector(".permanent-validity-value");
+      if (!endInput || !switchButton || !permanentValue) return;
+      form.dataset.permanentValidity = String(permanent);
+      switchButton.setAttribute("aria-pressed", String(permanent));
+      switchButton.classList.toggle("is-on", permanent);
+      if (permanent && clearEnd) endInput.value = "";
+      endInput.hidden = permanent;
+      endInput.disabled = permanent;
+      permanentValue.hidden = !permanent;
+      syncPermanentResetConstraint(form, permanent);
+    }
+    activityForms.forEach(form => {
+      const endInput = Array.from(form.querySelectorAll('input[type="datetime-local"]'))[1];
+      const endField = endInput?.closest(".field");
+      const endLabel = endField?.querySelector(":scope > label");
+      if (!endInput || !endField || !endLabel) return;
+      endField.classList.add("activity-validity-field");
+      const labelRow = document.createElement("div");
+      labelRow.className = "validity-label-row";
+      const control = document.createElement("div");
+      control.className = "permanent-validity-control";
+      control.innerHTML = '<button class="switch activity-permanent-switch" type="button" aria-pressed="false" aria-label="永久有效"></button><span>永久有效</span>';
+      endField.insertBefore(labelRow, endLabel);
+      labelRow.append(endLabel, control);
+      const permanentValue = document.createElement("div");
+      permanentValue.className = "permanent-validity-value";
+      permanentValue.textContent = "永久有效";
+      permanentValue.hidden = true;
+      endInput.insertAdjacentElement("afterend", permanentValue);
+      control.querySelector(".activity-permanent-switch").addEventListener("click", event => {
+        const permanent = event.currentTarget.getAttribute("aria-pressed") !== "true";
+        syncPermanentValidity(form, permanent);
+      });
+      syncPermanentValidity(form, false, { clearEnd: false });
+    });
+    const currencyUnitPattern = /^(INR|USD|BRL|MXN|PHP|₹|\$)$/i;
+    activityForms.forEach(form => {
+      form.querySelectorAll(".unit").forEach(unit => {
+        if (!currencyUnitPattern.test(unit.textContent.trim()) || unit.classList.contains("reward-value-unit")) return;
+        unit.hidden = true;
+        unit.closest(".unit-input")?.classList.add("is-unitless");
+      });
+    });
     const defaultActivityCoreState = activityForms.map(form => {
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
       const packageInput = form.querySelector('input[id$="PackageId"]');
@@ -4634,12 +4845,100 @@
         name: nameInput?.value || "",
         packageId: packageInput?.value || "",
         startTime: dates[0]?.value || "",
-        endTime: dates[1]?.value || ""
+        endTime: dates[1]?.value || "",
+        permanent: form.dataset.permanentValidity === "true"
       };
     });
     let firstDepositDefaultRows = [];
     const wagerRebateDefaultRows = Array.from(wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr")).map(row => row.cloneNode(true));
     const packageOptions = ["all", "IN01", "IN02", "IN03"];
+    let activeMultiSelect = null;
+    function isFloatingMultiMenuOpen(menu) {
+      return menu?.matches(":popover-open") || false;
+    }
+    function validateFloatingMultiMenu(root = activeMultiSelect) {
+      if (!root) return true;
+      const trigger = root.querySelector(".multi-trigger");
+      const menu = root.querySelector(".multi-menu");
+      if (!trigger || !menu || !root.classList.contains("is-open")) return true;
+      const triggerRect = trigger.getBoundingClientRect();
+      const menuRect = menu.getBoundingClientRect();
+      const gap = 8;
+      const valid = menuRect.width > 0
+        && menuRect.height > 0
+        && menuRect.left >= gap - 1
+        && menuRect.right <= window.innerWidth - gap + 1
+        && menuRect.top >= gap - 1
+        && menuRect.bottom <= window.innerHeight - gap + 1
+        && Math.abs(menuRect.width - triggerRect.width) <= 1;
+      root.dataset.overlayBoundaryValid = String(valid);
+      return valid;
+    }
+    function positionFloatingMultiMenu(root = activeMultiSelect) {
+      if (!root) return;
+      const trigger = root.querySelector(".multi-trigger");
+      const menu = root.querySelector(".multi-menu");
+      if (!trigger || !menu || !root.classList.contains("is-open")) return;
+      const triggerRect = trigger.getBoundingClientRect();
+      const gap = 8;
+      const menuGap = 6;
+      const availableBelow = Math.max(0, window.innerHeight - triggerRect.bottom - menuGap - gap);
+      const availableAbove = Math.max(0, triggerRect.top - menuGap - gap);
+      const naturalHeight = Math.min(220, Math.max(40, menu.scrollHeight + 2));
+      const openUpward = availableBelow < naturalHeight && availableAbove > availableBelow;
+      const availableHeight = Math.max(40, openUpward ? availableAbove : availableBelow);
+      const maxHeight = Math.min(naturalHeight, availableHeight);
+      const width = Math.min(triggerRect.width, window.innerWidth - gap * 2);
+      const left = Math.min(Math.max(gap, triggerRect.left), window.innerWidth - gap - width);
+      menu.style.width = `${width}px`;
+      menu.style.maxHeight = `${maxHeight}px`;
+      menu.style.left = `${left}px`;
+      menu.style.top = openUpward
+        ? `${Math.max(gap, triggerRect.top - menuGap - maxHeight)}px`
+        : `${Math.min(window.innerHeight - gap - maxHeight, triggerRect.bottom + menuGap)}px`;
+      menu.dataset.placement = openUpward ? "top" : "bottom";
+      validateFloatingMultiMenu(root);
+    }
+    function closeFloatingMultiMenu(root) {
+      if (!root) return;
+      const menu = root.querySelector(".multi-menu");
+      root.classList.remove("is-open");
+      root.closest(".rule-box")?.classList.remove("has-floating-menu");
+      if (menu && isFloatingMultiMenuOpen(menu)) menu.hidePopover();
+      if (menu) {
+        menu.style.removeProperty("width");
+        menu.style.removeProperty("max-height");
+        menu.style.removeProperty("left");
+        menu.style.removeProperty("top");
+        delete menu.dataset.placement;
+      }
+      delete root.dataset.overlayBoundaryValid;
+      if (activeMultiSelect === root) activeMultiSelect = null;
+    }
+    function closeAllFloatingMultiMenus(except = null) {
+      document.querySelectorAll(".multi-select.is-open").forEach(root => {
+        if (root !== except) closeFloatingMultiMenu(root);
+      });
+    }
+    function openFloatingMultiMenu(root) {
+      const menu = root?.querySelector(".multi-menu");
+      if (!root || !menu) return;
+      closeAllFloatingMultiMenus(root);
+      root.classList.add("is-open");
+      root.closest(".rule-box")?.classList.add("has-floating-menu");
+      activeMultiSelect = root;
+      if (typeof menu.showPopover === "function") {
+        menu.setAttribute("popover", "manual");
+        if (!isFloatingMultiMenuOpen(menu)) menu.showPopover();
+      }
+      requestAnimationFrame(() => positionFloatingMultiMenu(root));
+    }
+    function toggleFloatingMultiMenu(root) {
+      if (root.classList.contains("is-open")) closeFloatingMultiMenu(root);
+      else openFloatingMultiMenu(root);
+    }
+    window.addEventListener("resize", () => positionFloatingMultiMenu(), { passive: true });
+    drawer.querySelector(".drawer-body").addEventListener("scroll", () => positionFloatingMultiMenu(), { passive: true });
     function syncPackageControl(input) {
       const root = input.nextElementSibling;
       if (!root || !root.classList.contains("package-multi")) return;
@@ -4655,7 +4954,7 @@
       input.insertAdjacentElement("afterend", root);
       const trigger = root.querySelector(".multi-trigger");
       const menu = root.querySelector(".multi-menu");
-      trigger.addEventListener("click", event => { event.stopPropagation(); root.classList.toggle("is-open"); });
+      trigger.addEventListener("click", event => { event.stopPropagation(); toggleFloatingMultiMenu(root); });
       menu.addEventListener("click", event => event.stopPropagation());
       menu.addEventListener("change", event => {
         const changed = event.target;
@@ -4672,9 +4971,10 @@
     }
     document.querySelectorAll('[id$="PackageId"], #packageFilter').forEach(enhancePackageInput);
     document.addEventListener("click", event => {
-      if (!event.target.closest(".package-multi")) document.querySelectorAll(".package-multi").forEach(item => item.classList.remove("is-open"));
+      if (!event.target.closest(".package-multi")) document.querySelectorAll(".package-multi").forEach(closeFloatingMultiMenu);
     });
     function syncActivityForm(activityType = "补水活动") {
+      hideTooltipLayer();
       const normalizedType = activityType === "充值活动"
         ? "周期首充"
         : activityType === "新手充值" ? "新人首充" : activityType;
@@ -4716,7 +5016,8 @@
           syncPackageControl(packageInput);
         }
         if (dates[0]) dates[0].value = state.startTime;
-        if (dates[1]) dates[1].value = state.endTime;
+        syncPermanentValidity(state.form, state.permanent, { clearEnd: false });
+        if (dates[1]) dates[1].value = state.permanent ? "" : state.endTime;
       });
       const tbody = rechargeActivityForm.querySelector(".first-deposit-rule-table tbody");
       if (tbody && firstDepositDefaultRows.length) {
@@ -4754,6 +5055,8 @@
       });
     }
     function closeDrawer() {
+      hideTooltipLayer();
+      closeAllFloatingMultiMenus();
       drawer.classList.add("is-hidden");
       drawerMask.classList.add("is-hidden");
       drawer.setAttribute("inert", "");
@@ -4767,7 +5070,9 @@
       const activityName = cells[4].textContent.trim();
       const activityType = cells[5].textContent.trim();
       const startTime = cells[10].textContent.trim().replaceAll("/", "-").replace(" ", "T");
-      const endTime = cells[11].textContent.trim().replaceAll("/", "-").replace(" ", "T");
+      const endTimeText = cells[11].textContent.trim();
+      const permanent = endTimeText === "永久有效" || row.dataset.permanentValidity === "true";
+      const endTime = permanent ? "" : endTimeText.replaceAll("/", "-").replace(" ", "T");
       document.querySelectorAll('[id$="ActivityName"], #drawerConfigName').forEach(input => {
         input.value = activityName;
       });
@@ -4778,6 +5083,7 @@
       activityForms.forEach(form => {
         const dates = form.querySelectorAll('input[type="datetime-local"]');
         if (dates[0]) dates[0].value = startTime;
+        syncPermanentValidity(form, permanent, { clearEnd: false });
         if (dates[1]) dates[1].value = endTime;
       });
       openDrawer("活动编辑", activityType);
@@ -4789,59 +5095,126 @@
       }
     }
 
-    function validateTooltipBoundaries() {
-      const drawerRect = drawer.getBoundingClientRect();
+    function hideTooltipLayer() {
+      activeHelpTip = null;
+      tooltipLayer.classList.remove("is-visible");
+      tooltipLayer.setAttribute("aria-hidden", "true");
+    }
+    function getTooltipSafeBounds(tip) {
       const viewportLeft = 8;
       const viewportRight = document.documentElement.clientWidth - 8;
-      const safeLeft = Math.max(drawerRect.left + 8, viewportLeft);
-      const safeRight = Math.min(drawerRect.right - 8, viewportRight);
-      const safeTop = Math.max(drawerRect.top + 8, 8);
-      const safeBottom = Math.min(drawerRect.bottom - 8, window.innerHeight - 8);
-      let passed = true;
-      drawer.querySelectorAll(".help-tip").forEach(tip => {
-        tip.classList.remove("tip-open-left", "tip-open-right", "tip-open-down");
-        const rect = tip.getBoundingClientRect();
-        if (rect.width === 0 || rect.height === 0) {
-          tip.dataset.boundaryValidated = "skipped-hidden";
-          return;
-        }
-        if (rect.bottom <= safeTop || rect.top >= safeBottom) {
-          tip.dataset.boundaryValidated = "skipped-offscreen";
-          return;
-        }
-        if (rect.top < safeTop || rect.bottom > safeBottom) {
-          tip.dataset.boundaryValidated = "skipped-partial-offscreen";
-          return;
-        }
-        const tooltipWidth = Math.min(320, document.documentElement.clientWidth * 0.58);
-        const tooltipHeight = Math.max(36, Math.ceil((tip.dataset.tip || "").length / 22) * 18 + 16);
-        let projectedLeft = rect.left + rect.width / 2 - tooltipWidth / 2;
-        let projectedRight = projectedLeft + tooltipWidth;
-        if (projectedLeft < safeLeft) {
-          tip.classList.add("tip-open-right");
-          projectedLeft = rect.left;
-          projectedRight = projectedLeft + tooltipWidth;
-        } else if (projectedRight > safeRight) {
-          tip.classList.add("tip-open-left");
-          projectedRight = rect.right;
-          projectedLeft = projectedRight - tooltipWidth;
-        }
-        let projectedTop = rect.top - 8 - tooltipHeight;
-        let projectedBottom = rect.top - 8;
-        if (tip.dataset.tipPlacement === "down" || projectedTop < safeTop) {
-          tip.classList.add("tip-open-down");
-          projectedTop = rect.bottom + 8;
-          projectedBottom = projectedTop + tooltipHeight;
-        }
-        const tipPassed = projectedLeft >= safeLeft - 1 && projectedRight <= safeRight + 1 && projectedTop >= safeTop - 1 && projectedBottom <= safeBottom + 1;
-        tip.dataset.boundaryValidated = String(tipPassed);
-        if (tipPassed) tip.dataset.boundaryEverValidated = "true";
-        passed = passed && tipPassed;
+      const viewportTop = 8;
+      const viewportBottom = window.innerHeight - 8;
+      const ownerDrawer = tip.closest("#drawer");
+      if (!ownerDrawer || ownerDrawer.classList.contains("is-hidden")) {
+        return { left: viewportLeft, right: viewportRight, top: viewportTop, bottom: viewportBottom };
+      }
+      const rect = ownerDrawer.getBoundingClientRect();
+      return {
+        left: Math.max(rect.left + 8, viewportLeft),
+        right: Math.min(rect.right - 8, viewportRight),
+        top: Math.max(rect.top + 8, viewportTop),
+        bottom: Math.min(rect.bottom - 8, viewportBottom)
+      };
+    }
+    function positionTooltipLayer(tip, reveal = false) {
+      if (!tip || !tip.isConnected || !tip.dataset.tip) return null;
+      const anchorRect = tip.getBoundingClientRect();
+      const bounds = getTooltipSafeBounds(tip);
+      if (!anchorRect.width || !anchorRect.height || anchorRect.bottom <= bounds.top || anchorRect.top >= bounds.bottom) {
+        tip.dataset.boundaryValidated = "skipped-offscreen";
+        return null;
+      }
+      const availableWidth = Math.max(120, bounds.right - bounds.left);
+      tooltipLayer.textContent = tip.dataset.tip;
+      tooltipLayer.style.maxWidth = `${Math.min(320, availableWidth)}px`;
+      tooltipLayer.style.left = "0px";
+      tooltipLayer.style.top = "0px";
+      tooltipLayer.classList.remove("is-visible");
+      tooltipLayer.setAttribute("aria-hidden", "true");
+      const layerSize = tooltipLayer.getBoundingClientRect();
+      const gap = 8;
+      const preferBottom = tip.dataset.tipPlacement === "down";
+      const canOpenTop = anchorRect.top - gap - layerSize.height >= bounds.top;
+      const canOpenBottom = anchorRect.bottom + gap + layerSize.height <= bounds.bottom;
+      const placement = preferBottom && canOpenBottom ? "bottom" : canOpenTop ? "top" : canOpenBottom ? "bottom" : "top";
+      let top = placement === "top" ? anchorRect.top - gap - layerSize.height : anchorRect.bottom + gap;
+      top = Math.min(Math.max(top, bounds.top), Math.max(bounds.top, bounds.bottom - layerSize.height));
+      let left = anchorRect.left + anchorRect.width / 2 - layerSize.width / 2;
+      left = Math.min(Math.max(left, bounds.left), Math.max(bounds.left, bounds.right - layerSize.width));
+      tooltipLayer.style.left = `${Math.round(left)}px`;
+      tooltipLayer.style.top = `${Math.round(top)}px`;
+      tooltipLayer.dataset.placement = placement;
+      const arrowLeft = Math.min(Math.max(anchorRect.left + anchorRect.width / 2 - left, 12), Math.max(12, layerSize.width - 12));
+      tooltipLayer.style.setProperty("--tooltip-arrow-left", `${Math.round(arrowLeft)}px`);
+      if (reveal) {
+        tooltipLayer.classList.add("is-visible");
+        tooltipLayer.setAttribute("aria-hidden", "false");
+      }
+      const renderedRect = tooltipLayer.getBoundingClientRect();
+      const mountedAtRoot = tooltipLayer.parentElement === document.body;
+      const passed = mountedAtRoot
+        && renderedRect.left >= bounds.left - 1
+        && renderedRect.right <= bounds.right + 1
+        && renderedRect.top >= bounds.top - 1
+        && renderedRect.bottom <= bounds.bottom + 1;
+      tip.dataset.boundaryValidated = String(passed);
+      if (passed) tip.dataset.boundaryEverValidated = "true";
+      return { passed, mountedAtRoot, rect: renderedRect, bounds, placement };
+    }
+    function showTooltipLayer(tip) {
+      activeHelpTip = tip;
+      const result = positionTooltipLayer(tip, true);
+      if (!result || !result.passed) {
+        hideTooltipLayer();
+        console.error("Tooltip boundary validation failed");
+      }
+    }
+    function validateTooltipBoundaries() {
+      if (drawer.classList.contains("is-hidden")) {
+        hideTooltipLayer();
+        drawer.dataset.tooltipBoundaryValidation = "skipped-hidden";
+        return true;
+      }
+      const visibleForm = activityForms.find(item => !item.hidden);
+      const tips = visibleForm ? Array.from(visibleForm.querySelectorAll(".help-tip")) : [];
+      const preservedTip = activeHelpTip;
+      let checkedCount = 0;
+      let passed = tooltipLayer.parentElement === document.body;
+      tips.forEach(tip => {
+        const result = positionTooltipLayer(tip, false);
+        if (!result) return;
+        checkedCount += 1;
+        passed = passed && result.passed;
       });
+      if (preservedTip) {
+        activeHelpTip = preservedTip;
+        const activeResult = positionTooltipLayer(preservedTip, true);
+        if (!activeResult) hideTooltipLayer();
+      } else {
+        tooltipLayer.classList.remove("is-visible");
+        tooltipLayer.setAttribute("aria-hidden", "true");
+      }
+      passed = passed && checkedCount > 0;
       drawer.dataset.tooltipBoundaryValidation = passed ? "passed" : "failed";
       if (!passed) console.error("Tooltip boundary validation failed");
       return passed;
     }
+    document.addEventListener("mouseover", event => {
+      const tip = event.target.closest?.(".help-tip");
+      if (tip && !tip.contains(event.relatedTarget)) showTooltipLayer(tip);
+    });
+    document.addEventListener("mouseout", event => {
+      const tip = event.target.closest?.(".help-tip");
+      if (tip && !tip.contains(event.relatedTarget) && document.activeElement !== tip) hideTooltipLayer();
+    });
+    document.addEventListener("focusin", event => {
+      const tip = event.target.closest?.(".help-tip");
+      if (tip) showTooltipLayer(tip);
+    });
+    document.addEventListener("focusout", event => {
+      if (event.target.closest?.(".help-tip")) hideTooltipLayer();
+    });
     window.addEventListener("resize", validateTooltipBoundaries);
     drawer.addEventListener("transitionend", event => {
       if (event.target === drawer && event.propertyName === "transform" && !drawer.classList.contains("is-hidden")) {
@@ -4852,7 +5225,10 @@
     window.runTooltipDeliveryValidation = () => {
       const visibleForm = activityForms.find(item => !item.hidden);
       const tips = visibleForm ? Array.from(visibleForm.querySelectorAll(".help-tip")).filter(tip => tip.getClientRects().length > 0) : [];
-      const passed = tips.length > 0 && tips.every(tip => tip.dataset.boundaryEverValidated === "true");
+      const passed = validateTooltipBoundaries()
+        && tooltipLayer.parentElement === document.body
+        && tips.length > 0
+        && tips.filter(tip => tip.dataset.boundaryValidated !== "skipped-offscreen").every(tip => tip.dataset.boundaryEverValidated === "true");
       drawer.dataset.tooltipDeliveryValidation = passed ? "passed" : "failed";
       if (!passed) console.error("Tooltip delivery validation incomplete");
       return passed;
@@ -4905,7 +5281,30 @@
     document.querySelectorAll(".subsidy-rule-table").forEach(table => {
       const tbody = table.querySelector("tbody");
       if (!tbody) return;
-      const titleAddButton = table.previousElementSibling?.querySelector(".rule-table-add");
+      let tableTitle = table.previousElementSibling;
+      if (tableTitle && !tableTitle.classList.contains("rule-subtitle")) {
+        tableTitle = tableTitle.previousElementSibling;
+      }
+      const titleText = tableTitle?.querySelector("span")?.textContent.trim()
+        || tableTitle?.childNodes[0]?.textContent.trim()
+        || "规则";
+      tableTitle?.querySelectorAll(".rule-table-add").forEach(button => button.remove());
+      tableTitle?.classList.remove("config-table-title");
+      const operationHeader = table.querySelector("thead th:last-child");
+      let headerAddButton = null;
+      if (operationHeader) {
+        operationHeader.replaceChildren();
+        const headContent = document.createElement("div");
+        headContent.className = "operation-head";
+        headerAddButton = document.createElement("button");
+        headerAddButton.className = "circle-btn rule-table-add";
+        headerAddButton.type = "button";
+        headerAddButton.setAttribute("aria-label", `新增${titleText}`);
+        headerAddButton.title = `新增${titleText}`;
+        headerAddButton.textContent = "+";
+        headContent.appendChild(headerAddButton);
+        operationHeader.appendChild(headContent);
+      }
 
       const insertEmptyRowAfter = currentRow => {
         const row = currentRow.cloneNode(true);
@@ -4924,16 +5323,14 @@
         rows.forEach(row => {
           const actions = row.querySelector(".mini-actions");
           if (!actions) return;
-          actions.innerHTML = titleAddButton
-            ? '<button class="circle-btn rule-row-remove" type="button" aria-label="删除当前规则">−</button>'
-            : '<button class="circle-btn rule-row-add" type="button" aria-label="在当前行后新增规则" title="在当前行后新增规则">+</button><button class="circle-btn rule-row-remove" type="button" aria-label="删除当前规则">−</button>';
+          actions.innerHTML = '<button class="circle-btn rule-row-remove" type="button" aria-label="删除当前规则">−</button>';
           const removeButton = actions.querySelector(".rule-row-remove");
           removeButton.title = rows.length === 1 ? "至少保留一条规则" : "删除当前规则";
           removeButton.disabled = rows.length === 1;
         });
       };
 
-      titleAddButton?.addEventListener("click", () => {
+      headerAddButton?.addEventListener("click", () => {
         const rows = Array.from(tbody.querySelectorAll("tr"));
         insertEmptyRowAfter(rows[rows.length - 1]);
         prepareRows();
@@ -4957,40 +5354,6 @@
     firstDepositDefaultRows = Array.from(
       rechargeActivityForm.querySelectorAll(".first-deposit-rule-table tbody tr")
     ).map(row => row.cloneNode(true));
-    document.querySelectorAll(".popup-switch").forEach(button => {
-      button.addEventListener("click", () => {
-        const enabled = !button.classList.contains("is-on");
-        const config = button.closest(".popup-config");
-        const section = button.closest(".front-subsection");
-        button.classList.toggle("is-on", enabled);
-        button.setAttribute("aria-pressed", String(enabled));
-        button.nextElementSibling.textContent = enabled ? "展示" : "不展示";
-        config.querySelectorAll(".popup-fields .field:not(:first-child)").forEach(field => {
-          field.hidden = !enabled;
-        });
-        section.querySelectorAll(".popup-material").forEach(field => {
-          field.hidden = !enabled;
-        });
-        const jumpSelect = config.querySelector(".popup-jump-select");
-        if (enabled && jumpSelect) jumpSelect.dispatchEvent(new Event("change"));
-      });
-    });
-    document.querySelectorAll(".popup-jump-select").forEach(select => {
-      const section = select.closest(".front-subsection");
-      const targetField = section.querySelector(".popup-target-field");
-      const buttonCopyField = section.querySelector(".popup-button-copy-field");
-      const syncPopupJump = (clearHidden = false) => {
-        const enabled = select.value !== "无跳转";
-        targetField.hidden = !enabled;
-        buttonCopyField.hidden = !enabled;
-        if (!enabled && clearHidden) {
-          targetField.querySelector("select").selectedIndex = -1;
-          buttonCopyField.querySelector("input").value = "";
-        }
-      };
-      select.addEventListener("change", () => syncPopupJump(true));
-      syncPopupJump(false);
-    });
     document.querySelectorAll(".popup-display-type-select").forEach(select => {
       const section = select.closest(".front-subsection");
       const imageField = section.querySelector(".popup-image-field");
@@ -5003,6 +5366,232 @@
       select.addEventListener("change", syncPopupDisplayType);
       syncPopupDisplayType();
     });
+    const activityCenterFunctionPageTargets = ["首页", "游戏中心", "活动列表页", "充值页", "提现页", "系统消息", "Fantasy", "Sports"];
+    const activityCenterJumpTargets = {
+      "功能页": activityCenterFunctionPageTargets,
+      "游戏介绍页": ["Fantasy-HD", "LuckySports SportsBook", "Crystal Fall", "Skylight Wonders", "Reel Royale Showdown", "Poker Kingdom Win", "Perfect Strike", "Mythical Guardians"]
+    };
+    const activityDetailGroupOrder = ["充值活动", "返水活动", "补水活动", "其他活动"];
+    function getActivityDetailGroup(activityType) {
+      if (["周期首充", "新人首充", "笔笔送", "阶梯充值"].includes(activityType)) return "充值活动";
+      if (["返水活动", "输返", "打码返利"].includes(activityType)) return "返水活动";
+      if (activityType === "补水活动") return "补水活动";
+      return "其他活动";
+    }
+    function getActivityDetailTargetGroups() {
+      const groups = new Map(activityDetailGroupOrder.map(group => [group, []]));
+      document.querySelectorAll(".table-wrap tbody tr").forEach(row => {
+        const cells = row.children;
+        if (cells.length < 13) return;
+        const activityId = cells[3].textContent.trim();
+        const activityName = cells[4].textContent.trim();
+        const activityType = cells[5].textContent.trim();
+        const status = cells[12].textContent.trim();
+        if (!activityId || !activityName) return;
+        groups.get(getActivityDetailGroup(activityType)).push({
+          value: activityId,
+          label: `${status}　${activityName}`,
+          status
+        });
+      });
+      return groups;
+    }
+    function findActivityDetailTargetByName(activityName) {
+      const row = Array.from(document.querySelectorAll(".table-wrap tbody tr")).find(item => item.children[4]?.textContent.trim() === activityName);
+      return row?.children[3]?.textContent.trim() || "";
+    }
+    function renderSharedJumpTarget(type, targetSelect, webInput, preservedTarget = "") {
+      targetSelect.innerHTML = '<option value="">请选择</option>';
+      webInput.value = "";
+      if (type === "活动详情页") {
+        const groups = getActivityDetailTargetGroups();
+        activityDetailGroupOrder.forEach(groupName => {
+          const options = groups.get(groupName);
+          if (!options?.length) return;
+          const optionGroup = document.createElement("optgroup");
+          optionGroup.label = groupName;
+          options.forEach(item => {
+            const option = new Option(item.label, item.value);
+            option.dataset.status = item.status;
+            optionGroup.appendChild(option);
+          });
+          targetSelect.appendChild(optionGroup);
+        });
+        targetSelect.value = Array.from(targetSelect.options).some(option => option.value === preservedTarget) ? preservedTarget : "";
+      } else if (activityCenterJumpTargets[type]) {
+        activityCenterJumpTargets[type].forEach(value => targetSelect.add(new Option(value, value)));
+        targetSelect.value = activityCenterJumpTargets[type].includes(preservedTarget) ? preservedTarget : "";
+      } else if (type === "Web页" && preservedTarget) {
+        webInput.value = preservedTarget;
+      }
+    }
+    document.querySelectorAll(".front-action-config").forEach(config => {
+      const originalSelect = config.querySelector("select");
+      const originalTarget = originalSelect?.value || "";
+      const legacyFunctionPageTargetMap = {
+        "充值页面": "充值页",
+        "活动中心": "活动列表页",
+        "游戏大厅": "游戏中心"
+      };
+      const normalizedOriginalTarget = legacyFunctionPageTargetMap[originalTarget] || originalTarget;
+      const initialType = normalizedOriginalTarget === "活动详情页"
+        ? "活动详情页"
+        : activityCenterFunctionPageTargets.includes(normalizedOriginalTarget) ? "功能页" : "";
+      const ownerForm = config.closest('[id$="ActivityForm"], #rescueActivityForm');
+      const ownerActivityName = ownerForm?.querySelector('input[id$="ActivityName"], #drawerConfigName')?.value.trim() || "";
+      const initialTarget = normalizedOriginalTarget === "活动详情页"
+        ? findActivityDetailTargetByName(ownerActivityName)
+        : normalizedOriginalTarget;
+      config.innerHTML = `
+        <div class="field activity-center-jump-type-field">
+          <label class="required">活动中心按钮跳转</label>
+          <select class="activity-center-jump-type">
+            <option value="">请选择</option>
+            <option>不跳转</option>
+            <option>功能页</option>
+            <option>活动详情页</option>
+            <option>游戏介绍页</option>
+            <option>Web页</option>
+          </select>
+        </div>
+        <div class="field activity-center-jump-target-field" hidden>
+          <label class="required">跳转目标</label>
+          <select class="activity-center-jump-target"></select>
+          <input class="activity-center-jump-web" type="url" placeholder="请输入完整Web地址" hidden>
+        </div>`;
+      const typeSelect = config.querySelector(".activity-center-jump-type");
+      const targetField = config.querySelector(".activity-center-jump-target-field");
+      const targetSelect = config.querySelector(".activity-center-jump-target");
+      const webInput = config.querySelector(".activity-center-jump-web");
+      const syncActivityCenterJump = (preservedTarget = "") => {
+        const type = typeSelect.value;
+        const noTarget = !type || type === "不跳转";
+        targetField.hidden = noTarget;
+        targetSelect.hidden = noTarget || type === "Web页";
+        webInput.hidden = type !== "Web页";
+        renderSharedJumpTarget(type, targetSelect, webInput, preservedTarget);
+        config.dataset.jumpType = type;
+        config.dataset.jumpTarget = type === "Web页" ? webInput.value.trim() : targetSelect.value;
+      };
+      typeSelect.value = initialType;
+      typeSelect.addEventListener("change", () => syncActivityCenterJump());
+      targetSelect.addEventListener("change", () => { config.dataset.jumpTarget = targetSelect.value; });
+      webInput.addEventListener("input", () => { config.dataset.jumpTarget = webInput.value.trim(); });
+      syncActivityCenterJump(initialTarget);
+    });
+    document.querySelectorAll(".popup-config").forEach(config => {
+      const section = config.closest(".front-subsection");
+      const popupFields = config.querySelector(".popup-fields");
+      const fields = Array.from(popupFields?.children || []).filter(item => item.classList.contains("field"));
+      const jumpField = fields.find(field => field.querySelector("label")?.textContent.trim() === "弹窗按钮跳转");
+      const targetField = fields.find(field => field.querySelector("label")?.textContent.trim() === "跳转目标");
+      if (!jumpField || !targetField) return;
+
+      const legacyJump = jumpField.querySelector("select")?.value || "";
+      const legacyTarget = targetField.querySelector("select")?.value || "";
+      const legacyFunctionPageTargetMap = {
+        "充值页面": "充值页",
+        "活动中心": "活动列表页",
+        "游戏大厅": "游戏中心"
+      };
+      const normalizedLegacyTarget = legacyFunctionPageTargetMap[legacyTarget] || legacyTarget;
+      const ownerForm = config.closest('[id$="ActivityForm"], #rescueActivityForm');
+      const ownerActivityName = ownerForm?.querySelector('input[id$="ActivityName"], #drawerConfigName')?.value.trim() || "";
+      let initialType = "不跳转";
+      let initialTarget = "";
+      if (legacyJump === "外链") {
+        initialType = "Web页";
+      } else if (legacyJump === "跳转到指定页面") {
+        if (legacyTarget === "活动详情页") {
+          initialType = "活动详情页";
+          initialTarget = findActivityDetailTargetByName(ownerActivityName);
+        } else if (activityCenterFunctionPageTargets.includes(normalizedLegacyTarget)) {
+          initialType = "功能页";
+          initialTarget = normalizedLegacyTarget;
+        } else if (activityCenterJumpTargets["游戏介绍页"].includes(normalizedLegacyTarget)) {
+          initialType = "游戏介绍页";
+          initialTarget = normalizedLegacyTarget;
+        }
+      }
+
+      jumpField.classList.add("popup-jump-type-field");
+      jumpField.innerHTML = `
+        <label class="required">弹窗按钮跳转</label>
+        <select class="popup-jump-select">
+          <option value="">请选择</option>
+          <option>不跳转</option>
+          <option>功能页</option>
+          <option>活动详情页</option>
+          <option>游戏介绍页</option>
+          <option>Web页</option>
+        </select>`;
+      targetField.className = "field popup-target-field";
+      targetField.innerHTML = `
+        <label class="required">跳转目标</label>
+        <select class="popup-jump-target"></select>
+        <input class="popup-jump-web" type="url" placeholder="请输入完整Web地址" hidden>`;
+
+      const material = section.querySelector(".popup-material");
+      const languageContent = material?.querySelector(".language-content");
+      let buttonCopyField = languageContent?.querySelector(".popup-button-copy-field");
+      if (languageContent && !buttonCopyField) {
+        buttonCopyField = document.createElement("div");
+        buttonCopyField.className = "field popup-button-copy-field";
+        buttonCopyField.innerHTML = '<label class="required">弹窗按钮文案</label><input value="查看活动">';
+        languageContent.insertBefore(buttonCopyField, languageContent.firstElementChild);
+      }
+
+      const typeSelect = jumpField.querySelector(".popup-jump-select");
+      const targetSelect = targetField.querySelector(".popup-jump-target");
+      const webInput = targetField.querySelector(".popup-jump-web");
+      const popupSwitch = config.querySelector(".popup-switch");
+      const syncPopupJump = (preservedTarget = "") => {
+        const popupEnabled = popupSwitch?.getAttribute("aria-pressed") === "true";
+        const type = typeSelect.value;
+        const noTarget = !type || type === "不跳转";
+        jumpField.hidden = !popupEnabled;
+        targetField.hidden = !popupEnabled || noTarget;
+        targetSelect.hidden = noTarget || type === "Web页";
+        webInput.hidden = type !== "Web页";
+        buttonCopyField && (buttonCopyField.hidden = !popupEnabled || noTarget);
+        renderSharedJumpTarget(type, targetSelect, webInput, preservedTarget);
+        if (noTarget) {
+          targetSelect.value = "";
+          webInput.value = "";
+          const buttonInput = buttonCopyField?.querySelector("input");
+          if (buttonInput) buttonInput.value = "";
+        }
+        config.dataset.jumpType = type;
+        config.dataset.jumpTarget = type === "Web页" ? webInput.value.trim() : targetSelect.value;
+      };
+      typeSelect.value = initialType;
+      typeSelect.addEventListener("change", () => syncPopupJump());
+      targetSelect.addEventListener("change", () => { config.dataset.jumpTarget = targetSelect.value; });
+      webInput.addEventListener("input", () => { config.dataset.jumpTarget = webInput.value.trim(); });
+      config.syncPopupJump = syncPopupJump;
+      syncPopupJump(initialTarget);
+    });
+    document.querySelectorAll(".popup-switch").forEach(button => {
+      button.addEventListener("click", () => {
+        const enabled = !button.classList.contains("is-on");
+        const config = button.closest(".popup-config");
+        const section = button.closest(".front-subsection");
+        button.classList.toggle("is-on", enabled);
+        button.setAttribute("aria-pressed", String(enabled));
+        button.nextElementSibling.textContent = enabled ? "展示" : "不展示";
+        if (!enabled) {
+          const jumpSelect = config.querySelector(".popup-jump-select");
+          if (jumpSelect) jumpSelect.value = "不跳转";
+        }
+        config.querySelectorAll(".popup-fields .field:not(:first-child)").forEach(field => {
+          field.hidden = !enabled;
+        });
+        section.querySelectorAll(".popup-material").forEach(field => {
+          field.hidden = !enabled;
+        });
+        config.syncPopupJump?.();
+      });
+    });
     document.querySelectorAll(".activity-center-switch").forEach(button => {
       button.addEventListener("click", () => {
         const enabled = !button.classList.contains("is-on");
@@ -5013,12 +5602,27 @@
         section.querySelectorAll(".activity-center-material").forEach(field => {
           field.hidden = !enabled;
         });
+        if (!enabled) {
+          const jumpType = section.querySelector(".activity-center-jump-type");
+          if (jumpType) {
+            jumpType.value = "";
+            jumpType.dispatchEvent(new Event("change"));
+          }
+        }
       });
     });
 
     document.querySelectorAll(".rule-summary-item").forEach(item => {
       const label = item.querySelector("label");
-      if (!label || label.textContent.trim() !== "礼金是否需要领取") return;
+      if (!label || !label.textContent.trim().startsWith("礼金是否需要领取")) return;
+      if (!label.querySelector(".help-tip")) {
+        const tip = document.createElement("span");
+        tip.className = "help-tip";
+        tip.tabIndex = 0;
+        tip.dataset.tip = "如关闭，礼金将直接发放，不会在活动中心的按钮和礼金中心的按钮上体现领取状态。";
+        tip.textContent = "?";
+        label.appendChild(tip);
+      }
       const button = item.querySelector(".switch");
       const stateText = item.querySelector(".switch-row span");
       if (!button || !stateText) return;
@@ -5040,23 +5644,32 @@
       const scopeItem = Array.from(summary.children).find(item => item.querySelector("label")?.textContent.trim() === "礼金适用范围");
       const expiryRule = document.createElement("div");
       expiryRule.className = "rule-summary-item reward-expiry-rule";
-      expiryRule.innerHTML = `<label class="required">礼金过期规则<span class="help-tip" tabindex="0" data-tip="每笔礼金分别按自身规则计算有效期。">?</span></label><select class="reward-expiry-type"><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>`;
+      expiryRule.innerHTML = `<label class="required">礼金领取过期规则<span class="help-tip" tabindex="0" data-tip="用于控制礼金的可领取期限。超过配置时间后，礼金不可领取，且不再在前端弹窗或礼金中心展示；每笔礼金分别按自身规则计算有效期。">?</span></label><select class="reward-expiry-type"><option value="none">不过期</option><option value="natural-day">按自然日过期</option></select>`;
       const expiryDays = document.createElement("div");
       expiryDays.className = "rule-summary-item reward-expiry-days";
       expiryDays.hidden = true;
-      expiryDays.innerHTML = `<label class="required">过期天数<span class="help-tip" tabindex="0" data-tip="按自然日计算：礼金到账当日为第1个自然日，到期日23:59:59过期。">?</span></label><div class="unit-input"><input class="reward-expiry-days-input" type="number" min="1" step="1" placeholder="请输入"><span class="unit">天</span></div>`;
+      expiryDays.innerHTML = `<label class="required">领取有效天数<span class="help-tip" tabindex="0" data-tip="按自然日计算：每笔礼金生成当日为第1个自然日，到期日23:59:59后不可领取，并从前端弹窗和礼金中心隐藏。">?</span></label><div class="unit-input"><input class="reward-expiry-days-input" type="number" min="1" step="1" placeholder="请输入"><span class="unit">天</span></div>`;
       summary.insertBefore(expiryRule, scopeItem || null);
       summary.insertBefore(expiryDays, scopeItem || null);
       const typeSelect = expiryRule.querySelector(".reward-expiry-type");
       const daysInput = expiryDays.querySelector(".reward-expiry-days-input");
+      const claimItem = Array.from(summary.children).find(item => item.querySelector("label")?.textContent.trim().startsWith("礼金是否需要领取"));
+      const claimSwitch = claimItem?.querySelector(".bonus-claim-switch");
       const syncExpiry = () => {
         const naturalDay = typeSelect.value === "natural-day";
         expiryDays.hidden = !naturalDay;
         daysInput.disabled = !naturalDay;
         if (!naturalDay) daysInput.value = "";
       };
+      const syncClaimExpiry = () => {
+        const claimRequired = claimSwitch?.getAttribute("aria-pressed") === "true";
+        expiryRule.hidden = !claimRequired;
+        if (!claimRequired) typeSelect.value = "none";
+        syncExpiry();
+      };
       typeSelect.addEventListener("change", syncExpiry);
-      syncExpiry();
+      claimSwitch?.addEventListener("click", syncClaimExpiry);
+      syncClaimExpiry();
     });
     const scopeValueMap = {
       "指定场馆": ["Slot", "Casino", "Fishing", "Fantasy", "Sports"],
@@ -5076,6 +5689,11 @@
       const selectedValues = () => Array.from(valueMenu.querySelectorAll("input:checked")).map(input => input.value);
       const syncSummary = () => {
         const selected = selectedValues();
+        if (!selected.length) {
+          valueTrigger.textContent = "请选择";
+          valueTrigger.title = "";
+          return;
+        }
         valueTrigger.textContent = selected.length <= 2 ? selected.join("、") : `${selected.slice(0, 2).join("、")} +${selected.length - 2}`;
         valueTrigger.title = selected.join("、");
       };
@@ -5092,7 +5710,7 @@
         if (!values.length) {
           valueTrigger.textContent = "请选择";
           valueTrigger.title = "";
-          valueMulti.classList.remove("is-open");
+          closeFloatingMultiMenu(valueMulti);
           return;
         }
         syncSummary();
@@ -5100,10 +5718,7 @@
       select.addEventListener("change", renderValues);
       valueTrigger.addEventListener("click", event => {
         event.stopPropagation();
-        document.querySelectorAll(".scope-linkage-value-multi").forEach(item => {
-          if (item !== valueMulti) item.classList.remove("is-open");
-        });
-        valueMulti.classList.toggle("is-open");
+        toggleFloatingMultiMenu(valueMulti);
       });
       valueMenu.addEventListener("click", event => event.stopPropagation());
       valueMenu.addEventListener("change", syncSummary);
@@ -5111,13 +5726,18 @@
     });
     document.addEventListener("click", event => {
       if (!event.target.closest(".scope-linkage-value-multi")) {
-        document.querySelectorAll(".scope-linkage-value-multi").forEach(item => item.classList.remove("is-open"));
+        document.querySelectorAll(".scope-linkage-value-multi").forEach(closeFloatingMultiMenu);
       }
     });
     function syncRewardMode(select) {
       const row = select.closest("tr");
       const unit = row.querySelector(".reward-value-unit");
-      if (unit) unit.textContent = select.value === "固定值" ? "INR" : "%";
+      if (unit) {
+        const percentageMode = select.value !== "固定值";
+        unit.textContent = percentageMode ? "%" : "";
+        unit.hidden = !percentageMode;
+        unit.closest(".unit-input")?.classList.toggle("is-unitless", !percentageMode);
+      }
     }
     document.querySelectorAll(".reward-mode-select").forEach(select => {
       syncRewardMode(select);
@@ -5159,7 +5779,7 @@
         gameScopeValueMenu.innerHTML = "";
         gameScopeValueTrigger.textContent = "请选择";
         gameScopeValueTrigger.title = "";
-        gameScopeValueMulti.classList.remove("is-open");
+        closeFloatingMultiMenu(gameScopeValueMulti);
         return;
       }
       gameScopeValueMenu.innerHTML = "";
@@ -5174,12 +5794,12 @@
     gameScopeSelect.addEventListener("change", renderGameScopeValues);
     gameScopeValueTrigger.addEventListener("click", event => {
       event.stopPropagation();
-      gameScopeValueMulti.classList.toggle("is-open");
+      toggleFloatingMultiMenu(gameScopeValueMulti);
     });
     gameScopeValueMenu.addEventListener("click", event => event.stopPropagation());
     gameScopeValueMenu.addEventListener("change", syncGameScopeSummary);
     document.addEventListener("click", event => {
-      if (!event.target.closest("#gameScopeValueMulti")) gameScopeValueMulti.classList.remove("is-open");
+      if (!event.target.closest("#gameScopeValueMulti")) closeFloatingMultiMenu(gameScopeValueMulti);
     });
     renderGameScopeValues();
     const conditionSwitch = document.getElementById("conditionSwitch");
@@ -5218,12 +5838,12 @@
     const conditionTypeConfig = {
       "用户充值": {
         operators: ["≥"],
-        valueHtml: '<div class="unit-input"><input class="user-recharge-condition-input" type="number" min="0.01" step="0.01" value="32"><span class="unit condition-currency-unit">USD</span></div>'
+        valueHtml: '<div class="unit-input is-unitless"><input class="user-recharge-condition-input" type="number" min="0.01" step="0.01" value="32"></div>'
       },
       "累计充值": {
         operators: ["≥", "<", "介于"],
-        valueHtml: '<div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div>',
-        rangeValueHtml: '<div class="condition-range"><div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div><span class="range-separator">~</span><div class="unit-input"><input placeholder="请输入" value=""><span class="unit">INR</span></div></div>'
+        valueHtml: '<div class="unit-input is-unitless"><input placeholder="请输入" value=""></div>',
+        rangeValueHtml: '<div class="condition-range"><div class="unit-input is-unitless"><input placeholder="请输入" value=""></div><span class="range-separator">~</span><div class="unit-input is-unitless"><input placeholder="请输入" value=""></div></div>'
       },
       "用户标签": {
         operators: ["=", "≠"],
@@ -5247,10 +5867,6 @@
       const config = conditionTypeConfig[typeSelect.value] || conditionTypeConfig["累计充值"];
       const valueWrap = row.querySelector(".condition-value");
       valueWrap.innerHTML = `<select class="condition-operator">${config.operators.map(item => `<option>${item}</option>`).join("")}</select>${config.valueHtml}`;
-      const currencyUnit = row.querySelector(".condition-currency-unit");
-      if (currencyUnit && row.closest("#lossReturnActivityForm")) {
-        currencyUnit.textContent = document.getElementById("lossReturnCurrency")?.value || "USD";
-      }
     }
     function renderConditionValueByOperator(operatorSelect) {
       const row = operatorSelect.closest(".condition-row");
@@ -5452,7 +6068,6 @@
     function syncLossReturnPreview() {
       const preview = lossReturnActivityForm.querySelector(".popup-rule-preview-grid");
       if (!preview) return;
-      const currency = document.getElementById("lossReturnCurrency").value;
       preview.replaceChildren();
       ["累计亏损达到", "返还比例", "流水"].forEach(textValue => {
         const cell = document.createElement("span");
@@ -5465,7 +6080,7 @@
         const maximum = row.querySelector(".loss-max").value.trim();
         const rate = row.querySelector(".loss-rate").value.trim() || "—";
         const turnover = row.querySelector(".loss-turnover").value.trim() || "—";
-        [`${minimum}${maximum ? `–${maximum}` : "以上"} ${currency}`, `${rate}%`, `${turnover}倍`].forEach(textValue => {
+        [`${minimum}${maximum ? `–${maximum}` : "以上"}`, `${rate}%`, `${turnover}倍`].forEach(textValue => {
           const cell = document.createElement("span");
           cell.textContent = textValue;
           preview.appendChild(cell);
@@ -5523,23 +6138,44 @@
       if (event.target.matches("input")) event.target.removeAttribute("aria-invalid");
       if (event.target.closest(".loss-return-table")) syncLossReturnPreview();
     });
-    document.getElementById("lossReturnCurrency").addEventListener("change", event => {
-      lossReturnActivityForm.querySelectorAll(".condition-currency-unit, #lossReturnRewardCap + .unit").forEach(unit => {
-        unit.textContent = event.target.value;
-      });
-      syncLossReturnPreview();
-    });
     lossReturnActivityForm.addEventListener("click", event => {
       if (event.target.closest(".rule-table-add, .rule-row-add, .rule-row-remove")) setTimeout(syncLossReturnPreview, 0);
     });
     syncLossReturnPreview();
 
+    function syncWagerRewardType(row, { clearValue = false } = {}) {
+      const typeSelect = row.querySelector(".wager-reward-type");
+      const rewardInput = row.querySelector(".wager-reward");
+      const rewardUnit = row.querySelector(".wager-reward-unit");
+      if (!typeSelect || !rewardInput || !rewardUnit) return;
+      const type = typeSelect.value;
+      const percentageMode = type === "百分比";
+      if (clearValue) rewardInput.value = "";
+      rewardInput.disabled = !type;
+      rewardInput.placeholder = type ? "请输入" : "请先选择类型";
+      if (percentageMode) {
+        rewardInput.max = "100";
+        rewardUnit.textContent = "%";
+        rewardUnit.hidden = false;
+      } else {
+        rewardInput.removeAttribute("max");
+        rewardUnit.textContent = "";
+        rewardUnit.hidden = true;
+      }
+      rewardUnit.closest(".unit-input")?.classList.toggle("is-unitless", !percentageMode);
+    }
+
+    function syncWagerRebateRows() {
+      wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr").forEach(row => {
+        syncWagerRewardType(row);
+      });
+    }
+
     function syncWagerRebatePreview() {
       const preview = wagerRebateActivityForm.querySelector(".popup-rule-preview-grid");
       if (!preview) return;
-      const currency = document.getElementById("wagerRebateCurrency").value;
       preview.replaceChildren();
-      ["累计有效流水达到", "返利金额", "流水"].forEach(textValue => {
+      ["累计有效流水达到", "返利值", "流水"].forEach(textValue => {
         const cell = document.createElement("span");
         cell.className = "head";
         cell.textContent = textValue;
@@ -5548,10 +6184,13 @@
       wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr").forEach(row => {
         const thresholdValue = Number(row.querySelector(".wager-threshold").value);
         const rewardValue = Number(row.querySelector(".wager-reward").value);
+        const rewardType = row.querySelector(".wager-reward-type").value;
         const turnoverValue = row.querySelector(".wager-turnover").value.trim() || "—";
         const threshold = Number.isFinite(thresholdValue) && thresholdValue > 0 ? thresholdValue.toLocaleString("en-US") : "—";
-        const reward = Number.isFinite(rewardValue) && rewardValue > 0 ? rewardValue.toLocaleString("en-US") : "—";
-        [`${threshold} ${currency}`, `${reward} ${currency}`, `${turnoverValue}倍`].forEach(textValue => {
+        const reward = Number.isFinite(rewardValue) && rewardValue > 0
+          ? `${rewardValue.toLocaleString("en-US")}${rewardType === "百分比" ? "%" : ""}`
+          : "—";
+        [`${threshold}`, `${reward}`, `${turnoverValue}倍`].forEach(textValue => {
           const cell = document.createElement("span");
           cell.textContent = textValue;
           preview.appendChild(cell);
@@ -5561,6 +6200,39 @@
 
     function validateWagerRebateRules(form) {
       if (form !== wagerRebateActivityForm) return true;
+      const conditionToggle = form.querySelector(".condition-toggle");
+      if (conditionToggle?.getAttribute("aria-pressed") === "true") {
+        const conditionRows = Array.from(form.querySelectorAll(".condition-matrix .condition-row"));
+        if (!conditionRows.length) {
+          window.alert("请至少配置一条参与条件");
+          return false;
+        }
+        for (let index = 0; index < conditionRows.length; index += 1) {
+          const row = conditionRows[index];
+          const controls = Array.from(row.querySelectorAll(".condition-value input, .condition-value textarea, .condition-value select:not(.condition-operator)"));
+          const invalidControl = controls.find(control => !control.value.trim() || control.value === "请选择");
+          if (invalidControl) {
+            window.alert(`请选择或填写第 ${index + 1} 条参与条件的条件值`);
+            invalidControl.focus();
+            return false;
+          }
+          const conditionType = row.querySelector(".condition-type")?.value;
+          if (conditionType === "累计充值") {
+            const invalidNumberControl = controls.find(control => !Number.isFinite(Number(control.value)) || Number(control.value) <= 0);
+            if (invalidNumberControl) {
+              return rejectRuleInput(invalidNumberControl, `第 ${index + 1} 条参与条件的累计充值金额必须大于0`);
+            }
+          }
+          const operator = row.querySelector(".condition-operator")?.value;
+          if (operator === "介于" && controls.length === 2) {
+            const minimum = Number(controls[0].value);
+            const maximum = Number(controls[1].value);
+            if (!Number.isFinite(minimum) || !Number.isFinite(maximum) || minimum >= maximum) {
+              return rejectRuleInput(controls[1], `第 ${index + 1} 条参与条件的区间上限必须大于下限`);
+            }
+          }
+        }
+      }
       const statisticScope = form.querySelector(".scope-linkage-component");
       const statisticScopeValue = statisticScope.nextElementSibling;
       if (!statisticScopeValue.hidden && !statisticScopeValue.querySelector("input:checked")) {
@@ -5577,16 +6249,19 @@
       for (let index = 0; index < rows.length; index += 1) {
         const row = rows[index];
         const thresholdInput = row.querySelector(".wager-threshold");
+        const rewardTypeSelect = row.querySelector(".wager-reward-type");
         const rewardInput = row.querySelector(".wager-reward");
         const turnoverInput = row.querySelector(".wager-turnover");
-        [thresholdInput, rewardInput, turnoverInput].forEach(input => input.removeAttribute("aria-invalid"));
+        [thresholdInput, rewardTypeSelect, rewardInput, turnoverInput].forEach(input => input.removeAttribute("aria-invalid"));
         const threshold = Number(thresholdInput.value);
         const reward = Number(rewardInput.value);
         const turnover = Number(turnoverInput.value);
         const rowLabel = `第 ${index + 1} 条打码返利档位`;
         if (!thresholdInput.value.trim() || !Number.isFinite(threshold) || threshold <= 0) return rejectRuleInput(thresholdInput, `${rowLabel}的累计有效流水门槛必须大于0`);
         if (threshold <= previousThreshold) return rejectRuleInput(thresholdInput, `${rowLabel}的累计有效流水门槛必须大于上一档`);
-        if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) return rejectRuleInput(rewardInput, `${rowLabel}的返利金额必须大于0`);
+        if (!rewardTypeSelect.value) return rejectRuleInput(rewardTypeSelect, `请选择${rowLabel}的返利金额类型`);
+        if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) return rejectRuleInput(rewardInput, `${rowLabel}的返利值必须大于0`);
+        if (rewardTypeSelect.value === "百分比" && reward > 100) return rejectRuleInput(rewardInput, `${rowLabel}的返利百分比不能超过100%`);
         if (!turnoverInput.value.trim() || !Number.isFinite(turnover) || turnover <= 0) return rejectRuleInput(turnoverInput, `${rowLabel}的流水倍率必须大于0`);
         previousThreshold = threshold;
       }
@@ -5596,30 +6271,117 @@
       if (event.target.matches("input")) event.target.removeAttribute("aria-invalid");
       if (event.target.closest(".wager-rebate-table")) syncWagerRebatePreview();
     });
-    document.getElementById("wagerRebateCurrency").addEventListener("change", event => {
-      wagerRebateActivityForm.querySelectorAll(".wager-currency-unit").forEach(unit => {
-        unit.textContent = event.target.value;
-      });
+    wagerRebateActivityForm.addEventListener("change", event => {
+      const typeSelect = event.target.closest(".wager-reward-type");
+      if (!typeSelect) return;
+      typeSelect.removeAttribute("aria-invalid");
+      const row = typeSelect.closest("tr");
+      syncWagerRewardType(row, { clearValue: true });
+      row.querySelector(".wager-reward").removeAttribute("aria-invalid");
       syncWagerRebatePreview();
     });
     wagerRebateActivityForm.addEventListener("click", event => {
-      if (event.target.closest(".rule-table-add, .rule-row-add, .rule-row-remove")) setTimeout(syncWagerRebatePreview, 0);
+      if (event.target.closest(".rule-table-add, .rule-row-add, .rule-row-remove")) {
+        setTimeout(() => {
+          syncWagerRebateRows();
+          syncWagerRebatePreview();
+        }, 0);
+      }
     });
+    syncWagerRebateRows();
     syncWagerRebatePreview();
+
+    function validateActivityCenterJump(form) {
+      const displaySwitch = form.querySelector(".activity-center-switch");
+      if (!displaySwitch || displaySwitch.getAttribute("aria-pressed") !== "true") return true;
+      const config = form.querySelector(".front-action-config");
+      const typeSelect = config?.querySelector(".activity-center-jump-type");
+      const targetSelect = config?.querySelector(".activity-center-jump-target");
+      const webInput = config?.querySelector(".activity-center-jump-web");
+      if (!typeSelect?.value) {
+        window.alert("请选择活动中心按钮跳转");
+        typeSelect?.focus();
+        return false;
+      }
+      if (typeSelect.value === "不跳转") return true;
+      if (typeSelect.value === "Web页") {
+        const value = webInput.value.trim();
+        try {
+          const url = new URL(value);
+          if (!/^https?:$/.test(url.protocol)) throw new Error("invalid protocol");
+        } catch (error) {
+          window.alert("请输入以 http:// 或 https:// 开头的完整Web地址");
+          webInput.focus();
+          return false;
+        }
+        return true;
+      }
+      if (!targetSelect?.value) {
+        window.alert("请选择活动中心按钮跳转目标");
+        targetSelect?.focus();
+        return false;
+      }
+      return true;
+    }
+    function validatePopupJump(form) {
+      const displaySwitch = form.querySelector(".popup-switch");
+      if (!displaySwitch || displaySwitch.getAttribute("aria-pressed") !== "true") return true;
+      const config = form.querySelector(".popup-config");
+      const typeSelect = config?.querySelector(".popup-jump-select");
+      const targetSelect = config?.querySelector(".popup-jump-target");
+      const webInput = config?.querySelector(".popup-jump-web");
+      if (!typeSelect?.value) {
+        window.alert("请选择弹窗按钮跳转");
+        typeSelect?.focus();
+        return false;
+      }
+      if (typeSelect.value === "不跳转") return true;
+      if (typeSelect.value === "Web页") {
+        const value = webInput.value.trim();
+        try {
+          const url = new URL(value);
+          if (!/^https?:$/.test(url.protocol)) throw new Error("invalid protocol");
+        } catch (error) {
+          window.alert("请输入以 http:// 或 https:// 开头的完整Web地址");
+          webInput.focus();
+          return false;
+        }
+      } else if (!targetSelect?.value) {
+        window.alert("请选择弹窗按钮跳转目标");
+        targetSelect?.focus();
+        return false;
+      }
+      const buttonCopy = form.querySelector(".popup-button-copy-field:not([hidden]) input");
+      if (buttonCopy && !buttonCopy.value.trim()) {
+        window.alert("请输入弹窗按钮文案");
+        buttonCopy.focus();
+        return false;
+      }
+      return true;
+    }
 
     document.getElementById("confirmDrawerButton").addEventListener("click", () => {
       const form = activityForms.find(item => !item.hidden);
       const nameInput = form.querySelector('input[id$="ActivityName"], #drawerConfigName');
       const packageInput = form.querySelector('input[id$="PackageId"]');
       const dates = Array.from(form.querySelectorAll('input[type="datetime-local"]'));
-      if (!nameInput.value.trim() || !packageInput.value || dates.some(input => !input.value)) {
+      const permanent = form.dataset.permanentValidity === "true";
+      if (!nameInput.value.trim() || !packageInput.value || !dates[0]?.value || (!permanent && !dates[1]?.value)) {
         window.alert("请完整填写活动名称、包ID和活动时间");
         return;
       }
-      if (dates[0].value >= dates[1].value) {
+      if (!permanent && dates[0].value >= dates[1].value) {
         window.alert("活动结束时间必须晚于开始时间");
         return;
       }
+      const resetCycle = form.querySelector("#lossReturnResetCycle, #wagerRebateResetCycle");
+      if (permanent && resetCycle?.selectedOptions[0]?.textContent.trim() === "不重置") {
+        window.alert("永久有效活动必须选择活动重置周期，不能使用不重置");
+        resetCycle.focus();
+        return;
+      }
+      if (!validateActivityCenterJump(form)) return;
+      if (!validatePopupJump(form)) return;
       if (!validateFirstDepositRules(form)) return;
       if (!validateLossReturnRules(form)) return;
       if (!validateWagerRebateRules(form)) return;
@@ -5628,7 +6390,7 @@
       if (expiryType && expiryType.value === "natural-day") {
         const days = Number(expiryDays.value);
         if (!Number.isInteger(days) || days < 1) {
-          window.alert("请输入大于0的礼金过期自然日天数");
+          window.alert("请输入大于0的礼金领取有效自然日天数");
           expiryDays.focus();
           return;
         }
@@ -5638,7 +6400,8 @@
         activeEditRow.children[2].textContent = packageInput.value;
         activeEditRow.children[4].textContent = nameInput.value.trim();
         activeEditRow.children[10].textContent = dates[0].value.replace("T", " ").replaceAll("-", "/");
-        activeEditRow.children[11].textContent = dates[1].value.replace("T", " ").replaceAll("-", "/");
+        activeEditRow.children[11].textContent = permanent ? "永久有效" : dates[1].value.replace("T", " ").replaceAll("-", "/");
+        activeEditRow.dataset.permanentValidity = String(permanent);
         if (activityType === "新人首充") {
           activeEditRow.dataset.audience = "newbie";
           activeEditRow.dataset.exclusiveDisplay = document.getElementById("newbieExclusiveDisplaySwitch").getAttribute("aria-pressed");
@@ -5650,11 +6413,12 @@
         const rowNumber = activityTableBody.children.length + 1;
         const formatDate = value => value.replace("T", " ").replaceAll("-", "/");
         row.dataset.status = "inactive";
+        row.dataset.permanentValidity = String(permanent);
         if (activityType === "新人首充") {
           row.dataset.audience = "newbie";
           row.dataset.exclusiveDisplay = document.getElementById("newbieExclusiveDisplaySwitch").getAttribute("aria-pressed");
         }
-        row.innerHTML = `<td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 ${rowNumber} 行"></td><td>${rowNumber}</td><td>${packageInput.value}</td><td>ACT-${Date.now()}</td><td>${nameInput.value.trim()}</td><td>${activityType}</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb is-empty">-</span></td><td>当前用户</td><td>${formatDate(dates[0].value)}</td><td>${formatDate(dates[1].value)}</td><td><span class="status-pill is-disabled">未启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td>`;
+        row.innerHTML = `<td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 ${rowNumber} 行"></td><td>${rowNumber}</td><td>${packageInput.value}</td><td>ACT-${Date.now()}</td><td>${nameInput.value.trim()}</td><td>${activityType}</td><td><span class="table-thumb is-empty">-</span></td><td>-</td><td><span class="table-thumb is-empty">-</span></td><td>当前用户</td><td>${formatDate(dates[0].value)}</td><td>${permanent ? "永久有效" : formatDate(dates[1].value)}</td><td><span class="status-pill is-disabled">未启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td>`;
         activityTableBody.appendChild(row);
         const newCheck = row.querySelector(".row-check");
         rowChecks.push(newCheck);

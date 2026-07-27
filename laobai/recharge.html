@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Add Money</title>
-  <meta name="theme-color" content="#004d3e">
+  <meta name="theme-color" content="#202020">
   <style>
+    html { filter: grayscale(1); }
     :root{--green:#005443;--green2:#00735a;--mint:#24b99a;--gold:#efbd00;--ink:#181a1d;--muted:#6d7079;--line:#28383c}
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#e8e7ed;color:var(--ink)}
@@ -26,6 +27,7 @@
     .offer-label{display:inline-block;background:#22b798;color:#fff;border-radius:20px;padding:3px 15px;font-style:italic;font-weight:700;font-size:16px;line-height:1;margin-bottom:6px}
     .offer-copy{font-size:14px;line-height:1.2}.offer-art{width:66px;height:66px;border-radius:6px;display:grid;place-items:center;color:#f6cf38;font-size:27px;font-weight:900;transform:rotate(-1deg);background:linear-gradient(140deg,#00735c,#16a582);text-shadow:1px 2px #705600}
     .offer-art.red{background:linear-gradient(140deg,#b5253f,#ef5870)}
+    .offer-art{background:#3a3a3a}.offer-art.red{background:#767676}
     .sticky-action{position:absolute;left:18px;right:18px;bottom:6px}.sticky-action .primary{height:46px;font-size:17px}.sticky-action .secure{margin:5px 0;font-size:11px}.primary{width:100%;height:52px;border:0;border-radius:5px;background:var(--gold);font-size:20px}
     .secure{text-align:center;color:#6e7279;font-size:13px;margin:12px 0}.secure:before{content:"♢";font-size:20px;margin-right:7px}
     .payment-trust{margin:12px 0 4px;text-align:center}.payment-trust .secure{margin:0 0 10px}.payment-logos{display:flex;align-items:center;justify-content:center;gap:8px}.pay-logo{height:27px;min-width:58px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid #d9dce3;border-radius:5px;box-shadow:0 2px 6px #26323812;font-weight:800;font-size:14px;line-height:1}.pay-logo.visa{color:#183a8f;font-style:italic;font-size:17px;letter-spacing:.3px}.pay-logo.paytm{color:#152a75}.pay-logo.paytm em{color:#08a9e4;font-style:normal}.pay-logo.upi{color:#50545a;font-style:italic}.pay-logo.upi:before{content:"";width:5px;height:14px;margin-right:5px;background:linear-gradient(135deg,#f58220 0 48%,#128c45 49%);transform:skew(-18deg)}
@@ -42,6 +44,27 @@
     body.is-embedded .stage{width:100%;display:flex;align-items:flex-start;justify-content:center;gap:32px;padding:24px}
     body.is-embedded .app{width:390px;height:844px;min-height:844px;margin:0;border-radius:22px;flex:0 0 390px}
     body.is-embedded .requirements{display:block;width:360px;margin:0;flex:0 1 360px}
+    body.is-flow-embed{display:block;min-height:100vh;padding:0;background:#f8f7fb;overflow:hidden}
+    body.is-flow-embed .stage{display:block;width:100%;height:100vh}
+    body.is-flow-embed .app{width:100%;max-width:none;height:100vh;min-height:0;margin:0;border-radius:0;box-shadow:none}
+    body.is-flow-embed .requirements{display:none}
+    body.is-flow-embed .screen{min-height:calc(100vh - 176px)}
+    body.show-optimized .topbar,body.show-optimized .wallet,body.show-optimized .bottom-nav{display:none!important}
+    body.show-optimized .screen{min-height:100vh}
+    .optimized-page{height:100%;min-height:100vh;overflow-y:auto;padding:0 14px 26px;color:#f5f5f5;background:#151918;scrollbar-width:none}
+    .optimized-page::-webkit-scrollbar{display:none}
+    .optimized-head{height:58px;display:grid;grid-template-columns:44px 1fr 72px;align-items:center;border-bottom:1px solid #333a38}
+    .optimized-head b{text-align:center;font-size:15px}.optimized-head button{height:32px;border:0;border-radius:7px;color:#fff;background:#3a403e;font-weight:700}.optimized-head .optimized-back{width:32px;font-size:22px}
+    .deposit-control{margin-top:16px;padding:15px;border-radius:13px;background:#2a302e}
+    .control-title{margin:0 0 8px;font-size:14px;font-weight:800}
+    .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:15px}.method-btn{position:relative;height:32px;border:1px solid #444c49;border-radius:7px;color:#f4f4f4;background:#343a38;font-size:11px;font-weight:700}.method-btn.active{border-color:#eee;background:#555}
+    .method-btn small,.optimized-amount small{position:absolute;right:-2px;top:-7px;padding:2px 4px;border-radius:5px 5px 0 5px;color:#fff;background:#747474;font-size:8px}
+    .optimized-amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.optimized-amount{position:relative;height:44px;border:1px solid #414846;border-radius:6px;color:#f5f5f5;background:#353b39;font-size:16px;font-weight:800}.optimized-amount.active{border-color:#fff;background:#565c5a}
+    .bonus-title{display:flex;align-items:center;gap:7px;margin:17px 0 9px;font-size:14px}.turnover-pill{padding:4px 7px;border-radius:6px;color:#fff;background:#686868;font-size:9px}
+    .selected-bonus{position:relative;min-height:82px;padding:13px 88px 12px 13px;border:2px solid #eee;border-radius:12px;background:linear-gradient(135deg,#333,#555);overflow:hidden}.selected-bonus b{display:block;color:#fff;font-size:12px}.selected-bonus strong{display:block;margin-top:8px;font-size:14px}.selected-bonus strong em{color:#ddd;font-style:normal}.bonus-gift{position:absolute;right:8px;bottom:-4px;width:76px;height:76px;display:grid;place-items:center;border-radius:50%;background:#888;font-size:38px}.bonus-check{position:absolute;right:-1px;bottom:-1px;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;color:#222;background:#eee;font-weight:900}
+    .receive-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0;font-size:17px}.receive-summary b:last-child{text-align:right}.receive-summary em{color:#ddd;font-style:normal}
+    .optimized-pay{width:100%;height:47px;border:0;border-radius:7px;color:#151515;background:#e6e6e6;font-size:12px}
+    .guarantee{margin-top:16px;padding:18px 16px;border-radius:13px;background:linear-gradient(145deg,#303030,#505050)}.guarantee h2{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 14px;font-size:22px}.guarantee h2 span{font-size:34px}.guarantee p{margin:0;color:#e2e2e2;font-size:9px;line-height:1.55}.guarantee ul{margin:14px 0 0;padding:0;list-style:none;color:#f4f4f4;font-size:9px;line-height:1.55}.guarantee-note{margin-top:14px;padding:10px;border-radius:8px;background:#303030!important;color:#d5d5d5!important}
   </style>
 </head>
 <body>
@@ -103,6 +126,39 @@
         <button class="nav-item"><span>⌂</span>Home</button><button class="nav-item"><span>◇</span>Game</button><button class="nav-item active"><span>▣</span>Deposit</button><button class="nav-item"><span>▻</span>Live Casino</button><button class="nav-item"><span>▤</span>Profile</button>
       </nav>
     </section>
+
+    <section class="screen" id="optimized">
+      <div class="optimized-page">
+        <header class="optimized-head"><button class="optimized-back" type="button" aria-label="Back">‹</button><b>Deposit</b><button type="button">History ›</button></header>
+        <section class="deposit-control">
+          <p class="control-title">Method</p>
+          <div class="method-grid">
+            <button class="method-btn active" type="button">UPI</button>
+            <button class="method-btn" type="button">QRCode <small>+57%</small></button>
+            <button class="method-btn" type="button">Paytm <small>+57%</small></button>
+            <button class="method-btn" type="button">PhonePe <small>+57%</small></button>
+          </div>
+          <p class="control-title">Amount</p>
+          <div class="optimized-amounts">
+            <button class="optimized-amount active" type="button" data-optimized-amount="100">100 <small>+57</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="200">200 <small>+97</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="300">300 <small>+137</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="500">500 <small>+177</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="1000">1000 <small>+257</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="2000">2000 <small>+477</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="3000">3000 <small>+627</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="5000">5000 <small>+977</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="10000">10000 <small>+1277</small></button>
+            <button class="optimized-amount" type="button" data-optimized-amount="20000">20000 <small>+2377</small></button>
+          </div>
+        </section>
+        <h2 class="bonus-title">Available Bonuses <span class="turnover-pill">x3 turnover requirement !</span></h2>
+        <section class="selected-bonus"><b>Recharge now and get</b><strong>First Deposit&nbsp; <em>₹37 Cash + ₹20 Bonus</em></strong><span class="bonus-gift">🎁</span><i class="bonus-check">✓</i></section>
+        <div class="receive-summary"><b>You Will Get</b><b>Cash <em id="optimizedCash">137</em> + Bonus <em id="optimizedBonus">20</em></b></div>
+        <button class="optimized-pay" type="button">⟳&nbsp; Deposit <span id="optimizedPayAmount">100</span> INR</button>
+        <section class="guarantee"><h2><span>🛡</span>Payment Guarantee</h2><p><b>Meeting with Slow Payment Confirmation Problem?</b><br>Don't worry, your money is absolutely safe with the verified payment partner.</p><ul><li>3-Minute Deposit Delay: 1% of payment amount.</li><li>2-Hour Deposit Delay: 10% of payment amount.</li><li>4-Hour Deposit Delay: 100% of payment amount.</li><li>24-Hour Withdrawal Delay: 1% of payment amount.</li><li>120-Hour Withdrawal Delay: 100% of payment amount.</li></ul><p class="guarantee-note">✓ You will be redirected to a verified third-party site for a secure browsing experience.</p></section>
+      </div>
+    </section>
   </main>
   <aside class="requirements" aria-label="Product requirements">
     <h2>交互需求</h2>
@@ -114,8 +170,10 @@
   </aside>
   </div>
   <script>
-    if (new URLSearchParams(window.location.search).get('embed') === '1') document.body.classList.add('is-embedded');
-    const screens={bonuses:document.querySelector('#bonuses'),bonusStatus:document.querySelector('#bonusStatus'),deposit:document.querySelector('#deposit')};
+    const pageParams=new URLSearchParams(window.location.search);
+    if(pageParams.get('embed')==='1')document.body.classList.add('is-embedded');
+    if(pageParams.get('flow')==='1')document.body.classList.add('is-flow-embed');
+    const screens={bonuses:document.querySelector('#bonuses'),bonusStatus:document.querySelector('#bonusStatus'),deposit:document.querySelector('#deposit'),optimized:document.querySelector('#optimized')};
     let current='deposit', bonus='10', pay='deposit', amount=1000;
     const show=(name)=>{Object.values(screens).forEach(s=>s.classList.remove('active'));if(name==='bonuses'){screens.deposit.classList.add('active');screens.bonuses.classList.add('active')}else{screens[name].classList.add('active')}current=name;document.querySelector('#title').textContent=name==='bonusStatus'?'Bonuses':'Add Money';document.querySelector('#wallet').style.display=name==='bonusStatus'?'none':'block';};
     const bonusText=()=>bonus==='100'?'Get 100% bonus up to ₹1000 if you deposit ₹2000 or more.':bonus==='10'?'Get extra 10% of your deposit.':'No bonus selected.';
@@ -138,7 +196,22 @@
     document.querySelector('.sheet-close').onclick=()=>show('deposit');
     document.querySelector('#bonuses').onclick=e=>{if(e.target===e.currentTarget)show('deposit')};
     document.querySelectorAll('.seg').forEach(el=>el.onclick=()=>setBonusTab(el.textContent.trim()));
+    document.querySelectorAll('.method-btn').forEach(el=>el.onclick=()=>document.querySelectorAll('.method-btn').forEach(x=>x.classList.toggle('active',x===el)));
+    document.querySelectorAll('[data-optimized-amount]').forEach(el=>el.onclick=()=>{
+      document.querySelectorAll('[data-optimized-amount]').forEach(x=>x.classList.toggle('active',x===el));
+      const selectedAmount=Number(el.dataset.optimizedAmount);
+      const selectedBonus=Math.round(selectedAmount*.2);
+      document.querySelector('#optimizedCash').textContent=selectedAmount+37;
+      document.querySelector('#optimizedBonus').textContent=selectedBonus;
+      document.querySelector('#optimizedPayAmount').textContent=selectedAmount;
+    });
     renderMath();
+    const initialStage=pageParams.get('stage');
+    if(initialStage==='bonuses')show('bonuses');
+    if(initialStage==='selected'){bonus='100';amount=1000;show('deposit');renderMath()}
+    if(initialStage==='history'){show('bonusStatus');setBonusTab('History')}
+    if(initialStage==='optimized'){document.body.classList.add('show-optimized');show('optimized')}
+    if(initialStage==='competitor'){document.body.classList.add('show-optimized');show('optimized')}
   </script>
 </body>
 </html>

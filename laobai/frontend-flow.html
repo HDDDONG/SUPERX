@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SUPERX · 前端真机流程</title>
+  <style>
+    html { filter: grayscale(1); }
+    :root { --ink:#18243b; --muted:#74819a; --line:#dbe3ef; --paper:#eef3f9; --card:#fff; --blue:#315bff; --green:#16a56d; --orange:#f08a32; --purple:#8056d8; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif; color:var(--ink); background:var(--paper); }
+    body { padding:24px; overflow-x:hidden; }
+    .head { position:sticky; left:0; width:min(100%,1080px); margin:0 0 18px; }
+    .head h1 { margin:0; font-size:24px; }
+    .head p { margin:7px 0 0; color:var(--muted); font-size:13px; }
+    .flow-root { display:grid; gap:28px; }
+    .flow-group { max-width:100%; padding-top:18px; border-top:1px solid var(--line); overflow-x:auto; }
+    .flow-group:first-child { padding-top:0; border-top:0; }
+    .group-head { position:sticky; left:0; width:min(100%,1080px); margin-bottom:2px; }
+    .group-head b { font-size:14px; }
+    .group-head span { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .flow { position:relative; width:max-content; padding-top:92px; }
+    .track { position:relative; z-index:2; display:flex; gap:96px; align-items:flex-start; }
+    .stage { width:344px; }
+    .stage-head { min-height:58px; display:flex; gap:10px; align-items:flex-start; padding:0 4px 10px; }
+    .number { flex:0 0 28px; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--blue); font-size:11px; font-weight:800; }
+    .stage-head b { display:block; font-size:14px; }
+    .stage-head span { display:block; margin-top:3px; color:var(--muted); font-size:11px; line-height:1.35; }
+    .phone { width:344px; height:720px; overflow:hidden; border:8px solid #141d2a; border-radius:38px; background:#111; box-shadow:0 18px 46px rgba(24,40,72,.2); }
+    iframe { width:100%; height:100%; display:block; border:0; background:#fff; }
+    .stage-foot { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:10px; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--line); }
+    .stage-foot div { min-height:45px; padding:8px 9px; background:var(--card); }
+    .stage-foot span { display:block; color:var(--muted); font-size:9px; }
+    .stage-foot b { display:block; margin-top:3px; font-size:10px; }
+    .lines { position:absolute; z-index:1; left:0; top:0; width:100%; height:130px; overflow:visible; pointer-events:none; }
+    .lines path { fill:none; stroke-width:2.2; }
+    .lines text { font-size:11px; font-weight:700; }
+    .port { stroke:#fff; stroke-width:3; }
+    @media (max-width:720px) {
+      body { padding:14px; }
+      .head { width:344px; }
+      .head h1 { font-size:20px; }
+      .flow { padding-top:76px; }
+      .track { gap:72px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="head"><h1 id="title">前端真机流程</h1><p id="subtitle"></p></header>
+  <main class="flow-root" id="flowRoot"></main>
+  <script>
+    const type = new URLSearchParams(location.search).get("type") || "recharge";
+    const configs = {
+      recharge: {
+        title:"充值页优化 · 真机流程",
+        subtitle:"按功能模块分行展示活动选择与完整充值操作页面。",
+        color:"#315bff",
+        rows:[
+          {
+            title:"第一行 · SUPERX 充值优化",
+            subtitle:"保留当前方案的完整操作流程：进入充值页、切换活动、确认选择和查看礼金记录。",
+            stages:[
+              ["充值页","默认选中推荐活动","recharge.html?flow=1&stage=deposit","当前状态","默认活动已选"],
+              ["活动选择","点击 Change 打开活动选择弹层","recharge.html?flow=1&stage=bonuses","触发动作","Change"],
+              ["确认活动","选择活动并返回充值页","recharge.html?flow=1&stage=selected","触发动作","Use selected bonus"],
+              ["礼金记录","点击 History 查看记录","recharge.html?flow=1&stage=history","结果页面","Bonus History"]
+            ],
+            actions:["点击 Change","确认使用活动","点击 History"]
+          },
+          {
+            title:"第二行 · 竞品充值页参考",
+            subtitle:"该页面来自其他平台，仅作为支付方式、金额档位、活动露出和支付保障的横向对比，不代表 SUPERX 当前方案。",
+            stages:[
+              ["竞品充值页","其他平台的充值操作页面","recharge.html?flow=1&stage=competitor","页面归属","竞品参考"]
+            ],
+            actions:[]
+          }
+        ]
+      },
+      tier: {
+        title:"阶梯充值 · 真机流程",
+        subtitle:"从活动弹窗、活动中心、活动详情、充值到礼金领取的完整路径。",
+        color:"#8056d8",
+        stages:[
+          ["活动弹窗","进入 App 后第一触点","activity-center-tier-recharge.html?flow=1&stage=popup","入口","规则形式弹窗"],
+          ["活动中心","关闭弹窗后查看活动入口","activity-center-tier-recharge.html?flow=1&stage=center","触发动作","关闭弹窗"],
+          ["活动详情","点击详情图标或活动卡片","activity-center-tier-recharge.html?flow=1&stage=detail","触发动作","查看详情"],
+          ["充值页面","点击去充值并选择金额","activity-center-tier-recharge.html?flow=1&stage=recharge","触发动作","去充值"],
+          ["礼金中心","达标后点击礼包 ICON","activity-center-tier-recharge.html?flow=1&stage=reward","结果页面","待领取礼金"]
+        ],
+        actions:["关闭弹窗","点击详情入口","点击去充值","充值达标后点击礼包"]
+      },
+      mail: {
+        title:"站内信 · 真机流程",
+        subtitle:"从消息列表点击行动按钮，到礼金弹窗和领取完成。",
+        color:"#16a56d",
+        stages:[
+          ["站内信列表","查看消息正文与未读状态","user-reach-config.html?embed=1&flow=1&module=frontendMail&stage=mail-list","入口","Message Center"],
+          ["礼金弹窗","点击 Do Now 打开待领取礼金","user-reach-config.html?embed=1&flow=1&module=frontendMail&stage=mail-popup","触发动作","Do Now"],
+          ["领取完成","点击 Receive 合并领取","user-reach-config.html?embed=1&flow=1&module=frontendMail&stage=mail-claimed","结果状态","Received"]
+        ],
+        actions:["点击 Do Now","点击 Receive"]
+      },
+      announcement: {
+        title:"公告 · 真机流程",
+        subtitle:"从公告列表查看详情，到公告弹窗和配置目标页面。",
+        color:"#f08a32",
+        stages:[
+          ["公告列表","查看公告摘要与图片","user-reach-config.html?embed=1&flow=1&module=frontendAnnouncement&stage=announcement-list","入口","Announcement"],
+          ["公告弹窗","点击 do now 打开详情弹窗","user-reach-config.html?embed=1&flow=1&module=frontendAnnouncement&stage=announcement-modal","触发动作","do now"],
+          ["目标页面","点击弹窗按钮进入配置页面","user-reach-config.html?embed=1&flow=1&module=frontendAnnouncement&stage=announcement-target","结果页面","配置的跳转目标"]
+        ],
+        actions:["点击 do now","点击弹窗按钮"]
+      }
+    };
+    const config = configs[type] || configs.recharge;
+    document.getElementById("title").textContent = config.title;
+    document.getElementById("subtitle").textContent = config.subtitle;
+    const flowGrayScale=["#3d3d3d","#666","#8f8f8f","#b3b3b3"];
+    const groups=config.rows||[{title:"完整用户流程",subtitle:config.subtitle,stages:config.stages,actions:config.actions}];
+    const flowRoot=document.getElementById("flowRoot");
+    const cardWidth=344,gap=96;
+    groups.forEach((group,groupIndex)=>{
+      const groupElement=document.createElement("section");
+      groupElement.className="flow-group";
+      groupElement.innerHTML=`<header class="group-head"><b>${group.title}</b><span>${group.subtitle}</span></header><div class="flow"><svg class="lines" aria-label="${group.title}用户操作流程指示线"></svg><div class="track"></div></div>`;
+      flowRoot.appendChild(groupElement);
+      const track=groupElement.querySelector(".track");
+      track.innerHTML=group.stages.map((stage,index)=>`
+        <section class="stage">
+          <header class="stage-head"><span class="number">${String(index+1).padStart(2,"0")}</span><div><b>${stage[0]}</b><span>${stage[1]}</span></div></header>
+          <div class="phone"><iframe src="${stage[2]}" title="${stage[0]}真机页面"></iframe></div>
+          <footer class="stage-foot"><div><span>${stage[3]}</span><b>${stage[4]}</b></div><div><span>本行序号</span><b>${index+1} / ${group.stages.length}</b></div></footer>
+        </section>`).join("");
+      const width=group.stages.length*cardWidth+(group.stages.length-1)*gap;
+      track.style.width=width+"px";
+      const flow=groupElement.querySelector(".flow");
+      flow.style.width=width+"px";
+      const svg=groupElement.querySelector(".lines");
+      svg.setAttribute("viewBox",`0 0 ${width} 130`);
+      svg.style.width=width+"px";
+      let markup=`<defs>${group.actions.map((label,index)=>{
+        const gray=flowGrayScale[(groupIndex+index)%flowGrayScale.length];
+        return `<marker id="arrow-${type}-${groupIndex}-${index}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="${gray}"/></marker>`;
+      }).join("")}</defs>`;
+      group.actions.forEach((label,index)=>{
+        const from=index*(cardWidth+gap)+cardWidth-22;
+        const to=(index+1)*(cardWidth+gap)+22;
+        const level=20+(index%3)*24;
+        const gray=flowGrayScale[(groupIndex+index)%flowGrayScale.length];
+        markup+=`<circle class="port" cx="${from}" cy="118" r="6" fill="${gray}"/><path d="M${from} 118 V${level} H${to} V118" stroke="${gray}" marker-end="url(#arrow-${type}-${groupIndex}-${index})"/><text x="${(from+to)/2}" y="${level-7}" text-anchor="middle" fill="${gray}">${label}</text><circle class="port" cx="${to}" cy="118" r="6" fill="${gray}"/>`;
+      });
+      svg.innerHTML=markup;
+    });
+  </script>
+</body>
+</html>

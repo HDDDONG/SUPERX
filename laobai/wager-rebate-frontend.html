@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SUPERX · 打码返利前台</title>
+  <style>
+    html { filter: grayscale(1); }
+    :root {
+      --ink: #162237; --muted: #748097; --line: #dfe5ee; --paper: #eef2f7;
+      --white: #fff; --navy: #111b2b; --navy-2: #1d2b42; --green: #35e88b;
+      --green-deep: #15b86c; --green-soft: #e8fbf1; --orange: #ffb650;
+      --shadow: 0 18px 50px rgba(26,41,68,.14);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      color: var(--ink);
+      background: radial-gradient(circle at 8% 10%, rgba(53,232,139,.11), transparent 25%), radial-gradient(circle at 90% 88%, rgba(93,124,255,.12), transparent 28%), var(--paper);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    button { font: inherit; }
+    .page { min-width: 0; padding: 24px; }
+    .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; max-width: 1560px; margin: 0 auto 18px; }
+    .page-head h1 { margin: 0; font-size: 24px; }
+    .page-head p { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .source-guide { max-width: 1560px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 auto 4px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px; background: rgba(255,255,255,.72); color: var(--muted); font-size: 11px; }
+    .source-guide b { color: var(--ink); font-size: 11px; }
+    .source-kind { display: inline-flex; align-items: center; min-height: 20px; padding: 0 7px; border-radius: 999px; font-size: 9px; font-weight: 800; white-space: nowrap; }
+    .source-kind.config { color: #315b9f; background: #eaf2ff; }
+    .source-kind.runtime { color: #087a48; background: var(--green-soft); }
+    .source-kind.computed { color: #825000; background: #fff2d8; }
+    .journey-section { max-width: 1560px; margin: 28px auto 0; padding-top: 20px; border-top: 1px solid #d5dce7; }
+    .journey-section:first-of-type { margin-top: 18px; }
+    .journey-head { display: flex; align-items: center; gap: 12px; }
+    .journey-state { min-width: 112px; padding: 7px 12px; border-radius: 999px; color: var(--white); background: var(--navy); text-align: center; font-size: 12px; font-weight: 800; }
+    .journey-state.settled { color: #734700; background: #ffe5b6; }
+    .journey-state.claimed { color: #087a48; background: #dff8eb; }
+    .journey-head p { margin: 0; color: var(--muted); font-size: 11px; }
+    .flow { position: relative; overflow-x: auto; padding: 12px 4px 22px; scrollbar-color: #bdc7d6 transparent; }
+    .flow-track { position: relative; display: grid; grid-template-columns: repeat(4,348px); gap: 58px; width: max-content; padding-top: 56px; }
+    .flow-track.cols-3 { grid-template-columns: repeat(3,348px); }
+    .flow-track.cols-2 { grid-template-columns: repeat(2,348px); }
+    .flow-line { position: absolute; z-index: 0; left: 170px; right: 170px; top: 29px; height: 2px; background: #bdc7d6; }
+    .flow-line::after { content: ""; position: absolute; right: -1px; top: -5px; border-width: 6px 0 6px 9px; border-style: solid; border-color: transparent transparent transparent #96a3b6; }
+    .flow-label { position: absolute; z-index: 2; top: 13px; padding: 5px 9px; border: 1px solid #dbe1eb; border-radius: 999px; color: #657188; background: var(--paper); font-size: 11px; white-space: nowrap; transform: translateX(-50%); }
+    .journey-section:nth-of-type(1) .flow-line { background: #444; }
+    .journey-section:nth-of-type(1) .flow-line::after { border-left-color: #444; }
+    .journey-section:nth-of-type(1) .flow-label { color: #444; border-color: #858585; }
+    .journey-section:nth-of-type(2) .flow-line { background: #666; }
+    .journey-section:nth-of-type(2) .flow-line::after { border-left-color: #666; }
+    .journey-section:nth-of-type(2) .flow-label { color: #5c5c5c; border-color: #999; }
+    .journey-section:nth-of-type(3) .flow-line { background: #888; }
+    .journey-section:nth-of-type(3) .flow-line::after { border-left-color: #888; }
+    .journey-section:nth-of-type(3) .flow-label { color: #6f6f6f; border-color: #b3b3b3; }
+    .journey-section:nth-of-type(4) .flow-line { background: #aaa; }
+    .journey-section:nth-of-type(4) .flow-line::after { border-left-color: #aaa; }
+    .journey-section:nth-of-type(4) .flow-label { color: #777; border-color: #c5c5c5; }
+    .journey-section:nth-of-type(5) .flow-line { background: #c2c2c2; }
+    .journey-section:nth-of-type(5) .flow-line::after { border-left-color: #c2c2c2; }
+    .journey-section:nth-of-type(5) .flow-label { color: #808080; border-color: #d0d0d0; }
+    .label-1 { left: 377px; } .label-2 { left: 783px; } .label-3 { left: 1189px; }
+    .flow-track.cols-3 .flow-line { right: 170px; }
+    .flow-track.cols-2 .flow-line { right: 170px; }
+
+    .stage { position: relative; z-index: 1; width: 348px; }
+    .stage-head { display: flex; align-items: center; gap: 9px; min-height: 44px; margin-bottom: 10px; }
+    .stage-index { width: 27px; height: 27px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--white); background: var(--navy); font-size: 11px; font-weight: 800; }
+    .stage-head b { display: block; font-size: 14px; }
+    .stage-head span { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .phone { position: relative; width: 348px; height: 720px; overflow: hidden; border: 8px solid #121b29; border-radius: 38px; background: #f4f6f9; box-shadow: var(--shadow); }
+    .notch { position: absolute; z-index: 20; left: 50%; top: 9px; width: 116px; height: 25px; border-radius: 20px; background: #111927; transform: translateX(-50%); }
+    .status { position: relative; z-index: 10; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 8px 17px 0; color: var(--ink); font-size: 10px; font-weight: 700; }
+    .appbar { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.96); }
+    .appbar b { font-size: 15px; } .appbar span { color: var(--muted); font-size: 10px; }
+    .screen { height: calc(100% - 88px); overflow: hidden; padding: 14px; }
+    .scroll-screen { overflow-y: auto; scrollbar-width: none; } .scroll-screen::-webkit-scrollbar { display: none; }
+
+    .home-shell { height: 100%; padding: 14px; background: linear-gradient(180deg,#f6f8fb 0 34%,#eef2f7 34% 100%); }
+    .home-balance { padding: 16px; border-radius: 16px; color: var(--white); background: linear-gradient(135deg,var(--navy),#263a59); }
+    .home-balance small { color: #b9c4d5; } .home-balance b { display: block; margin-top: 6px; font-size: 25px; }
+    .home-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 10px; }
+    .home-actions span { padding: 9px 4px; border-radius: 9px; background: var(--white); text-align: center; font-size: 10px; }
+    .mask { position: absolute; z-index: 25; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(6,13,24,.7); }
+    .mask[hidden] { display: none; }
+    .popup { position: relative; width: 100%; overflow: hidden; border-radius: 22px; background: var(--white); box-shadow: 0 24px 60px rgba(0,0,0,.34); }
+    .popup-image-panel { padding: 14px; background: var(--white); }
+    .popup-image-art { height: 314px; display: grid; place-items: center; overflow: hidden; border-radius: 16px; color: var(--white); background: linear-gradient(145deg,#242424,#626262); }
+    .popup-image-art div { text-align: center; }
+    .popup-image-art strong { display: block; font-size: 34px; letter-spacing: 2px; }
+    .popup-image-art span { display: block; margin-top: 8px; color: #ddd; font-size: 10px; letter-spacing: 1px; }
+    .popup-image-panel .primary-btn { margin-top: 12px; }
+    .popup-close { position: absolute; z-index: 2; right: 12px; top: 12px; width: 28px; height: 28px; border: 0; border-radius: 50%; color: var(--white); background: rgba(255,255,255,.15); cursor: pointer; }
+    .popup-head { padding: 23px 18px 18px; color: var(--white); background: radial-gradient(circle at 86% 12%,rgba(53,232,139,.3),transparent 32%),linear-gradient(135deg,#111b2b,#24425e); }
+    .popup-head small { color: var(--green); font-weight: 800; } .popup-head h2 { margin: 7px 0 5px; font-size: 21px; } .popup-head p { margin: 0; color: #b9c4d5; font-size: 10px; }
+    .popup-body { padding: 15px; }
+    .progress-copy { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+    .progress-copy span { color: var(--muted); font-size: 9px; } .progress-copy b { font-size: 14px; }
+    .bar { height: 7px; margin-top: 7px; overflow: hidden; border-radius: 999px; background: #edf0f4; }
+    .bar i { display: block; width: 68%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--green-deep),var(--green)); transition: width .25s ease; }
+    .popup-reward { display: flex; align-items: center; justify-content: space-between; margin: 13px 0; padding: 10px 11px; border-radius: 12px; background: var(--green-soft); font-size: 10px; }
+    .popup-reward b { color: #087a48; font-size: 16px; }
+    .primary-btn { width: 100%; height: 42px; border: 0; border-radius: 11px; color: #071b12; background: linear-gradient(90deg,var(--green),#8cf06c); font-weight: 800; cursor: pointer; }
+
+    .activity-banner { padding: 17px; border-radius: 16px; color: var(--white); background: radial-gradient(circle at 90% 5%,rgba(53,232,139,.28),transparent 34%),linear-gradient(135deg,var(--navy),#2b4964); }
+    .activity-banner small { color: var(--green); font-weight: 800; } .activity-banner h3 { margin: 7px 0 5px; font-size: 19px; } .activity-banner p { margin: 0; color: #c1cad8; font-size: 10px; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; margin: 18px 2px 9px; font-size: 13px; } .section-title span { color: var(--muted); font-size: 9px; }
+    .campaign-card { padding: 13px; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
+    .campaign-top { display: grid; grid-template-columns: 43px 1fr 25px; align-items: center; gap: 10px; }
+    .campaign-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 12px; color: var(--green); background: var(--navy); font-size: 20px; font-weight: 900; }
+    [data-stage="center"] .campaign-icon { background: #242424; }
+    [data-stage="settled-center"] .campaign-icon { background: #555; }
+    [data-stage="claimed-center"] .campaign-icon { background: #858585; }
+    [data-stage="center"] .activity-banner { background: #292929; }
+    [data-stage="settled-center"] .activity-banner { background: #505050; }
+    [data-stage="claimed-center"] .activity-banner { background: #747474; }
+    .campaign-copy b { display: block; font-size: 12px; } .campaign-copy span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .info-btn { width: 22px; height: 22px; border: 0; border-radius: 50%; color: var(--white); background: var(--navy-2); font-weight: 900; cursor: pointer; }
+    .campaign-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 12px; }
+    .campaign-metrics div { padding: 9px 7px; border-radius: 10px; background: #f4f6f9; }
+    .campaign-metrics span { display: block; color: var(--muted); font-size: 8px; } .campaign-metrics b { display: block; margin-top: 4px; font-size: 11px; }
+
+    .detail-hero { margin: -14px -14px 0; padding: 24px 18px 20px; color: var(--white); background: radial-gradient(circle at 90% 15%,rgba(53,232,139,.28),transparent 35%),linear-gradient(135deg,var(--navy),#2b4964); }
+    .detail-hero small { color: #bdc8d8; font-size: 9px; } .detail-hero h2 { margin: 6px 0 14px; font-size: 21px; }
+    .detail-number { display: flex; align-items: baseline; gap: 5px; } .detail-number b { font-size: 28px; } .detail-number span { color: #bdc8d8; font-size: 9px; }
+    .detail-hero .bar { background: rgba(255,255,255,.14); }
+    .detail-panel { margin-top: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+    .detail-panel h3 { margin: 0 0 8px; font-size: 13px; }
+    .tier-row { display: grid; grid-template-columns: 1fr 78px 62px; align-items: center; gap: 6px; min-height: 42px; border-top: 1px solid #edf0f4; font-size: 10px; }
+    .tier-row:first-of-type { border-top: 0; } .tier-row span { color: var(--muted); } .tier-row b { text-align: right; }
+    .tier-state { justify-self: end; padding: 4px 6px; border-radius: 999px; color: #7c8799; background: #f0f3f6; font-size: 8px; font-style: normal; }
+    .tier-state.done { color: #087a48; background: var(--green-soft); } .tier-state.current { color: #835000; background: #fff3d9; }
+    .rule-note { margin: 0; color: var(--muted); font-size: 9px; line-height: 1.65; }
+
+    .settlement-summary { padding: 16px; border-radius: 16px; color: var(--white); background: linear-gradient(135deg,var(--navy),#2d4661); }
+    .settlement-summary small { color: var(--green); font-weight: 800; } .settlement-summary h2 { margin: 6px 0; font-size: 23px; } .settlement-summary p { margin: 0; color: #c2ccda; font-size: 9px; }
+    .reward-ticket { margin-top: 12px; padding: 15px; border: 1px solid #ccebdc; border-radius: 15px; background: var(--green-soft); }
+    .reward-ticket span { color: #39755a; font-size: 9px; } .reward-ticket strong { display: block; margin: 5px 0 2px; color: #087a48; font-size: 25px; } .reward-ticket p { margin: 0; color: #5a826e; font-size: 9px; }
+    .settlement-detail { margin: 12px 0; padding: 0 2px; }
+    .settlement-detail div { display: flex; align-items: center; justify-content: space-between; min-height: 34px; border-bottom: 1px solid var(--line); font-size: 10px; }
+    .settlement-detail span { color: var(--muted); }
+    .settled-detail-card { margin-top: 12px; padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
+    .settled-detail-card h3 { margin: 0 0 10px; font-size: 14px; }
+    .settled-detail-card .primary-btn { margin-top: 12px; }
+    .claimed-mark { display: none; margin-top: 12px; padding: 11px; border-radius: 11px; color: #087a48; background: var(--green-soft); text-align: center; font-size: 11px; font-weight: 800; }
+    .stage.is-claimed .claim-button { display: none; } .stage.is-claimed .claimed-mark { display: block; }
+    .state-result { margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--white); }
+    .state-result-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .state-result-head b { font-size: 12px; }
+    .state-badge { padding: 4px 7px; border-radius: 999px; color: #835000; background: #fff3d9; font-size: 8px; font-weight: 800; }
+    .state-badge.claimed { color: #087a48; background: var(--green-soft); }
+    .state-result p { margin: 6px 0 0; color: var(--muted); font-size: 9px; line-height: 1.55; }
+    .state-result .primary-btn { margin-top: 10px; }
+    .reward-appbar { color: var(--white); border-bottom: 0; background: #1c251f; }
+    .reward-wallet { display: flex; align-items: center; gap: 8px; }
+    .reward-wallet strong { font-size: 12px; }
+    .gift-button { position: relative; width: 34px; height: 34px; border: 0; border-radius: 9px; color: var(--white); background: #ec2860; cursor: pointer; }
+    .gift-button::after { content: "1"; position: absolute; right: -5px; top: -6px; min-width: 16px; height: 16px; display: grid; place-items: center; padding: 0 3px; border: 2px solid #1c251f; border-radius: 999px; color: var(--white); background: #e81f3f; font-size: 8px; font-weight: 800; }
+    .stage.is-claimed .gift-button::after { display: none; }
+    .profile-screen { color: #929a94; background: #101410; }
+    .profile-card { padding: 14px; border-radius: 13px; color: var(--white); background: #1d241f; }
+    .profile-card span { display: block; color: #8c978f; font-size: 9px; }
+    .profile-card strong { display: block; margin-top: 5px; font-size: 20px; }
+    .profile-list { margin-top: 12px; }
+    .profile-list div { display: flex; justify-content: space-between; padding: 15px 4px; border-bottom: 1px solid #202620; font-size: 10px; }
+    .reward-center-popup { position: absolute; z-index: 18; left: 8px; right: 8px; top: 88px; max-height: 592px; overflow-y: auto; padding: 13px; border-radius: 0 0 15px 15px; color: var(--white); background: #202522; box-shadow: 0 22px 42px rgba(0,0,0,.35); opacity: 0; pointer-events: none; transform: translateY(-10px); transition: .2s ease; scrollbar-width: none; }
+    .reward-center-popup.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .reward-popup-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; color: #c4cbc6; font-size: 10px; }
+    .reward-popup-head button { border: 0; color: #9fa8a1; background: transparent; cursor: pointer; }
+    .reward-list { display: grid; gap: 8px; }
+    .reward-item { display: grid; grid-template-columns: 38px minmax(0,1fr) 76px; align-items: center; gap: 9px; min-height: 68px; padding: 10px; border: 1px solid #3a403c; border-radius: 10px; background: #282d2a; }
+    .reward-item-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: #343b36; font-size: 18px; }
+    .reward-item:nth-child(3n+1) .reward-item-icon { background: #303030; }
+    .reward-item:nth-child(3n+2) .reward-item-icon { background: #606060; }
+    .reward-item:nth-child(3n) .reward-item-icon { background: #909090; }
+    .reward-item-copy { min-width: 0; }
+    .reward-item-copy b { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .reward-item-copy strong { display: block; margin-top: 4px; color: var(--green); font-size: 13px; }
+    .reward-item-copy small { display: block; margin-top: 3px; color: #8e9891; font-size: 8px; }
+    .reward-claim { height: 34px; border: 0; border-radius: 8px; color: #072013; background: linear-gradient(90deg,var(--green),#8cf06c); font-size: 10px; font-weight: 800; cursor: pointer; }
+    .reward-item .claimed-mark { grid-column: 3; grid-row: 1; margin: 0; padding: 8px 3px; color: var(--green); background: #303a33; font-size: 9px; }
+    .reward-more { width: 100%; height: 38px; margin-top: 9px; border: 0; border-radius: 9px; color: var(--white); background: #3a403c; font-size: 10px; cursor: pointer; }
+    .inbox-screen { background: #f1f3f6; }
+    .inbox-tabs { display: grid; grid-template-columns: repeat(2,1fr); margin: 0 -14px 14px; border-bottom: 1px solid var(--line); background: var(--white); }
+    .inbox-tabs span { padding: 12px 0; color: var(--muted); text-align: center; font-size: 10px; }
+    .inbox-tabs .active { color: var(--ink); border-bottom: 2px solid #333; font-weight: 800; }
+    .message-card { padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+    .message-card + .message-card { margin-top: 10px; }
+    .message-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .message-card-head div { display: flex; align-items: center; gap: 7px; min-width: 0; }
+    .message-dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: #333; }
+    .message-card.is-read .message-dot { background: #c5c5c5; }
+    .message-card-head b { overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .message-card-head time { flex: 0 0 auto; color: var(--muted); font-size: 8px; }
+    .message-card p { margin: 10px 0 12px; color: #626b79; font-size: 10px; line-height: 1.65; }
+    .message-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; padding: 8px 9px; border-radius: 9px; background: #f1f2f4; font-size: 9px; }
+    .message-meta span { color: var(--muted); }
+    .message-state { padding: 4px 7px; border-radius: 999px; color: #fff; background: #444; font-size: 8px; font-weight: 800; }
+    .message-card.is-read .message-state { color: #666; background: #e1e1e1; }
+    .message-link { width: 100%; height: 38px; border: 0; border-radius: 10px; color: #fff; background: #333; font-size: 10px; font-weight: 800; cursor: pointer; }
+    .message-card.is-read .message-link { color: #555; background: #e2e2e2; }
+    .stage-foot { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-top: 10px; }
+    .stage-foot div { min-width: 0; padding: 9px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.76); }
+    .stage-foot span { display: block; color: var(--muted); font-size: 8px; } .stage-foot b { display: block; margin-top: 3px; overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .source-map { margin-top: 10px; overflow: hidden; border: 1px solid #d7e0ec; border-radius: 12px; background: rgba(255,255,255,.82); }
+    .source-map-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 11px; border-bottom: 1px solid #e2e8f1; color: var(--ink); background: #f7f9fc; font-size: 11px; font-weight: 800; }
+    .source-map-title span { color: var(--muted); font-size: 9px; font-weight: 500; }
+    .source-row { display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 9px; padding: 9px 10px; border-top: 1px solid #edf0f5; }
+    .source-row:first-of-type { border-top: 0; }
+    .source-field { min-width: 0; }
+    .source-field strong { display: block; color: var(--ink); font-size: 10px; line-height: 1.4; }
+    .source-field .source-kind { margin-top: 5px; }
+    .source-path { color: #536179; font-size: 10px; line-height: 1.55; overflow-wrap: anywhere; }
+    .source-path b { color: #24466f; font-weight: 800; }
+    .toast { position: fixed; z-index: 100; left: 50%; top: 18px; padding: 10px 14px; border-radius: 10px; color: var(--white); background: rgba(17,27,43,.94); box-shadow: 0 12px 30px rgba(18,31,51,.2); font-size: 11px; opacity: 0; pointer-events: none; transform: translate(-50%,-10px); transition: .2s ease; }
+    .toast.is-show { opacity: 1; transform: translate(-50%,0); }
+    @media (max-width:760px) {
+      .page { padding: 16px 12px; } .page-head { align-items: flex-start; flex-direction: column; }
+      .journey-head { align-items: flex-start; flex-direction: column; } .flow { padding-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-head">
+      <div><h1>打码返利 · 前台用户路径</h1><p>按重置周期累计有效流水，结算时只匹配最高已达档位，不累计多档奖励。</p></div>
+    </header>
+    <div class="source-guide" aria-label="字段来源说明"><b>字段来源：</b><span class="source-kind config">后台配置</span><span>运营在活动后台填写</span><span class="source-kind runtime">运行数据</span><span>用户周期内实时数据</span><span class="source-kind computed">系统计算</span><span>根据配置与运行数据计算</span></div>
+
+    <section class="journey-section">
+      <div class="journey-head"><span class="journey-state">模块一 · 活动弹窗</span><p>同一弹窗配置支持图片形式与规则形式，两种样式后台二选一。</p></div>
+      <div class="flow">
+        <div class="flow-track cols-2">
+          <div class="flow-line"></div>
+          <span class="flow-label label-1">后台展示类型二选一</span>
+
+          <section class="stage" data-stage="popup-image">
+            <div class="stage-head"><span class="stage-index">01</span><div><b>弹窗 · 图片形式</b><span>纯活动图片 + 后台配置的跳转按钮</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>SUPERX</b><span>首页</span></div>
+              <div class="home-shell"><div class="home-balance"><small>Wallet balance</small><b>₹499.00</b></div><div class="home-actions"><span>Deposit</span><span>Withdraw</span><span>Rewards</span></div></div>
+              <div class="mask" id="campaignImagePopup"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignImagePopup" data-jump="center" aria-label="关闭图片弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>IMAGE</strong><span>ACTIVITY POPUP ASSET</span></div></div><button class="primary-btn" type="button" data-jump="detail">查看活动</button></div></div></div>
+            </div>
+            <div class="stage-foot"><div><span>展示类型</span><b>图片形式</b></div><div><span>主体</span><b>弹窗图片素材</b></div><div><span>操作</span><b>按钮跳转</b></div></div>
+            <div class="source-map" data-source-stage="popup-image"></div>
+          </section>
+
+          <section class="stage" data-stage="popup">
+            <div class="stage-head"><span class="stage-index">02</span><div><b>弹窗 · 规则形式</b><span>展示周期数据、命中档位与预计返利</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>SUPERX</b><span>首页</span></div>
+              <div class="home-shell"><div class="home-balance"><small>Wallet balance</small><b>₹499.00</b></div><div class="home-actions"><span>Deposit</span><span>Withdraw</span><span>Rewards</span></div></div>
+              <div class="mask" id="campaignPopup"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignPopup" data-jump="center" aria-label="关闭规则弹窗">×</button><div class="popup-head"><small>WAGER & EARN</small><h2>每日打码返利</h2><p>有效流水越高，本周期返利越多</p></div><div class="popup-body"><div class="progress-copy"><span>本周期有效流水</span><b>₹6,800 / ₹10,000</b></div><div class="bar"><i></i></div><div class="popup-reward"><span>当前预计返利<br>今日 23:59 结算</span><b>₹70</b></div><button class="primary-btn" type="button" data-jump="detail">查看进度</button></div></div></div>
+            </div>
+            <div class="stage-foot"><div><span>展示类型</span><b>规则形式</b></div><div><span>主体</span><b>实时规则数据</b></div><div><span>操作</span><b>查看进度</b></div></div>
+            <div class="source-map" data-source-stage="popup"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section">
+      <div class="journey-head"><span class="journey-state settled">模块二 · 活动中心</span><p>同一活动卡片根据用户与礼金状态展示“去参加”或“去领取”。</p></div>
+      <div class="flow">
+        <div class="flow-track cols-2">
+          <div class="flow-line"></div>
+          <span class="flow-label label-1">周期结算后进入领取状态</span>
+
+          <section class="stage" data-stage="center">
+            <div class="stage-head"><span class="stage-index">03</span><div><b>活动中心 · 去参加</b><span>用户尚未产生有效活动数据时展示参与入口</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>活动中心</b><span>进行中的活动</span></div>
+              <div class="screen scroll-screen"><div class="activity-banner"><small>DAILY REBATE</small><h3>打码越多，返利越高</h3><p>每日结算 · 最高返利 ₹180</p></div><div class="section-title"><b>热门活动</b><span>3个活动进行中</span></div><div class="campaign-card"><div class="campaign-top"><div class="campaign-icon">↗</div><div class="campaign-copy"><b>每日打码返利</b><span>完成有效流水即可获得返利</span></div><button class="info-btn" type="button" data-jump="detail" aria-label="查看活动详情">!</button></div><div class="campaign-metrics"><div><span>参与状态</span><b>未参加</b></div><div><span>最高返利</span><b>₹180</b></div><div><span>重置周期</span><b>每日</b></div></div><button class="primary-btn" type="button" data-jump="detail">去参加</button></div></div>
+            </div>
+            <div class="stage-foot"><div><span>用户状态</span><b>未参加</b></div><div><span>按钮</span><b>去参加</b></div><div><span>辅助入口</span><b>详情 ! 图标</b></div></div>
+            <div class="source-map" data-source-stage="center"></div>
+          </section>
+
+          <section class="stage" data-stage="settled-center">
+            <div class="stage-head"><span class="stage-index">04</span><div><b>活动中心 · 去领取</b><span>周期已结算且礼金需要用户主动领取</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>活动中心</b><span>可领取奖励</span></div>
+              <div class="screen scroll-screen"><div class="activity-banner"><small>REWARD READY</small><h3>本期返利已结算</h3><p>礼金将在领取有效期内保留</p></div><div class="section-title"><b>待领取活动礼金</b><span>1笔待领取</span></div><div class="campaign-card"><div class="campaign-top"><div class="campaign-icon">🎁</div><div class="campaign-copy"><b>每日打码返利</b><span>本期有效流水 ₹6,800</span></div><span class="state-badge">待领取</span></div><div class="campaign-metrics"><div><span>结算档位</span><b>₹5,000档</b></div><div><span>礼金金额</span><b>₹70</b></div><div><span>领取截止</span><b>07/27</b></div></div><button class="primary-btn" type="button" data-jump="settlement">去领取</button></div></div>
+            </div>
+            <div class="stage-foot"><div><span>用户状态</span><b>待领取</b></div><div><span>按钮</span><b>去领取</b></div><div><span>跳转</span><b>礼金中心</b></div></div>
+            <div class="source-map" data-source-stage="settled-center"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section">
+      <div class="journey-head"><span class="journey-state claimed">模块三 · 活动详情</span><p>活动进行时展示档位进度；周期结束后展示实际结算结果与领取入口。</p></div>
+      <div class="flow">
+        <div class="flow-track cols-2">
+          <div class="flow-line"></div>
+          <span class="flow-label label-1">周期结束生成结算结果</span>
+
+          <section class="stage" data-stage="detail">
+            <div class="stage-head"><span class="stage-index">05</span><div><b>活动详情 · 进行中</b><span>展示当前数据、命中档位和下一档门槛</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　活动详情</b><span>规则</span></div>
+              <div class="screen scroll-screen"><div class="detail-hero"><small>今日有效流水</small><h2>每日打码返利</h2><div class="detail-number"><b>₹6,800</b><span>/ 下一档 ₹10,000</span></div><div class="bar"><i></i></div></div><div class="detail-panel"><h3>返利档位</h3><div class="tier-row"><span>达到 ₹1,000</span><b>返 ₹10</b><i class="tier-state done">已达成</i></div><div class="tier-row"><span>达到 ₹5,000</span><b>返 ₹70</b><i class="tier-state current">当前档</i></div><div class="tier-row"><span>达到 ₹10,000</span><b>返 ₹180</b><i class="tier-state">未达成</i></div></div><div class="detail-panel"><h3>本周期结算</h3><div class="campaign-metrics"><div><span>预计返利</span><b>₹70</b></div><div><span>流水要求</span><b>1倍</b></div><div><span>结算时间</span><b>23:59</b></div></div></div><div class="detail-panel"><h3>活动规则</h3><p class="rule-note">1. 本活动按每日重置周期累计指定范围内的有效流水。<br>2. 周期结束时仅按最高已达档位发放一次返利，各档奖励不累计。<br>3. 结算后本周期有效流水清零，历史奖励记录保留。</p></div></div>
+            </div>
+            <div class="stage-foot"><div><span>当前状态</span><b>进行中</b></div><div><span>强调</span><b>当前命中档</b></div><div><span>下一步</span><b>等待周期结算</b></div></div>
+            <div class="source-map" data-source-stage="detail"></div>
+          </section>
+
+          <section class="stage" data-stage="detail-settled">
+            <div class="stage-head"><span class="stage-index">06</span><div><b>活动详情 · 已结算</b><span>展示实际礼金、结算档位和领取状态</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　活动详情</b><span>已结算</span></div>
+              <div class="screen scroll-screen"><div class="settlement-summary"><small>PERIOD SETTLED</small><h2>本期返利 ₹70</h2><p>结算时间 07/24 00:00 · 待领取</p></div><div class="reward-ticket"><span>实际发放礼金</span><strong>₹70</strong><p>适用范围：指定场馆 · Slot</p></div><div class="settled-detail-card"><h3>本期结算明细</h3><div class="settlement-detail"><div><span>累计有效流水</span><b>₹6,800</b></div><div><span>命中档位</span><b>₹5,000档</b></div><div><span>流水要求</span><b>1倍</b></div><div><span>领取截止</span><b>07/27</b></div></div><button class="primary-btn" type="button" data-jump="settlement">去领取</button></div></div>
+            </div>
+            <div class="stage-foot"><div><span>当前状态</span><b>已结算</b></div><div><span>核心信息</span><b>实际礼金</b></div><div><span>按钮</span><b>去领取</b></div></div>
+            <div class="source-map" data-source-stage="detail-settled"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section">
+      <div class="journey-head"><span class="journey-state">模块四 · 礼金中心</span><p>需要领取时展示 Claim；领取完成后转为记录态并移除领取按钮。</p></div>
+      <div class="flow">
+        <div class="flow-track cols-2">
+          <div class="flow-line"></div>
+          <span class="flow-label label-1">点击 Claim 后进入已领取</span>
+
+          <section class="stage settlement-stage" data-stage="settlement">
+            <div class="stage-head"><span class="stage-index">07</span><div><b>礼金中心 · 待领取</b><span>点击顶部礼包ICON展开待领取礼金</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div>
+              <div class="appbar reward-appbar"><b>SUPERX</b><div class="reward-wallet"><strong>₹499</strong><button class="gift-button" id="giftCenterButton" type="button" aria-label="打开礼金中心" aria-expanded="true">🎁</button></div></div>
+              <div class="screen profile-screen"><div class="profile-card"><span>Wallet Balance</span><strong>₹499.00</strong></div><div class="profile-list"><div><span>⚙　Personal Setting</span><b>›</b></div><div><span>?　Help Center</span><b>›</b></div><div><span>◌　Live Support</span><b>›</b></div><div><span>◎　Language</span><b>English ›</b></div></div></div>
+              <div class="reward-center-popup is-open" id="rewardCenterPopup">
+                <div class="reward-popup-head"><span>Reward Available</span><button type="button" id="closeRewardCenterButton" aria-label="关闭礼金中心">×</button></div>
+                <div class="reward-list">
+                  <div class="reward-item reward-current-item"><div class="reward-item-icon">🎁</div><div class="reward-item-copy"><b class="reward-current-name">每日打码返利</b><strong class="reward-current-amount">₹70</strong><small class="reward-current-scope">适用范围：指定场馆 · Slot</small><small class="reward-current-rule">1倍流水 · 3个自然日内领取</small></div><button class="reward-claim claim-button" type="button" id="claimRewardButton">Claim</button></div>
+                  <div class="reward-item"><div class="reward-item-icon">♛</div><div class="reward-item-copy"><b>VIP Upgrade Bonus</b><strong>₹10</strong><small>VIP reward</small></div><button class="reward-claim" type="button">Claim</button></div>
+                </div>
+                <button class="reward-more" type="button">Participate in Activity to Earn Reward »</button>
+              </div>
+            </div>
+            <div class="stage-foot"><div><span>当前状态</span><b>待领取</b></div><div><span>适用范围</span><b>指定场馆 · Slot</b></div><div><span>按钮</span><b>Claim</b></div></div>
+            <div class="source-map" data-source-stage="settlement"></div>
+          </section>
+
+          <section class="stage is-claimed" data-stage="claimed-reward">
+            <div class="stage-head"><span class="stage-index">08</span><div><b>礼金中心 · 已领取</b><span>已领取礼金进入记录态，不显示 Claim 按钮</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div>
+              <div class="appbar reward-appbar"><b>SUPERX</b><div class="reward-wallet"><strong>₹569</strong><button class="gift-button" type="button" aria-label="打开礼金中心" aria-expanded="true">🎁</button></div></div>
+              <div class="screen profile-screen"><div class="profile-card"><span>Wallet Balance</span><strong>₹569.00</strong></div><div class="profile-list"><div><span>⚙　Personal Setting</span><b>›</b></div><div><span>?　Help Center</span><b>›</b></div><div><span>◌　Live Support</span><b>›</b></div></div></div>
+              <div class="reward-center-popup is-open">
+                <div class="reward-popup-head"><span>Reward History</span><button type="button" aria-label="关闭礼金中心">×</button></div>
+                <div class="reward-list"><div class="reward-item reward-current-item"><div class="reward-item-icon">✓</div><div class="reward-item-copy"><b class="reward-current-name">每日打码返利</b><strong class="reward-current-amount">₹70</strong><small class="reward-current-scope">适用范围：指定场馆 · Slot</small><small>07/24 10:28 · 已发放至礼金钱包</small></div><div class="claimed-mark">Claimed</div></div></div>
+                <button class="reward-more" type="button">View Reward History »</button>
+              </div>
+            </div>
+            <div class="stage-foot"><div><span>当前状态</span><b>已领取</b></div><div><span>余额变化</span><b>₹499 → ₹569</b></div><div><span>操作</span><b>无领取按钮</b></div></div>
+            <div class="source-map" data-source-stage="claimed-reward"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section">
+      <div class="journey-head"><span class="journey-state">模块五 · 站内信</span><p>活动消息按用户行为展示未读待点击与已读已点击状态，点击按钮进入后台配置的目标页面。</p></div>
+      <div class="flow">
+        <div class="flow-track cols-2">
+          <div class="flow-line"></div>
+          <span class="flow-label label-1">打开消息并点击活动按钮</span>
+
+          <section class="stage" data-stage="message-unread">
+            <div class="stage-head"><span class="stage-index">09</span><div><b>站内信 · 未读待点击</b><span>新消息保留未读标记，并展示活动跳转按钮</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　站内信</b><span>全部已读</span></div>
+              <div class="screen inbox-screen"><div class="inbox-tabs"><span class="active">活动消息</span><span>系统消息</span></div><article class="message-card"><div class="message-card-head"><div><i class="message-dot"></i><b class="message-title">每日打码返利已开启</b></div><time>09:30</time></div><p class="message-copy">参与活动并累计有效流水，周期结束时可获得对应档位返利。</p><div class="message-meta"><span>消息状态</span><b class="message-state">未读 · 未点击</b></div><button class="message-link" type="button" data-jump="detail">查看活动</button></article></div>
+            </div>
+            <div class="stage-foot"><div><span>已读状态</span><b>未读</b></div><div><span>点击状态</span><b>未点击</b></div><div><span>按钮</span><b>查看活动</b></div></div>
+            <div class="source-map" data-source-stage="message-unread"></div>
+          </section>
+
+          <section class="stage" data-stage="message-read">
+            <div class="stage-head"><span class="stage-index">10</span><div><b>站内信 · 已读已点击</b><span>用户打开并点击后同步更新已读与点击状态</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　站内信</b><span>活动消息</span></div>
+              <div class="screen inbox-screen"><div class="inbox-tabs"><span class="active">活动消息</span><span>系统消息</span></div><article class="message-card is-read"><div class="message-card-head"><div><i class="message-dot"></i><b class="message-title">每日打码返利已开启</b></div><time>09:30</time></div><p class="message-copy">参与活动并累计有效流水，周期结束时可获得对应档位返利。</p><div class="message-meta"><span>消息状态</span><b class="message-state">已读 · 已点击</b></div><button class="message-link" type="button" data-jump="detail">再次查看</button></article></div>
+            </div>
+            <div class="stage-foot"><div><span>已读状态</span><b>已读</b></div><div><span>点击状态</span><b>已点击</b></div><div><span>发送时间</span><b>07/24 09:30</b></div></div>
+            <div class="source-map" data-source-stage="message-read"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    const sourceMappings = {
+      wager: {
+        "popup-image": [
+          ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
+          ["展示类型","config","前台展示 → 弹窗配置 → <b>弹窗前台展示类型 = 图片形式</b>"],
+          ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片素材</b>"],
+          ["按钮文案","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案</b>"],
+          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"]
+        ],
+        popup: [
+          ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
+          ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
+          ["本周期有效流水","runtime","按规则配置的<b>活动重置周期</b>，累计<b>统计范围</b>内的用户有效流水"],
+          ["下一档门槛","computed","读取规则配置 → 打码返利档位 → <b>累计有效流水达到</b>，取当前值之上的最近一档"],
+          ["当前预计返利","computed","匹配最高已达档位，读取该行的<b>返利金额类型 + 返利值</b>计算"],
+          ["结算时间","computed","由规则配置 → <b>活动重置周期</b>推导；每日重置对应当日周期结束时间"],
+          ["查看进度按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"]
+        ],
+        center: [
+          ["Banner / 卡片名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["宣传文案","config","前台展示 → 活动中心配置 → <b>活动宣传文案（前台）</b>"],
+          ["详情素材","config","前台展示 → 活动中心配置 → <b>详情图</b>"],
+          ["参与状态","runtime","用户尚未产生本活动有效数据，当前展示为<b>未参加</b>"],
+          ["最高返利","config","规则配置 → 打码返利档位 → <b>最高档返利值</b>"],
+          ["去参加按钮","config","前台展示 → 活动中心配置 → <b>活动中心按钮文案、活动中心按钮跳转</b>"],
+          ["详情入口","config","前台展示 → 活动中心配置 → <b>活动中心按钮跳转</b>；当前配置为活动详情页"]
+        ],
+        detail: [
+          ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["当前流水 / 下一档","runtime","当前周期累计有效流水 + 打码返利档位的<b>累计有效流水达到</b>"],
+          ["返利档位表","config","规则配置 → <b>打码返利档位</b> → 累计有效流水达到、返利金额类型、返利值、流水倍率"],
+          ["当前命中档","computed","结算前预估：取小于等于累计有效流水的<b>最高一档</b>，不累计多档"],
+          ["预计返利","computed","固定值直接取<b>返利值</b>；百分比为累计有效流水 × 返利值"],
+          ["流水要求","config","当前命中档位行的<b>流水倍率</b>"],
+          ["活动规则 / 结算时间","computed","根据<b>活动重置周期、统计范围、最高档匹配规则</b>生成前台规则说明"]
+        ],
+        "detail-settled": [
+          ["结算状态","runtime","活动重置周期结束后，系统生成本期结算记录"],
+          ["实际礼金","computed","按最高命中档位的<b>返利金额类型 + 返利值</b>计算"],
+          ["累计有效流水","runtime","结算时冻结的当前周期累计有效流水"],
+          ["命中档位","computed","取累计有效流水达到的<b>最高档位</b>"],
+          ["流水要求","config","命中档位行的<b>流水倍率</b>"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取截止","computed","礼金生成时间 + <b>领取有效天数</b>"]
+        ],
+        settlement: [
+          ["礼包ICON角标","runtime","系统统计当前用户<b>待领取礼金数量</b>，不是运营配置文案"],
+          ["礼金名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["礼金金额","computed","周期结束时按最高命中档位的<b>返利金额类型 + 返利值</b>生成"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["流水倍率","config","规则配置 → 打码返利档位 → 当前命中行的<b>流水倍率</b>"],
+          ["领取有效期","config","礼金配置 → <b>礼金领取过期规则、领取有效天数</b>"],
+          ["Claim / 直接发放","config","礼金配置 → <b>礼金是否需要领取</b>；开启才展示领取按钮，关闭则直接发放"]
+        ],
+        "settled-center": [
+          ["待领取状态","runtime","活动重置周期结束并生成礼金后，系统记录为<b>已结算待领取</b>"],
+          ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["本期有效流水","runtime","结算时冻结的当前活动重置周期累计有效流水"],
+          ["结算档位","computed","按冻结流水匹配<b>累计有效流水达到</b>的最高档位"],
+          ["礼金金额","computed","按命中档位的<b>返利金额类型 + 返利值</b>计算"],
+          ["领取截止时间","computed","礼金生成时间 + 礼金配置 → <b>领取有效天数</b>"],
+          ["去领取按钮","config","礼金配置 → <b>礼金是否需要领取</b>；需要领取时展示并跳转礼金中心"]
+        ],
+        "claimed-center": [
+          ["已领取状态","runtime","用户领取成功后，系统将本笔礼金状态更新为<b>已领取</b>"],
+          ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["结算档位 / 金额","runtime","读取本笔已结算礼金保存的命中档位与实际发放金额"],
+          ["领取时间","runtime","礼金领取成功时由系统记录"],
+          ["流水要求","config","规则配置 → 打码返利档位 → 结算命中行的<b>流水倍率</b>"],
+          ["查看领取记录","config","前台展示 → 活动中心配置 → <b>活动中心按钮文案、活动中心按钮跳转</b>"]
+        ],
+        "claimed-reward": [
+          ["钱包余额","runtime","领取成功后礼金钱包实时余额"],
+          ["礼金名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["实际领取金额","runtime","本笔结算礼金的实际发放金额"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取时间","runtime","礼金领取成功时由系统记录"],
+          ["Claimed 状态","runtime","本笔礼金状态为已领取，因此不再展示 Claim 按钮"]
+        ],
+        "message-unread": [
+          ["消息标题 / 正文","config","用户触达 → 站内信配置 → <b>站内信标题、站内信内容</b>"],
+          ["活动关联","config","用户触达 → 站内信配置 → <b>推送类型 = 活动推送、事件类型、活动ID</b>"],
+          ["按钮文案","config","用户触达 → 站内信配置 → <b>跳转按钮文本</b>"],
+          ["跳转页面","config","用户触达 → 站内信配置 → <b>跳转类型、跳转目标</b>"],
+          ["未读 / 未点击","runtime","站内信统计 → <b>已读状态、点击状态</b>"]
+        ],
+        "message-read": [
+          ["消息标题 / 正文","config","用户触达 → 站内信配置 → <b>站内信标题、站内信内容</b>"],
+          ["发送时间","runtime","站内信统计 → <b>发送时间</b>"],
+          ["已读状态","runtime","用户打开站内信后更新为<b>已读</b>"],
+          ["点击状态","runtime","用户点击活动按钮后更新为<b>已点击</b>"],
+          ["再次查看","config","沿用站内信配置中的<b>跳转按钮文本、跳转类型、跳转目标</b>"]
+        ]
+      },
+      loss: {
+        "popup-image": [
+          ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
+          ["展示类型","config","前台展示 → 弹窗配置 → <b>弹窗前台展示类型 = 图片形式</b>"],
+          ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片素材</b>"],
+          ["按钮文案","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案</b>"],
+          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"]
+        ],
+        popup: [
+          ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
+          ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
+          ["本周期累计亏损","runtime","按<b>活动重置周期</b>累计<b>统计范围</b>内的用户净亏损"],
+          ["当前亏损区间","computed","规则配置 → 输返阶梯 → <b>累计亏损达到</b>区间匹配"],
+          ["预计返还","computed","本周期累计亏损 × 当前命中区间的<b>返还比例</b>"],
+          ["查看活动按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"]
+        ],
+        center: [
+          ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
+          ["参与状态","runtime","用户尚未产生本活动有效数据，当前展示为<b>未参加</b>"],
+          ["最高返还","config","规则配置 → 输返阶梯 → <b>最高区间返还比例</b>"],
+          ["去参加按钮","config","前台展示 → 活动中心配置 → <b>活动中心按钮文案、活动中心按钮跳转</b>"],
+          ["详情入口","config","前台展示 → 活动中心配置 → <b>活动中心按钮跳转</b>"]
+        ],
+        detail: [
+          ["亏损区间表","config","规则配置 → <b>输返阶梯</b> → 累计亏损达到、返还比例、流水倍率"],
+          ["当前命中区间","computed","系统按本周期累计净亏损匹配唯一亏损区间"],
+          ["预计返还","computed","累计亏损 × 命中区间的<b>返还比例</b>"],
+          ["流水要求","config","当前命中区间行的<b>流水倍率</b>"],
+          ["活动规则","computed","根据<b>参与条件、活动重置周期、统计范围、输返阶梯</b>生成"]
+        ],
+        "detail-settled": [
+          ["结算状态","runtime","活动重置周期结束后，系统生成本期输返结算记录"],
+          ["实际礼金","computed","本期累计亏损 × 命中区间的<b>返还比例</b>"],
+          ["累计亏损","runtime","结算时冻结的当前周期累计净亏损"],
+          ["命中区间","computed","按累计亏损匹配<b>累计亏损达到</b>区间"],
+          ["流水要求","config","命中区间行的<b>流水倍率</b>"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取截止","computed","礼金生成时间 + <b>领取有效天数</b>"]
+        ],
+        settlement: [
+          ["礼金名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["礼金金额","computed","周期结束时按累计亏损 × 命中区间的<b>返还比例</b>生成"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["流水倍率","config","规则配置 → 输返阶梯 → 当前命中行的<b>流水倍率</b>"],
+          ["领取有效期","config","礼金配置 → <b>礼金领取过期规则、领取有效天数</b>"],
+          ["Claim / 直接发放","config","礼金配置 → <b>礼金是否需要领取</b>"]
+        ],
+        "settled-center": [
+          ["待领取状态","runtime","活动重置周期结束并生成输返礼金后，系统记录为<b>已结算待领取</b>"],
+          ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["本期累计亏损","runtime","结算时冻结的当前周期累计净亏损"],
+          ["结算区间","computed","按冻结亏损匹配输返阶梯的<b>累计亏损达到</b>区间"],
+          ["礼金金额","computed","累计亏损 × 命中区间的<b>返还比例</b>"],
+          ["领取截止时间","computed","礼金生成时间 + 礼金配置 → <b>领取有效天数</b>"],
+          ["去领取按钮","config","礼金配置 → <b>礼金是否需要领取</b>"]
+        ],
+        "claimed-center": [
+          ["已领取状态","runtime","用户领取成功后，系统将本笔输返礼金更新为<b>已领取</b>"],
+          ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["结算区间 / 金额","runtime","读取本笔已结算礼金保存的命中亏损区间与实际发放金额"],
+          ["领取时间","runtime","礼金领取成功时由系统记录"],
+          ["流水要求","config","规则配置 → 输返阶梯 → 结算命中行的<b>流水倍率</b>"],
+          ["查看领取记录","config","前台展示 → 活动中心配置 → <b>活动中心按钮文案、活动中心按钮跳转</b>"]
+        ],
+        "claimed-reward": [
+          ["钱包余额","runtime","领取成功后礼金钱包实时余额"],
+          ["礼金名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["实际领取金额","runtime","本笔输返礼金实际发放金额"],
+          ["礼金适用范围","config","礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取时间","runtime","礼金领取成功时由系统记录"],
+          ["Claimed 状态","runtime","本笔礼金状态为已领取，因此不再展示 Claim 按钮"]
+        ],
+        "message-unread": [
+          ["消息标题 / 正文","config","用户触达 → 站内信配置 → <b>站内信标题、站内信内容</b>"],
+          ["活动关联","config","用户触达 → 站内信配置 → <b>推送类型 = 活动推送、事件类型、活动ID</b>"],
+          ["按钮文案","config","用户触达 → 站内信配置 → <b>跳转按钮文本</b>"],
+          ["跳转页面","config","用户触达 → 站内信配置 → <b>跳转类型、跳转目标</b>"],
+          ["未读 / 未点击","runtime","站内信统计 → <b>已读状态、点击状态</b>"]
+        ],
+        "message-read": [
+          ["消息标题 / 正文","config","用户触达 → 站内信配置 → <b>站内信标题、站内信内容</b>"],
+          ["发送时间","runtime","站内信统计 → <b>发送时间</b>"],
+          ["已读状态","runtime","用户打开站内信后更新为<b>已读</b>"],
+          ["点击状态","runtime","用户点击活动按钮后更新为<b>已点击</b>"],
+          ["再次查看","config","沿用站内信配置中的<b>跳转按钮文本、跳转类型、跳转目标</b>"]
+        ]
+      }
+    };
+    function renderSourceMaps(mode) {
+      const mappings = sourceMappings[mode];
+      document.querySelectorAll("[data-source-stage]").forEach(map => {
+        const rows = mappings[map.dataset.sourceStage] || [];
+        map.innerHTML = `<div class="source-map-title">前台字段来源 <span>精确到后台配置项</span></div>${rows.map(([field,kind,path]) => `
+          <div class="source-row"><div class="source-field"><strong>${field}</strong><span class="source-kind ${kind}">${kind === "config" ? "后台配置" : kind === "runtime" ? "运行数据" : "系统计算"}</span></div><div class="source-path">${path}</div></div>
+        `).join("")}`;
+      });
+    }
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("is-show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("is-show"), 1600);
+    }
+    function scrollToStage(stageName) {
+      const stage = document.querySelector(`[data-stage="${stageName}"]`);
+      if (!stage) return;
+      const flow = stage.closest(".flow");
+      flow.scrollTo({ left: Math.max(0, stage.offsetLeft - 14), behavior: "smooth" });
+      stage.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+    }
+    document.querySelectorAll("[data-jump]").forEach(button => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.jump;
+        const popupId = button.dataset.closePopup;
+        if (popupId) {
+          document.getElementById(popupId).hidden = true;
+          showToast("已关闭弹窗，进入活动中心");
+        } else {
+          const jumpMessages = {
+            center: "进入活动中心",
+            detail: "进入活动详情",
+            settlement: "进入礼金中心",
+            "claimed-reward": "查看领取记录"
+          };
+          showToast(jumpMessages[target] || "进入目标页面");
+        }
+        scrollToStage(target);
+      });
+    });
+    const giftCenterButton = document.getElementById("giftCenterButton");
+    const rewardCenterPopup = document.getElementById("rewardCenterPopup");
+    function setRewardCenterOpen(open) {
+      rewardCenterPopup.classList.toggle("is-open", open);
+      giftCenterButton.setAttribute("aria-expanded", String(open));
+    }
+    giftCenterButton.addEventListener("click", () => setRewardCenterOpen(!rewardCenterPopup.classList.contains("is-open")));
+    document.getElementById("closeRewardCenterButton").addEventListener("click", () => setRewardCenterOpen(false));
+    document.getElementById("claimRewardButton").addEventListener("click", () => {
+      const amount = document.getElementById("claimRewardButton").dataset.amount || "₹70";
+      showToast(`${amount} 已发放至礼金钱包`);
+      scrollToStage("claimed-reward");
+    });
+
+    function applyLossReturnMode() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("mode") !== "loss-return") return;
+      document.title = "SUPERX · 输返前台";
+      document.documentElement.dataset.mode = "loss-return";
+      const setText = (selector, text) => {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = text;
+      };
+      const setTextAll = (selector, text) => {
+        document.querySelectorAll(selector).forEach(element => { element.textContent = text; });
+      };
+      const setHtml = (selector, html) => {
+        const element = document.querySelector(selector);
+        if (element) element.innerHTML = html;
+      };
+
+      setText(".page-head h1", "输返 · 前台用户路径");
+      setText(".page-head p", "按活动重置周期累计统计范围内的亏损，周期结束时按命中区间返还对应比例。");
+      setText('[data-stage="popup-image"] .popup-image-art strong', "LOSS");
+      setText('[data-stage="popup-image"] .popup-image-art span', "LOSS RESCUE POPUP");
+      setText('[data-stage="popup"] .stage-head b', "弹窗 · 规则形式");
+      setText('[data-stage="popup"] .stage-head span:last-child', "展示本周期累计亏损与预计返还");
+      setText(".popup-head small", "LOSS RESCUE");
+      setText(".popup-head h2", "每日输返");
+      setText(".popup-head p", "累计亏损越高，返还比例越高");
+      setText(".popup-body .progress-copy span", "本周期累计亏损");
+      setText(".popup-body .progress-copy b", "₹680 / ₹2,000");
+      setHtml(".popup-reward span", "当前预计返还 · 30%<br>今日 23:59 结算");
+      setText(".popup-reward b", "₹204");
+      setText('[data-stage="popup"] .stage-foot div:nth-child(1) b', "累计亏损");
+      setText('[data-stage="popup"] .stage-foot div:nth-child(2) b', "预计返还");
+
+      setText(".activity-banner small", "DAILY LOSS RESCUE");
+      setText(".activity-banner h3", "累计亏损，最高返还50%");
+      setText(".activity-banner p", "本周期预计返还 ₹204 · 23:59结算");
+      setText(".campaign-copy b", "每日输返");
+      setText(".campaign-copy span", "完成指定游戏亏损即可参与输返");
+      setHtml('[data-stage="center"] .campaign-metrics', '<div><span>参与状态</span><b>未参加</b></div><div><span>最高返还</span><b>50%</b></div><div><span>重置周期</span><b>每日</b></div>');
+
+      setText(".detail-hero > small", "本周期累计亏损");
+      setText(".detail-hero h2", "每日输返");
+      setText(".detail-number b", "₹680");
+      setText(".detail-number span", "/ 当前区间 ₹500–₹2,000");
+      setHtml('[data-stage="detail"] .detail-panel:nth-child(2)', '<h3>输返档位</h3><div class="tier-row"><span>₹5–₹50</span><b>返还10%</b><i class="tier-state done">已跨过</i></div><div class="tier-row"><span>₹50–₹200</span><b>返还15%</b><i class="tier-state done">已跨过</i></div><div class="tier-row"><span>₹200–₹500</span><b>返还20%</b><i class="tier-state done">已跨过</i></div><div class="tier-row"><span>₹500–₹2,000</span><b>返还30%</b><i class="tier-state current">当前区间</i></div><div class="tier-row"><span>₹2,000–₹5,000</span><b>返还40%</b><i class="tier-state">未命中</i></div><div class="tier-row"><span>₹5,000以上</span><b>返还50%</b><i class="tier-state">未命中</i></div>');
+      setHtml('[data-stage="detail"] .detail-panel:nth-child(3) .campaign-metrics', '<div><span>预计返还</span><b>₹204</b></div><div><span>流水要求</span><b>5倍</b></div><div><span>结算时间</span><b>23:59</b></div>');
+      setHtml('[data-stage="detail"] .rule-note', '1. 单笔充值达到 ₹32 后参与本活动。<br>2. 本活动按每日重置周期累计统计范围内的游戏亏损。<br>3. 周期结束时按累计亏损所在区间计算：累计亏损 × 对应返还比例。<br>4. 每个周期只生成一笔输返礼金，结算后累计亏损清零，历史奖励记录保留。');
+      setText('[data-stage="detail"] .stage-foot div:nth-child(1) b', "当前命中区间");
+      setText('[data-stage="detail"] .stage-foot div:nth-child(2) b', "亏损×返还比例");
+
+      setText('[data-stage="settled-center"] .activity-banner small', "LOSS REWARD READY");
+      setText('[data-stage="settled-center"] .activity-banner h3', "本期输返已结算");
+      setText('[data-stage="settled-center"] .campaign-copy b', "每日输返");
+      setText('[data-stage="settled-center"] .campaign-copy span', "本期累计亏损 ₹680");
+      setHtml('[data-stage="settled-center"] .campaign-metrics', '<div><span>结算区间</span><b>₹500–₹2,000</b></div><div><span>礼金金额</span><b>₹204</b></div><div><span>领取截止</span><b>07/27</b></div>');
+      setText('[data-stage="detail-settled"] .settlement-summary h2', "本期输返 ₹204");
+      setText('[data-stage="detail-settled"] .reward-ticket strong', "₹204");
+      setText('[data-stage="detail-settled"] .settlement-detail div:nth-child(1) span', "本期累计亏损");
+      setText('[data-stage="detail-settled"] .settlement-detail div:nth-child(1) b', "₹680");
+      setText('[data-stage="detail-settled"] .settlement-detail div:nth-child(2) span', "命中区间");
+      setText('[data-stage="detail-settled"] .settlement-detail div:nth-child(2) b', "₹500–₹2,000");
+      setText('[data-stage="detail-settled"] .settlement-detail div:nth-child(3) b', "5倍");
+      setTextAll(".reward-current-name", "每日输返");
+      setTextAll(".reward-current-amount", "₹204");
+      setText(".reward-current-rule", "5倍流水 · 3个自然日内领取");
+      const claimButton = document.getElementById("claimRewardButton");
+      claimButton.dataset.amount = "₹204";
+      setText('[data-stage="claimed-reward"] .reward-wallet strong', "₹703");
+      setText('[data-stage="claimed-reward"] .profile-card strong', "₹703.00");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(2) b', "₹499 → ₹703");
+      setTextAll(".message-title", "每日输返结算提醒");
+      setTextAll(".message-copy", "参与每日输返，周期结束时将按累计亏损命中区间返还对应礼金。");
+      document.querySelectorAll(".bar i").forEach(bar => { bar.style.width = "34%"; });
+    }
+
+    const isLossReturnMode = new URLSearchParams(window.location.search).get("mode") === "loss-return";
+    applyLossReturnMode();
+    renderSourceMaps(isLossReturnMode ? "loss" : "wager");
+  </script>
+</body>
+</html>
