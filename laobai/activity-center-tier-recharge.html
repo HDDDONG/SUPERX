@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>SUPERX · 活动中心</title>
   <style>
+    html { filter: grayscale(1); }
     :root {
       --navy: #07152f;
       --navy-2: #0c2045;
@@ -92,6 +93,27 @@
     .brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; color: var(--navy); background: var(--lime); font-size: 12px; transform: rotate(-6deg); }
     .icon-btn { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 12px; color: inherit; background: rgba(255,255,255,.09); cursor: pointer; }
     .icon-btn svg { width: 19px; height: 19px; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .gift-trigger { position: relative; color: #ffeff5; background: linear-gradient(145deg, #ff416c, #ff7b4a); }
+    .gift-trigger::after {
+      content: attr(data-count);
+      position: absolute;
+      right: -5px;
+      top: -6px;
+      min-width: 17px;
+      height: 17px;
+      display: grid;
+      place-items: center;
+      padding: 0 4px;
+      border: 2px solid var(--navy);
+      border-radius: 999px;
+      color: white;
+      background: #ff334f;
+      font-size: 8px;
+      line-height: 1;
+      font-weight: 900;
+    }
+    .gift-trigger[data-count="0"]::after { display: none; }
 
     .scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
     .scroll::-webkit-scrollbar { display: none; }
@@ -156,6 +178,9 @@
     .campaign-icon::after { content: ""; position: absolute; width: 28px; height: 28px; right: -14px; top: -13px; border: 7px solid rgba(255,255,255,.12); border-radius: 50%; }
     .campaign-icon.orange { color: #fff0a8; background: linear-gradient(145deg, #6c1d42, #ff754b); box-shadow: 0 6px 14px rgba(255,117,75,.15); }
     .campaign-icon.green { color: white; background: linear-gradient(145deg, #064238, #18b37c); box-shadow: 0 6px 14px rgba(24,179,124,.15); }
+    .campaign-icon { background: #292929; }
+    .campaign-icon.orange { background: #595959; }
+    .campaign-icon.green { background: #858585; }
     .campaign-main { min-width: 0; }
     .campaign-head, .campaign-sub { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
     .campaign-title { display: flex; align-items: center; gap: 5px; min-width: 0; }
@@ -252,6 +277,38 @@
     .popup-tier-state.current { color: var(--blue); background: #e9edff; }
     .popup-action { width: 100%; height: 40px; border: 0; border-radius: 12px; color: white; background: var(--blue); box-shadow: 0 9px 20px rgba(49,91,255,.24); font-weight: 850; cursor: pointer; }
 
+    .reward-center-wrap { position: absolute; z-index: 27; inset: 0; display: grid; align-items: start; padding-top: 58px; background: rgba(4,12,28,.62); backdrop-filter: blur(4px); }
+    .reward-center-wrap[hidden] { display: none; }
+    .reward-center {
+      max-height: calc(100% - 78px);
+      margin: 0 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 0 0 18px 18px;
+      color: white;
+      background: #22272d;
+      box-shadow: 0 24px 70px rgba(1,9,28,.42);
+    }
+    .reward-center-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 15px 10px; }
+    .reward-center-head div { display: grid; gap: 2px; }
+    .reward-center-head b { font-size: 14px; }
+    .reward-center-head span { color: #9da7b3; font-size: 9px; }
+    .reward-center-close { width: 30px; height: 30px; border: 0; border-radius: 9px; color: white; background: rgba(255,255,255,.08); cursor: pointer; }
+    .reward-list { max-height: 465px; display: grid; gap: 8px; padding: 2px 12px 14px; overflow-y: auto; scrollbar-width: none; }
+    .reward-list::-webkit-scrollbar { display: none; }
+    .reward-item { min-height: 62px; display: grid; grid-template-columns: 38px 1fr 74px; align-items: center; gap: 10px; padding: 9px 10px; border: 1px solid #3b4148; border-radius: 11px; background: #2a2f34; }
+    .reward-item-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(145deg, #26436d, #315bff); font-size: 20px; }
+    .reward-item:nth-child(3n+1) .reward-item-icon { background: #303030; }
+    .reward-item:nth-child(3n+2) .reward-item-icon { background: #606060; }
+    .reward-item:nth-child(3n) .reward-item-icon { background: #909090; }
+    .reward-item-copy { min-width: 0; }
+    .reward-item-copy b { display: block; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .reward-item-copy span { display: block; margin-top: 4px; color: #38ef92; font-size: 11px; font-weight: 850; }
+    .reward-claim { height: 34px; border: 0; border-radius: 9px; color: #061d13; background: linear-gradient(90deg, #36ec8e, #8be66f); font-size: 10px; font-weight: 900; cursor: pointer; }
+    .reward-claim:disabled { color: #9ba3ad; background: #41474e; cursor: default; }
+    .reward-empty { padding: 34px 18px 42px; color: #9da7b3; text-align: center; font-size: 11px; }
+    .reward-center-foot { padding: 11px 14px; border-top: 1px solid #3b4148; color: #b7bec8; background: #2d3237; font-size: 9px; line-height: 1.5; text-align: center; }
+
     .toast { position: absolute; z-index: 30; left: 50%; top: 70px; max-width: calc(100% - 34px); padding: 10px 14px; border-radius: 12px; color: white; background: rgba(7,21,47,.94); box-shadow: 0 12px 26px rgba(2,10,28,.24); font-size: 11px; transform: translate(-50%, -16px); opacity: 0; pointer-events: none; transition: .25s ease; }
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
@@ -266,6 +323,10 @@
       .intro h1 { font-size: 42px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+    body.is-flow-embed { min-height: 100vh; overflow: hidden; background: var(--paper); }
+    body.is-flow-embed .stage { display: block; min-height: 100vh; padding: 0; }
+    body.is-flow-embed .intro { display: none; }
+    body.is-flow-embed .phone { width: 100%; height: 100vh; min-height: 0; border: 0; border-radius: 0; box-shadow: none; }
   </style>
 </head>
 <body>
@@ -286,9 +347,14 @@
         <section class="screen" id="centerScreen">
           <header class="topbar">
             <div class="brand"><span class="brand-mark">SX</span> SUPERX</div>
-            <button class="icon-btn" id="openCampaignPopup" type="button" aria-label="活动消息">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 20h4"/></svg>
-            </button>
+            <div class="top-actions">
+              <button class="icon-btn gift-trigger" id="openRewardCenter" type="button" aria-label="打开礼金中心" data-count="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v8H4v-8M2 7h20v5H2Z"/><path d="M12 7v13M12 7H7.5a2.5 2.5 0 1 1 2.2-3.7ZM12 7h4.5a2.5 2.5 0 1 0-2.2-3.7Z"/></svg>
+              </button>
+              <button class="icon-btn" id="openCampaignPopup" type="button" aria-label="活动消息">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 20h4"/></svg>
+              </button>
+            </div>
           </header>
           <div class="scroll" id="centerScroll">
             <section class="hero">
@@ -312,7 +378,7 @@
                 <div class="campaign-icon" aria-hidden="true">₹</div>
                 <div class="campaign-main">
                   <div class="campaign-head"><div class="campaign-title"><strong>累计充值解锁阶梯礼金</strong><button class="detail-info" id="tierDetailButton" type="button" aria-label="查看阶梯充值活动详情">!</button></div><span class="campaign-reward">最高 ₹500</span></div>
-                  <div class="campaign-sub"><small>达到档位后奖励自动发放</small><span class="countdown">剩余 07天</span></div>
+                  <div class="campaign-sub"><small>达到档位后前往礼包 ICON 领取</small><span class="countdown">剩余 07天</span></div>
                   <div class="campaign-progress">
                     <div class="progress-label"><span>已累计 <b id="cardCurrent">₹600</b></span><span>下一档 ₹1,000</span></div>
                     <div class="progress"><span id="cardProgress"></span></div>
@@ -372,7 +438,8 @@
                 <h4>活动规则</h4>
                 <ol>
                   <li>活动期间，成功充值金额将累计计入当前活动周期。</li>
-                  <li>达到阶梯门槛后，对应礼金自动发放至礼金账户。</li>
+                  <li>达到阶梯门槛后，待领取礼金进入顶部礼包 ICON 的礼金弹窗。</li>
+                  <li>若后台关闭“礼金是否需要领取”，达标礼金将直接发放。</li>
                   <li>退款、撤销或拒付订单不计入累计充值金额。</li>
                   <li>每个阶梯在当前活动周期内仅可获得一次。</li>
                 </ol>
@@ -388,7 +455,7 @@
             <div class="campaign-popup-head">
               <span>阶梯充值活动</span>
               <h3 id="campaignPopupTitle">累计充值阶梯礼金</h3>
-              <p>活动剩余 07天 · 达标后奖励自动发放</p>
+              <p>活动剩余 07天 · 达标后前往礼包 ICON 领取</p>
             </div>
             <div class="campaign-popup-body">
               <div class="popup-current">
@@ -401,6 +468,17 @@
               </table>
               <button class="popup-action" id="campaignPopupAction" type="button">去充值</button>
             </div>
+          </section>
+        </div>
+
+        <div class="reward-center-wrap" id="rewardCenterWrap" hidden>
+          <section class="reward-center" role="dialog" aria-modal="true" aria-labelledby="rewardCenterTitle">
+            <header class="reward-center-head">
+              <div><b id="rewardCenterTitle">Reward Available</b><span>阶梯充值达标礼金</span></div>
+              <button class="reward-center-close" id="closeRewardCenter" type="button" aria-label="关闭礼金弹窗">✕</button>
+            </header>
+            <div class="reward-list" id="rewardList"></div>
+            <div class="reward-center-foot">未领取礼金将在配置的领取有效期结束后失效</div>
           </section>
         </div>
 
@@ -440,6 +518,7 @@
       ];
       let current = 600;
       let selectedAmount = 500;
+      const claimedThresholds = new Set();
       let toastTimer;
 
       const $ = (selector, root = document) => root.querySelector(selector);
@@ -479,8 +558,9 @@
         const next = nextTier(current);
         $('#tierList').innerHTML = tiers.map((tier, index) => {
           const done = current >= tier.threshold;
+          const claimed = claimedThresholds.has(tier.threshold);
           const isCurrent = next?.threshold === tier.threshold;
-          const state = done ? '已发放' : isCurrent ? '进行中' : '未达到';
+          const state = done ? (claimed ? '已领取' : '待领取') : isCurrent ? '进行中' : '未达到';
           return `<article class="tier ${done ? 'is-done' : ''} ${isCurrent ? 'is-current' : ''}">
             <span class="tier-icon">${done ? '✓' : index + 1}</span>
             <span class="tier-copy"><b>累计充值 ${money(tier.threshold)}</b><small>奖励 ${money(tier.reward)} 礼金 · 1倍流水</small></span>
@@ -489,11 +569,29 @@
         }).join('');
         $('#popupTierRows').innerHTML = tiers.map(tier => {
           const done = current >= tier.threshold;
+          const claimed = claimedThresholds.has(tier.threshold);
           const isCurrent = next?.threshold === tier.threshold;
-          const state = done ? '已发放' : isCurrent ? '进行中' : '未达到';
+          const state = done ? (claimed ? '已领取' : '待领取') : isCurrent ? '进行中' : '未达到';
           const stateClass = done ? 'done' : isCurrent ? 'current' : '';
           return `<tr><td>${money(tier.threshold)}</td><td>${money(tier.reward)}</td><td><span class="popup-tier-state ${stateClass}">${state}</span></td></tr>`;
         }).join('');
+        renderRewards();
+      }
+
+      function renderRewards() {
+        const unlocked = tiers.filter(tier => current >= tier.threshold);
+        const pendingCount = unlocked.filter(tier => !claimedThresholds.has(tier.threshold)).length;
+        $('#openRewardCenter').dataset.count = String(pendingCount);
+        $('#rewardList').innerHTML = unlocked.length
+          ? unlocked.slice().reverse().map(tier => {
+              const claimed = claimedThresholds.has(tier.threshold);
+              return `<article class="reward-item">
+                <span class="reward-item-icon" aria-hidden="true">🎁</span>
+                <span class="reward-item-copy"><b>累计充值 ${money(tier.threshold)} 达标礼金</b><span>${money(tier.reward)}</span></span>
+                <button class="reward-claim" type="button" data-claim-threshold="${tier.threshold}" ${claimed ? 'disabled' : ''}>${claimed ? 'Claimed' : 'Claim'}</button>
+              </article>`;
+            }).join('')
+          : '<div class="reward-empty">暂无可领取礼金</div>';
       }
 
       function updateForecast() {
@@ -531,6 +629,10 @@
         $('#campaignPopup').hidden = true;
       }
 
+      function closeRewardCenter() {
+        $('#rewardCenterWrap').hidden = true;
+      }
+
       $('#tierCampaign').addEventListener('click', openRechargeSheet);
       $('#tierDetailButton').addEventListener('click', openDetail);
       $('#backButton').addEventListener('click', closeDetail);
@@ -539,6 +641,21 @@
       $('#closeCampaignPopup').addEventListener('click', closeCampaignPopup);
       $('#campaignPopupAction').addEventListener('click', () => { closeCampaignPopup(); openRechargeSheet(); });
       $('#campaignPopup').addEventListener('click', event => { if (event.target === $('#campaignPopup')) closeCampaignPopup(); });
+      $('#openRewardCenter').addEventListener('click', () => {
+        renderRewards();
+        $('#rewardCenterWrap').hidden = false;
+      });
+      $('#closeRewardCenter').addEventListener('click', closeRewardCenter);
+      $('#rewardCenterWrap').addEventListener('click', event => { if (event.target === $('#rewardCenterWrap')) closeRewardCenter(); });
+      $('#rewardList').addEventListener('click', event => {
+        const button = event.target.closest('[data-claim-threshold]');
+        if (!button || button.disabled) return;
+        const threshold = Number(button.dataset.claimThreshold);
+        const tier = tiers.find(item => item.threshold === threshold);
+        claimedThresholds.add(threshold);
+        renderTiers();
+        showToast(`已领取 ${money(tier.reward)} 阶梯礼金`);
+      });
       $('#closeRecharge').addEventListener('click', () => { $('#rechargeSheet').hidden = true; });
       $('#rechargeSheet').addEventListener('click', event => {
         if (event.target === $('#rechargeSheet')) $('#rechargeSheet').hidden = true;
@@ -577,6 +694,17 @@
 
       updateProgress();
       updateForecast();
+      const pageParams = new URLSearchParams(window.location.search);
+      const flowStage = pageParams.get('stage');
+      if (pageParams.get('flow') === '1') document.body.classList.add('is-flow-embed');
+      if (flowStage === 'center') closeCampaignPopup();
+      if (flowStage === 'detail') { closeCampaignPopup(); openDetail(); }
+      if (flowStage === 'recharge') { closeCampaignPopup(); openRechargeSheet(); }
+      if (flowStage === 'reward') {
+        closeCampaignPopup();
+        renderRewards();
+        $('#rewardCenterWrap').hidden = false;
+      }
     })();
   </script>
 </body>

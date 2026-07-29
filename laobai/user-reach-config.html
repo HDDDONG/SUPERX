@@ -808,6 +808,9 @@
       height: 106px;
     }
 
+    body.is-flow-embed .announcement-card .announcement-art { background: #bdbdbd; }
+    body.is-flow-embed .announcement-modal-card .announcement-art { background: #e1e1e1; }
+
     .announcement-extra {
       max-height: 0;
       overflow: hidden;
@@ -2077,6 +2080,40 @@
       border: 0;
       border-radius: 0;
     }
+
+    body.is-flow-embed { overflow: hidden; background: #111413; }
+    body.is-flow-embed .shell,
+    body.is-flow-embed .main,
+    body.is-flow-embed .panel,
+    body.is-flow-embed .frontend-preview {
+      width: 100%;
+      min-height: 100vh;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: #111413;
+    }
+    body.is-flow-embed .frontend-preview-layout { display: block; }
+    body.is-flow-embed .phone-preview {
+      width: 100%;
+      max-width: none;
+      height: 100vh;
+      min-height: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    body.is-flow-embed .preview-notes { display: none; }
+    .flow-target-page { min-height: 100%; color: #f7f8f8; background: #111413; }
+    .flow-target-hero { padding: 34px 18px 28px; background: linear-gradient(145deg,#17231f,#106947); }
+    .flow-target-hero small { color: #8eddb7; }
+    .flow-target-hero h2 { margin: 8px 0 5px; font-size: 24px; }
+    .flow-target-body { display: grid; gap: 12px; padding: 18px 16px; }
+    .flow-target-card { padding: 16px; border: 1px solid #343b38; border-radius: 12px; background: #252a28; }
+    .flow-target-card b { display: block; margin-bottom: 7px; color: #fff; }
+    .flow-target-card span { color: #aeb5b1; font-size: 13px; line-height: 1.55; }
+    .flow-target-action { height: 46px; border: 0; border-radius: 10px; color: #062116; background: #39e78e; font-weight: 750; }
   </style>
 </head>
 <body>
@@ -2487,6 +2524,9 @@
     const embeddedMode = pageParameters.get("embed") === "1";
     const requestedModule = pageParameters.get("module");
     if (embeddedMode) document.body.classList.add("is-embedded");
+    const flowEmbedMode = pageParameters.get("flow") === "1";
+    const frontendFlowStage = pageParameters.get("stage") || "";
+    if (flowEmbedMode) document.body.classList.add("is-flow-embed");
     let currentModule = reachModules[requestedModule] ? requestedModule : "mailConfig";
     const openedTabs = [currentModule];
     let currentLanguage = "en";
@@ -2706,10 +2746,45 @@
       if (isFrontendPreview) {
         statsOverview.hidden = true;
         renderFrontendPreview(config);
+        applyFrontendFlowStage();
         return;
       }
       renderFilters();
       renderTable();
+    }
+
+    function applyFrontendFlowStage() {
+      if (!flowEmbedMode || !frontendFlowStage) return;
+      window.requestAnimationFrame(() => {
+        if (frontendFlowStage === "mail-popup" || frontendFlowStage === "mail-claimed") {
+          const rewardModal = frontendPreview.querySelector("[data-reward-modal]");
+          if (rewardModal) rewardModal.hidden = false;
+          if (frontendFlowStage === "mail-claimed") {
+            const amount = frontendPreview.querySelector(".reward-popup-amount");
+            const merge = frontendPreview.querySelector(".reward-popup-merge");
+            const receive = frontendPreview.querySelector("[data-receive-all-rewards]");
+            if (amount) amount.textContent = "250 INR";
+            if (merge) merge.textContent = "3份礼金已全部领取";
+            if (receive) { receive.textContent = "Received"; receive.disabled = true; }
+          }
+        }
+        if (frontendFlowStage === "announcement-modal") {
+          const announcementModal = frontendPreview.querySelector("[data-announcement-modal]");
+          if (announcementModal) announcementModal.hidden = false;
+        }
+        if (frontendFlowStage === "announcement-target") {
+          const phoneScreen = frontendPreview.querySelector(".phone-screen");
+          if (phoneScreen) phoneScreen.innerHTML = `
+            <div class="flow-target-page">
+              <header class="message-header"><button class="message-back" type="button" aria-label="返回">‹</button><div class="message-title">Activity</div><span></span></header>
+              <section class="flow-target-hero"><small>公告按钮跳转结果</small><h2>Welcome Bonus</h2><div>Complete your first deposit to unlock rewards.</div></section>
+              <div class="flow-target-body">
+                <div class="flow-target-card"><b>First Deposit Offer</b><span>Deposit now and receive the configured campaign reward.</span></div>
+                <button class="flow-target-action" type="button">Deposit Now</button>
+              </div>
+            </div>`;
+        }
+      });
     }
 
     function renderFilterControl(filter) {
