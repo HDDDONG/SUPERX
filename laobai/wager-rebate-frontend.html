@@ -83,7 +83,9 @@
     .home-actions span { padding: 9px 4px; border-radius: 9px; background: var(--white); text-align: center; font-size: 10px; }
     .mask { position: absolute; z-index: 25; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(6,13,24,.7); }
     .mask[hidden] { display: none; }
+    .popup-stack { width: 100%; display: grid; gap: 10px; }
     .popup { position: relative; width: 100%; overflow: hidden; border-radius: 22px; background: var(--white); box-shadow: 0 24px 60px rgba(0,0,0,.34); }
+    .daily-suppress { min-height: 32px; padding: 4px 12px; border: 0; color: #fff; background: transparent; text-align: center; font-size: 11px; font-weight: 700; cursor: pointer; }
     .popup-image-panel { padding: 14px; background: var(--white); }
     .popup-image-art { height: 314px; display: grid; place-items: center; overflow: hidden; border-radius: 16px; color: var(--white); background: linear-gradient(145deg,#242424,#626262); }
     .popup-image-art div { text-align: center; }
@@ -239,7 +241,7 @@
             <div class="phone">
               <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>SUPERX</b><span>首页</span></div>
               <div class="home-shell"><div class="home-balance"><small>Wallet balance</small><b>₹499.00</b></div><div class="home-actions"><span>Deposit</span><span>Withdraw</span><span>Rewards</span></div></div>
-              <div class="mask" id="campaignImagePopup"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignImagePopup" data-jump="center" aria-label="关闭图片弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>IMAGE</strong><span>ACTIVITY POPUP ASSET</span></div></div><button class="primary-btn" type="button" data-jump="detail">查看活动</button></div></div></div>
+              <div class="mask" id="campaignImagePopup"><div class="popup-stack"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignImagePopup" data-jump="center" aria-label="关闭图片弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>IMAGE</strong><span>ACTIVITY POPUP ASSET</span></div></div><button class="primary-btn" type="button" data-jump="detail">查看活动</button></div></div><button class="daily-suppress" type="button" data-suppress-today="campaignImagePopup">今日不再提醒</button></div></div>
             </div>
             <div class="stage-foot"><div><span>展示类型</span><b>图片形式</b></div><div><span>主体</span><b>弹窗图片素材</b></div><div><span>操作</span><b>按钮跳转</b></div></div>
             <div class="source-map" data-source-stage="popup-image"></div>
@@ -250,7 +252,7 @@
             <div class="phone">
               <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>SUPERX</b><span>首页</span></div>
               <div class="home-shell"><div class="home-balance"><small>Wallet balance</small><b>₹499.00</b></div><div class="home-actions"><span>Deposit</span><span>Withdraw</span><span>Rewards</span></div></div>
-              <div class="mask" id="campaignPopup"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignPopup" data-jump="center" aria-label="关闭规则弹窗">×</button><div class="popup-head"><small>WAGER & EARN</small><h2>每日打码返利</h2><p>有效流水越高，本周期返利越多</p></div><div class="popup-body"><div class="progress-copy"><span>本周期有效流水</span><b>₹6,800 / ₹10,000</b></div><div class="bar"><i></i></div><div class="popup-reward"><span>当前预计返利<br>今日 23:59 结算</span><b>₹70</b></div><button class="primary-btn" type="button" data-jump="detail">查看进度</button></div></div></div>
+              <div class="mask" id="campaignPopup"><div class="popup-stack"><div class="popup"><button class="popup-close" type="button" data-close-popup="campaignPopup" data-jump="center" aria-label="关闭规则弹窗">×</button><div class="popup-head"><small>WAGER & EARN</small><h2>每日打码返利</h2><p>有效流水越高，本周期返利越多</p></div><div class="popup-body"><div class="progress-copy"><span>本周期有效流水</span><b>₹6,800 / ₹10,000</b></div><div class="bar"><i></i></div><div class="popup-reward"><span>当前预计返利<br>今日 23:59 结算</span><b>₹70</b></div><button class="primary-btn" type="button" data-jump="detail">查看进度</button></div></div><button class="daily-suppress" type="button" data-suppress-today="campaignPopup">今日不再提醒</button></div></div>
             </div>
             <div class="stage-foot"><div><span>展示类型</span><b>规则形式</b></div><div><span>主体</span><b>实时规则数据</b></div><div><span>操作</span><b>查看进度</b></div></div>
             <div class="source-map" data-source-stage="popup"></div>
@@ -405,7 +407,8 @@
           ["展示类型","config","前台展示 → 弹窗配置 → <b>弹窗前台展示类型 = 图片形式</b>"],
           ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片素材</b>"],
           ["按钮文案","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案</b>"],
-          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"]
+          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"],
+          ["今日不再提醒","runtime","前台本地状态；点击后当日不再展示当前活动弹窗"]
         ],
         popup: [
           ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
@@ -414,7 +417,8 @@
           ["下一档门槛","computed","读取规则配置 → 打码返利档位 → <b>累计有效流水达到</b>，取当前值之上的最近一档"],
           ["当前预计返利","computed","匹配最高已达档位，读取该行的<b>返利金额类型 + 返利值</b>计算"],
           ["结算时间","computed","由规则配置 → <b>活动重置周期</b>推导；每日重置对应当日周期结束时间"],
-          ["查看进度按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"]
+          ["查看进度按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"],
+          ["今日不再提醒","runtime","前台本地状态；点击后当日不再展示当前活动弹窗"]
         ],
         center: [
           ["Banner / 卡片名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
@@ -498,7 +502,8 @@
           ["展示类型","config","前台展示 → 弹窗配置 → <b>弹窗前台展示类型 = 图片形式</b>"],
           ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片素材</b>"],
           ["按钮文案","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案</b>"],
-          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"]
+          ["按钮跳转","config","前台展示 → 弹窗配置 → <b>弹窗按钮跳转、跳转目标</b>"],
+          ["今日不再提醒","runtime","前台本地状态；点击后当日不再展示当前活动弹窗"]
         ],
         popup: [
           ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
@@ -506,7 +511,8 @@
           ["本周期累计亏损","runtime","按<b>活动重置周期</b>累计<b>统计范围</b>内的用户净亏损"],
           ["当前亏损区间","computed","规则配置 → 输返阶梯 → <b>累计亏损达到</b>区间匹配"],
           ["预计返还","computed","本周期累计亏损 × 当前命中区间的<b>返还比例</b>"],
-          ["查看活动按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"]
+          ["查看活动按钮","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转、跳转目标</b>"],
+          ["今日不再提醒","runtime","前台本地状态；点击后当日不再展示当前活动弹窗"]
         ],
         center: [
           ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
@@ -619,6 +625,16 @@
           showToast(jumpMessages[target] || "进入目标页面");
         }
         scrollToStage(target);
+      });
+    });
+    document.querySelectorAll("[data-suppress-today]").forEach(button => {
+      button.addEventListener("click", () => {
+        const popup = document.getElementById(button.dataset.suppressToday);
+        if (popup) {
+          popup.hidden = true;
+          popup.dataset.suppressedToday = "true";
+        }
+        showToast("今日内不再展示该活动弹窗");
       });
     });
     const giftCenterButton = document.getElementById("giftCenterButton");

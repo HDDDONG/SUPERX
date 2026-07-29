@@ -256,6 +256,7 @@
 
     .campaign-popup-wrap { position: absolute; z-index: 25; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(4,12,28,.62); backdrop-filter: blur(4px); }
     .campaign-popup-wrap[hidden] { display: none; }
+    .campaign-popup-stack { width: min(100%, 304px); display: grid; gap: 10px; }
     .campaign-popup { position: relative; width: min(100%, 304px); overflow: hidden; border-radius: 24px; background: white; box-shadow: 0 24px 70px rgba(1,9,28,.36); }
     .popup-close { position: absolute; z-index: 2; right: 12px; top: 12px; width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 50%; color: white; background: rgba(3,12,31,.3); font-size: 15px; cursor: pointer; }
     .campaign-popup-head { position: relative; padding: 20px 18px 15px; color: white; background: linear-gradient(135deg, #07152f, #315bff); }
@@ -276,6 +277,7 @@
     .popup-tier-state.done { color: var(--success); background: #e4f7ef; }
     .popup-tier-state.current { color: var(--blue); background: #e9edff; }
     .popup-action { width: 100%; height: 40px; border: 0; border-radius: 12px; color: white; background: var(--blue); box-shadow: 0 9px 20px rgba(49,91,255,.24); font-weight: 850; cursor: pointer; }
+    .daily-suppress { min-height: 32px; padding: 4px 12px; border: 0; color: white; background: transparent; text-align: center; font-size: 11px; font-weight: 750; cursor: pointer; }
 
     .reward-center-wrap { position: absolute; z-index: 27; inset: 0; display: grid; align-items: start; padding-top: 58px; background: rgba(4,12,28,.62); backdrop-filter: blur(4px); }
     .reward-center-wrap[hidden] { display: none; }
@@ -450,7 +452,8 @@
         </section>
 
         <div class="campaign-popup-wrap" id="campaignPopup">
-          <section class="campaign-popup" role="dialog" aria-modal="true" aria-labelledby="campaignPopupTitle">
+          <div class="campaign-popup-stack">
+            <section class="campaign-popup" role="dialog" aria-modal="true" aria-labelledby="campaignPopupTitle">
             <button class="popup-close" id="closeCampaignPopup" type="button" aria-label="关闭活动弹窗">✕</button>
             <div class="campaign-popup-head">
               <span>阶梯充值活动</span>
@@ -468,7 +471,9 @@
               </table>
               <button class="popup-action" id="campaignPopupAction" type="button">去充值</button>
             </div>
-          </section>
+            </section>
+            <button class="daily-suppress" id="suppressCampaignToday" type="button">今日不再提醒</button>
+          </div>
         </div>
 
         <div class="reward-center-wrap" id="rewardCenterWrap" hidden>
@@ -637,8 +642,19 @@
       $('#tierDetailButton').addEventListener('click', openDetail);
       $('#backButton').addEventListener('click', closeDetail);
       $('#openRecharge').addEventListener('click', openRechargeSheet);
-      $('#openCampaignPopup').addEventListener('click', () => { $('#campaignPopup').hidden = false; });
+      $('#openCampaignPopup').addEventListener('click', () => {
+        if ($('#campaignPopup').dataset.suppressedToday === 'true') {
+          showToast('该活动弹窗今日已设置不再提醒');
+          return;
+        }
+        $('#campaignPopup').hidden = false;
+      });
       $('#closeCampaignPopup').addEventListener('click', closeCampaignPopup);
+      $('#suppressCampaignToday').addEventListener('click', () => {
+        $('#campaignPopup').dataset.suppressedToday = 'true';
+        closeCampaignPopup();
+        showToast('今日内不再展示该活动弹窗');
+      });
       $('#campaignPopupAction').addEventListener('click', () => { closeCampaignPopup(); openRechargeSheet(); });
       $('#campaignPopup').addEventListener('click', event => { if (event.target === $('#campaignPopup')) closeCampaignPopup(); });
       $('#openRewardCenter').addEventListener('click', () => {

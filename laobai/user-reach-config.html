@@ -873,6 +873,12 @@
 
     .announcement-modal-layer[hidden] { display: none; }
 
+    .announcement-modal-stack {
+      width: 100%;
+      display: grid;
+      gap: 10px;
+    }
+
     .announcement-modal-card {
       width: 100%;
       border: 1px solid #3b403e;
@@ -931,6 +937,17 @@
       color: #07130d;
       font-size: 16px;
       font-weight: 750;
+    }
+
+    .announcement-daily-suppress {
+      min-height: 32px;
+      border: 0;
+      background: transparent;
+      color: #f3f4f4;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
     }
 
     .reward-modal-layer {
@@ -2638,7 +2655,8 @@
                 <div class="announcement-end">No more</div>
               </div>
               <div class="announcement-modal-layer" data-announcement-modal hidden>
-                <section class="announcement-modal-card" role="dialog" aria-modal="true" aria-label="公告弹窗">
+                <div class="announcement-modal-stack">
+                  <section class="announcement-modal-card" role="dialog" aria-modal="true" aria-label="公告弹窗">
                   <header class="announcement-modal-head">
                     <div>
                       <div class="announcement-modal-title">whitetest</div>
@@ -2651,7 +2669,9 @@
                     <div class="announcement-art">${announcementArtwork}</div>
                   </div>
                   <button class="announcement-modal-action" type="button" data-announcement-action>do now</button>
-                </section>
+                  </section>
+                  <button class="announcement-daily-suppress" type="button" data-suppress-announcement-today>今日不再提醒</button>
+                </div>
               </div>
             </div>
             <aside class="preview-notes">
@@ -2662,6 +2682,7 @@
                 <div class="preview-source-row"><span>展示字段</span><strong>标题、内容、图片</strong></div>
                 <div class="preview-source-row"><span>操作来源</span><strong>按钮文案、跳转目标</strong></div>
                 <div class="preview-source-row"><span>弹窗来源</span><strong>弹窗展示配置</strong></div>
+                <div class="preview-source-row"><span>今日不再提醒</span><strong>前台本地状态</strong></div>
               </div>
             </aside>
           </div>
@@ -4340,6 +4361,10 @@
       }
       const announcementModal = frontendPreview.querySelector("[data-announcement-modal]");
       if (event.target.closest("[data-open-announcement-modal]")) {
+        if (announcementModal?.dataset.suppressedToday === "true") {
+          showToast("该公告弹窗今日已设置不再提醒");
+          return;
+        }
         if (announcementModal) announcementModal.hidden = false;
         return;
       }
@@ -4349,6 +4374,14 @@
       }
       if (event.target === announcementModal) {
         announcementModal.hidden = true;
+        return;
+      }
+      if (event.target.closest("[data-suppress-announcement-today]")) {
+        if (announcementModal) {
+          announcementModal.hidden = true;
+          announcementModal.dataset.suppressedToday = "true";
+        }
+        showToast("今日内不再展示该公告弹窗");
         return;
       }
       if (event.target.closest("[data-announcement-action]")) {
