@@ -27,6 +27,7 @@
     .stage-head b { display:block; font-size:14px; }
     .stage-head span { display:block; margin-top:3px; color:var(--muted); font-size:11px; line-height:1.35; }
     .phone { width:344px; height:720px; overflow:hidden; border:8px solid #141d2a; border-radius:38px; background:#111; box-shadow:0 18px 46px rgba(24,40,72,.2); }
+    body[data-flow-type="recharge"] .phone { height:820px; }
     iframe { width:100%; height:100%; display:block; border:0; background:#fff; }
     .stage-foot { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:10px; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--line); }
     .stage-foot div { min-height:45px; padding:8px 9px; background:var(--card); }
@@ -50,6 +51,7 @@
   <main class="flow-root" id="flowRoot"></main>
   <script>
     const type = new URLSearchParams(location.search).get("type") || "recharge";
+    document.body.dataset.flowType=type;
     const configs = {
       recharge: {
         title:"充值页优化 · 真机流程",

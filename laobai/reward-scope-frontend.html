@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>礼金适用范围 · 前端需求</title>
+  <style>
+    :root {
+      --g0: #fff;
+      --g50: #f8fafc;
+      --g100: #f1f5f9;
+      --g200: #e2e8f0;
+      --g300: #cbd5e1;
+      --g400: #94a3b8;
+      --g500: #64748b;
+      --g600: #475569;
+      --g700: #334155;
+      --g800: #1e293b;
+      --g900: #0f172a;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      background: var(--g100);
+      color: var(--g900);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 13px;
+    }
+    button { font: inherit; }
+    .page { min-width: 0; padding: 24px 28px 40px; }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 22px; line-height: 32px; }
+    .subtitle { margin: 5px 0 0; color: var(--g500); line-height: 20px; }
+    .source-pill {
+      align-self: flex-start;
+      border: 1px solid var(--g300);
+      border-radius: 999px;
+      background: var(--g0);
+      padding: 7px 12px;
+      color: var(--g600);
+      white-space: nowrap;
+    }
+    .scope-guide {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .guide-card {
+      min-height: 112px;
+      border: 1px solid var(--g200);
+      border-radius: 10px;
+      background: var(--g0);
+      padding: 14px;
+    }
+    .guide-title { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+    .guide-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: var(--g200);
+      color: var(--g700);
+    }
+    .guide-card:nth-child(2) .guide-icon { background: var(--g300); }
+    .guide-card:nth-child(3) .guide-icon { background: var(--g400); color: var(--g0); }
+    .guide-card:nth-child(4) .guide-icon { background: var(--g600); color: var(--g0); }
+    .guide-card p { margin: 9px 0 0; color: var(--g600); line-height: 20px; }
+    .field-source { display: inline-block; margin-top: 7px; color: var(--g500); font-size: 12px; }
+    .flow-title { margin: 0 0 12px; font-size: 16px; }
+    .flow {
+      display: grid;
+      grid-template-columns: minmax(382px, 1fr) 108px minmax(382px, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .stage {
+      border: 1px solid var(--g200);
+      border-radius: 12px;
+      background: var(--g0);
+      padding: 14px;
+    }
+    .stage-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .stage-no {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--g700);
+      color: var(--g0);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .stage-title { font-weight: 700; }
+    .stage-desc { margin-top: 2px; color: var(--g500); font-size: 12px; }
+    .phone {
+      position: relative;
+      width: 354px;
+      height: 710px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 7px solid var(--g900);
+      border-radius: 38px;
+      background: #15191d;
+      color: var(--g0);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, .12);
+    }
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      width: 106px;
+      height: 22px;
+      border-radius: 0 0 13px 13px;
+      background: var(--g900);
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+    .status {
+      height: 34px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 18px;
+      color: var(--g200);
+      font-size: 11px;
+    }
+    .appbar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid #343a40;
+      background: #202529;
+    }
+    .brand { font-size: 19px; font-weight: 800; font-style: italic; }
+    .wallet { display: flex; gap: 7px; align-items: center; color: var(--g200); }
+    .gift {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 9px;
+      background: #3b4248;
+      color: var(--g0);
+      cursor: pointer;
+    }
+    .gift b {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 16px;
+      height: 16px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #202529;
+      border-radius: 50%;
+      background: var(--g200);
+      color: var(--g900);
+      font-size: 9px;
+    }
+    .reward-panel { padding: 14px 14px 10px; }
+    .reward-heading { color: var(--g300); font-size: 12px; }
+    .reward-item {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 82px;
+      gap: 10px;
+      align-items: center;
+      min-height: 93px;
+      margin-top: 9px;
+      border: 1px solid #3a4147;
+      border-radius: 10px;
+      background: #252b30;
+      padding: 10px;
+    }
+    .reward-art {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: #596169;
+      color: var(--g0);
+      font-size: 20px;
+    }
+    .reward-item:nth-of-type(3) .reward-art { background: #454c52; }
+    .reward-item:nth-of-type(4) .reward-art { background: #6a737b; }
+    .reward-name {
+      overflow: hidden;
+      color: var(--g0);
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .reward-value { margin-top: 3px; color: var(--g200); font-size: 14px; font-weight: 700; }
+    .scope-link {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      margin-top: 6px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--g300);
+      font-size: 11px;
+      line-height: 16px;
+      cursor: pointer;
+    }
+    .scope-link span {
+      min-width: 0;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .scope-link i {
+      width: 15px;
+      height: 15px;
+      display: grid;
+      place-items: center;
+      margin-left: 3px;
+      border: 1px solid var(--g500);
+      border-radius: 50%;
+      color: var(--g300);
+      font-style: normal;
+      font-size: 9px;
+      flex: none;
+    }
+    .reward-action {
+      height: 34px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--g200);
+      color: var(--g900);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .reward-empty {
+      margin-top: 12px;
+      border: 1px dashed #454c52;
+      border-radius: 10px;
+      padding: 26px 12px;
+      color: var(--g400);
+      text-align: center;
+    }
+    .activity-entry {
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;
+      border: 1px solid #4a5259;
+      border-radius: 8px;
+      background: #343a40;
+      color: var(--g100);
+      cursor: pointer;
+    }
+    .flow-arrow {
+      position: relative;
+      height: 710px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--g600);
+      text-align: center;
+      font-size: 12px;
+      line-height: 18px;
+    }
+    .flow-arrow::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      right: 10px;
+      height: 2px;
+      background: var(--g400);
+    }
+    .flow-arrow::after {
+      content: "";
+      position: absolute;
+      top: calc(50% - 5px);
+      right: 5px;
+      width: 9px;
+      height: 9px;
+      border-top: 2px solid var(--g400);
+      border-right: 2px solid var(--g400);
+      transform: rotate(45deg);
+    }
+    .flow-arrow span {
+      position: relative;
+      z-index: 1;
+      width: 96px;
+      flex: none;
+      border-radius: 999px;
+      background: var(--g100);
+      padding: 5px 8px;
+      white-space: nowrap;
+    }
+    .detail-screen {
+      height: calc(100% - 86px);
+      padding: 14px;
+      background: #111518;
+    }
+    .dim {
+      position: absolute;
+      inset: 86px 0 0;
+      background: rgba(0,0,0,.42);
+    }
+    .scope-sheet {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 1px solid #454c52;
+      border-radius: 18px;
+      background: #252b30;
+      padding: 18px 16px 16px;
+      z-index: 2;
+    }
+    .sheet-grabber {
+      width: 42px;
+      height: 4px;
+      margin: -8px auto 14px;
+      border-radius: 999px;
+      background: #596169;
+    }
+    .sheet-title { font-size: 17px; font-weight: 750; }
+    .sheet-amount { margin-top: 5px; color: var(--g300); }
+    .scope-detail {
+      margin-top: 15px;
+      border-radius: 10px;
+      background: #1d2226;
+      padding: 12px;
+    }
+    .scope-detail-label { color: var(--g400); font-size: 11px; }
+    .scope-detail-value { margin-top: 5px; line-height: 20px; font-weight: 650; }
+    .sheet-button {
+      width: 100%;
+      height: 42px;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--g200);
+      color: var(--g900);
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .mapping {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .mapping-item {
+      border-radius: 8px;
+      background: var(--g100);
+      padding: 9px 10px;
+    }
+    .mapping-item b { display: block; font-size: 12px; }
+    .mapping-item span { display: block; margin-top: 3px; color: var(--g500); font-size: 11px; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 20;
+      max-width: 420px;
+      border-radius: 8px;
+      background: var(--g800);
+      padding: 10px 14px;
+      color: var(--g0);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 10px);
+      transition: .18s ease;
+    }
+    .toast.is-show { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <div>
+        <h1>礼金适用范围</h1>
+        <p class="subtitle">用户在礼金中心即可确认每笔礼金能用于哪些游戏；点击范围说明后查看完整内容。</p>
+      </div>
+      <div class="source-pill">数据来源：活动 / 触达配置 → 礼金配置</div>
+    </header>
+
+    <section class="scope-guide" aria-label="适用范围说明">
+      <article class="guide-card">
+        <div class="guide-title"><span class="guide-icon">全</span>全部游戏</div>
+        <p>礼金可用于平台内全部支持礼金的游戏，前台直接展示“全部游戏”。</p>
+        <span class="field-source">后台字段：礼金适用范围 = 无限制 → 前台“全部游戏”</span>
+      </article>
+      <article class="guide-card">
+        <div class="guide-title"><span class="guide-icon">馆</span>指定场馆</div>
+        <p>仅可用于后台选择的场馆；入口展示场馆名称，详情展示完整范围。</p>
+        <span class="field-source">后台字段：礼金适用范围 + 适用范围值</span>
+      </article>
+      <article class="guide-card">
+        <div class="guide-title"><span class="guide-icon">类</span>指定游戏分类</div>
+        <p>仅可用于后台选择的游戏分类；入口展示分类名称，详情展示完整分类。</p>
+        <span class="field-source">后台字段：礼金适用范围 + 适用范围值</span>
+      </article>
+      <article class="guide-card">
+        <div class="guide-title"><span class="guide-icon">游</span>指定游戏</div>
+        <p>仅可用于后台选择的游戏；名称过多时入口显示前 2 项和剩余数量。</p>
+        <span class="field-source">后台字段：礼金适用范围 + 适用范围值</span>
+      </article>
+    </section>
+
+    <h2 class="flow-title">用户查看流程</h2>
+    <section class="flow">
+      <article class="stage">
+        <div class="stage-head">
+          <span class="stage-no">01</span>
+          <div><div class="stage-title">礼金中心 · 范围入口</div><div class="stage-desc">每笔礼金直接展示适用范围摘要</div></div>
+        </div>
+        <div class="phone">
+          <div class="status"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar">
+            <span class="brand">Six</span>
+            <div class="wallet"><span>₹ 499</span><button class="gift" type="button" aria-label="礼金中心">◆<b>4</b></button><span>●</span></div>
+          </div>
+          <div class="reward-panel">
+            <div class="reward-heading">Reward Available</div>
+            <div class="reward-item">
+              <div class="reward-art">◆</div>
+              <div>
+                <div class="reward-name">VIP Upgrade Bonus</div>
+                <div class="reward-value">₹ 10</div>
+                <button class="scope-link" type="button" data-name="VIP Upgrade Bonus" data-amount="₹ 10" data-scope="全部游戏"><span>适用范围：全部游戏</span><i>i</i></button>
+              </div>
+              <button class="reward-action" type="button">Claim</button>
+            </div>
+            <div class="reward-item">
+              <div class="reward-art">◇</div>
+              <div>
+                <div class="reward-name">Daily Bonus</div>
+                <div class="reward-value">₹ 100</div>
+                <button class="scope-link" type="button" data-name="Daily Bonus" data-amount="₹ 100" data-scope="指定场馆：Slots、JILI"><span>适用范围：Slots、JILI</span><i>i</i></button>
+              </div>
+              <button class="reward-action" type="button">Claim</button>
+            </div>
+            <div class="reward-item">
+              <div class="reward-art">⬢</div>
+              <div>
+                <div class="reward-name">Weekend Bonus</div>
+                <div class="reward-value">₹ 50</div>
+                <button class="scope-link" type="button" data-name="Weekend Bonus" data-amount="₹ 50" data-scope="指定游戏分类：Slot、Crash"><span>适用范围：Slot、Crash</span><i>i</i></button>
+              </div>
+              <button class="reward-action" type="button">Claim</button>
+            </div>
+            <div class="reward-item">
+              <div class="reward-art">○</div>
+              <div>
+                <div class="reward-name">Wager Rebate</div>
+                <div class="reward-value">₹ 180</div>
+                <button class="scope-link" type="button" data-name="Wager Rebate" data-amount="₹ 180" data-scope="指定游戏：Aviator、Mines、Super Ace、Fortune Tiger"><span>适用范围：Aviator、Mines +2</span><i>i</i></button>
+              </div>
+              <button class="reward-action" type="button">Claim</button>
+            </div>
+            <div class="reward-empty" id="rewardEmpty" hidden>暂无待领取礼金</div>
+            <button class="activity-entry" type="button">Participate in Activity to Earn Reward »</button>
+          </div>
+        </div>
+        <div class="mapping">
+          <div class="mapping-item"><b>礼金名称 / 金额</b><span>后台礼金记录</span></div>
+          <div class="mapping-item"><b>范围摘要</b><span>礼金适用范围、适用范围值</span></div>
+        </div>
+      </article>
+
+      <div class="flow-arrow"><span>点击范围说明</span></div>
+
+      <article class="stage">
+        <div class="stage-head">
+          <span class="stage-no">02</span>
+          <div><div class="stage-title">适用范围 · 完整说明</div><div class="stage-desc">范围较长时通过底部弹层完整展示</div></div>
+        </div>
+        <div class="phone">
+          <div class="status"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar">
+            <span class="brand">Six</span>
+            <div class="wallet"><span>₹ 499</span><button class="gift" type="button">◆<b>4</b></button><span>●</span></div>
+          </div>
+          <div class="detail-screen">
+            <div class="reward-heading">Reward Available</div>
+          </div>
+          <div class="dim"></div>
+          <section class="scope-sheet" aria-live="polite">
+            <div class="sheet-grabber"></div>
+            <div class="sheet-title" id="sheetTitle">Weekend Bonus</div>
+            <div class="sheet-amount" id="sheetAmount">₹ 50</div>
+            <div class="scope-detail">
+              <div class="scope-detail-label">礼金适用范围</div>
+              <div class="scope-detail-value" id="sheetScope">指定游戏分类：Slot、Crash</div>
+            </div>
+            <button class="sheet-button" type="button" id="sheetButton">我知道了</button>
+          </section>
+        </div>
+        <div class="mapping">
+          <div class="mapping-item"><b>范围类型</b><span>后台：礼金适用范围</span></div>
+          <div class="mapping-item"><b>完整范围</b><span>后台：适用范围值</span></div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const sheetTitle = document.getElementById("sheetTitle");
+    const sheetAmount = document.getElementById("sheetAmount");
+    const sheetScope = document.getElementById("sheetScope");
+    const toast = document.getElementById("toast");
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("is-show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("is-show"), 1800);
+    }
+
+    document.querySelectorAll(".scope-link").forEach(button => {
+      button.addEventListener("click", () => {
+        sheetTitle.textContent = button.dataset.name;
+        sheetAmount.textContent = button.dataset.amount;
+        sheetScope.textContent = button.dataset.scope;
+        showToast("已同步展示完整适用范围");
+      });
+    });
+
+    document.querySelectorAll(".reward-action").forEach(button => {
+      button.addEventListener("click", () => {
+        const rewardItem = button.closest(".reward-item");
+        rewardItem.remove();
+        const remaining = document.querySelectorAll(".reward-panel .reward-item").length;
+        document.querySelectorAll(".gift b").forEach(badge => {
+          badge.textContent = String(remaining);
+          badge.hidden = remaining === 0;
+        });
+        if (remaining === 0) {
+          document.getElementById("rewardEmpty").hidden = false;
+        }
+        showToast("礼金领取成功，已从待领取列表移除");
+      });
+    });
+
+    document.getElementById("sheetButton").addEventListener("click", () => {
+      showToast("已了解该礼金的适用范围");
+    });
+  </script>
+</body>
+</html>
