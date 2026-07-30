@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SUPERX · 囤单规则列表</title>
+  <style>
+    :root{--blue:#3478f6;--ink:#273142;--muted:#778196;--line:#dfe5ee;--paper:#f5f7fa;--white:#fff;--success:#1c9b64;--danger:#cc4d5c;--warning:#c98219}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;padding:14px;color:var(--ink);background:var(--paper);font:13px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+    button,input,select{font:inherit}button{cursor:pointer}.panel{border:1px solid var(--line);border-radius:8px;background:var(--white)}
+    .filters{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:14px 18px;padding:16px}.field{min-width:0}.field label,.field-label{display:block;margin-bottom:7px;color:#596376;font-size:12px;font-weight:700}.required::before{content:"*";margin-right:4px;color:var(--danger)}
+    input,select{width:100%;height:36px;min-width:0;padding:0 11px;border:1px solid #d7dee8;border-radius:6px;outline:0;color:var(--ink);background:#fff}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(52,120,246,.1)}input:disabled{color:#7b8494;background:#f3f5f8}
+    .filter-actions{grid-column:1/-1;display:flex;gap:10px}.button{height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0 18px;border:1px solid #d6dde7;border-radius:6px;color:#4f596b;background:#fff;font-weight:700}.button.primary{color:#fff;border-color:var(--blue);background:var(--blue)}.button:disabled{cursor:not-allowed;opacity:.55}
+    .list-panel{margin-top:12px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 10px}.toolbar-title{font-weight:750}.toolbar-meta{margin-left:8px;color:var(--muted);font-size:12px}
+    .table-wrap{width:calc(100% - 32px);margin:0 16px 16px;overflow-x:auto;border:1px solid var(--line);scrollbar-color:#bdc5d1 transparent}table{width:100%;min-width:2240px;border-collapse:collapse;table-layout:fixed;background:#fff}th,td{height:43px;padding:0 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;color:#4f596b;text-align:left;text-overflow:ellipsis;white-space:nowrap}th{height:39px;color:#667085;background:#f8f9fb;font-size:12px;font-weight:700;text-overflow:clip;white-space:nowrap}th:last-child,td:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#fafcff}
+    .status{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border-radius:999px;font-size:11px;font-weight:700}.status.enabled{color:var(--success);background:#eaf8f1}.status.disabled{color:#667085;background:#eef1f5}.actions{display:flex;align-items:center;gap:10px}.link{padding:0;border:0;color:var(--blue);background:transparent;font-size:12px}.link.danger{color:var(--danger)}.empty td{height:180px;color:#9aa3b2;text-align:center}
+    .drawer-mask[hidden],.modal[hidden]{display:none}.drawer-mask{position:fixed;z-index:40;inset:0;background:rgba(26,34,47,.42)}.drawer{position:absolute;top:0;right:0;width:min(720px,100vw);height:100%;display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 36px rgba(26,34,47,.16)}.drawer-head{display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;height:58px;padding:0 20px;border-bottom:1px solid var(--line);font-size:16px;font-weight:750}.close{width:30px;height:30px;border:0;border-radius:6px;color:#7b8494;background:transparent;font-size:20px}.drawer-body{flex:1;overflow-y:auto;padding:18px 20px}.drawer-footer{display:flex;justify-content:flex-end;gap:10px;flex:0 0 auto;padding:14px 20px;border-top:1px solid var(--line)}
+    .section{margin-bottom:18px;border:1px solid var(--line);border-radius:8px}.section-title{padding:12px 14px;border-bottom:1px solid var(--line);font-weight:750}.section-body{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;padding:14px}.field.full{grid-column:1/-1}.unit-input{display:grid;grid-template-columns:minmax(0,1fr) 70px}.unit-input input{border-radius:6px 0 0 6px}.unit{display:grid;place-items:center;border:1px solid #d7dee8;border-left:0;border-radius:0 6px 6px 0;color:#667085;background:#f7f9fc;font-weight:650}.error{display:none;margin-top:6px;color:var(--danger);font-size:12px}.field.invalid input,.field.invalid select,.field.invalid .multi-control{border-color:var(--danger)}.field.invalid .error{display:block}
+    .multi-select{position:relative}.multi-control{width:100%;min-height:36px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 10px;border:1px solid #d7dee8;border-radius:6px;color:var(--ink);background:#fff;text-align:left}.multi-value{min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:5px}.multi-placeholder{color:#a3aaba}.tag{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border-radius:4px;color:#4f596b;background:#eef2f7;font-size:12px;font-weight:650}.multi-arrow{flex:0 0 auto;color:#7b8494}.multi-menu{position:absolute;z-index:5;top:calc(100% + 5px);left:0;width:100%;padding:8px;border:1px solid #d7dee8;border-radius:7px;background:#fff;box-shadow:0 10px 24px rgba(31,42,58,.14)}.multi-menu[hidden]{display:none}.multi-search{margin-bottom:7px}.multi-options{max-height:176px;overflow-y:auto}.multi-option{display:flex;align-items:center;gap:8px;height:34px;padding:0 8px;border-radius:5px}.multi-option:hover{background:#f3f6fa}.multi-option input{width:15px;height:15px;margin:0}.multi-empty{padding:12px;color:var(--muted);text-align:center}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}.detail-item{min-height:74px;padding:13px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.detail-item:nth-child(even){border-right:0}.detail-item span{display:block;margin-bottom:6px;color:var(--muted);font-size:12px}.detail-item strong{font-weight:650}.detail-item.full{grid-column:1/-1;border-right:0}
+    .modal{position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:20px;background:rgba(26,34,47,.45)}.dialog{width:min(440px,100%);border-radius:10px;background:#fff;box-shadow:0 20px 60px rgba(26,34,47,.2)}.dialog-head{padding:17px 20px;border-bottom:1px solid var(--line);font-size:16px;font-weight:750}.dialog-body{padding:20px;color:#505b6d;line-height:1.7}.dialog-footer{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid var(--line)}
+    .toast{position:fixed;z-index:60;left:50%;bottom:24px;max-width:calc(100vw - 32px);padding:10px 16px;border-radius:8px;color:#fff;background:rgba(35,43,56,.94);opacity:0;pointer-events:none;transform:translate(-50%,12px);transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:900px){.filters{grid-template-columns:repeat(2,minmax(180px,1fr))}}@media(max-width:620px){body{padding:10px}.filters,.section-body,.detail-grid{grid-template-columns:1fr}.field.full,.detail-item.full{grid-column:auto}.detail-item{border-right:0}.filter-actions{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <section class="panel" aria-label="囤单规则筛选">
+    <form class="filters" id="filters">
+      <div class="field"><label for="ruleIdFilter">囤单规则ID</label><input id="ruleIdFilter" placeholder="请输入"></div>
+      <div class="field"><label for="ruleNameFilter">囤单规则名称</label><input id="ruleNameFilter" placeholder="请输入"></div>
+      <div class="field"><label for="packageFilter">包ID</label><select id="packageFilter"><option value="">全部</option><option>IN01</option><option>IN02</option><option>US01</option></select></div>
+      <div class="field"><label for="statusFilter">状态</label><select id="statusFilter"><option value="">全部</option><option>已启用</option><option>已停用</option></select></div>
+      <div class="filter-actions"><button class="button primary" type="submit">查询</button><button class="button" id="resetFilter" type="button">重置</button></div>
+    </form>
+  </section>
+
+  <section class="panel list-panel" aria-label="囤单规则列表">
+    <div class="toolbar"><div><span class="toolbar-title">囤单规则列表</span><span class="toolbar-meta" id="resultCount">共 0 条</span></div><button class="button primary" id="createRule" type="button">新增囤单规则</button></div>
+    <div class="table-wrap">
+      <table>
+        <colgroup><col style="width:150px"><col style="width:160px"><col style="width:120px"><col style="width:155px"><col style="width:155px"><col style="width:90px"><col style="width:130px"><col style="width:230px"><col style="width:125px"><col style="width:230px"><col style="width:190px"><col style="width:100px"><col style="width:90px"><col style="width:180px"></colgroup>
+        <thead><tr><th>囤单规则ID</th><th>囤单规则名称</th><th>包ID</th><th>囤单开启时间</th><th>囤单结束时间</th><th>VIP等级</th><th>提现金额【≥】</th><th>提现金额统计天数【近N天】</th><th>提现次数【≥】</th><th>提现次数统计天数【近N天】</th><th>第几次提现进入囤单</th><th>囤单时间</th><th>状态</th><th>操作</th></tr></thead>
+        <tbody id="ruleBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="drawer-mask" id="formDrawer" hidden>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+      <header class="drawer-head"><span id="formTitle">新增囤单规则</span><button class="close" type="button" data-close="formDrawer" aria-label="关闭">×</button></header>
+      <form id="ruleForm" class="drawer-body" novalidate>
+        <section class="section">
+          <div class="section-title">基础信息</div>
+          <div class="section-body">
+            <div class="field full"><label class="required" for="ruleName">囤单规则名称</label><input id="ruleName" maxlength="30" placeholder="请输入"><span class="error">请输入囤单规则名称</span></div>
+            <div class="field full" id="packageField">
+              <span class="field-label required">包ID</span>
+              <div class="multi-select" id="packageSelect">
+                <button class="multi-control" id="packageControl" type="button" aria-haspopup="listbox" aria-expanded="false"><span class="multi-value" id="packageValue"><span class="multi-placeholder">请选择</span></span><span class="multi-arrow">⌄</span></button>
+                <div class="multi-menu" id="packageMenu" hidden>
+                  <input class="multi-search" id="packageSearch" type="search" placeholder="搜索包ID" autocomplete="off">
+                  <div class="multi-options" id="packageOptions" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <span class="error">请至少选择一个包ID</span>
+            </div>
+            <div class="field"><label class="required" for="startTime">囤单开启时间</label><input id="startTime" type="datetime-local"><span class="error">请选择囤单开启时间</span></div>
+            <div class="field"><label class="required" for="endTime">囤单结束时间</label><input id="endTime" type="datetime-local"><span class="error">结束时间必须晚于开启时间</span></div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-title">参与条件</div>
+          <div class="section-body">
+            <div class="field" id="vipField">
+              <span class="field-label required">VIP等级</span>
+              <div class="multi-select" id="vipSelect">
+                <button class="multi-control" id="vipControl" type="button" aria-haspopup="listbox" aria-expanded="false"><span class="multi-value" id="vipValue"><span class="multi-placeholder">请选择</span></span><span class="multi-arrow">⌄</span></button>
+                <div class="multi-menu" id="vipMenu" hidden>
+                  <input class="multi-search" id="vipSearch" type="search" placeholder="搜索VIP等级" autocomplete="off">
+                  <div class="multi-options" id="vipOptions" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <span class="error">请至少选择一个VIP等级</span>
+            </div>
+            <div class="field"><label class="required" for="withdrawAmount">提现金额（及以上）</label><div class="unit-input"><input id="withdrawAmount" type="number" min="0" step="0.01"><span class="unit">金额</span></div><span class="error">请输入不小于0的金额</span></div>
+            <div class="field"><label class="required" for="amountDays">提现金额统计天数</label><div class="unit-input"><input id="amountDays" type="number" min="1" step="1"><span class="unit">近N天</span></div><span class="error">请输入不小于1的整数</span></div>
+            <div class="field"><label class="required" for="withdrawCount">提现次数（及以上）</label><div class="unit-input"><input id="withdrawCount" type="number" min="1" step="1"><span class="unit">次</span></div><span class="error">请输入不小于1的整数</span></div>
+            <div class="field"><label class="required" for="countDays">提现次数统计天数</label><div class="unit-input"><input id="countDays" type="number" min="1" step="1"><span class="unit">近N天</span></div><span class="error">请输入不小于1的整数</span></div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section-title">囤单动作</div>
+          <div class="section-body">
+            <div class="field"><label class="required" for="entrySequence">满足条件后第几次提现进入囤单</label><div class="unit-input"><input id="entrySequence" type="number" min="1" step="1"><span class="unit">次</span></div><span class="error">请输入不小于1的整数</span></div>
+            <div class="field"><label class="required" for="holdMinutes">囤单时间</label><div class="unit-input"><input id="holdMinutes" type="number" min="1" step="1"><span class="unit">分钟</span></div><span class="error">请输入不小于1的整数</span></div>
+          </div>
+        </section>
+      </form>
+      <footer class="drawer-footer"><button class="button" type="button" data-close="formDrawer">取消</button><button class="button primary" id="saveRule" type="button">保存</button></footer>
+    </aside>
+  </div>
+
+  <div class="drawer-mask" id="detailDrawer" hidden>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <header class="drawer-head"><span id="detailTitle">囤单规则详情</span><button class="close" type="button" data-close="detailDrawer" aria-label="关闭">×</button></header>
+      <div class="drawer-body"><div class="detail-grid" id="detailGrid"></div></div>
+      <footer class="drawer-footer"><button class="button" type="button" data-close="detailDrawer">关闭</button></footer>
+    </aside>
+  </div>
+
+  <div class="modal" id="statusModal" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="statusTitle"><header class="dialog-head" id="statusTitle">确认停用规则</header><div class="dialog-body" id="statusMessage"></div><footer class="dialog-footer"><button class="button" type="button" data-close="statusModal">取消</button><button class="button primary" id="confirmStatus" type="button">确认</button></footer></section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const rules=[
+      {id:"HOLD-202607-001",name:"印度高频提现屯单",packages:["IN01","IN02"],start:"2026-07-01T00:00",end:"2026-07-31T23:59",vips:[1,2],amount:500,amountDays:7,count:3,countDays:7,sequence:2,minutes:30,status:"已启用"},
+      {id:"HOLD-202607-002",name:"美国大额提现屯单",packages:["US01"],start:"2026-07-10T00:00",end:"2026-08-09T23:59",vips:[2],amount:1000,amountDays:14,count:2,countDays:7,sequence:1,minutes:45,status:"已停用"},
+      {id:"HOLD-202607-003",name:"印度VIP提现观察",packages:["IN02"],start:"2026-07-20T00:00",end:"2026-08-19T23:59",vips:[3,4,5],amount:2000,amountDays:30,count:5,countDays:30,sequence:3,minutes:60,status:"已启用"}
+    ];
+    const body=document.getElementById("ruleBody"),toast=document.getElementById("toast"),form=document.getElementById("ruleForm");let visibleRules=[...rules],editingId="",pendingStatusId="",toastTimer,selectedPackages=[],selectedVips=[];
+    const packageCatalog=["IN01","IN02","US01"];
+    const vipCatalog=Array.from({length:13},(_,index)=>index);
+    const fieldMap={ruleName:"name",startTime:"start",endTime:"end",withdrawAmount:"amount",amountDays:"amountDays",withdrawCount:"count",countDays:"countDays",entrySequence:"sequence",holdMinutes:"minutes"};
+    function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+    function formatTime(value){return value.replace("T"," ")}
+    function render(rows){visibleRules=rows;document.getElementById("resultCount").textContent=`共 ${rows.length} 条`;body.innerHTML=rows.length?rows.map(rule=>`<tr><td>${rule.id}</td><td title="${rule.name}">${rule.name}</td><td>${rule.packages.join("、")}</td><td>${formatTime(rule.start)}</td><td>${formatTime(rule.end)}</td><td>${rule.vips.map(vip=>`VIP${vip}`).join("、")}</td><td>${rule.amount}</td><td>${rule.amountDays}</td><td>${rule.count}</td><td>${rule.countDays}</td><td>${rule.sequence}</td><td>${rule.minutes} 分钟</td><td><span class="status ${rule.status==="已启用"?"enabled":"disabled"}">${rule.status}</span></td><td><div class="actions"><button class="link" type="button" data-detail="${rule.id}">详情</button><button class="link" type="button" data-edit="${rule.id}">编辑</button><button class="link ${rule.status==="已启用"?"danger":""}" type="button" data-status="${rule.id}">${rule.status==="已启用"?"停用":"启用"}</button></div></td></tr>`).join(""):'<tr class="empty"><td colspan="14">暂无符合条件的囤单规则</td></tr>'}
+    function openLayer(id){document.getElementById(id).hidden=false}function closeLayer(id){document.getElementById(id).hidden=true}
+    function clearErrors(){form.querySelectorAll(".invalid").forEach(item=>item.classList.remove("invalid"))}
+    function generateId(){return`HOLD-202607-${String(Math.max(...rules.map(item=>Number(item.id.split("-").pop())),0)+1).padStart(3,"0")}`}
+    function renderPackageOptions(query=""){
+      const normalized=query.trim().toLowerCase(),matches=packageCatalog.filter(item=>item.toLowerCase().includes(normalized));
+      document.getElementById("packageOptions").innerHTML=matches.length?matches.map(item=>`<label class="multi-option"><input type="checkbox" value="${item}" ${selectedPackages.includes(item)?"checked":""}>${item}</label>`).join(""):'<div class="multi-empty">无匹配包ID</div>';
+      document.getElementById("packageValue").innerHTML=selectedPackages.length?selectedPackages.map(item=>`<span class="tag">${item}</span>`).join(""):'<span class="multi-placeholder">请选择</span>';
+    }
+    function setPackageMenu(open){document.getElementById("packageMenu").hidden=!open;document.getElementById("packageControl").setAttribute("aria-expanded",String(open));if(open){document.getElementById("packageSearch").value="";renderPackageOptions();document.getElementById("packageSearch").focus()}}
+    function renderVipOptions(query=""){
+      const normalized=query.trim().toLowerCase(),matches=vipCatalog.filter(item=>`vip${item}`.includes(normalized));
+      document.getElementById("vipOptions").innerHTML=matches.length?matches.map(item=>`<label class="multi-option"><input type="checkbox" value="${item}" ${selectedVips.includes(item)?"checked":""}>VIP${item}</label>`).join(""):'<div class="multi-empty">无匹配VIP等级</div>';
+      document.getElementById("vipValue").innerHTML=selectedVips.length?selectedVips.map(item=>`<span class="tag">VIP${item}</span>`).join(""):'<span class="multi-placeholder">请选择</span>';
+    }
+    function setVipMenu(open){document.getElementById("vipMenu").hidden=!open;document.getElementById("vipControl").setAttribute("aria-expanded",String(open));if(open){document.getElementById("vipSearch").value="";renderVipOptions();document.getElementById("vipSearch").focus()}}
+    function openForm(rule=null){
+      clearErrors();form.reset();editingId=rule?.id||"";document.getElementById("formTitle").textContent=rule?"编辑囤单规则":"新增囤单规则";
+      const data=rule||{id:generateId(),name:"",packages:["IN01"],start:"2026-07-30T00:00",end:"2026-08-29T23:59",vips:[0],amount:0,amountDays:7,count:1,countDays:7,sequence:1,minutes:30};
+      Object.entries(fieldMap).forEach(([input,key])=>document.getElementById(input).value=data[key]);selectedPackages=[...data.packages];selectedVips=[...data.vips];renderPackageOptions();renderVipOptions();setPackageMenu(false);setVipMenu(false);openLayer("formDrawer");
+    }
+    function validate(){
+      clearErrors();let valid=true;const requiredText=["ruleName","startTime","endTime"];requiredText.forEach(id=>{const input=document.getElementById(id);if(!input.value.trim()){input.closest(".field").classList.add("invalid");valid=false}});
+      if(!selectedPackages.length){document.getElementById("packageField").classList.add("invalid");valid=false}
+      if(!selectedVips.length){document.getElementById("vipField").classList.add("invalid");valid=false}
+      [["withdrawAmount",0,true],["amountDays",1,false],["withdrawCount",1,false],["countDays",1,false],["entrySequence",1,false],["holdMinutes",1,false]].forEach(([id,min,decimal])=>{const input=document.getElementById(id),value=Number(input.value);if(input.value===""||!Number.isFinite(value)||value<min||(!decimal&&!Number.isInteger(value))){input.closest(".field").classList.add("invalid");valid=false}});
+      const start=document.getElementById("startTime"),end=document.getElementById("endTime");if(start.value&&end.value&&end.value<=start.value){end.closest(".field").classList.add("invalid");valid=false}return valid;
+    }
+    function collect(){
+      const data={id:editingId||generateId()};Object.entries(fieldMap).forEach(([input,key])=>data[key]=document.getElementById(input).value);["amount","amountDays","count","countDays","sequence","minutes"].forEach(key=>data[key]=Number(data[key]));data.packages=[...selectedPackages];data.vips=[...selectedVips];return data;
+    }
+    function showDetail(rule){
+      const fields=[["囤单规则ID",rule.id],["囤单规则名称",rule.name],["包ID",rule.packages.join("、")],["状态",rule.status],["囤单开启时间",formatTime(rule.start)],["囤单结束时间",formatTime(rule.end)],["VIP等级",rule.vips.map(vip=>`VIP${vip}`).join("、")],["提现金额",`${rule.amount} 及以上`],["提现金额统计天数",`近 ${rule.amountDays} 天`],["提现次数",`${rule.count} 次及以上`],["提现次数统计天数",`近 ${rule.countDays} 天`],["进入囤单次序",`满足条件后第 ${rule.sequence} 次提现`],["囤单时间",`${rule.minutes} 分钟`]];
+      document.getElementById("detailGrid").innerHTML=fields.map(([label,value],index)=>`<div class="detail-item ${index===fields.length-1?"full":""}"><span>${label}</span><strong>${value}</strong></div>`).join("");openLayer("detailDrawer");
+    }
+    document.getElementById("filters").addEventListener("submit",event=>{event.preventDefault();const id=document.getElementById("ruleIdFilter").value.trim().toLowerCase(),name=document.getElementById("ruleNameFilter").value.trim().toLowerCase(),pkg=document.getElementById("packageFilter").value,status=document.getElementById("statusFilter").value;const rows=rules.filter(rule=>(!id||rule.id.toLowerCase().includes(id))&&(!name||rule.name.toLowerCase().includes(name))&&(!pkg||rule.packages.includes(pkg))&&(!status||rule.status===status));render(rows);showToast(`查询完成，共 ${rows.length} 条`)});
+    document.getElementById("resetFilter").addEventListener("click",()=>{document.getElementById("filters").reset();render(rules);showToast("筛选条件已重置")});
+    document.getElementById("createRule").addEventListener("click",()=>openForm());
+    document.getElementById("packageControl").addEventListener("click",()=>setPackageMenu(document.getElementById("packageMenu").hidden));
+    document.getElementById("packageSearch").addEventListener("input",event=>renderPackageOptions(event.target.value));
+    document.getElementById("packageOptions").addEventListener("change",event=>{const checkbox=event.target.closest('input[type="checkbox"]');if(!checkbox)return;selectedPackages=checkbox.checked?[...new Set([...selectedPackages,checkbox.value])]:selectedPackages.filter(item=>item!==checkbox.value);renderPackageOptions(document.getElementById("packageSearch").value)});
+    document.getElementById("vipControl").addEventListener("click",()=>setVipMenu(document.getElementById("vipMenu").hidden));
+    document.getElementById("vipSearch").addEventListener("input",event=>renderVipOptions(event.target.value));
+    document.getElementById("vipOptions").addEventListener("change",event=>{const checkbox=event.target.closest('input[type="checkbox"]');if(!checkbox)return;const value=Number(checkbox.value);selectedVips=checkbox.checked?[...new Set([...selectedVips,value])].sort((a,b)=>a-b):selectedVips.filter(item=>item!==value);renderVipOptions(document.getElementById("vipSearch").value)});
+    document.addEventListener("click",event=>{if(!event.target.closest("#packageSelect"))setPackageMenu(false);if(!event.target.closest("#vipSelect"))setVipMenu(false)});
+    document.getElementById("saveRule").addEventListener("click",()=>{if(!validate())return showToast("请完善必填配置");const data=collect();if(editingId){const index=rules.findIndex(rule=>rule.id===editingId);data.status=rules[index].status;rules[index]=data}else{data.status="已停用";rules.unshift(data)}closeLayer("formDrawer");render(rules);showToast(editingId?"囤单规则已更新":"囤单规则已新增，默认停用")});
+    body.addEventListener("click",event=>{const detail=event.target.closest("[data-detail]"),edit=event.target.closest("[data-edit]"),status=event.target.closest("[data-status]");if(detail)return showDetail(rules.find(rule=>rule.id===detail.dataset.detail));if(edit)return openForm(rules.find(rule=>rule.id===edit.dataset.edit));if(status){pendingStatusId=status.dataset.status;const rule=rules.find(item=>item.id===pendingStatusId),action=rule.status==="已启用"?"停用":"启用";document.getElementById("statusTitle").textContent=`确认${action}规则`;document.getElementById("statusMessage").textContent=`确定${action}“${rule.name}”吗？${action==="停用"?"停用后新提交的提现订单不再命中该规则。":"启用后将在配置时间及条件范围内生效。"}`;document.getElementById("confirmStatus").textContent=`确认${action}`;openLayer("statusModal")}});
+    document.getElementById("confirmStatus").addEventListener("click",()=>{const rule=rules.find(item=>item.id===pendingStatusId);if(!rule)return;rule.status=rule.status==="已启用"?"已停用":"已启用";closeLayer("statusModal");render(rules);showToast(`规则已${rule.status==="已启用"?"启用":"停用"}`);pendingStatusId=""});
+    document.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>closeLayer(button.dataset.close)));document.querySelectorAll(".drawer-mask,.modal").forEach(layer=>layer.addEventListener("click",event=>{if(event.target===layer)closeLayer(layer.id)}));render(rules);
+  </script>
+</body>
+</html>
