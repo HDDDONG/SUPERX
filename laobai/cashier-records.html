@@ -8,7 +8,7 @@
     :root{--blue:#3478f6;--ink:#273142;--muted:#778196;--line:#e0e6ef;--paper:#f5f7fa;--white:#fff;--success:#1c9b64;--warning:#c98219;--danger:#cc4d5c}
     *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;padding:14px;color:var(--ink);background:var(--paper);font:13px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
     button,input,select{font:inherit}button{cursor:pointer}.panel{overflow:visible;border:1px solid var(--line);border-radius:8px;background:var(--white)}
-    .filters{display:grid;grid-template-columns:repeat(5,minmax(180px,1fr));gap:14px 18px;padding:16px}.field{min-width:0}.field.date-field{grid-column:span 2}.field label{display:block;margin-bottom:7px;color:#596376;font-size:12px;font-weight:650}
+    .filters{display:grid;grid-template-columns:repeat(auto-fill,256px);gap:14px 16px;padding:16px}.field{width:256px;min-width:0}.field.date-field{grid-column:span 2;width:528px}.field label{display:block;margin-bottom:7px;color:#596376;font-size:12px;font-weight:650}
     input,select{width:100%;height:36px;min-width:0;padding:0 11px;border:1px solid #d7dee8;border-radius:6px;outline:0;color:var(--ink);background:#fff}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(52,120,246,.1)}input::placeholder{color:#a3aaba}
     .date-range{display:grid;grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr);align-items:center;gap:4px}.date-range span{color:var(--muted);text-align:center}.filter-actions{grid-column:1/-1;display:flex;align-items:center;gap:10px;min-height:36px}
     .button{height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0 18px;border:1px solid #d6dde7;border-radius:6px;color:#4f596b;background:#fff;font-weight:700}.button.primary,.button.toolbar{color:#fff;border-color:var(--blue);background:var(--blue)}.button:disabled{cursor:not-allowed;opacity:.55}
@@ -17,11 +17,11 @@
     th,td{height:42px;padding:0 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;color:#4f596b;text-align:left;text-overflow:ellipsis;white-space:nowrap}th{height:38px;color:#667085;background:#f8f9fb;font-size:12px;font-weight:700}th.is-new-field{color:#075f35;background:#a9e8c2;box-shadow:inset 0 0 0 1px #45b875}th:last-child,td:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#fafcff}
     .status{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border-radius:999px;color:#667085;background:#eef1f5;font-size:11px;font-weight:700}.status.success{color:var(--success);background:#eaf8f1}.status.pending{color:var(--warning);background:#fff5df}.status.failed{color:var(--danger);background:#fff0f2}.status.hold{color:#315da8;background:#eaf1ff}
     .link-button{padding:0;border:0;color:var(--blue);background:transparent;font-size:12px}.link-button.danger{color:var(--danger)}.empty td{height:220px;color:#9aa3b2;text-align:center}
+    .requirements{margin-top:12px;padding:16px}.requirements-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}.requirements-head h2{margin:0 0 4px;font-size:15px}.requirements-head p{margin:0;color:var(--muted);font-size:12px}.requirements-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}.requirement-card{min-width:0;padding:13px;border:1px solid var(--line);border-radius:7px;background:#fafbfd}.requirement-card h3{margin:0 0 8px;font-size:13px}.requirement-card ul{margin:0;padding-left:18px;color:#5e687a;line-height:1.65}.requirement-card strong{color:var(--ink)}.requirement-no{display:inline-grid;width:22px;height:22px;margin-right:7px;place-items:center;border-radius:50%;color:#fff;background:#7a8799;font-size:11px}
     .modal[hidden]{display:none}.modal{position:fixed;z-index:40;inset:0;display:grid;place-items:center;padding:20px;background:rgba(26,34,47,.45)}.dialog{width:min(440px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:10px;background:#fff;box-shadow:0 20px 60px rgba(26,34,47,.2)}.dialog-header{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid var(--line);font-size:16px;font-weight:750}.icon-button{width:30px;height:30px;border:0;border-radius:6px;color:#7b8494;background:transparent;font-size:20px}.dialog-body{padding:20px}.confirm-copy{margin:0;color:#505b6d;line-height:1.7}.confirm-order{display:block;margin-bottom:8px;color:var(--ink);font-weight:750}.dialog-footer{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid var(--line)}
     .toast{position:fixed;z-index:50;left:50%;bottom:24px;max-width:calc(100vw - 32px);padding:10px 16px;border-radius:8px;color:#fff;background:rgba(35,43,56,.94);opacity:0;pointer-events:none;transform:translate(-50%,12px);transition:.18s ease}.toast.is-visible{opacity:1;transform:translate(-50%,0)}
-    @media(min-width:1650px){.filters{grid-template-columns:repeat(6,minmax(145px,1fr)) minmax(280px,1.6fr) minmax(280px,1.6fr)}.field.date-field{grid-column:auto}}
-    @media(max-width:1080px){.filters{grid-template-columns:repeat(3,minmax(180px,1fr))}}
-    @media(max-width:700px){body{padding:10px}.filters{grid-template-columns:1fr}.field.date-field{grid-column:auto}.filter-actions{flex-wrap:wrap}.toolbar{align-items:flex-start;flex-direction:column}}
+    @media(max-width:1080px){.requirements-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:700px){body{padding:10px}.filters{grid-template-columns:minmax(0,1fr)}.field,.field.date-field{grid-column:auto;width:100%}.filter-actions{flex-wrap:wrap}.toolbar{align-items:flex-start;flex-direction:column}.requirements-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -34,8 +34,9 @@
       <div class="field"><label for="sourceFilter">注册渠道</label><select id="sourceFilter"><option value="">请选择</option><option>Ads</option><option>Invite</option><option>H5</option></select></div>
       <div class="field date-field"><label>创建时间</label><div class="date-range"><input id="createdStart" type="date" value="2026-07-30"><span>至</span><input id="createdEnd" type="date" value="2026-07-30"></div></div>
       <div class="field date-field"><label>完成时间</label><div class="date-range"><input id="completedStart" type="date"><span>至</span><input id="completedEnd" type="date"></div></div>
-      <div class="field"><label for="statusFilter">处理状态</label><select id="statusFilter"><option value="">全部</option><option>屯单中</option><option>待审核</option><option>处理中</option><option>已完成</option><option>审核未通过</option><option>失败</option></select></div>
-      <div class="field"><label for="holdFilter">是否屯单</label><select id="holdFilter"><option value="">全部</option><option>是</option><option>否</option></select></div>
+      <div class="field"><label for="statusFilter">处理状态</label><select id="statusFilter"><option value="">全部</option><option>待审核</option><option>待人审</option><option>待机审</option><option>人审通过</option><option>机审通过</option><option>处理中</option><option>已退回</option><option>成功</option><option>失败</option><option>请求超时</option><option>用户取消</option></select></div>
+      <div class="field"><label for="holdFilter">是否囤单</label><select id="holdFilter"><option value="">全部</option><option>是</option><option>否</option></select></div>
+      <div class="field"><label for="holdStatusFilter">囤单状态</label><select id="holdStatusFilter"><option value="">全部</option><option>未囤单</option><option>囤单中</option><option>已结束</option><option>已终止</option></select></div>
       <div class="filter-actions"><button class="button primary" type="submit">查询</button><button class="button" id="resetButton" type="button">重置</button><button class="button" id="exportButton" type="button">导出</button></div>
     </form>
   </section>
@@ -45,18 +46,42 @@
     <div class="table-wrap">
       <table>
         <colgroup>
-          <col style="width:58px"><col style="width:96px"><col style="width:145px"><col style="width:118px"><col style="width:120px"><col style="width:105px"><col style="width:115px"><col style="width:110px"><col style="width:105px"><col style="width:112px"><col style="width:105px"><col style="width:135px"><col style="width:150px"><col style="width:150px"><col style="width:92px"><col style="width:105px"><col style="width:145px">
+          <col style="width:58px"><col style="width:96px"><col style="width:145px"><col style="width:118px"><col style="width:120px"><col style="width:105px"><col style="width:115px"><col style="width:110px"><col style="width:105px"><col style="width:112px"><col style="width:105px"><col style="width:135px"><col style="width:150px"><col style="width:150px"><col style="width:92px"><col style="width:105px"><col style="width:105px"><col style="width:145px">
         </colgroup>
-        <thead><tr><th>序号</th><th>单据类型</th><th>订单号</th><th>会员ID</th><th>会员名称</th><th>渠道类型</th><th>渠道ID</th><th>充提方式</th><th>活动ID</th><th>交易金额</th><th>交易手续费</th><th>退回原因</th><th>创建时间</th><th>完成时间</th><th class="is-new-field">是否屯单</th><th>处理状态</th><th>操作</th></tr></thead>
+        <thead><tr><th>序号</th><th>单据类型</th><th>订单号</th><th>会员ID</th><th>会员名称</th><th>渠道类型</th><th>渠道ID</th><th>充提方式</th><th>活动ID</th><th>交易金额</th><th>交易手续费</th><th>退回原因</th><th>创建时间</th><th>完成时间</th><th class="is-new-field">是否囤单</th><th class="is-new-field">囤单状态</th><th>处理状态</th><th>操作</th></tr></thead>
         <tbody id="recordBody"></tbody>
       </table>
     </div>
   </section>
 
+  <section class="panel requirements" aria-labelledby="requirementsTitle">
+    <header class="requirements-head">
+      <div><h2 id="requirementsTitle">提现订单囤单状态需求说明</h2><p>处理状态与囤单状态并行记录，避免把审核、支付结果和囤单进度混为同一状态。</p></div>
+    </header>
+    <div class="requirements-grid">
+      <article class="requirement-card">
+        <h3><span class="requirement-no">01</span>字段位置</h3>
+        <ul><li>表格在<strong>是否囤单</strong>后展示<strong>囤单状态</strong>。</li><li>筛选区提供相同枚举，查询和重置同步生效。</li></ul>
+      </article>
+      <article class="requirement-card">
+        <h3><span class="requirement-no">02</span>状态边界</h3>
+        <ul><li>处理状态：待审核、待人审、待机审、人审通过、机审通过、处理中、已退回、成功、失败、请求超时、用户取消。</li><li>囤单状态：未囤单、囤单中、已结束、已终止。</li></ul>
+      </article>
+      <article class="requirement-card">
+        <h3><span class="requirement-no">03</span>状态变化</h3>
+        <ul><li>提现订单提交后默认为<strong>待审核</strong>；分发后进入<strong>待人审</strong>或<strong>待机审</strong>。</li><li>机器审核拒绝转入<strong>待人审</strong>复核；仅人工审核拒绝进入<strong>已退回</strong>。</li><li>请求超时后由后台先尝试查单和处理；仍未成功时，后台人员手动将状态改为<strong>失败</strong>。</li></ul>
+      </article>
+      <article class="requirement-card">
+        <h3><span class="requirement-no">04</span>操作与时间</h3>
+        <ul><li>仅<strong>囤单中</strong>的提现订单显示“结束囤单”。</li><li>囤单计时到期由系统自动进入<strong>已结束</strong>；后台人工结束统一进入<strong>已终止</strong>。</li></ul>
+      </article>
+    </div>
+  </section>
+
   <div class="modal" id="confirmModal" hidden>
     <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-      <header class="dialog-header"><span id="confirmTitle">确认结束屯单</span><button class="icon-button" type="button" data-close-modal="confirmModal" aria-label="关闭">×</button></header>
-      <div class="dialog-body"><p class="confirm-copy"><span class="confirm-order" id="confirmOrder"></span>结束后订单将立即进入待审核，当前屯单计时不可恢复。</p></div>
+      <header class="dialog-header"><span id="confirmTitle">确认结束囤单</span><button class="icon-button" type="button" data-close-modal="confirmModal" aria-label="关闭">×</button></header>
+      <div class="dialog-body"><p class="confirm-copy"><span class="confirm-order" id="confirmOrder"></span>人工结束后囤单状态将变为“已终止”，订单继续按当前处理状态流转，囤单计时不可恢复。</p></div>
       <footer class="dialog-footer"><button class="button" type="button" data-close-modal="confirmModal">取消</button><button class="button primary" id="confirmEndHold" type="button">确认结束</button></footer>
     </section>
   </div>
@@ -64,29 +89,36 @@
 
   <script>
     const records=[
-      {site:"MegaWin",type:"充值",order:"DP202607300001",memberId:"8xgaekg",memberName:"guest8xgaekg",source:"Invite",channelId:"INV-001",method:"UPI",activityId:"ACT-1001",amount:"1,000.00",fee:"0.00",reason:"-",created:"2026-07-30 09:18:32",completed:"2026-07-30 09:19:06",held:false,status:"已完成"},
-      {site:"MegaWin",type:"提现",order:"WD202607300018",memberId:"7gk4mhh",memberName:"guest7gk4mhh",source:"H5",channelId:"H5-IND",method:"UPI",activityId:"-",amount:"500.00",fee:"5.00",reason:"-",created:"2026-07-30 10:03:15",completed:"-",held:true,status:"屯单中",holdRule:"提现屯单规则 / IN01",holdStart:"2026-07-30 10:03:15",holdPlanEnd:"2026-07-30 10:33:15",holdActualEnd:"-",holdOperator:"-"},
-      {site:"MegaWin",type:"上分",order:"AD202607300006",memberId:"62nwtfj",memberName:"guest62nwtfj",source:"Ads",channelId:"ADS-017",method:"人工调整",activityId:"-",amount:"200.00",fee:"0.00",reason:"-",created:"2026-07-30 10:26:08",completed:"2026-07-30 10:26:32",held:false,status:"已完成"},
-      {site:"MegaWin",type:"提现",order:"WD202607300021",memberId:"4krqzdk",memberName:"guest4krqzdk",source:"Invite",channelId:"INV-008",method:"PayPal",activityId:"-",amount:"350.00",fee:"3.50",reason:"收款账户校验失败",created:"2026-07-30 11:02:44",completed:"2026-07-30 11:05:17",held:true,status:"审核未通过",holdRule:"提现屯单规则 / IN02",holdStart:"2026-07-30 11:02:44",holdPlanEnd:"2026-07-30 11:32:44",holdActualEnd:"2026-07-30 11:05:01",holdOperator:"risk-admin"},
-      {site:"SUPERX US",type:"下分",order:"DE202607300009",memberId:"da7uuy9",memberName:"guestda7uuy9",source:"H5",channelId:"H5-US",method:"人工调整",activityId:"-",amount:"80.00",fee:"0.00",reason:"-",created:"2026-07-30 11:28:09",completed:"2026-07-30 11:28:21",held:false,status:"已完成"}
+      {site:"MegaWin",type:"提现",order:"WD202607300017",memberId:"8xgaekg",memberName:"guest8xgaekg",source:"Invite",channelId:"INV-001",method:"UPI",activityId:"-",amount:"300.00",fee:"3.00",reason:"-",created:"2026-07-30 09:18:32",completed:"-",held:false,holdStatus:"未囤单",status:"待审核"},
+      {site:"MegaWin",type:"提现",order:"WD202607300018",memberId:"7gk4mhh",memberName:"guest7gk4mhh",source:"H5",channelId:"H5-IND",method:"UPI",activityId:"-",amount:"500.00",fee:"5.00",reason:"-",created:"2026-07-30 09:26:15",completed:"-",held:true,holdStatus:"囤单中",status:"待人审",holdRule:"提现囤单规则 / IN01",holdStart:"2026-07-30 09:26:15",holdPlanEnd:"2026-07-30 09:56:15",holdActualEnd:"-",holdOperator:"-"},
+      {site:"MegaWin",type:"提现",order:"WD202607300019",memberId:"6n2wtfj",memberName:"guest6n2wtfj",source:"Ads",channelId:"ADS-006",method:"PhonePe",activityId:"-",amount:"450.00",fee:"4.50",reason:"-",created:"2026-07-30 09:34:48",completed:"-",held:false,holdStatus:"未囤单",status:"待机审"},
+      {site:"MegaWin",type:"提现",order:"WD202607300020",memberId:"4krqzgf",memberName:"guest4krqzgf",source:"Invite",channelId:"INV-004",method:"PayPal",activityId:"-",amount:"680.00",fee:"6.80",reason:"-",created:"2026-07-30 09:42:11",completed:"-",held:true,holdStatus:"囤单中",status:"人审通过",holdRule:"提现囤单规则 / ALL",holdStart:"2026-07-30 09:42:11",holdPlanEnd:"2026-07-30 10:12:11",holdActualEnd:"-",holdOperator:"-"},
+      {site:"MegaWin",type:"提现",order:"WD202607300022",memberId:"da7uuy5",memberName:"guestda7uuy5",source:"H5",channelId:"H5-IND",method:"UPI",activityId:"-",amount:"760.00",fee:"7.60",reason:"-",created:"2026-07-30 09:51:27",completed:"-",held:false,holdStatus:"未囤单",status:"机审通过"},
+      {site:"MegaWin",type:"提现",order:"WD202607300023",memberId:"buap2w6",memberName:"guestbuap2w6",source:"Invite",channelId:"INV-010",method:"UPI",activityId:"-",amount:"500.00",fee:"5.00",reason:"-",created:"2026-07-30 10:03:15",completed:"-",held:true,holdStatus:"囤单中",status:"处理中",holdRule:"提现囤单规则 / IN01",holdStart:"2026-07-30 10:03:15",holdPlanEnd:"2026-07-30 10:33:15",holdActualEnd:"-",holdOperator:"-"},
+      {site:"MegaWin",type:"提现",order:"WD202607300021",memberId:"4krqzdk",memberName:"guest4krqzdk",source:"Invite",channelId:"INV-008",method:"PayPal",activityId:"-",amount:"350.00",fee:"3.50",reason:"收款账户校验失败",created:"2026-07-30 11:02:44",completed:"2026-07-30 11:05:17",held:true,holdStatus:"已终止",status:"已退回",holdRule:"提现囤单规则 / IN02",holdStart:"2026-07-30 11:02:44",holdPlanEnd:"2026-07-30 11:32:44",holdActualEnd:"2026-07-30 11:05:01",holdOperator:"risk-admin"},
+      {site:"MegaWin",type:"提现",order:"WD202607300024",memberId:"62nwtfj",memberName:"guest62nwtfj",source:"Ads",channelId:"ADS-017",method:"UPI",activityId:"-",amount:"800.00",fee:"8.00",reason:"-",created:"2026-07-30 11:26:08",completed:"2026-07-30 11:58:32",held:true,holdStatus:"已结束",status:"成功",holdRule:"提现囤单规则 / ALL",holdStart:"2026-07-30 11:26:08",holdPlanEnd:"2026-07-30 11:56:08",holdActualEnd:"2026-07-30 11:56:08",holdOperator:"system"},
+      {site:"MegaWin",type:"提现",order:"WD202607300027",memberId:"da7uuy9",memberName:"guestda7uuy9",source:"H5",channelId:"H5-IND",method:"PhonePe",activityId:"-",amount:"420.00",fee:"4.20",reason:"支付通道返回失败",created:"2026-07-30 12:28:09",completed:"2026-07-30 12:31:45",held:false,holdStatus:"未囤单",status:"失败"},
+      {site:"MegaWin",type:"提现",order:"WD202607300031",memberId:"buap2ta",memberName:"guestbuap2ta",source:"Invite",channelId:"INV-012",method:"UPI",activityId:"-",amount:"1,200.00",fee:"12.00",reason:"支付请求超时",created:"2026-07-30 13:15:20",completed:"2026-07-30 13:46:12",held:true,holdStatus:"已结束",status:"请求超时",holdRule:"提现囤单规则 / IN01",holdStart:"2026-07-30 13:15:20",holdPlanEnd:"2026-07-30 13:45:20",holdActualEnd:"2026-07-30 13:45:20",holdOperator:"system"},
+      {site:"MegaWin",type:"提现",order:"WD202607300036",memberId:"addg8rb",memberName:"guestaddg8rb",source:"Ads",channelId:"ADS-023",method:"PayPal",activityId:"-",amount:"260.00",fee:"2.60",reason:"用户主动取消提现",created:"2026-07-30 14:09:36",completed:"2026-07-30 14:12:03",held:true,holdStatus:"已终止",status:"用户取消",holdRule:"提现囤单规则 / ALL",holdStart:"2026-07-30 14:09:36",holdPlanEnd:"2026-07-30 14:39:36",holdActualEnd:"2026-07-30 14:12:03",holdOperator:"user"}
     ];
     const filterForm=document.getElementById("recordFilters"),body=document.getElementById("recordBody"),resultCount=document.getElementById("resultCount"),toast=document.getElementById("toast");
     let visibleRecords=[...records],toastTimer,pendingEndOrder="";
     function showToast(message){toast.textContent=message;toast.classList.add("is-visible");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("is-visible"),1800)}
-    function statusClass(status){if(status==="已完成")return"success";if(status==="屯单中")return"hold";if(status==="处理中"||status==="待审核")return"pending";if(status==="失败"||status==="审核未通过")return"failed";return""}
+    function statusClass(status){if(status==="成功")return"success";if(["待审核","待人审","待机审","人审通过","机审通过","处理中"].includes(status))return"pending";if(status==="失败"||status==="已退回"||status==="请求超时"||status==="用户取消")return"failed";return""}
+    function holdStatusClass(status){if(status==="囤单中")return"hold";if(status==="已结束")return"success";if(status==="已终止")return"failed";return""}
     function holdText(record){return record.held?"是":"否"}
     function render(rows){
       visibleRecords=rows;resultCount.textContent=`共 ${rows.length} 条记录`;
       body.innerHTML=rows.length?rows.map((record,index)=>`<tr>
-        <td>${index+1}</td><td>${record.type}</td><td title="${record.order}">${record.order}</td><td>${record.memberId}</td><td title="${record.memberName}">${record.memberName}</td><td>${record.source}</td><td>${record.channelId}</td><td>${record.method}</td><td>${record.activityId}</td><td>${record.amount}</td><td>${record.fee}</td><td title="${record.reason}">${record.reason}</td><td>${record.created}</td><td>${record.completed}</td><td>${holdText(record)}</td><td><span class="status ${statusClass(record.status)}">${record.status}</span></td>
-        <td><div class="action-group"><button class="link-button" type="button">详情</button>${record.type==="提现"&&record.held&&record.status==="屯单中"?`<button class="link-button danger" type="button" data-end-hold="${record.order}">结束屯单</button>`:""}</div></td>
-      </tr>`).join(""):'<tr class="empty"><td colspan="17">暂无符合条件的充提记录</td></tr>';
+        <td>${index+1}</td><td>${record.type}</td><td title="${record.order}">${record.order}</td><td>${record.memberId}</td><td title="${record.memberName}">${record.memberName}</td><td>${record.source}</td><td>${record.channelId}</td><td>${record.method}</td><td>${record.activityId}</td><td>${record.amount}</td><td>${record.fee}</td><td title="${record.reason}">${record.reason}</td><td>${record.created}</td><td>${record.completed}</td><td>${holdText(record)}</td><td><span class="status ${holdStatusClass(record.holdStatus)}">${record.holdStatus}</span></td><td><span class="status ${statusClass(record.status)}">${record.status}</span></td>
+        <td><div class="action-group"><button class="link-button" type="button">详情</button>${record.type==="提现"&&record.holdStatus==="囤单中"?`<button class="link-button danger" type="button" data-end-hold="${record.order}">结束囤单</button>`:""}</div></td>
+      </tr>`).join(""):'<tr class="empty"><td colspan="18">暂无符合条件的充提记录</td></tr>';
     }
     function applyFilters(showFeedback=true){
-      const order=document.getElementById("orderFilter").value.trim().toLowerCase(),member=document.getElementById("memberFilter").value.trim().toLowerCase(),type=document.getElementById("documentTypeFilter").value,source=document.getElementById("sourceFilter").value,status=document.getElementById("statusFilter").value,hold=document.getElementById("holdFilter").value,site=document.getElementById("siteFilter").value,createdStart=document.getElementById("createdStart").value,createdEnd=document.getElementById("createdEnd").value,completedStart=document.getElementById("completedStart").value,completedEnd=document.getElementById("completedEnd").value;
+      const order=document.getElementById("orderFilter").value.trim().toLowerCase(),member=document.getElementById("memberFilter").value.trim().toLowerCase(),type=document.getElementById("documentTypeFilter").value,source=document.getElementById("sourceFilter").value,status=document.getElementById("statusFilter").value,hold=document.getElementById("holdFilter").value,holdStatus=document.getElementById("holdStatusFilter").value,site=document.getElementById("siteFilter").value,createdStart=document.getElementById("createdStart").value,createdEnd=document.getElementById("createdEnd").value,completedStart=document.getElementById("completedStart").value,completedEnd=document.getElementById("completedEnd").value;
       if(createdStart&&createdEnd&&createdStart>createdEnd)return showToast("创建时间开始日期不能晚于结束日期");
       if(completedStart&&completedEnd&&completedStart>completedEnd)return showToast("完成时间开始日期不能晚于结束日期");
-      const rows=records.filter(record=>{const completedDate=record.completed==="-"?"":record.completed.slice(0,10);return(!site||record.site===site)&&(!type||record.type===type)&&(!order||record.order.toLowerCase().includes(order))&&(!member||record.memberId.toLowerCase().includes(member))&&(!source||record.source===source)&&(!status||record.status===status)&&(!hold||holdText(record)===hold)&&(!createdStart||record.created.slice(0,10)>=createdStart)&&(!createdEnd||record.created.slice(0,10)<=createdEnd)&&(!completedStart||(completedDate&&completedDate>=completedStart))&&(!completedEnd||(completedDate&&completedDate<=completedEnd))});
+      const rows=records.filter(record=>{const completedDate=record.completed==="-"?"":record.completed.slice(0,10);return(!site||record.site===site)&&(!type||record.type===type)&&(!order||record.order.toLowerCase().includes(order))&&(!member||record.memberId.toLowerCase().includes(member))&&(!source||record.source===source)&&(!status||record.status===status)&&(!hold||holdText(record)===hold)&&(!holdStatus||record.holdStatus===holdStatus)&&(!createdStart||record.created.slice(0,10)>=createdStart)&&(!createdEnd||record.created.slice(0,10)<=createdEnd)&&(!completedStart||(completedDate&&completedDate>=completedStart))&&(!completedEnd||(completedDate&&completedDate<=completedEnd))});
       render(rows);if(showFeedback)showToast(`查询完成，共 ${rows.length} 条记录`);
     }
     function openModal(id){document.getElementById(id).hidden=false}
@@ -94,8 +126,8 @@
     filterForm.addEventListener("submit",event=>{event.preventDefault();applyFilters()});
     document.getElementById("resetButton").addEventListener("click",()=>{filterForm.reset();document.getElementById("siteFilter").value="MegaWin";document.getElementById("createdStart").value="2026-07-30";document.getElementById("createdEnd").value="2026-07-30";render(records.filter(record=>record.site==="MegaWin"));showToast("筛选条件已重置")});
     document.getElementById("exportButton").addEventListener("click",()=>{
-      const headers=["序号","单据类型","订单号","会员ID","会员名称","渠道类型","渠道ID","充提方式","活动ID","交易金额","交易手续费","退回原因","创建时间","完成时间","是否屯单","处理状态"];
-      const csv=[headers,...visibleRecords.map((record,index)=>[index+1,record.type,record.order,record.memberId,record.memberName,record.source,record.channelId,record.method,record.activityId,record.amount,record.fee,record.reason,record.created,record.completed,holdText(record),record.status])].map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(",")).join("\n");
+      const headers=["序号","单据类型","订单号","会员ID","会员名称","渠道类型","渠道ID","充提方式","活动ID","交易金额","交易手续费","退回原因","创建时间","完成时间","是否囤单","囤单状态","处理状态"];
+      const csv=[headers,...visibleRecords.map((record,index)=>[index+1,record.type,record.order,record.memberId,record.memberName,record.source,record.channelId,record.method,record.activityId,record.amount,record.fee,record.reason,record.created,record.completed,holdText(record),record.holdStatus,record.status])].map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(",")).join("\n");
       const url=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"})),link=document.createElement("a");link.href=url;link.download="充提记录.csv";link.click();URL.revokeObjectURL(url);showToast(`已导出当前筛选结果 ${visibleRecords.length} 条`);
     });
     document.querySelectorAll("[data-ledger-action]").forEach(button=>button.addEventListener("click",()=>showToast(`已进入${button.dataset.ledgerAction}操作`)));
@@ -105,9 +137,9 @@
     document.querySelectorAll("[data-close-modal]").forEach(button=>button.addEventListener("click",()=>closeModal(button.dataset.closeModal)));
     document.querySelectorAll(".modal").forEach(modal=>modal.addEventListener("click",event=>{if(event.target===modal)closeModal(modal.id)}));
     document.getElementById("confirmEndHold").addEventListener("click",event=>{
-      const record=records.find(item=>item.order===pendingEndOrder);if(!record||record.status!=="屯单中")return showToast("该订单已不在屯单中");
-      const confirmButton=event.currentTarget;confirmButton.disabled=true;record.status="待审核";record.holdActualEnd="2026-07-30 11:35:00";record.holdOperator="superx-saas-admin";
-      setTimeout(()=>{confirmButton.disabled=false;closeModal("confirmModal");applyFilters(false);showToast(`订单 ${record.order} 已结束屯单并进入待审核`);pendingEndOrder=""},350);
+      const record=records.find(item=>item.order===pendingEndOrder);if(!record||record.holdStatus!=="囤单中")return showToast("该订单已不在囤单中");
+      const confirmButton=event.currentTarget;confirmButton.disabled=true;record.holdStatus="已终止";record.holdActualEnd="2026-07-30 11:35:00";record.holdOperator="superx-saas-admin";
+      setTimeout(()=>{confirmButton.disabled=false;closeModal("confirmModal");applyFilters(false);showToast(`订单 ${record.order} 已人工终止囤单`);pendingEndOrder=""},350);
     });
     render(records.filter(record=>record.site==="MegaWin"));
   </script>

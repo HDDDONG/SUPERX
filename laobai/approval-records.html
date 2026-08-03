@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>审批记录</title>
+  <style>
+    :root{--blue:#3478f6;--ink:#273142;--muted:#778196;--line:#dfe5ee;--paper:#f5f7fa;--white:#fff;--success:#219a66;--danger:#d55261;--warning:#c98219}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;padding:14px;color:var(--ink);background:var(--paper);font:13px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.panel{border:1px solid var(--line);border-radius:8px;background:var(--white)}
+    .filters{display:grid;grid-template-columns:repeat(auto-fill,256px);gap:14px 16px;padding:16px}.field{width:256px;min-width:0}.field.date-field{width:528px;grid-column:span 2}.field label{display:block;margin-bottom:7px;color:#596376;font-size:12px;font-weight:650}input,select{width:100%;height:36px;padding:0 11px;border:1px solid #d7dee8;border-radius:6px;outline:0;color:var(--ink);background:#fff}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(52,120,246,.1)}input::placeholder{color:#a3aaba}.date-range{display:grid;grid-template-columns:1fr 16px 1fr;align-items:center;gap:4px}.date-range span{text-align:center;color:var(--muted)}.filter-actions{grid-column:1/-1;display:flex;gap:10px}.button{height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0 18px;border:1px solid #d6dde7;border-radius:6px;color:#4f596b;background:#fff;font-weight:700}.button.primary{color:#fff;border-color:var(--blue);background:var(--blue)}.button:disabled{cursor:not-allowed;opacity:.55}
+    .table-panel{margin-top:12px}.table-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.table-head h2{margin:0;font-size:14px}.table-wrap{overflow-x:auto}table{width:100%;min-width:1420px;border-collapse:collapse;table-layout:fixed}th,td{height:44px;padding:0 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;color:#4f596b;text-align:left;text-overflow:ellipsis;white-space:nowrap}th{height:40px;color:#667085;background:#f8f9fb;font-size:12px;font-weight:700}th:last-child,td:last-child{border-right:0}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{background:#fafcff}.status{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border-radius:999px;color:#667085;background:#eef1f5;font-size:11px;font-weight:700}.status.pending{color:#2f68c7;background:#eaf1ff}.status.success{color:var(--success);background:#eaf8f1}.status.timeout{color:var(--warning);background:#fff4dc}.status.failed{color:var(--danger);background:#fff0f2}.actions{display:flex;align-items:center;gap:10px}.link{padding:0;border:0;color:var(--blue);background:transparent;font-size:12px}.link.danger{color:var(--danger)}
+    .drawer[hidden],.modal[hidden]{display:none}.drawer{position:fixed;z-index:30;inset:0;background:rgba(26,34,47,.45)}.drawer-panel{position:absolute;top:0;right:0;width:min(720px,100vw);height:100%;overflow:auto;background:#fff;box-shadow:-16px 0 45px rgba(30,40,55,.18)}.drawer-head{position:sticky;z-index:2;top:0;display:flex;align-items:center;justify-content:space-between;height:58px;padding:0 20px;border-bottom:1px solid var(--line);background:#fff;font-size:16px;font-weight:750}.icon-button{width:30px;height:30px;border:0;border-radius:6px;color:#7b8494;background:transparent;font-size:20px}.drawer-body{padding:18px}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}.summary-item{min-width:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.summary-label{height:34px;padding:9px 10px;color:#667085;background:#f8f9fb;font-size:12px;font-weight:700}.summary-value{height:42px;padding:12px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.summary-value.danger{color:var(--danger)}.drawer-toolbar{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px}.drawer-toolbar h3{margin:0;font-size:14px}.detail-wrap{overflow-x:auto;border:1px solid var(--line)}.detail-wrap table{min-width:940px}.note{margin-top:14px;padding:12px 14px;border-radius:6px;color:#5b6575;background:#f4f6f9;line-height:1.65}
+    .modal{position:fixed;z-index:50;inset:0;display:grid;place-items:center;padding:20px;background:rgba(26,34,47,.45)}.dialog{width:min(440px,100%);border-radius:10px;background:#fff;box-shadow:0 20px 60px rgba(26,34,47,.22)}.dialog-head{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;border-bottom:1px solid var(--line);font-size:16px;font-weight:750}.dialog-body{padding:20px;color:#505b6d;line-height:1.7}.dialog-order{display:block;margin-bottom:8px;color:var(--ink);font-weight:750}.dialog-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 20px;border-top:1px solid var(--line)}.toast{position:fixed;z-index:60;left:50%;bottom:24px;padding:10px 16px;border-radius:8px;color:#fff;background:rgba(35,43,56,.94);opacity:0;pointer-events:none;transform:translate(-50%,12px);transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:700px){body{padding:10px}.filters{grid-template-columns:1fr}.field,.field.date-field{width:100%;grid-column:auto}.summary-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <section class="panel">
+    <form class="filters" id="filters">
+      <div class="field"><label for="paymentOrder">付款单号</label><input id="paymentOrder" placeholder="请输入付款单号"></div>
+      <div class="field"><label for="operator">操作人</label><select id="operator"><option value="">请选择</option><option>fengkong2</option><option>fengkong3</option></select></div>
+      <div class="field date-field"><label>操作时间</label><div class="date-range"><input id="startDate" type="date" value="2026-07-28"><span>至</span><input id="endDate" type="date" value="2026-08-03"></div></div>
+      <div class="filter-actions"><button class="button primary" type="submit">查询</button><button class="button" id="reset" type="button">重置</button></div>
+    </form>
+  </section>
+
+  <section class="panel table-panel">
+    <header class="table-head"><h2>审批记录 <span id="count">共 3 条</span></h2></header>
+    <div class="table-wrap">
+      <table>
+        <colgroup><col style="width:58px"><col style="width:165px"><col style="width:95px"><col style="width:125px"><col style="width:95px"><col style="width:95px"><col style="width:95px"><col style="width:120px"><col style="width:120px"><col style="width:120px"><col style="width:155px"><col style="width:105px"><col style="width:150px"></colgroup>
+        <thead><tr><th>序号</th><th>付款单号</th><th>单据数量</th><th>付款金额</th><th>成功数量</th><th>失败数量</th><th>超时数量</th><th>成功金额</th><th>失败金额</th><th>操作人</th><th>操作时间</th><th>单据状态</th><th>操作</th></tr></thead>
+        <tbody id="batchBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="drawer" id="detailDrawer" hidden>
+    <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <header class="drawer-head"><span id="drawerTitle">付款单详情</span><button class="icon-button" id="closeDrawer" type="button" aria-label="关闭">×</button></header>
+      <div class="drawer-body">
+        <div class="summary-grid" id="summaryGrid"></div>
+        <div class="drawer-toolbar"><h3>子单处理明细</h3><button class="button" type="button" id="exportDetail">导出</button></div>
+        <div class="detail-wrap">
+          <table>
+            <colgroup><col style="width:160px"><col style="width:125px"><col style="width:110px"><col style="width:120px"><col style="width:150px"><col style="width:105px"><col style="width:130px"></colgroup>
+            <thead><tr><th>主订单号</th><th>会员ID</th><th>交易金额</th><th>提交时间</th><th>失败原因</th><th>处理状态</th><th>操作</th></tr></thead>
+            <tbody id="detailBody"></tbody>
+          </table>
+        </div>
+        <div class="note">操作规则：仅处理状态为“超时”的子单显示“转失败状态”。确认后该子单转为“失败”，并同步付款批次的超时数量、失败数量及失败金额。</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="modal" id="confirmModal" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <header class="dialog-head"><span id="confirmTitle">确认转为失败状态</span><button class="icon-button" data-close-confirm type="button" aria-label="关闭">×</button></header>
+      <div class="dialog-body"><span class="dialog-order" id="confirmOrder"></span>该子单当前处理状态为“超时”。确认后将由后台人工改为“失败”，此操作不可撤销。</div>
+      <footer class="dialog-foot"><button class="button" data-close-confirm type="button">取消</button><button class="button primary" id="confirmFail" type="button">确认转失败</button></footer>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const batches=[
+      {order:"WA20260803102809cd3e6c",amount:1552,operator:"fengkong2",time:"2026-08-03 07:58:09",status:"处理中",children:[{order:"01KZ2ST9X8P9E0VZBK",member:"addihqdq",amount:1552,time:"2026-08-03 07:53:42",reason:"支付通道未在规定时间内响应",status:"超时"}]},
+      {order:"WA202608031013011518dc",amount:810.92,operator:"fengkong2",time:"2026-08-03 07:43:02",status:"处理中",children:[{order:"01KZ2ST9X8P9E0VZC1",member:"guest4krqzgf",amount:810.92,time:"2026-08-03 07:40:18",reason:"-",status:"已提交"}]},
+      {order:"WA20260803064212bf8133",amount:261.66,operator:"fengkong3",time:"2026-08-03 04:12:13",status:"已完成",children:[{order:"01KZ2ST9X8P9E0VZD2",member:"guest62nwtfj",amount:261.66,time:"2026-08-03 04:06:27",reason:"-",status:"成功"}]}
+    ];
+    const batchBody=document.getElementById("batchBody"),detailDrawer=document.getElementById("detailDrawer"),detailBody=document.getElementById("detailBody"),summaryGrid=document.getElementById("summaryGrid"),toast=document.getElementById("toast");
+    let visible=[...batches],activeBatch=null,pendingChild=null,toastTimer;
+    const money=value=>`${Number(value).toFixed(2)} INR`;
+    function statusClass(status){if(status==="成功"||status==="已完成")return"success";if(status==="超时")return"timeout";if(status==="失败")return"failed";return"pending"}
+    function metrics(batch){const success=batch.children.filter(x=>x.status==="成功"),failed=batch.children.filter(x=>x.status==="失败"),timeout=batch.children.filter(x=>x.status==="超时");return{successCount:success.length,failedCount:failed.length,timeoutCount:timeout.length,successAmount:success.reduce((sum,x)=>sum+x.amount,0),failedAmount:failed.reduce((sum,x)=>sum+x.amount,0)}}
+    function renderBatches(rows=visible){document.getElementById("count").textContent=`共 ${rows.length} 条`;batchBody.innerHTML=rows.map((batch,index)=>{const m=metrics(batch);return`<tr><td>${index+1}</td><td title="${batch.order}">${batch.order}</td><td>${batch.children.length}</td><td>${money(batch.amount)}</td><td>${m.successCount}</td><td>${m.failedCount}</td><td>${m.timeoutCount}</td><td>${money(m.successAmount)}</td><td>${money(m.failedAmount)}</td><td>${batch.operator}</td><td>${batch.time}</td><td><span class="status ${statusClass(batch.status)}">${batch.status}</span></td><td><div class="actions"><button class="link" type="button" data-detail="${batch.order}">详情</button></div></td></tr>`}).join("")}
+    function renderDrawer(){if(!activeBatch)return;const m=metrics(activeBatch);summaryGrid.innerHTML=[['付款总额',money(activeBatch.amount),''],['单据总额',money(activeBatch.amount),''],['成功总额',money(m.successAmount),''],['失败总额',money(m.failedAmount),m.failedAmount?'danger':''],['成功数量',m.successCount,''],['失败数量',m.failedCount,''],['超时数量',m.timeoutCount,m.timeoutCount?'danger':''],['付款渠道','9upi','']].map(item=>`<div class="summary-item"><div class="summary-label">${item[0]}</div><div class="summary-value ${item[2]}">${item[1]}</div></div>`).join("");detailBody.innerHTML=activeBatch.children.map(child=>`<tr><td>${child.order}</td><td>${child.member}</td><td>${money(child.amount)}</td><td>${child.time}</td><td title="${child.reason}">${child.reason}</td><td><span class="status ${statusClass(child.status)}">${child.status}</span></td><td><div class="actions">${child.status==="超时"?`<button class="link danger" type="button" data-to-fail="${child.order}">转失败状态</button>`:'-'}</div></td></tr>`).join("")}
+    function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+    batchBody.addEventListener("click",event=>{const button=event.target.closest("[data-detail]");if(!button)return;activeBatch=batches.find(item=>item.order===button.dataset.detail);renderDrawer();detailDrawer.hidden=false});
+    document.getElementById("closeDrawer").addEventListener("click",()=>detailDrawer.hidden=true);detailDrawer.addEventListener("click",event=>{if(event.target===detailDrawer)detailDrawer.hidden=true});
+    detailBody.addEventListener("click",event=>{const button=event.target.closest("[data-to-fail]");if(!button)return;pendingChild=activeBatch.children.find(item=>item.order===button.dataset.toFail);document.getElementById("confirmOrder").textContent=`子单：${pendingChild.order}`;document.getElementById("confirmModal").hidden=false});
+    document.querySelectorAll("[data-close-confirm]").forEach(button=>button.addEventListener("click",()=>document.getElementById("confirmModal").hidden=true));
+    document.getElementById("confirmFail").addEventListener("click",event=>{if(!pendingChild||pendingChild.status!=="超时")return showToast("该子单已不处于超时状态");const button=event.currentTarget;button.disabled=true;pendingChild.status="失败";pendingChild.reason="请求超时，后台人工转为失败";setTimeout(()=>{button.disabled=false;document.getElementById("confirmModal").hidden=true;renderDrawer();renderBatches();showToast(`子单 ${pendingChild.order} 已转为失败状态`);pendingChild=null},300)});
+    document.getElementById("filters").addEventListener("submit",event=>{event.preventDefault();const order=document.getElementById("paymentOrder").value.trim().toLowerCase(),operator=document.getElementById("operator").value;visible=batches.filter(item=>(!order||item.order.toLowerCase().includes(order))&&(!operator||item.operator===operator));renderBatches();showToast(`查询完成，共 ${visible.length} 条记录`)});
+    document.getElementById("reset").addEventListener("click",()=>{document.getElementById("filters").reset();document.getElementById("startDate").value="2026-07-28";document.getElementById("endDate").value="2026-08-03";visible=[...batches];renderBatches();showToast("筛选条件已重置")});
+    document.getElementById("exportDetail").addEventListener("click",()=>showToast("已导出当前付款单子单明细"));
+    renderBatches();
+  </script>
+</body>
+</html>

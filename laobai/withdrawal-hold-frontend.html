@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SUPERX · 囤单前台调整</title>
+  <style>
+    :root {
+      --bg:#eef1f4;
+      --paper:#fff;
+      --ink:#20242a;
+      --muted:#737a84;
+      --line:#d8dde3;
+      --phone:#101211;
+      --phone-panel:#232625;
+      --phone-panel-2:#2b2e2d;
+      --phone-line:#363a39;
+      --phone-muted:#b8bdc1;
+      --phone-text:#f5f6f7;
+      --accent:#d5d9dd;
+      --dark:#393d41;
+      --mid:#71777d;
+    }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif; color:var(--ink); background:var(--bg); }
+    body { padding:24px; overflow-x:hidden; }
+    button { font:inherit; }
+    .page-head { max-width:1180px; margin:0 auto 18px; }
+    .page-head h1 { margin:0; font-size:24px; }
+    .page-head p { margin:7px 0 0; color:var(--muted); font-size:13px; }
+    .module-board { max-width:1180px; margin:0 auto 24px; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+    .module-head { margin-bottom:14px; }
+    .module-head b { font-size:15px; }
+    .module-head span { display:block; margin-top:4px; color:var(--muted); font-size:11px; }
+    .overview-grid { display:grid; grid-template-columns:minmax(0,1fr) 350px; gap:24px; align-items:start; }
+    .overview-panel { min-width:0; }
+    .history-panel .module-head { padding-left:10px; }
+    .mapping-note { margin:0 0 12px; padding:10px 12px; border-left:3px solid #777e85; color:#5f666e; background:#f5f6f7; font-size:11px; line-height:1.6; }
+    .mapping-table-wrap { overflow:hidden; border:1px solid var(--line); border-radius:9px; }
+    .mapping-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    .mapping-table th,.mapping-table td { height:42px; padding:0 14px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
+    .mapping-table th { height:38px; color:#5d646d; background:#f4f5f6; font-size:12px; font-weight:750; }
+    .mapping-table td { color:#4e555d; font-size:12px; }
+    .mapping-table th:last-child,.mapping-table td:last-child { border-right:0; }
+    .mapping-table tbody tr:last-child td { border-bottom:0; }
+    .mapping-table tbody tr:hover td { background:#fafafa; }
+    .mapping-state { display:inline-flex; min-width:68px; min-height:24px; align-items:center; justify-content:center; padding:0 9px; border-radius:999px; color:#373c42; background:#e6e8ea; font-size:11px; font-weight:750; }
+    .mapping-state + .mapping-state { margin-left:4px; }
+    .mapping-values { display:flex; flex-wrap:wrap; gap:4px; padding:5px 0; }
+    .mapping-values .mapping-state { margin-left:0; }
+    .mapping-state.front { color:#fff; background:#626970; }
+    .mapping-action { display:inline-flex; min-height:24px; margin-left:7px; align-items:center; padding:0 9px; border:1px solid #aeb3b8; border-radius:999px; color:#535a61; background:#fff; font-size:10px; font-weight:750; }
+    .mapping-action.is-disabled { color:#8a9096; border-color:#d3d6d9; background:#f1f2f3; }
+    .mapping-state.impossible { color:#686e74; background:#d8dbde; }
+    .mapping-impossible-note { margin:10px 0 0; padding:10px 12px; border-radius:8px; color:#5f666e; background:#eef0f2; font-size:11px; line-height:1.65; }
+    .mapping-impossible-note b { color:#3f454b; }
+    .machine-board { padding:18px; }
+    .machine-note { margin:0 0 12px; color:var(--muted); font-size:11px; line-height:1.6; }
+    .machine-table-wrap { overflow:hidden; border:1px solid var(--line); border-radius:9px; }
+    .machine-table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    .machine-table th,.machine-table td { padding:10px 11px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); color:#515860; text-align:left; vertical-align:top; font-size:11px; line-height:1.55; overflow-wrap:anywhere; }
+    .machine-table th { height:38px; color:#5d646d; background:#f4f5f6; font-weight:750; }
+    .machine-table th:last-child,.machine-table td:last-child { border-right:0; }
+    .machine-table tbody tr:last-child td { border-bottom:0; }
+    .machine-table tbody tr:hover td { background:#fafafa; }
+    .machine-table tbody tr.is-impossible td { color:#747b82; background:#f4f5f6; }
+    .machine-table tbody tr.is-impossible:hover td { background:#eceeef; }
+    .machine-table tbody tr.is-timeout td { color:#53636a; background:#edf3f5; }
+    .machine-table tbody tr.is-timeout:hover td { background:#e4edef; }
+    .machine-no { color:#858b92; font-weight:750; }
+    .machine-state { display:inline-flex; min-height:22px; margin:1px 3px 1px 0; align-items:center; padding:0 7px; border-radius:999px; color:#3f454b; background:#e5e7e9; font-size:10px; font-weight:750; }
+    .machine-rule { color:#343a40; font-weight:650; }
+    .machine-front { color:#343a40; font-weight:750; }
+    .history-layout { display:block; }
+    .history-note { display:grid; gap:10px; align-content:start; padding-top:4px; }
+    .history-note div { padding:13px 14px; border:1px solid var(--line); border-radius:10px; background:#f7f8fa; }
+    .history-note span { display:block; color:var(--muted); font-size:10px; }
+    .history-note b { display:block; margin-top:4px; font-size:12px; line-height:1.5; }
+    .flow-board { position:relative; max-width:1180px; margin:auto; padding:66px 18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--paper); overflow:hidden; }
+    .flow-lines { position:absolute; z-index:1; inset:14px 18px auto; width:calc(100% - 36px); height:80px; pointer-events:none; }
+    .flow-lines path { fill:none; stroke-width:2; }
+    .flow-lines text { font-size:11px; font-weight:700; }
+    .stages { position:relative; z-index:2; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:36px; align-items:start; }
+    .stage { min-width:0; }
+    .stage-head { display:flex; gap:9px; min-height:56px; padding:0 3px 10px; }
+    .stage-no { flex:0 0 27px; width:27px; height:27px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--dark); font-size:11px; font-weight:800; }
+    .stage-head b { display:block; font-size:14px; }
+    .stage-head span { display:block; margin-top:3px; color:var(--muted); font-size:11px; line-height:1.35; }
+    .phone { position:relative; width:min(100%,330px); height:696px; margin:auto; overflow:hidden; border:7px solid #181b1f; border-radius:36px; background:var(--phone); box-shadow:0 18px 42px rgba(34,39,45,.18); color:var(--phone-text); }
+    .phone::before { content:""; position:absolute; z-index:8; top:0; left:50%; width:106px; height:24px; border-radius:0 0 15px 15px; background:#181b1f; transform:translateX(-50%); }
+    .statusbar { height:30px; display:flex; align-items:center; justify-content:space-between; padding:8px 17px 0; font-size:9px; font-weight:700; }
+    .appbar { height:58px; display:grid; grid-template-columns:40px 1fr 40px; align-items:center; padding:0 13px; background:#1d211f; }
+    .appbar b { text-align:center; font-size:17px; }
+    .back { width:34px; height:34px; display:grid; place-items:center; border:0; border-radius:7px; color:#fff; background:#292d2b; font-size:27px; font-weight:300; cursor:pointer; }
+    .screen { height:calc(100% - 88px); padding:20px 15px; overflow-y:auto; scrollbar-width:none; }
+    .screen::-webkit-scrollbar { display:none; }
+    .history-screen { padding:13px 10px 18px; }
+    .history-filters { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; }
+    .history-filters select { min-width:0; height:31px; padding:0 7px; border:1px solid #303433; border-radius:7px; color:#e7e9ea; background:#272a29; font-size:10px; font-weight:700; outline:0; }
+    .transaction-list { display:grid; gap:8px; }
+    .transaction-card { width:100%; padding:9px; border:1px solid #292d2c; border-radius:10px; color:inherit; background:#202322; text-align:left; cursor:pointer; }
+    .transaction-top { display:grid; grid-template-columns:28px 1fr auto; gap:7px; align-items:center; }
+    .transaction-icon { width:27px; height:27px; display:grid; place-items:center; border-radius:50%; color:#202322; background:#d9dddf; font-size:13px; font-weight:900; }
+    .transaction-title b { display:block; font-size:10px; }
+    .transaction-title span { display:block; margin-top:2px; color:#999fa3; font-size:8px; }
+    .transaction-state { display:inline-flex; align-items:center; gap:4px; min-width:70px; padding:5px 7px; border-radius:12px; background:#303332; font-size:8px; font-weight:800; text-transform:uppercase; }
+    .transaction-state::before { content:""; width:6px; height:6px; border-radius:50%; background:#cdd1d4; }
+    .transaction-body { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:8px; padding:9px; border-radius:7px; background:#2a2d2c; }
+    .transaction-amount { border-right:1px solid #3a3e3d; }
+    .transaction-body small { display:block; color:#9ea4a8; font-size:8px; }
+    .transaction-body strong { display:block; margin-top:3px; font-size:17px; }
+    .transaction-split { display:grid; grid-template-columns:auto 1fr; gap:2px 6px; align-content:center; font-size:9px; }
+    .transaction-split span { color:#9ea4a8; }
+    .transaction-card.is-cancelled .transaction-state { color:#e7e9ea; background:#3a3d3c; }
+    .transaction-card.is-cancelled .transaction-body strong { color:#c9cdd0; text-decoration:line-through; }
+    .transaction-card.is-submitted .transaction-state { color:#fff; background:#4b5050; }
+    .transaction-inline-actions { display:block; margin-top:8px; }
+    .transaction-inline-action { width:100%; min-height:30px; border:1px solid #555b5d; border-radius:7px; color:#f3f4f5; background:#343839; font-size:10px; font-weight:750; cursor:pointer; }
+    .summary { text-align:center; }
+    .summary span { color:var(--phone-muted); font-size:16px; }
+    .summary strong { display:block; margin-top:8px; font-size:31px; letter-spacing:.3px; }
+    .detail-card { margin-top:24px; padding:17px 15px 16px; border:1px solid #272b2a; border-radius:16px; background:var(--phone-panel); }
+    .detail-row { display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; min-height:43px; }
+    .detail-row span { color:var(--phone-muted); font-size:13px; }
+    .detail-row b { max-width:155px; text-align:right; font-size:13px; }
+    .status { display:inline-flex; align-items:center; gap:6px; }
+    .status::before { content:""; width:8px; height:8px; border-radius:50%; background:#c8ccd0; }
+    .account { margin-top:7px; padding:15px 8px; border-radius:12px; background:var(--phone-panel-2); color:#e2e5e7; text-align:center; font-size:13px; font-weight:700; letter-spacing:1px; }
+    .phone-actions { display:grid; gap:12px; margin-top:27px; }
+    .phone-button { min-height:52px; border:1px solid var(--phone-line); border-radius:10px; color:#fff; background:#252827; font-size:16px; font-weight:700; cursor:pointer; }
+    .phone-button.primary { color:#202321; border-color:#e2e5e7; background:#e2e5e7; }
+    .phone-button:disabled { color:#8c9195; cursor:not-allowed; }
+    .cancel-modal { position:absolute; z-index:10; inset:0; display:grid; align-items:end; padding:18px; background:rgba(0,0,0,.62); }
+    .cancel-modal[hidden] { display:none; }
+    .modal-card { padding:20px 16px 16px; border:1px solid #454a4d; border-radius:18px; background:#242829; text-align:center; box-shadow:0 20px 45px rgba(0,0,0,.36); }
+    .modal-card h3 { margin:0; font-size:18px; }
+    .modal-card p { margin:10px 0 18px; color:#b9bec2; font-size:13px; line-height:1.55; }
+    .modal-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .modal-actions button { min-height:44px; border:1px solid #4b5053; border-radius:9px; color:#f6f7f8; background:#303436; font-weight:700; cursor:pointer; }
+    .modal-actions .confirm { color:#202326; border-color:#e1e4e7; background:#e1e4e7; }
+    .cancel-result { margin:25px 0 4px; padding:18px 12px; border:1px solid #3c4143; border-radius:13px; background:#292d2e; text-align:center; }
+    .cancel-result i { width:42px; height:42px; display:grid; place-items:center; margin:0 auto 10px; border:2px solid #d9dde0; border-radius:50%; font-style:normal; font-size:22px; }
+    .cancel-result b { display:block; font-size:16px; }
+    .cancel-result span { display:block; margin-top:6px; color:#b6bbc0; font-size:12px; line-height:1.5; }
+    .config { display:grid; grid-template-columns:1fr 1fr; gap:1px; width:min(100%,330px); margin:10px auto 0; overflow:hidden; border:1px solid var(--line); border-radius:9px; background:var(--line); }
+    .config div { min-height:48px; padding:8px 9px; background:#fff; }
+    .config span { display:block; color:var(--muted); font-size:9px; }
+    .config b { display:block; margin-top:3px; font-size:10px; line-height:1.3; }
+    .toast { position:fixed; z-index:30; left:50%; bottom:24px; padding:11px 16px; border-radius:8px; color:#fff; background:#363a3e; font-size:12px; opacity:0; transform:translate(-50%,12px); transition:.2s; pointer-events:none; }
+    .toast.is-visible { opacity:1; transform:translate(-50%,0); }
+    .stage.is-focus .phone { box-shadow:0 0 0 3px #aeb4ba,0 18px 42px rgba(34,39,45,.18); }
+    @media (max-width:980px) {
+      .flow-board { padding-top:20px; }
+      .flow-lines { display:none; }
+      .stages { grid-template-columns:1fr; gap:30px; }
+      .overview-grid { grid-template-columns:1fr; }
+      .history-panel { width:min(100%,350px); margin:auto; }
+    }
+    @media (max-width:420px) {
+      body { padding:12px; }
+      .flow-board { padding:16px 8px; }
+      .mapping-table th,.mapping-table td { height:auto; min-height:42px; padding:10px 8px; white-space:normal; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <h1>囤单前台调整</h1>
+    <p>囤单属于后台规则，前台不展示囤单标识和结束时间；前台状态由囤单状态与处理状态共同映射，只有展示为“已提交”的订单允许用户取消提现。</p>
+  </header>
+
+  <section class="module-board overview-board">
+    <div class="overview-grid">
+      <section class="overview-panel mapping-panel" aria-labelledby="mappingTitle">
+        <header class="module-head"><b id="mappingTitle">后台状态与前台展示状态映射</b><span>前台展示已提交、处理中、成功、失败、用户取消，不直接暴露囤单状态及后台处理细节。</span></header>
+        <p class="mapping-note">同一行中的囤单状态和处理状态均为“任一命中”关系；只有映射为“已提交”的组合显示取消提现入口。</p>
+        <div class="mapping-table-wrap">
+          <table class="mapping-table">
+            <colgroup><col style="width:30%"><col style="width:35%"><col style="width:35%"></colgroup>
+            <thead><tr><th>囤单状态为【】</th><th>处理状态为【】</th><th>前台展示状态为【】</th></tr></thead>
+            <tbody>
+              <tr><td><span class="mapping-state">未囤单</span><span class="mapping-state">已结束</span><span class="mapping-state">已终止</span></td><td><span class="mapping-state">待审核</span><span class="mapping-state">待人审</span><span class="mapping-state">待机审</span></td><td><span class="mapping-state front">已提交</span><span class="mapping-action">可取消提现</span></td></tr>
+              <tr><td><span class="mapping-state">未囤单</span><span class="mapping-state">已结束</span><span class="mapping-state">已终止</span></td><td><span class="mapping-state">人审通过</span><span class="mapping-state">机审通过</span><span class="mapping-state">处理中</span></td><td><span class="mapping-state front">处理中</span><span class="mapping-action is-disabled">不可取消</span></td></tr>
+              <tr><td><span class="mapping-state">未囤单</span><span class="mapping-state">已结束</span><span class="mapping-state">已终止</span></td><td><span class="mapping-state">已退回</span><span class="mapping-state">失败</span><span class="mapping-state">请求超时</span></td><td><span class="mapping-state front">失败</span><span class="mapping-action is-disabled">不可取消</span></td></tr>
+              <tr><td><span class="mapping-state">未囤单</span><span class="mapping-state">已结束</span><span class="mapping-state">已终止</span></td><td><span class="mapping-state">成功</span></td><td><span class="mapping-state front">成功</span><span class="mapping-action is-disabled">不可取消</span></td></tr>
+              <tr><td><span class="mapping-values"><span class="mapping-state">未囤单</span><span class="mapping-state">囤单中</span><span class="mapping-state">已结束</span><span class="mapping-state">已终止</span></span></td><td><span class="mapping-state">用户取消</span></td><td><span class="mapping-state front">用户取消</span><span class="mapping-action is-disabled">不可取消</span></td></tr>
+              <tr><td><span class="mapping-state">囤单中</span></td><td><span class="mapping-values"><span class="mapping-state">待审核</span><span class="mapping-state">待人审</span><span class="mapping-state">待机审</span><span class="mapping-state">人审通过</span><span class="mapping-state">机审通过</span></span></td><td><span class="mapping-state front">已提交</span><span class="mapping-action">可取消提现</span></td></tr>
+              <tr><td><span class="mapping-state">囤单中</span></td><td><span class="mapping-state">已退回</span></td><td><span class="mapping-state front">失败</span><span class="mapping-action is-disabled">不可取消</span></td></tr>
+              <tr><td><span class="mapping-state">囤单中</span></td><td><span class="mapping-values"><span class="mapping-state">处理中</span><span class="mapping-state">成功</span><span class="mapping-state">失败</span><span class="mapping-state">请求超时</span></span></td><td><span class="mapping-state impossible">不会出现</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mapping-impossible-note"><b>“不会出现”原因：</b>囤单中的订单尚未进入支付处理，只有囤单结束后才会进入“处理中”并产生成功、失败或请求超时结果。</p>
+      </section>
+
+      <section class="overview-panel history-panel">
+        <header class="module-head"><b>充提记录</b><span>订单状态增加“已取消”，点击记录进入对应详情。</span></header>
+        <div class="history-layout">
+        <div class="phone">
+          <div class="statusbar"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar"><button class="back" type="button" aria-label="返回">‹</button><b>Transaction history</b><span></span></div>
+          <div class="screen history-screen">
+            <div class="history-filters">
+              <select aria-label="时间范围"><option>Today</option><option>7 days</option><option>30 days</option></select>
+              <select aria-label="订单类型"><option>All types</option><option>Recharge</option><option>Withdrawal</option></select>
+              <select id="historyStateFilter" aria-label="订单状态">
+                <option value="all">All states</option>
+                <option value="submitted">Submitted</option>
+                <option value="progress">In progress</option>
+                <option value="success">Success</option>
+                <option value="failed">Failed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="transaction-list">
+              <div class="transaction-card is-submitted js-open-detail" data-state="submitted" role="button" tabindex="0" aria-label="查看已提交提现详情">
+                <span class="transaction-top"><span class="transaction-icon">↙</span><span class="transaction-title"><b>Withdrawal</b><span>17/01/2026 10:20:18</span></span><span class="transaction-state">Submitted</span></span>
+                <span class="transaction-body"><span class="transaction-amount"><small>Withdrawal amount</small><strong>200.00 MXN</strong></span><span class="transaction-split"><span>Principal</span><b>200.00</b><span>Fee</span><b>0.00</b></span></span>
+                <span class="transaction-inline-actions"><button class="transaction-inline-action js-history-cancel" type="button">Cancel withdrawal</button></span>
+              </div>
+              <button class="transaction-card" type="button" data-state="success">
+                <span class="transaction-top"><span class="transaction-icon">₹</span><span class="transaction-title"><b>Recharge</b><span>17/01/2026 10:15:02</span></span><span class="transaction-state">Success</span></span>
+                <span class="transaction-body"><span class="transaction-amount"><small>Amount received</small><strong>110.00 MXN</strong></span><span class="transaction-split"><span>Principal</span><b>105.00</b><span>Gift</span><b>5.00</b></span></span>
+              </button>
+              <button class="transaction-card" type="button" data-state="progress">
+                <span class="transaction-top"><span class="transaction-icon">↙</span><span class="transaction-title"><b>Withdrawal</b><span>17/01/2026 10:15:02</span></span><span class="transaction-state">In progress</span></span>
+                <span class="transaction-body"><span class="transaction-amount"><small>Withdrawal amount</small><strong>110.00 MXN</strong></span><span class="transaction-split"><span>Principal</span><b>100.00</b><span>Fee</span><b>10.00</b></span></span>
+              </button>
+              <button class="transaction-card" type="button" data-state="failed">
+                <span class="transaction-top"><span class="transaction-icon">↙</span><span class="transaction-title"><b>Withdrawal</b><span>16/01/2026 18:42:20</span></span><span class="transaction-state">Failed</span></span>
+                <span class="transaction-body"><span class="transaction-amount"><small>Withdrawal amount</small><strong>80.00 MXN</strong></span><span class="transaction-split"><span>Principal</span><b>80.00</b><span>Fee</span><b>0.00</b></span></span>
+              </button>
+              <button class="transaction-card is-cancelled js-open-result" type="button" data-state="cancelled">
+                <span class="transaction-top"><span class="transaction-icon">↙</span><span class="transaction-title"><b>Withdrawal</b><span>15/01/2026 12:08:11</span></span><span class="transaction-state">Cancelled</span></span>
+                <span class="transaction-body"><span class="transaction-amount"><small>Withdrawal amount</small><strong>110.00 MXN</strong></span><span class="transaction-split"><span>Returned</span><b>110.00</b><span>Fee</span><b>0.00</b></span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <footer class="config"><div><span>新增状态</span><b>已取消 / Cancelled</b></div><div><span>状态来源</span><b>提现订单处理状态</b></div></footer>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <main class="flow-board">
+    <svg class="flow-lines" viewBox="0 0 1144 80" preserveAspectRatio="none" aria-label="取消提现操作流程">
+      <defs>
+        <marker id="arrow-dark" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#393d41"/></marker>
+        <marker id="arrow-mid" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#71777d"/></marker>
+      </defs>
+      <path d="M330 65 V24 H432 V65" stroke="#393d41" marker-end="url(#arrow-dark)"/>
+      <text x="381" y="16" text-anchor="middle" fill="#393d41">点击取消提现</text>
+      <path d="M712 65 V24 H814 V65" stroke="#71777d" marker-end="url(#arrow-mid)"/>
+      <text x="763" y="16" text-anchor="middle" fill="#71777d">确认取消</text>
+    </svg>
+
+    <div class="stages">
+      <section class="stage" id="stageDetail">
+        <header class="stage-head"><span class="stage-no">01</span><div><b>提现订单详情 · 后台囤单中</b><span>前台展示已提交，不暴露囤单信息</span></div></header>
+        <div class="phone">
+          <div class="statusbar"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar"><button class="back" type="button" aria-label="返回">‹</button><b>Transaction details</b><span></span></div>
+          <div class="screen">
+            <div class="summary"><span>Withdrawal</span><strong>110.00 MXN</strong></div>
+            <div class="detail-card">
+              <div class="detail-row"><span>Withdrawal Method</span><b class="status">Submitted</b></div>
+              <div class="detail-row"><span>Principal</span><b>100.00 MXN</b></div>
+              <div class="detail-row"><span>Handling fee</span><b>10.00 MXN (10%)</b></div>
+              <div class="detail-row"><span>Creation time</span><b>17/01/2026 10:15:02</b></div>
+              <div class="detail-row"><span>Order ID</span><b>WD2026011711111</b></div>
+              <div class="account">CashApp · $wh•••888</div>
+            </div>
+            <div class="phone-actions">
+              <button class="phone-button js-open-cancel" type="button">Cancel order</button>
+              <button class="phone-button primary js-chat" type="button">Live Chat</button>
+            </div>
+          </div>
+          <div class="cancel-modal" id="liveCancelModal" hidden>
+            <div class="modal-card">
+              <h3>Cancel withdrawal?</h3>
+              <p>This withdrawal is currently on hold. Once cancelled, it cannot be restored.</p>
+              <div class="modal-actions"><button class="js-close-modal" type="button">Keep order</button><button class="confirm js-confirm-live" type="button">Cancel order</button></div>
+            </div>
+          </div>
+        </div>
+        <footer class="config"><div><span>展示条件</span><b>是否囤单 = 是，囤单中</b></div><div><span>订单数据</span><b>充提记录 / 提现订单</b></div></footer>
+      </section>
+
+      <section class="stage" id="stageConfirm">
+        <header class="stage-head"><span class="stage-no">02</span><div><b>取消提现确认</b><span>二次确认，防止用户误触</span></div></header>
+        <div class="phone">
+          <div class="statusbar"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar"><button class="back" type="button" aria-label="返回">‹</button><b>Transaction details</b><span></span></div>
+          <div class="screen">
+            <div class="summary"><span>Withdrawal</span><strong>110.00 MXN</strong></div>
+            <div class="detail-card">
+              <div class="detail-row"><span>Withdrawal Method</span><b class="status">Submitted</b></div>
+              <div class="detail-row"><span>Order ID</span><b>WD2026011711111</b></div>
+              <div class="account">CashApp · $wh•••888</div>
+            </div>
+          </div>
+          <div class="cancel-modal">
+            <div class="modal-card">
+              <h3>Cancel withdrawal?</h3>
+              <p>This withdrawal is currently on hold. Once cancelled, it cannot be restored.</p>
+              <div class="modal-actions"><button class="js-keep-demo" type="button">Keep order</button><button class="confirm js-confirm-demo" type="button">Cancel order</button></div>
+            </div>
+          </div>
+        </div>
+        <footer class="config"><div><span>触发动作</span><b>点击 Cancel order</b></div><div><span>交互规则</span><b>取消前必须二次确认</b></div></footer>
+      </section>
+
+      <section class="stage" id="stageResult">
+        <header class="stage-head"><span class="stage-no">03</span><div><b>取消成功 · 已取消</b><span>订单终止，不再等待囤单结束</span></div></header>
+        <div class="phone">
+          <div class="statusbar"><span>9:41</span><span>● ● ◒</span></div>
+          <div class="appbar"><button class="back" type="button" aria-label="返回">‹</button><b>Transaction details</b><span></span></div>
+          <div class="screen">
+            <div class="summary"><span>Withdrawal</span><strong>110.00 MXN</strong></div>
+            <div class="cancel-result"><i>✓</i><b>Order cancelled</b><span>The withdrawal amount has been returned to your available balance.</span></div>
+            <div class="detail-card">
+              <div class="detail-row"><span>Withdrawal Method</span><b class="status">Cancelled</b></div>
+              <div class="detail-row"><span>Principal</span><b>100.00 MXN</b></div>
+              <div class="detail-row"><span>Handling fee</span><b>10.00 MXN</b></div>
+              <div class="detail-row"><span>Cancellation time</span><b>17/01/2026 10:22:18</b></div>
+              <div class="detail-row"><span>Order ID</span><b>WD2026011711111</b></div>
+            </div>
+            <div class="phone-actions"><button class="phone-button primary js-chat" type="button">Live Chat</button></div>
+          </div>
+        </div>
+        <footer class="config"><div><span>订单状态</span><b>已取消</b></div><div><span>资金处理</span><b>提现金额退回可用余额</b></div></footer>
+      </section>
+    </div>
+  </main>
+
+  <section class="module-board machine-board" aria-labelledby="machineTitle">
+    <header class="module-head"><b id="machineTitle">状态机全量组合枚举</b><span>4 个囤单状态 × 11 个处理状态，共 44 条组合；每行仅展示一个囤单状态和一个处理状态。</span></header>
+    <p class="machine-note">合法组合写明真实触发事件和下一步操作；业务流程不允许产生的组合统一标记为“不会出现”，并注明拦截原因。前台展示结果以顶部映射表为准。</p>
+    <div class="machine-table-wrap">
+      <table class="machine-table">
+        <colgroup><col style="width:4%"><col style="width:11%"><col style="width:15%"><col style="width:12%"><col style="width:17%"><col style="width:25%"><col style="width:16%"></colgroup>
+        <thead><tr><th>序号</th><th>囤单状态</th><th>囤单触发事件</th><th>处理状态</th><th>处理触发事件</th><th>状态变化规则</th><th>前台展示</th></tr></thead>
+        <tbody id="machineBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const holdStates = [
+      {name:"未囤单",trigger:"订单未命中囤单规则"},
+      {name:"囤单中",trigger:"订单命中囤单规则，囤单计时未结束"},
+      {name:"已结束",trigger:"囤单计时到期，系统自动结束"},
+      {name:"已终止",trigger:"后台人工结束囤单，或因审核退回、用户取消而终止"}
+    ];
+    const processStates = [
+      {name:"待审核",trigger:"提现订单创建成功，进入初始态"},
+      {name:"待人审",trigger:"待审核订单分发至人工审核；或机器审核拒绝后转入人工复核"},
+      {name:"待机审",trigger:"待审核订单分发至机器审核"},
+      {name:"人审通过",trigger:"人工审核通过"},
+      {name:"机审通过",trigger:"机器审核通过"},
+      {name:"处理中",trigger:"提现请求已提交支付通道"},
+      {name:"已退回",trigger:"人工审核拒绝提现"},
+      {name:"成功",trigger:"支付通道返回提现成功"},
+      {name:"失败",trigger:"支付通道明确返回提现失败"},
+      {name:"请求超时",trigger:"支付通道未在规定时间内响应"},
+      {name:"用户取消",trigger:"用户在前台可取消阶段确认取消提现"}
+    ];
+    const impossibleWhenHolding = new Set(["处理中","成功","失败","请求超时"]);
+    function getFrontendDisplay(holdState, processState) {
+      if (holdState === "囤单中") {
+        if (impossibleWhenHolding.has(processState)) return "不会出现";
+        if (processState === "已退回") return "失败｜不可取消";
+        if (processState === "用户取消") return "用户取消｜不可取消";
+        return "已提交｜可取消提现";
+      }
+      if (["待审核","待人审","待机审"].includes(processState)) return "已提交｜可取消提现";
+      if (["人审通过","机审通过","处理中"].includes(processState)) return "处理中｜不可取消";
+      if (["已退回","失败","请求超时"].includes(processState)) return "失败｜不可取消";
+      if (processState === "成功") return "成功｜不可取消";
+      return "用户取消｜不可取消";
+    }
+    function getMachineRule(holdState, processState) {
+      if (holdState === "囤单中" && impossibleWhenHolding.has(processState)) return {impossible:true,trigger:"无合法触发事件",rule:"状态机禁止进入该组合；必须先离开“囤单中”（到期进入“已结束”，人工结束进入“已终止”），再进入支付处理及支付结果状态。"};
+      if (processState === "待审核") return {rule:holdState === "囤单中"?"启动或保持囤单计时；按审核分发规则进入“待人审”或“待机审”。":"按审核分发规则进入“待人审”或“待机审”。"};
+      if (processState === "待人审") return {rule:"人工审核通过进入“人审通过”；人工审核拒绝进入“已退回”。"};
+      if (processState === "待机审") return {rule:"机器审核通过进入“机审通过”；机器审核拒绝转入“待人审”，由人工继续复核。"};
+      if (processState === "人审通过" || processState === "机审通过") return {rule:holdState === "囤单中"?"保留当前审核通过状态并等待囤单结束。":"进入“处理中”，向支付通道提交提现请求。"};
+      if (processState === "处理中") return {rule:"等待支付通道结果，随后进入“成功”“失败”或“请求超时”。"};
+      if (processState === "已退回") return {rule:holdState === "囤单中"?"停止后续支付，并将囤单状态同步为“已终止”。":"终止后续支付处理。"};
+      if (processState === "成功") return {rule:"写入完成时间，订单进入成功终态。"};
+      if (processState === "失败") return {rule:"订单进入失败终态，并按资金规则处理提现金额。"};
+      if (processState === "请求超时") return {rule:"后台先尝试查单和处理，仍未成功时由后台人员手动将状态改为“失败”。"};
+      return {rule:holdState === "囤单中"?"订单进入用户取消终态，停止审核及支付，并将囤单状态同步为“已终止”。":"订单进入用户取消终态，停止后续审核及支付。"};
+    }
+    const machineRows = holdStates.flatMap(holdState => processStates.map(processState => {
+      const result = getMachineRule(holdState.name, processState.name);
+      return {...result,frontend:getFrontendDisplay(holdState.name,processState.name),holdState,processState};
+    }));
+    document.getElementById("machineBody").innerHTML = machineRows.map((row,index) => {
+      const rowClass = row.impossible ? "is-impossible" : row.processState.name === "请求超时" ? "is-timeout" : "";
+      return `<tr class="${rowClass}"><td class="machine-no">${String(index+1).padStart(2,"0")}</td><td><span class="machine-state">${row.holdState.name}</span></td><td>${row.holdState.trigger}</td><td><span class="machine-state">${row.processState.name}</span></td><td>${row.trigger||row.processState.trigger}</td><td class="machine-rule">${row.rule}</td><td class="machine-front">${row.frontend}</td></tr>`;
+    }).join("");
+
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    function showToast(message) {
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1800);
+    }
+    function focusStage(id) {
+      document.querySelectorAll(".stage").forEach(stage => stage.classList.toggle("is-focus", stage.id === id));
+      document.getElementById(id).scrollIntoView({ behavior:"smooth", block:"nearest", inline:"center" });
+    }
+    const liveModal = document.getElementById("liveCancelModal");
+    document.querySelector(".js-open-cancel").addEventListener("click", () => {
+      liveModal.hidden = false;
+      focusStage("stageConfirm");
+      showToast("已打开取消提现确认");
+    });
+    document.querySelector(".js-close-modal").addEventListener("click", () => {
+      liveModal.hidden = true;
+      focusStage("stageDetail");
+      showToast("已保留提现订单");
+    });
+    document.querySelector(".js-confirm-live").addEventListener("click", () => {
+      liveModal.hidden = true;
+      focusStage("stageResult");
+      showToast("提现订单已取消");
+    });
+    document.querySelector(".js-keep-demo").addEventListener("click", () => {
+      focusStage("stageDetail");
+      showToast("返回囤单中的提现详情");
+    });
+    document.querySelector(".js-confirm-demo").addEventListener("click", () => {
+      focusStage("stageResult");
+      showToast("提现订单已取消");
+    });
+    document.querySelectorAll(".js-chat").forEach(button => button.addEventListener("click", () => showToast("打开在线客服")));
+    document.querySelectorAll(".back").forEach(button => button.addEventListener("click", () => showToast("返回充提记录")));
+    const historyStateFilter = document.getElementById("historyStateFilter");
+    historyStateFilter.addEventListener("change", () => {
+      const state = historyStateFilter.value;
+      document.querySelectorAll(".transaction-card").forEach(card => {
+        card.hidden = state !== "all" && card.dataset.state !== state;
+      });
+      showToast(state === "cancelled" ? "仅展示已取消的提现订单" : state === "submitted" ? "仅展示已提交的提现订单" : "订单状态筛选已更新");
+    });
+    document.querySelector(".js-history-cancel").addEventListener("click", event => {
+      event.stopPropagation();
+      focusStage("stageConfirm");
+      showToast("进入取消提现确认");
+    });
+    const submittedCard = document.querySelector(".js-open-detail");
+    submittedCard.addEventListener("click", () => {
+      focusStage("stageDetail");
+      showToast("进入囤单中的提现订单详情");
+    });
+    submittedCard.addEventListener("keydown", event => {
+      if (event.target !== submittedCard) return;
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      focusStage("stageDetail");
+      showToast("进入囤单中的提现订单详情");
+    });
+    document.querySelector(".js-open-result").addEventListener("click", () => {
+      focusStage("stageResult");
+      showToast("进入已取消的提现订单详情");
+    });
+  </script>
+</body>
+</html>
