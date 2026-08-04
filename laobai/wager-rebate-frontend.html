@@ -41,6 +41,7 @@
     .flow-track { position: relative; display: grid; grid-template-columns: repeat(4,348px); gap: 58px; width: max-content; padding-top: 56px; }
     .flow-track.cols-3 { grid-template-columns: repeat(3,348px); }
     .flow-track.cols-2 { grid-template-columns: repeat(2,348px); }
+    .flow-track.cols-1 { grid-template-columns: 348px; }
     .flow-line { position: absolute; z-index: 0; left: 170px; right: 170px; top: 29px; height: 2px; background: #bdc7d6; }
     .flow-line::after { content: ""; position: absolute; right: -1px; top: -5px; border-width: 6px 0 6px 9px; border-style: solid; border-color: transparent transparent transparent #96a3b6; }
     .flow-label { position: absolute; z-index: 2; top: 13px; padding: 5px 9px; border: 1px solid #dbe1eb; border-radius: 999px; color: #657188; background: var(--paper); font-size: 11px; white-space: nowrap; transform: translateX(-50%); }
@@ -64,6 +65,21 @@
     .flow-track.cols-2 .flow-line { right: 170px; }
 
     .stage { position: relative; z-index: 1; width: 348px; }
+    .transfer-only-stage { display: none; }
+    .transfer-options { display: grid; gap: 18px; }
+    .transfer-option { overflow: hidden; padding: 16px; border: 1px solid #d6dbe3; border-radius: 16px; background: rgba(255,255,255,.58); }
+    .transfer-option-head { display: flex; align-items: flex-start; gap: 12px; }
+    .transfer-option-badge { min-width: 54px; padding: 7px 10px; border-radius: 999px; color: #fff; background: #303030; text-align: center; font-size: 11px; font-weight: 800; }
+    .transfer-option:nth-child(2) .transfer-option-badge { background: #686868; }
+    .transfer-option-head b { display: block; font-size: 14px; }
+    .transfer-option-head p { margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+    .transfer-option .flow { padding-bottom: 8px; }
+    .transfer-option .flow-track { padding-top: 42px; }
+    .transfer-option .flow-line { top: 21px; }
+    .transfer-option .flow-label { top: 5px; }
+    .transfer-deferred { margin-top: 18px; padding: 14px 16px; border: 1px dashed #c7ccd3; border-radius: 14px; background: rgba(255,255,255,.38); }
+    .transfer-deferred > b { display: block; margin-bottom: 2px; font-size: 12px; }
+    .transfer-deferred > span { color: var(--muted); font-size: 10px; }
     .stage-head { display: flex; align-items: center; gap: 9px; min-height: 44px; margin-bottom: 10px; }
     .stage-index { width: 27px; height: 27px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; color: var(--white); background: var(--navy); font-size: 11px; font-weight: 800; }
     .stage-head b { display: block; font-size: 14px; }
@@ -91,6 +107,9 @@
     .popup-image-art div { text-align: center; }
     .popup-image-art strong { display: block; font-size: 34px; letter-spacing: 2px; }
     .popup-image-art span { display: block; margin-top: 8px; color: #ddd; font-size: 10px; letter-spacing: 1px; }
+    .popup-rule-lines { width: 224px; display: grid; gap: 8px; margin: 22px auto 0; padding: 0; list-style: none; text-align: left; }
+    .popup-rule-lines li { min-height: 31px; display: flex; align-items: center; gap: 9px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; color: #f5f5f5; background: rgba(255,255,255,.1); font-size: 10px; font-weight: 700; letter-spacing: 0; }
+    .popup-rule-lines li::before { content: attr(data-step); width: 19px; height: 19px; flex: 0 0 19px; display: grid; place-items: center; border-radius: 50%; color: #222; background: #f2f2f2; font-size: 9px; font-weight: 900; }
     .popup-image-panel .primary-btn { margin-top: 12px; }
     .popup-close { position: absolute; z-index: 2; right: 12px; top: 12px; width: 28px; height: 28px; border: 0; border-radius: 50%; color: var(--white); background: rgba(255,255,255,.15); cursor: pointer; }
     .popup-head { padding: 23px 18px 18px; color: var(--white); background: radial-gradient(circle at 86% 12%,rgba(53,232,139,.3),transparent 32%),linear-gradient(135deg,#111b2b,#24425e); }
@@ -103,6 +122,11 @@
     .popup-reward { display: flex; align-items: center; justify-content: space-between; margin: 13px 0; padding: 10px 11px; border-radius: 12px; background: var(--green-soft); font-size: 10px; }
     .popup-reward b { color: #087a48; font-size: 16px; }
     .primary-btn { width: 100%; height: 42px; border: 0; border-radius: 11px; color: #071b12; background: linear-gradient(90deg,var(--green),#8cf06c); font-weight: 800; cursor: pointer; }
+    .transfer-action-row { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(92px,.85fr); gap: 8px; margin-top: 14px; }
+    .transfer-action-row .primary-btn { min-width: 0; }
+    .transfer-signup-btn { height: 42px; min-width: 0; border: 1px solid #cbd2dc; border-radius: 11px; color: var(--navy); background: var(--white); font-weight: 800; cursor: pointer; }
+    .transfer-signup-btn:disabled { color: #77808d; background: #edf0f4; cursor: default; }
+    .is-hidden { display: none !important; }
 
     .activity-banner { padding: 17px; border-radius: 16px; color: var(--white); background: radial-gradient(circle at 90% 5%,rgba(53,232,139,.28),transparent 34%),linear-gradient(135deg,var(--navy),#2b4964); }
     .activity-banner small { color: var(--green); font-weight: 800; } .activity-banner h3 { margin: 7px 0 5px; font-size: 19px; } .activity-banner p { margin: 0; color: #c1cad8; font-size: 10px; }
@@ -118,6 +142,11 @@
     [data-stage="claimed-center"] .activity-banner { background: #747474; }
     .campaign-copy b { display: block; font-size: 12px; } .campaign-copy span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
     .info-btn { width: 22px; height: 22px; border: 0; border-radius: 50%; color: var(--white); background: var(--navy-2); font-weight: 900; cursor: pointer; }
+    .transfer-center-card .campaign-top { grid-template-columns: 43px minmax(0,1fr) auto; }
+    .transfer-center-card .campaign-title-row { display: flex; align-items: center; gap: 6px; }
+    .transfer-center-card .campaign-title-row .info-btn { flex: 0 0 18px; width: 18px; height: 18px; padding: 0; font-size: 10px; }
+    .transfer-center-card .card-action { min-width: 64px; height: 30px; padding: 0 10px; border: 0; border-radius: 9px; color: var(--white); background: var(--navy-2); font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; }
+    .transfer-center-card .card-action:disabled { color: #5f6773; background: #dce1e8; cursor: default; }
     .campaign-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 12px; }
     .campaign-metrics div { padding: 9px 7px; border-radius: 10px; background: #f4f6f9; }
     .campaign-metrics span { display: block; color: var(--muted); font-size: 8px; } .campaign-metrics b { display: block; margin-top: 4px; font-size: 11px; }
@@ -212,6 +241,11 @@
     .bind-card h3 { margin: 0; font-size: 16px; }
     .bind-card p { margin: 7px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
     .bind-sheet { position: absolute; z-index: 15; left: 8px; right: 8px; bottom: 8px; padding: 18px; border-radius: 20px; background: #fff; box-shadow: 0 -18px 48px rgba(0,0,0,.18); }
+    .inline-bind-layer { position: absolute; z-index: 14; inset: 0; display: none; align-items: flex-end; padding: 8px; background: rgba(17,24,32,.56); }
+    .inline-bind-layer.is-open { display: flex; }
+    .inline-bind-layer .bind-sheet { position: relative; left: auto; right: auto; bottom: auto; width: 100%; box-shadow: 0 -18px 48px rgba(0,0,0,.2); }
+    .bind-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .bind-sheet-close { width: 28px; height: 28px; border: 0; border-radius: 50%; color: #555; background: #edf0f4; font-size: 18px; cursor: pointer; }
     .bind-sheet h3 { margin: 0; font-size: 17px; }
     .bind-sheet p { margin: 7px 0 14px; color: var(--muted); font-size: 10px; }
     .phone-input { height: 42px; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 0 12px; border: 1px solid #cfd5de; border-radius: 10px; background: #f8f9fb; font-size: 11px; }
@@ -311,6 +345,13 @@
             <div class="stage-foot"><div><span>用户状态</span><b>待领取</b></div><div><span>按钮</span><b>去领取</b></div><div><span>跳转</span><b>礼金中心</b></div></div>
             <div class="source-map" data-source-stage="settled-center"></div>
           </section>
+
+          <section class="stage transfer-only-stage" data-stage="registered-center">
+            <div class="stage-head"><span class="stage-index">05</span><div><b>当前平台活动中心 · 已绑定已报名</b><span>报名完成后按钮变为去下载</span></div></div>
+            <div class="phone"><div class="screen"></div></div>
+            <div class="stage-foot"><div><span>绑定状态</span><b>已绑定</b></div><div><span>报名状态</span><b>已报名</b></div><div><span>按钮</span><b>去下载</b></div></div>
+            <div class="source-map" data-source-stage="registered-center"></div>
+          </section>
         </div>
       </div>
     </section>
@@ -407,8 +448,32 @@
             <div class="source-map" data-source-stage="message-unread"></div>
           </section>
 
+          <section class="stage transfer-only-stage" data-stage="transfer-new-detail">
+            <div class="stage-head"><span class="stage-index">10</span><div><b>新平台 · 活动详情</b><span>完成登录后展示奖励领取入口</span></div></div>
+            <div class="phone">
+              <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　活动详情</b><span>奖励待领取</span></div>
+              <div class="screen"></div>
+            </div>
+            <div class="stage-foot"><div><span>参与状态</span><b>已完成</b></div><div><span>礼金</span><b>₹100</b></div><div><span>按钮</span><b>领取礼金</b></div></div>
+            <div class="source-map" data-source-stage="transfer-new-detail"></div>
+          </section>
+
+          <section class="stage transfer-only-stage" data-stage="transfer-reward-center">
+            <div class="stage-head"><span class="stage-index">12</span><div><b>新平台 · 礼金中心</b><span>展示转包登录礼并提供领取入口</span></div></div>
+            <div class="phone"><div class="screen"></div></div>
+            <div class="stage-foot"><div><span>礼金名称</span><b>转包登录礼</b></div><div><span>礼金金额</span><b>₹100</b></div><div><span>按钮</span><b>Claim</b></div></div>
+            <div class="source-map" data-source-stage="transfer-reward-center"></div>
+          </section>
+
+          <section class="stage transfer-only-stage" data-stage="transfer-reward-center-direct">
+            <div class="stage-head"><span class="stage-index">13</span><div><b>新平台 · 礼金中心</b><span>仅按已生成的礼金权益展示</span></div></div>
+            <div class="phone"><div class="screen"></div></div>
+            <div class="stage-foot"><div><span>礼金名称</span><b>转包登录礼</b></div><div><span>礼金金额</span><b>₹100</b></div><div><span>按钮</span><b>Claim</b></div></div>
+            <div class="source-map" data-source-stage="transfer-reward-center-direct"></div>
+          </section>
+
           <section class="stage" data-stage="message-read">
-            <div class="stage-head"><span class="stage-index">10</span><div><b>站内信 · 已读已点击</b><span>用户打开并点击后同步更新已读与点击状态</span></div></div>
+            <div class="stage-head"><span class="stage-index">11</span><div><b>站内信 · 已读已点击</b><span>用户打开并点击后同步更新已读与点击状态</span></div></div>
             <div class="phone">
               <div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　站内信</b><span>活动消息</span></div>
               <div class="screen inbox-screen"><div class="inbox-tabs"><span class="active">活动消息</span><span>系统消息</span></div><article class="message-card is-read"><div class="message-card-head"><div><i class="message-dot"></i><b class="message-title">每日打码返利已开启</b></div><time>09:30</time></div><p class="message-copy">参与活动并累计有效流水，周期结束时可获得对应档位返利。</p><div class="message-meta"><span>消息状态</span><b class="message-state">已读 · 已点击</b></div><button class="message-link" type="button" data-jump="detail">再次查看</button></article></div>
@@ -613,6 +678,8 @@
         "popup-image": [
           ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
           ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片上传</b>"],
+          ["图片内三行规则","computed","UI素材参考：绑定手机号并报名 / 下载新平台 / 7天内同号登录领奖"],
+          ["定向可见","config","参与条件 → <b>是否开启参与条件、条件类型、条件值</b>；仅命中用户展示"],
           ["按钮文案","config","前台展示 → 弹窗配置 → <b>弹窗按钮文案</b>"],
           ["未绑定状态","runtime","读取用户手机号绑定状态；未绑定时按钮执行系统固定的<b>去绑定</b>动作"],
           ["今日不再提醒","runtime","前台本地状态；点击后当日不再展示当前活动弹窗"]
@@ -620,51 +687,85 @@
         popup: [
           ["弹窗展示","config","前台展示 → 弹窗配置 → <b>弹窗是否展示、弹窗间隔时间、全局顺序</b>"],
           ["弹窗图片","config","前台展示 → 弹窗配置 → <b>弹窗图片上传</b>"],
-          ["已绑定状态","runtime","读取用户手机号绑定状态；已绑定时按钮执行系统固定的<b>立即下载</b>动作"],
-          ["下载入口","computed","系统维护目标 APP 下载落地页，不由活动运营重复配置"]
+          ["图片内三行规则","computed","UI素材参考：绑定手机号并报名 / 下载新平台 / 7天内同号登录领奖"],
+          ["定向可见","config","参与条件 → <b>是否开启参与条件、条件类型、条件值</b>；仅命中用户展示"],
+          ["已绑定状态","runtime","读取用户手机号绑定状态；已绑定但未报名时按钮执行<b>去报名</b>动作"],
+          ["报名入口","computed","系统固定进入活动详情；用户确认报名后写入活动报名表"]
         ],
         center: [
           ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
           ["详情图","config","前台展示 → 活动中心配置 → <b>详情图</b>"],
+          ["活动可见资格","config","当前平台活动先匹配参与条件；仅命中指定条件的用户展示"],
           ["手机号状态","runtime","读取当前用户手机号绑定状态"],
-          ["活动按钮","computed","未绑定展示<b>去绑定</b>；点击先进入活动详情确认任务说明"]
+          ["活动按钮","computed","未绑定展示<b>去绑定</b>；点击后在当前活动中心页面底部拉起绑定手机号控件"]
         ],
         "settled-center": [
           ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
           ["手机号状态","runtime","用户已完成手机号绑定"],
-          ["活动按钮","computed","已绑定展示<b>立即下载</b>并进入系统维护的下载落地页"]
+          ["报名状态","runtime","读取活动报名表；当前用户尚未报名"],
+          ["活动按钮","computed","已绑定且未报名展示<b>去报名</b>；点击直接报名，成功后按钮原位切换为<b>去下载</b>"]
+        ],
+        "registered-center": [
+          ["活动名称 / 宣传文案","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动宣传文案（前台）</b>"],
+          ["绑定状态","runtime","用户已绑定当前平台手机号"],
+          ["报名状态","runtime","活动报名表中存在当前用户的有效报名记录"],
+          ["去下载按钮","computed","报名完成后原位将去报名切换为去下载，点击进入新平台下载落地页"]
         ],
         detail: [
           ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
           ["活动说明","config","前台展示 → 活动中心配置 → <b>活动详情自定义说明</b>"],
           ["绑定状态","runtime","当前用户尚未绑定手机号"],
-          ["去绑定按钮","computed","系统固定动作：打开绑定手机号页面并自动展开底部绑定弹窗"]
+          ["去绑定按钮","computed","系统固定动作：不离开活动详情，在当前页面底部拉起绑定手机号控件"],
+          ["绑定成功","runtime","绑定控件关闭，当前活动详情原位切换为已绑定状态，并显示立即下载与立即报名"]
         ],
         "detail-settled": [
           ["活动名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
           ["活动说明","config","前台展示 → 活动中心配置 → <b>活动详情自定义说明</b>"],
           ["绑定手机号","runtime","读取用户已绑定手机号并脱敏展示"],
-          ["立即下载按钮","computed","系统固定动作：进入目标 APP 下载落地页"]
+          ["立即下载按钮","computed","系统固定跳转新平台下载落地页；按钮在同组操作中使用较宽尺寸"],
+          ["立即报名按钮","computed","点击后写入活动报名表：活动ID、用户ID、当前平台ID、绑定手机号、报名时间及状态；报名成功后停留当前页"]
         ],
         settlement: [
           ["手机号","runtime","用户输入并完成短信验证码校验的手机号"],
-          ["底部绑定弹窗","computed","从转包活动进入绑定页时系统自动展开，不需要运营配置"],
-          ["绑定成功","runtime","成功后更新用户手机号绑定状态，并回到活动任务"]
+          ["底部绑定控件","computed","在当前活动详情页原位拉起，不发生页面跳转，不需要运营配置"],
+          ["绑定成功","runtime","成功后更新用户手机号绑定状态，关闭控件并原位刷新活动详情操作区"]
         ],
         "claimed-reward": [
-          ["目标 APP","computed","转包活动对应的系统级目标应用"],
-          ["下载按钮","computed","按设备系统进入对应下载渠道"],
-          ["登录要求","config","前台展示 → 活动中心配置 → <b>活动详情自定义说明</b>"],
-          ["手机号一致性","runtime","目标 APP 首次登录手机号须与当前账号绑定手机号一致"]
+          ["报名记录","runtime","活动报名表中存在当前活动、用户及当前平台绑定手机号记录"],
+          ["新平台登录手机号","runtime","用户在新平台登录时提交的手机号"],
+          ["新平台登录表","runtime","登录成功后写入：活动ID、用户ID、新平台ID、登录手机号及登录时间"],
+          ["任务时限","computed","须在报名后7天内完成新平台同手机号登录"]
         ],
         "message-unread": [
-          ["活动持续展示","runtime","同手机号首次成功登录后活动仍保留在活动中心，并切换为<b>奖励待领取</b>状态"],
-          ["任务完成","runtime","目标 APP 使用绑定手机号首次成功登录后，系统生成一笔待领取礼金"],
-          ["礼金金额 / 倍率","config","规则配置 → 礼金配置 → <b>礼金金额、礼金倍率</b>"],
+          ["新平台活动可见","computed","仅当活动报名表存在报名记录，且新平台登录手机号与报名手机号一致时展示"],
+          ["两表匹配","runtime","按活动ID、用户ID及手机号匹配活动报名表与新平台登录表"],
+          ["礼金金额 / 倍率","config","读取当前平台活动配置 → 礼金配置 → <b>礼金金额、礼金倍率</b>"],
           ["领取按钮","config","规则配置 → 礼金配置 → <b>礼金是否需要领取 = 开启</b>"],
           ["领取有效期","config","规则配置 → 礼金配置 → <b>礼金领取过期规则、领取有效天数</b>"]
         ],
+        "transfer-new-detail": [
+          ["活动名称 / 详情说明","config","前台展示 → 活动中心配置 → <b>活动名称（前台）、活动详情自定义说明</b>"],
+          ["参与状态","runtime","用户已报名，并在新平台使用报名手机号完成登录"],
+          ["礼金金额","config","读取当前平台活动配置 → 礼金配置 → <b>礼金金额</b>"],
+          ["领取礼金按钮","computed","关联同一笔待领取礼金；点击后与活动中心、站内信同步领取状态"]
+        ],
+        "transfer-reward-center": [
+          ["礼金名称","config","前台展示 → 活动中心配置 → <b>活动名称（前台）</b>"],
+          ["礼金金额 / 倍率","config","规则配置 → 礼金配置 → <b>礼金金额、礼金倍率</b>"],
+          ["礼金适用范围","config","规则配置 → 礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取有效期","config","规则配置 → 礼金配置 → <b>礼金领取过期规则、领取有效天数</b>"],
+          ["Claim 按钮","runtime","同一笔待领取礼金；领取后与活动中心、活动详情同步为已领取"]
+        ],
+        "transfer-reward-center-direct": [
+          ["展示条件","runtime","仅当当前平台报名记录与新平台登录手机号匹配，并已生成待领取礼金权益时展示"],
+          ["新平台活动配置","computed","无需创建或复制活动；新平台只读取礼金权益记录"],
+          ["礼金名称 / 金额","runtime","读取当前平台转包活动生成的礼金权益记录"],
+          ["礼金适用范围","config","读取当前平台活动配置 → 礼金配置 → <b>礼金适用范围、适用范围值</b>"],
+          ["领取有效期","config","读取当前平台活动配置 → 礼金配置 → <b>礼金领取过期规则、领取有效天数</b>"],
+          ["Claim 按钮","runtime","领取当前待领取礼金；不存在礼金权益的用户不展示该礼金"]
+        ],
         "message-read": [
+          ["规划状态","computed","后续统一规划：本次转包活动不单独实现站内信，待全部活动的站内信方案确认后统一设计"],
           ["消息标题 / 正文","config","用户触达 → 站内信配置 → <b>站内信标题、站内信内容</b>"],
           ["活动关联","config","用户触达 → 站内信配置 → <b>推送类型 = 活动推送、活动ID</b>"],
           ["奖励金额","runtime","读取本次转包活动生成的待领取礼金金额"],
@@ -829,91 +930,169 @@
       const sections = Array.from(document.querySelectorAll(".journey-section"));
 
       setText(".page-head h1", "转包活动 · 前台用户路径");
-      setText(".page-head p", "符合参与条件的用户可见活动；绑定手机号后下载目标 APP，并使用同一手机号首次登录生成待领取礼金，可在活动中心或站内信领取。");
-      if (sections[0]) sections[0].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块一 · 活动弹窗</span><p>同一图片弹窗根据手机号绑定状态展示“去绑定”或“立即下载”。</p>';
-      if (sections[1]) sections[1].querySelector(".journey-head").innerHTML = '<span class="journey-state settled">模块二 · 活动中心</span><p>活动卡片保持统一结构，按钮动作随手机号绑定状态变化。</p>';
-      if (sections[2]) sections[2].querySelector(".journey-head").innerHTML = '<span class="journey-state claimed">模块三 · 活动详情</span><p>详情页展示后台配置的自定义说明，并明确当前手机号绑定状态。</p>';
-      if (sections[3]) sections[3].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块四 · 绑定与下载</span><p>去绑定自动展开底部绑定弹窗；绑定成功后进入系统维护的下载落地页。</p>';
-      if (sections[4]) sections[4].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块五 · 奖励领取</span><p>首次同手机号登录后生成待领取礼金；活动中心和站内信提供同一笔礼金的领取入口。</p>';
+      setText(".page-head p", "当前平台按参与条件定向展示；用户绑定手机号并报名后，在7天内使用报名手机号登录新平台。两表手机号匹配后按当前平台礼金规则生成奖励。");
+      if (sections[0]) sections[0].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块一 · 定向活动弹窗</span><p>仅向命中当前平台参与条件的用户展示；未绑定去绑定，已绑定去报名。</p>';
+      if (sections[1]) sections[1].querySelector(".journey-head").innerHTML = '<span class="journey-state settled">模块二 · 当前平台活动中心</span><p>活动卡片展示未绑定、已绑定未报名、已绑定已报名三种状态；按钮均在当前卡片直接完成操作。</p>';
+      if (sections[2]) sections[2].querySelector(".journey-head").innerHTML = '<span class="journey-state claimed">模块三 · 当前平台活动详情</span><p>未绑定先绑定；已绑定用户点击报名后写入活动报名表。</p>';
+      if (sections[3]) sections[3].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块四 · 绑定与新平台登录</span><p>当前平台绑定信息写入用户资料；报名后使用报名手机号登录新平台并写入新平台登录表。</p>';
+      if (sections[4]) sections[4].querySelector(".journey-head").innerHTML = '<span class="journey-state">模块五 · 新平台展示方案</span><p>并列保留两版供评审：A版展示活动入口但不复制活动配置；B版仅展示已生成的礼金权益。</p>';
+      const transferNewDetailStage = document.querySelector('[data-stage="transfer-new-detail"]');
+      if (transferNewDetailStage) transferNewDetailStage.style.display = "block";
+      const transferRewardCenterStage = document.querySelector('[data-stage="transfer-reward-center"]');
+      if (transferRewardCenterStage) transferRewardCenterStage.style.display = "block";
+      const transferRewardCenterDirectStage = document.querySelector('[data-stage="transfer-reward-center-direct"]');
+      if (transferRewardCenterDirectStage) transferRewardCenterDirectStage.style.display = "block";
+      const transferRewardFlow = sections[4]?.querySelector(".flow");
+      const transferActivityStage = document.querySelector('[data-stage="message-unread"]');
+      const transferMessageStage = document.querySelector('[data-stage="message-read"]');
+      if (transferRewardFlow && transferActivityStage && transferNewDetailStage && transferRewardCenterStage && transferRewardCenterDirectStage && transferMessageStage) {
+        const options = document.createElement("div");
+        options.className = "transfer-options";
+        const optionA = document.createElement("section");
+        optionA.className = "transfer-option";
+        optionA.innerHTML = '<div class="transfer-option-head"><span class="transfer-option-badge">方案 A</span><div><b>活动中心强校验版</b><p>新平台不创建活动配置；仅将当前平台活动投影给“已报名且手机号匹配”的用户。未在当前平台报名的用户不展示。</p></div></div><div class="flow"><div class="flow-track cols-3"><div class="flow-line"></div><span class="flow-label label-1">资格校验通过后展示</span><span class="flow-label label-2">查看活动详情</span></div></div>';
+        const optionATrack = optionA.querySelector(".flow-track");
+        optionATrack.append(transferActivityStage, transferNewDetailStage, transferRewardCenterStage);
+        const optionB = document.createElement("section");
+        optionB.className = "transfer-option";
+        optionB.innerHTML = '<div class="transfer-option-head"><span class="transfer-option-badge">方案 B</span><div><b>礼金中心直领版</b><p>新平台不展示活动中心和活动详情；手机号匹配并生成礼金权益后，只在礼金中心出现转包登录礼。</p></div></div><div class="flow"><div class="flow-track cols-1"></div></div>';
+        optionB.querySelector(".flow-track").append(transferRewardCenterDirectStage);
+        const deferred = document.createElement("div");
+        deferred.className = "transfer-deferred";
+        deferred.innerHTML = '<b>两版共用 · 站内信后续统一规划</b><span>本次仅保留占位，待全部活动的站内信方案确认后统一设计。</span><div class="flow"><div class="flow-track cols-1"></div></div>';
+        deferred.querySelector(".flow-track").append(transferMessageStage);
+        options.append(optionA, optionB, deferred);
+        transferRewardFlow.replaceChildren(options);
+      }
+      const transferCenterTrack = sections[1]?.querySelector(".flow-track");
+      if (transferCenterTrack) {
+        transferCenterTrack.classList.remove("cols-2");
+        transferCenterTrack.classList.add("cols-3");
+      }
+      const registeredCenterStage = document.querySelector('[data-stage="registered-center"]');
+      if (registeredCenterStage) registeredCenterStage.style.display = "block";
       const flowLabels = Array.from(document.querySelectorAll(".journey-section .flow-label"));
       [
-        "根据手机号绑定状态切换按钮",
-        "完成绑定后切换为立即下载",
-        "点击去绑定 / 立即下载进入下一步",
-        "绑定成功后进入下载落地页",
-        "首次同手机号登录后生成待领取礼金"
+        "当前平台参与条件决定活动是否展示",
+        "去绑定原位拉起控件；报名后按钮变为去下载",
+        "点击报名写入活动报名表",
+        "新平台登录写入新平台登录表",
+        "新平台完成任务后领取奖励；站内信后续统一规划"
       ].forEach((label, index) => {
         if (flowLabels[index]) flowLabels[index].textContent = label;
       });
 
       setText('[data-stage="popup-image"] .stage-head b', "弹窗 · 未绑定手机号");
       setText('[data-stage="popup-image"] .stage-head span:last-child', "图片弹窗展示去绑定入口");
-      setHtml('[data-stage="popup-image"] .popup', '<button class="popup-close" type="button" aria-label="关闭弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>DOWNLOAD</strong><span>TRANSFER CAMPAIGN POPUP</span></div></div><button class="primary-btn" type="button" data-transfer-jump="settlement">去绑定</button></div>');
+      setHtml('[data-stage="popup-image"] .popup', '<button class="popup-close" type="button" aria-label="关闭弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>DOWNLOAD</strong><span>TRANSFER CAMPAIGN</span><ol class="popup-rule-lines"><li data-step="1">绑定手机号并报名</li><li data-step="2">下载新平台</li><li data-step="3">7天内同号登录领奖</li></ol></div></div><button class="primary-btn" type="button" data-transfer-jump="detail">去绑定</button></div>');
       setText('[data-stage="popup-image"] .stage-foot div:nth-child(2) b', "转包活动图片");
       setText('[data-stage="popup-image"] .stage-foot div:nth-child(3) b', "去绑定");
 
-      setText('[data-stage="popup"] .stage-head b', "弹窗 · 已绑定手机号");
-      setText('[data-stage="popup"] .stage-head span:last-child', "同一图片弹窗切换为下载入口");
-      setHtml('[data-stage="popup"] .popup', '<button class="popup-close" type="button" aria-label="关闭弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>DOWNLOAD</strong><span>TRANSFER CAMPAIGN POPUP</span></div></div><button class="primary-btn" type="button" data-transfer-jump="claimed-reward">立即下载</button></div>');
+      setText('[data-stage="popup"] .stage-head b', "弹窗 · 已绑定未报名");
+      setText('[data-stage="popup"] .stage-head span:last-child', "同一图片弹窗切换为报名入口");
+      setHtml('[data-stage="popup"] .popup', '<button class="popup-close" type="button" aria-label="关闭弹窗">×</button><div class="popup-image-panel"><div class="popup-image-art"><div><strong>DOWNLOAD</strong><span>TRANSFER CAMPAIGN</span><ol class="popup-rule-lines"><li data-step="1">绑定手机号并报名</li><li data-step="2">下载新平台</li><li data-step="3">7天内同号登录领奖</li></ol></div></div><button class="primary-btn" type="button" data-transfer-jump="detail-settled">去报名</button></div>');
       setText('[data-stage="popup"] .stage-foot div:nth-child(1) b', "图片形式");
-      setText('[data-stage="popup"] .stage-foot div:nth-child(2) b', "手机号已绑定");
-      setText('[data-stage="popup"] .stage-foot div:nth-child(3) b', "立即下载");
+      setText('[data-stage="popup"] .stage-foot div:nth-child(2) b', "已绑定未报名");
+      setText('[data-stage="popup"] .stage-foot div:nth-child(3) b', "去报名");
 
-      setText('[data-stage="center"] .stage-head b', "活动中心 · 未绑定");
-      setText('[data-stage="center"] .stage-head span:last-child', "满足参与条件后可见，按钮进入活动详情");
-      setHtml('[data-stage="center"] .screen', '<div class="activity-banner"><small>DOWNLOAD & EARN</small><h3>绑定手机号，下载新 APP</h3><p>使用同一手机号登录即可领取奖励</p></div><div class="section-title"><b>热门活动</b><span>符合条件可见</span></div><div class="campaign-card"><div class="campaign-top"><div class="campaign-icon">↓</div><div class="campaign-copy"><b>SUPERX Lite 转包登录礼</b><span>当前状态：未绑定手机号</span></div><button class="info-btn" type="button" data-transfer-jump="detail" aria-label="查看活动详情">!</button></div><div class="campaign-metrics"><div><span>手机号</span><b>未绑定</b></div><div><span>活动奖励</span><b>₹100</b></div><div><span>完成次数</span><b>仅一次</b></div></div><button class="primary-btn" type="button" data-transfer-jump="detail">去绑定</button></div>');
+      setText('[data-stage="center"] .stage-head b', "当前平台活动中心 · 未绑定");
+      setText('[data-stage="center"] .stage-head span:last-child', "去绑定直接在当前活动中心拉起手机号控件");
+      setHtml('[data-stage="center"] .screen', '<div class="activity-banner"><small>JOIN & DOWNLOAD</small><h3>绑定手机号，报名活动</h3><p>报名后7天内使用该手机号登录新平台</p></div><div class="section-title"><b>热门活动</b><span>符合条件可见</span></div><div class="campaign-card transfer-center-card"><div class="campaign-top"><div class="campaign-icon">↓</div><div class="campaign-copy"><div class="campaign-title-row"><b>SUPERX Lite 转包登录礼</b><button class="info-btn" type="button" data-transfer-jump="detail" aria-label="查看活动详情">!</button></div><span data-transfer-center-state>当前状态：未绑定手机号</span></div><button class="card-action" type="button" data-transfer-center-open-bind>去绑定</button></div></div>');
+      document.querySelector('[data-stage="center"] .phone')?.insertAdjacentHTML('beforeend', '<div class="inline-bind-layer" data-transfer-center-bind-layer><div class="bind-sheet"><div class="bind-sheet-head"><h3>绑定手机号</h3><button class="bind-sheet-close" type="button" data-transfer-center-close-bind aria-label="关闭绑定手机号控件">×</button></div><p>绑定后即可报名，登录新平台时请继续使用这个手机号</p><div class="phone-input"><b>+91</b><span>138 8888 8888</span></div><div class="phone-input"><span>短信验证码</span><b style="margin-left:auto">获取验证码</b></div><button class="primary-btn" type="button" data-transfer-center-confirm-bind>确认绑定</button></div></div>');
       setText('[data-stage="center"] .stage-foot div:nth-child(1) b', "未绑定手机号");
       setText('[data-stage="center"] .stage-foot div:nth-child(2) b', "去绑定");
       setText('[data-stage="center"] .stage-foot div:nth-child(3) b', "活动详情");
 
-      setText('[data-stage="settled-center"] .stage-head b', "活动中心 · 已绑定");
-      setText('[data-stage="settled-center"] .stage-head span:last-child', "已绑定用户直接展示下载入口");
-      setHtml('[data-stage="settled-center"] .screen', '<div class="activity-banner"><small>READY TO DOWNLOAD</small><h3>手机号已绑定</h3><p>前往下载并使用 138****8888 登录</p></div><div class="section-title"><b>热门活动</b><span>任务进行中</span></div><div class="campaign-card"><div class="campaign-top"><div class="campaign-icon">✓</div><div class="campaign-copy"><b>SUPERX Lite 转包登录礼</b><span>手机号 138****8888</span></div><button class="info-btn" type="button" data-transfer-jump="detail-settled" aria-label="查看活动详情">!</button></div><div class="campaign-metrics"><div><span>绑定状态</span><b>已绑定</b></div><div><span>登录状态</span><b>待完成</b></div><div><span>活动奖励</span><b>₹100</b></div></div><button class="primary-btn" type="button" data-transfer-jump="claimed-reward">立即下载</button></div>');
+      setText('[data-stage="settled-center"] .stage-head b', "当前平台活动中心 · 已绑定未报名");
+      setText('[data-stage="settled-center"] .stage-head span:last-child', "去报名直接完成报名，按钮原位变为去下载");
+      setHtml('[data-stage="settled-center"] .screen', '<div class="activity-banner"><small>READY TO JOIN</small><h3>手机号已绑定</h3><p>完成报名后再下载并登录新平台</p></div><div class="section-title"><b>热门活动</b><span data-transfer-center-section-state>等待报名</span></div><div class="campaign-card transfer-center-card"><div class="campaign-top"><div class="campaign-icon">✓</div><div class="campaign-copy"><div class="campaign-title-row"><b>SUPERX Lite 转包登录礼</b><button class="info-btn" type="button" data-transfer-jump="detail-settled" aria-label="查看活动详情">!</button></div><span data-transfer-center-state>手机号 138****8888 · 未报名</span></div><button class="card-action" type="button" data-transfer-center-signup>去报名</button></div></div>');
       setText('[data-stage="settled-center"] .stage-foot div:nth-child(1) b', "已绑定手机号");
-      setText('[data-stage="settled-center"] .stage-foot div:nth-child(2) b', "立即下载");
-      setText('[data-stage="settled-center"] .stage-foot div:nth-child(3) b', "下载落地页");
+      setText('[data-stage="settled-center"] .stage-foot div:nth-child(2) b', "未报名");
+      setText('[data-stage="settled-center"] .stage-foot div:nth-child(3) b', "去报名");
+
+      setText('[data-stage="registered-center"] .stage-head b', "当前平台活动中心 · 已绑定已报名");
+      setText('[data-stage="registered-center"] .stage-head span:last-child', "报名完成后展示去下载入口");
+      setHtml('[data-stage="registered-center"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>活动中心</b><span>进行中的活动</span></div><div class="screen scroll-screen"><div class="activity-banner"><small>READY TO DOWNLOAD</small><h3>报名成功，去新平台吧</h3><p>请在7天内使用报名手机号登录</p></div><div class="section-title"><b>热门活动</b><span>已报名</span></div><div class="campaign-card transfer-center-card"><div class="campaign-top"><div class="campaign-icon">✓</div><div class="campaign-copy"><div class="campaign-title-row"><b>SUPERX Lite 转包登录礼</b><button class="info-btn" type="button" data-transfer-jump="detail-settled" aria-label="查看活动详情">!</button></div><span>手机号 138****8888 · 已报名</span></div><button class="card-action" type="button" data-transfer-download>去下载</button></div></div>');
+      setText('[data-stage="registered-center"] .stage-foot div:nth-child(1) b', "已绑定");
+      setText('[data-stage="registered-center"] .stage-foot div:nth-child(2) b', "已报名");
+      setText('[data-stage="registered-center"] .stage-foot div:nth-child(3) b', "去下载");
+
+      [
+        ["detail", "06"], ["detail-settled", "07"], ["settlement", "08"],
+        ["claimed-reward", "09"], ["message-unread", "10"],
+        ["transfer-new-detail", "11"], ["transfer-reward-center", "12"], ["transfer-reward-center-direct", "13"], ["message-read", "14"]
+      ].forEach(([stageName, index]) => setText(`[data-stage="${stageName}"] .stage-index`, index));
 
       setText('[data-stage="detail"] .stage-head b', "活动详情 · 未绑定");
-      setText('[data-stage="detail"] .stage-head span:last-child', "展示自定义说明与去绑定按钮");
-      setHtml('[data-stage="detail"] .screen', '<div class="detail-hero"><small>DOWNLOAD & EARN</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>活动奖励</span></div></div><div class="transfer-state-card"><small>手机号状态</small><strong>尚未绑定手机号</strong></div><div class="detail-panel"><h3>转包活动参与说明</h3><div class="transfer-steps"><div class="transfer-step"><i>1</i><span>需要先绑定手机号，才可以参与转包活动。</span></div><div class="transfer-step"><i>2</i><span>绑定手机号且在下载好的 APP 中使用该手机号登录，即可领取奖励。</span></div></div><button class="primary-btn" type="button" data-transfer-jump="settlement" style="margin-top:14px">去绑定</button></div>');
+      setText('[data-stage="detail"] .stage-head span:last-child', "点击去绑定后在当前活动详情底部拉起绑定控件");
+      setHtml('[data-stage="detail"] .screen', '<div class="detail-hero"><small>DOWNLOAD & EARN</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>活动奖励</span></div></div><div class="transfer-state-card" data-transfer-bind-state><small>手机号状态</small><strong>尚未绑定手机号</strong></div><div class="detail-panel"><h3>怎么参加</h3><div class="transfer-steps"><div class="transfer-step"><i>1</i><span>先绑定当前平台手机号，再点击“立即报名”。</span></div><div class="transfer-step"><i>2</i><span>报名后下载新平台，请在7天内用同一手机号登录。</span></div><div class="transfer-step"><i>3</i><span>完成登录后，即可领取 ₹100 奖励。</span></div></div><button class="primary-btn" type="button" data-transfer-open-bind style="margin-top:14px">去绑定</button><div class="transfer-action-row is-hidden" data-transfer-bound-actions><button class="primary-btn" type="button" data-transfer-download>立即下载</button><button class="transfer-signup-btn" type="button" data-transfer-signup>立即报名</button></div></div>');
+      document.querySelector('[data-stage="detail"] .phone')?.insertAdjacentHTML('beforeend', '<div class="inline-bind-layer" data-transfer-bind-layer><div class="bind-sheet"><div class="bind-sheet-head"><h3>绑定手机号</h3><button class="bind-sheet-close" type="button" data-transfer-close-bind aria-label="关闭绑定手机号控件">×</button></div><p>绑定后即可报名，登录新平台时请继续使用这个手机号</p><div class="phone-input"><b>+91</b><span>138 8888 8888</span></div><div class="phone-input"><span>短信验证码</span><b style="margin-left:auto">获取验证码</b></div><button class="primary-btn" type="button" data-transfer-confirm-bind>确认绑定</button></div></div>');
       setText('[data-stage="detail"] .stage-foot div:nth-child(1) b', "未绑定手机号");
       setText('[data-stage="detail"] .stage-foot div:nth-child(2) b', "自定义说明");
       setText('[data-stage="detail"] .stage-foot div:nth-child(3) b', "去绑定");
 
-      setText('[data-stage="detail-settled"] .stage-head b', "活动详情 · 已绑定");
-      setText('[data-stage="detail-settled"] .stage-head span:last-child', "展示脱敏手机号与立即下载按钮");
-      setHtml('[data-stage="detail-settled"] .screen', '<div class="detail-hero"><small>READY TO DOWNLOAD</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>活动奖励</span></div></div><div class="transfer-state-card"><small>已绑定手机号</small><strong>+91 138****8888</strong></div><div class="detail-panel"><h3>转包活动参与说明</h3><div class="transfer-steps"><div class="transfer-step"><i>✓</i><span>手机号已绑定，可以下载目标 APP。</span></div><div class="transfer-step"><i>2</i><span>请在下载好的 APP 中使用同一手机号登录，登录成功即可获得奖励。</span></div></div><button class="primary-btn" type="button" data-transfer-jump="claimed-reward" style="margin-top:14px">立即下载</button></div>');
+      setText('[data-stage="detail-settled"] .stage-head b', "活动详情 · 已绑定待报名");
+      setText('[data-stage="detail-settled"] .stage-head span:last-child', "绑定后可独立报名，也可直接前往新平台下载落地页");
+      setHtml('[data-stage="detail-settled"] .screen', '<div class="detail-hero"><small>READY TO JOIN</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>活动奖励</span></div></div><div class="transfer-state-card"><small>报名手机号</small><strong>+91 138****8888</strong></div><div class="detail-panel"><h3>怎么参加</h3><div class="transfer-steps"><div class="transfer-step"><i>✓</i><span>手机号已绑定，现在可以报名啦。</span></div><div class="transfer-step"><i>2</i><span>报名后下载新平台，请在7天内用这个手机号登录。</span></div><div class="transfer-step"><i>3</i><span>登录成功后，即可领取 ₹100 奖励。</span></div></div><div class="transfer-action-row"><button class="primary-btn" type="button" data-transfer-download>立即下载</button><button class="transfer-signup-btn" type="button" data-transfer-signup>立即报名</button></div></div>');
       setText('[data-stage="detail-settled"] .stage-foot div:nth-child(1) b', "已绑定手机号");
       setText('[data-stage="detail-settled"] .stage-foot div:nth-child(2) b', "+91 138****8888");
-      setText('[data-stage="detail-settled"] .stage-foot div:nth-child(3) b', "立即下载");
+      setText('[data-stage="detail-settled"] .stage-foot div:nth-child(3) b', "立即下载 / 立即报名");
 
-      setText('[data-stage="settlement"] .stage-head b', "绑定手机号 · 底部弹窗");
-      setText('[data-stage="settlement"] .stage-head span:last-child', "从活动进入时自动展开绑定弹窗");
-      setHtml('[data-stage="settlement"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　绑定手机号</b><span>账户安全</span></div><div class="bind-page"><div class="bind-card"><h3>绑定手机号</h3><p>绑定后可参与转包活动，并用于目标 APP 登录验证。</p></div></div><div class="bind-sheet"><h3>绑定手机号</h3><p>请输入手机号并完成短信验证</p><div class="phone-input"><b>+91</b><span>138 8888 8888</span></div><div class="phone-input"><span>短信验证码</span><b style="margin-left:auto">获取验证码</b></div><button class="primary-btn" type="button" data-transfer-jump="detail-settled">确认绑定</button></div>');
-      setText('[data-stage="settlement"] .stage-foot div:nth-child(1) b', "未绑定");
-      setText('[data-stage="settlement"] .stage-foot div:nth-child(2) b', "底部绑定弹窗");
+      setText('[data-stage="settlement"] .stage-head b', "活动详情 · 绑定控件展开");
+      setText('[data-stage="settlement"] .stage-head span:last-child', "活动详情保留在底层，绑定控件从当前页底部拉起");
+      setHtml('[data-stage="settlement"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　活动详情</b><span>转包活动</span></div><div class="screen scroll-screen"><div class="detail-hero"><small>DOWNLOAD & EARN</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>活动奖励</span></div></div><div class="transfer-state-card"><small>手机号状态</small><strong>尚未绑定手机号</strong></div><div class="detail-panel"><h3>怎么参加</h3><p class="rule-note">绑定手机号后即可报名，再去新平台完成登录。</p></div></div><div class="inline-bind-layer is-open"><div class="bind-sheet"><div class="bind-sheet-head"><h3>绑定手机号</h3><button class="bind-sheet-close" type="button" aria-label="关闭绑定手机号控件">×</button></div><p>绑定后即可报名，登录新平台时请继续使用这个手机号</p><div class="phone-input"><b>+91</b><span>138 8888 8888</span></div><div class="phone-input"><span>短信验证码</span><b style="margin-left:auto">获取验证码</b></div><button class="primary-btn" type="button">确认绑定</button></div></div>');
+      setText('[data-stage="settlement"] .stage-foot div:nth-child(1) b', "原页拉起");
+      setText('[data-stage="settlement"] .stage-foot div:nth-child(2) b', "不跳转页面");
       setText('[data-stage="settlement"] .stage-foot div:nth-child(3) b', "确认绑定");
 
-      setText('[data-stage="claimed-reward"] .stage-head b', "下载落地页");
-      setText('[data-stage="claimed-reward"] .stage-head span:last-child', "系统识别设备并进入对应下载渠道");
-      setHtml('[data-stage="claimed-reward"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　下载应用</b><span>安全下载</span></div><div class="screen scroll-screen"><div class="download-hero"><small>OFFICIAL DOWNLOAD</small><h2>SUPERX Lite</h2><p>使用已绑定手机号登录，首次成功登录后生成 ₹100 待领取礼金。</p></div><div class="app-preview"><div class="app-preview-head"><div class="app-logo">SX</div><div><h3>SUPERX Lite</h3><p>轻量版 · Android / iOS</p></div></div><div class="transfer-steps"><div class="transfer-step"><i>1</i><span>下载并安装目标 APP</span></div><div class="transfer-step"><i>2</i><span>使用 +91 138****8888 登录</span></div><div class="transfer-step"><i>3</i><span>首次登录成功后生成待领取礼金</span></div></div><button class="primary-btn" type="button" data-transfer-jump="message-unread" style="margin-top:14px">下载并登录</button></div></div>');
-      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(1) b', "已绑定");
-      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(2) b', "系统下载地址");
-      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(3) b', "下载应用");
+      setText('[data-stage="claimed-reward"] .stage-head b', "新平台 · 用户登录");
+      setText('[data-stage="claimed-reward"] .stage-head span:last-child', "登录前不展示活动或手机号信息，用户自行输入账号");
+      setHtml('[data-stage="claimed-reward"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>SUPERX Lite</b><span>登录</span></div><div class="screen"><div class="download-hero"><small>WELCOME</small><h2>欢迎来到 SUPERX Lite</h2><p>登录后即可查看你的活动与奖励。</p></div><div class="login-card"><div class="app-logo">SX</div><h2 style="margin-top:14px">登录 SUPERX Lite</h2><div class="phone-input"><b>+91</b><span style="color:#9199a5">请输入手机号</span></div><div class="phone-input"><span>登录密码</span><b style="margin-left:auto">••••••••</b></div><button class="primary-btn" type="button" data-transfer-jump="message-unread">登录</button></div></div>');
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(1) span', "当前状态");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(1) b', "未登录");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(2) span', "手机号");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(2) b', "用户自行输入");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(3) span', "登录后");
+      setText('[data-stage="claimed-reward"] .stage-foot div:nth-child(3) b', "判断活动资格");
 
-      setText('[data-stage="message-unread"] .stage-head b', "活动中心 · 奖励待领取");
-      setText('[data-stage="message-unread"] .stage-head span:last-child', "完成登录后活动继续展示，并提供领取入口");
-      setHtml('[data-stage="message-unread"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>活动中心</b><span>奖励待领取</span></div><div class="screen"><div class="activity-banner"><small>LOGIN COMPLETED</small><h3>新包登录奖励待领取</h3><p>已使用绑定手机号完成首次登录</p></div><div class="section-title"><b>我的活动</b><span>活动继续展示</span></div><div class="campaign-card"><div class="campaign-top"><div class="campaign-icon">✓</div><div class="campaign-copy"><b>SUPERX Lite 转包登录礼</b><span data-transfer-reward-state>奖励待领取</span></div><button class="info-btn" type="button" aria-label="查看活动详情">!</button></div><div class="campaign-metrics"><div><span>礼金金额</span><b>₹100</b></div><div><span>任务状态</span><b>已完成</b></div><div><span>领取期限</span><b>3天</b></div></div><button class="primary-btn" type="button" data-transfer-claim>领取礼金</button></div></div>');
-      setText('[data-stage="message-unread"] .stage-foot div:nth-child(1) b', "活动继续展示");
-      setText('[data-stage="message-unread"] .stage-foot div:nth-child(2) b', "奖励待领取");
+      setText('[data-stage="message-unread"] .stage-head b', "新平台活动中心 · 匹配后展示");
+      setText('[data-stage="message-unread"] .stage-head span:last-child', "仅已报名且使用报名手机号登录的用户可见");
+      setHtml('[data-stage="message-unread"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>新平台活动中心</b><span>奖励待领取</span></div><div class="screen"><div class="activity-banner"><small>REWARD READY</small><h3>₹100 奖励等你领取</h3><p>你已完成本次转包活动</p></div><div class="section-title"><b>我的活动</b><span>可以领奖了</span></div><div class="campaign-card transfer-center-card"><div class="campaign-top"><div class="campaign-icon">✓</div><div class="campaign-copy"><div class="campaign-title-row"><b>SUPERX Lite 转包登录礼</b><button class="info-btn" type="button" data-transfer-jump="transfer-new-detail" aria-label="查看活动详情">!</button></div><span data-transfer-reward-state>奖励待领取</span></div><button class="card-action" type="button" data-transfer-claim>领取礼金</button></div></div>');
+      setText('[data-stage="message-unread"] .stage-foot div:nth-child(1) b', "报名记录存在");
+      setText('[data-stage="message-unread"] .stage-foot div:nth-child(2) b', "两表手机号一致");
       setText('[data-stage="message-unread"] .stage-foot div:nth-child(3) b', "活动中心领取");
 
-      setText('[data-stage="message-read"] .stage-head b', "站内信 · 奖励待领取");
-      setText('[data-stage="message-read"] .stage-head span:last-child', "站内信关联同一笔礼金，可直接完成领取");
-      setHtml('[data-stage="message-read"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　站内信</b><span>活动消息</span></div><div class="screen inbox-screen"><div class="inbox-tabs"><span class="active">活动消息</span><span>系统消息</span></div><article class="message-card"><div class="message-card-head"><div><i class="message-dot"></i><b>转包活动奖励待领取</b></div><time>09:42</time></div><p>你已在 SUPERX Lite 使用绑定手机号首次成功登录，₹100 礼金等待领取。</p><div class="message-meta"><span>奖励状态</span><b class="message-state" data-transfer-reward-state>待领取</b></div><button class="message-link" type="button" data-transfer-claim>领取礼金</button></article></div>');
-      setText('[data-stage="message-read"] .stage-foot div:nth-child(1) b', "任务已完成");
-      setText('[data-stage="message-read"] .stage-foot div:nth-child(2) b', "₹100 待领取");
-      setText('[data-stage="message-read"] .stage-foot div:nth-child(3) b', "站内信领取");
+      setText('[data-stage="transfer-new-detail"] .stage-head b', "新平台 · 转包活动详情");
+      setText('[data-stage="transfer-new-detail"] .stage-head span:last-child', "活动完成后，详情页底部展示领取礼金按钮");
+      setHtml('[data-stage="transfer-new-detail"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　活动详情</b><span>奖励待领取</span></div><div class="screen scroll-screen"><div class="detail-hero"><small>WELCOME REWARD</small><h2>SUPERX Lite 转包登录礼</h2><div class="detail-number"><b>₹100</b><span>待领取</span></div></div><div class="transfer-state-card"><small>活动状态</small><strong>已完成</strong></div><div class="detail-panel"><h3>恭喜你完成活动</h3><p class="rule-note">你已成功参加活动并登录新平台，₹100 奖励已经准备好了。</p></div><div class="detail-panel"><h3>奖励说明</h3><p class="rule-note">领取后可在礼金中心查看，请在有效期内领取。</p><button class="primary-btn" type="button" data-transfer-claim style="margin-top:14px">领取礼金</button></div></div>');
+      setText('[data-stage="transfer-new-detail"] .stage-foot div:nth-child(1) b', "已完成");
+      setText('[data-stage="transfer-new-detail"] .stage-foot div:nth-child(2) b', "₹100 待领取");
+      setText('[data-stage="transfer-new-detail"] .stage-foot div:nth-child(3) b', "领取礼金");
+
+      const transferRewardCenterHtml = '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar reward-appbar"><b>SUPERX Lite</b><div class="reward-wallet"><strong>₹499</strong><button class="gift-button" type="button" aria-label="打开礼金中心" aria-expanded="true">🎁</button></div></div><div class="screen profile-screen"><div class="profile-card"><span>Wallet Balance</span><strong>₹499.00</strong></div><div class="profile-list"><div><span>⚙　Personal Setting</span><b>›</b></div><div><span>?　Help Center</span><b>›</b></div><div><span>◌　Live Support</span><b>›</b></div></div></div><div class="reward-center-popup is-open"><div class="reward-popup-head"><span>Reward Available</span><button type="button" aria-label="关闭礼金中心">×</button></div><div class="reward-list"><div class="reward-item reward-current-item"><div class="reward-item-icon">🎁</div><div class="reward-item-copy"><b>转包登录礼</b><strong>₹100</strong><small>适用范围：无限制</small><small>1倍流水 · 7天内领取</small></div><button class="reward-claim" type="button" data-transfer-claim>Claim</button></div><div class="reward-item"><div class="reward-item-icon">♛</div><div class="reward-item-copy"><b>VIP Upgrade Bonus</b><strong>₹10</strong><small>VIP reward</small></div><button class="reward-claim" type="button">Claim</button></div></div><button class="reward-more" type="button">Participate in Activity to Earn Reward »</button></div>';
+      setText('[data-stage="transfer-reward-center"] .stage-head b', "新平台 · 礼金中心");
+      setText('[data-stage="transfer-reward-center"] .stage-head span:last-child', "方案A：活动入口领取后同步更新");
+      setHtml('[data-stage="transfer-reward-center"] .phone', transferRewardCenterHtml);
+      setText('[data-stage="transfer-reward-center"] .stage-foot div:nth-child(1) b', "转包登录礼");
+      setText('[data-stage="transfer-reward-center"] .stage-foot div:nth-child(2) b', "₹100");
+      setText('[data-stage="transfer-reward-center"] .stage-foot div:nth-child(3) b', "Claim");
+
+      setText('[data-stage="transfer-reward-center-direct"] .stage-head b', "新平台 · 礼金中心直领");
+      setText('[data-stage="transfer-reward-center-direct"] .stage-head span:last-child', "方案B：无活动入口，仅展示礼金权益");
+      setHtml('[data-stage="transfer-reward-center-direct"] .phone', transferRewardCenterHtml);
+      setText('[data-stage="transfer-reward-center-direct"] .stage-foot div:nth-child(1) b', "转包登录礼");
+      setText('[data-stage="transfer-reward-center-direct"] .stage-foot div:nth-child(2) b', "₹100");
+      setText('[data-stage="transfer-reward-center-direct"] .stage-foot div:nth-child(3) b', "Claim");
+
+      setText('[data-stage="message-read"] .stage-head b', "站内信 · 后续统一规划");
+      setText('[data-stage="message-read"] .stage-head span:last-child', "本次不实现，待活动站内信整体方案确认后再做");
+      setHtml('[data-stage="message-read"] .phone', '<div class="notch"></div><div class="status"><span>9:41</span><span>● ● ︿</span></div><div class="appbar"><b>‹　站内信</b><span>活动消息</span></div><div class="screen inbox-screen"><div class="inbox-tabs"><span class="active">活动消息</span><span>系统消息</span></div><article class="message-card"><div class="message-card-head"><div><i class="message-dot"></i><b>你的转包活动奖励到了</b></div><time>09:42</time></div><p>你已完成转包活动，₹100 礼金已经到账，快来领取吧。</p><button class="message-link" type="button" disabled>后续规划</button></article></div>');
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(1) span', "规划状态");
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(1) b', "后续再做");
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(2) span', "规划范围");
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(2) b', "全部活动统一设计");
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(3) span', "当前处理");
+      setText('[data-stage="message-read"] .stage-foot div:nth-child(3) b', "仅保留占位示例");
 
       document.querySelectorAll("[data-transfer-claim]").forEach(button => {
         button.addEventListener("click", () => {
@@ -922,14 +1101,105 @@
             claimButton.textContent = "已领取";
             claimButton.disabled = true;
           });
-          showToast("₹100 已领取，活动中心与站内信状态已同步");
+          showToast("₹100 已领取，相关领取入口状态已同步");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-center-open-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          if (!button.hasAttribute("data-transfer-center-open-bind")) return;
+          button.closest("[data-stage]")?.querySelector("[data-transfer-center-bind-layer]")?.classList.add("is-open");
+          showToast("请绑定手机号");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-center-close-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          button.closest("[data-transfer-center-bind-layer]")?.classList.remove("is-open");
+          showToast("已关闭绑定手机号控件");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-center-confirm-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          const stage = button.closest("[data-stage]");
+          stage?.querySelector("[data-transfer-center-bind-layer]")?.classList.remove("is-open");
+          const state = stage?.querySelector("[data-transfer-center-state]");
+          if (state) state.textContent = "手机号 138****8888 · 未报名";
+          const action = stage?.querySelector("[data-transfer-center-open-bind]");
+          if (action) {
+            action.textContent = "去报名";
+            action.removeAttribute("data-transfer-center-open-bind");
+            action.setAttribute("data-transfer-center-signup", "");
+          }
+          showToast("绑定成功，现在可以报名了");
+        });
+      });
+
+      document.addEventListener("click", event => {
+        const button = event.target.closest("[data-transfer-center-signup]");
+        if (!button) return;
+        if (button.dataset.registered === "true") {
+          showToast("跳转新平台下载落地页");
+          scrollToStage("claimed-reward");
+          return;
+        }
+        const stage = button.closest("[data-stage]");
+        button.dataset.registered = "true";
+        button.textContent = "去下载";
+        const state = stage?.querySelector("[data-transfer-center-state]");
+        if (state) state.textContent = "手机号 138****8888 · 已报名";
+        const sectionState = stage?.querySelector("[data-transfer-center-section-state]");
+        if (sectionState) sectionState.textContent = "已报名";
+        showToast("报名成功，按钮已变为去下载");
+      });
+
+      document.querySelectorAll("[data-transfer-download]").forEach(button => {
+        button.addEventListener("click", () => {
+          showToast("跳转新平台下载落地页");
+          scrollToStage("claimed-reward");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-open-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          const stage = button.closest("[data-stage]");
+          stage?.querySelector("[data-transfer-bind-layer]")?.classList.add("is-open");
+          showToast("已在当前活动详情拉起绑定手机号控件");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-close-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          button.closest("[data-transfer-bind-layer]")?.classList.remove("is-open");
+          showToast("已关闭绑定手机号控件，仍停留当前活动详情");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-confirm-bind]").forEach(button => {
+        button.addEventListener("click", () => {
+          const stage = button.closest("[data-stage]");
+          stage?.querySelector("[data-transfer-bind-layer]")?.classList.remove("is-open");
+          const state = stage?.querySelector("[data-transfer-bind-state]");
+          if (state) state.innerHTML = '<small>报名手机号</small><strong>+91 138****8888</strong>';
+          stage?.querySelector("[data-transfer-open-bind]")?.classList.add("is-hidden");
+          stage?.querySelector("[data-transfer-bound-actions]")?.classList.remove("is-hidden");
+          showToast("手机号绑定成功，已在当前页面更新报名状态");
+        });
+      });
+
+      document.querySelectorAll("[data-transfer-signup]").forEach(button => {
+        button.addEventListener("click", () => {
+          button.textContent = "已报名";
+          button.disabled = true;
+          showToast("报名成功，记得在7天内登录新平台");
         });
       });
 
       document.querySelectorAll("[data-transfer-jump]").forEach(button => {
         button.addEventListener("click", () => {
           const target = button.dataset.transferJump;
-          const messages = { settlement: "打开绑定手机号页面及底部弹窗", "detail-settled": "手机号绑定成功", "claimed-reward": "进入下载落地页", "message-unread": "首次同手机号登录成功，礼金待领取", "message-read": "查看奖励领取站内信", detail: "进入活动详情" };
+          const messages = { settlement: "请绑定手机号", "detail-settled": "绑定成功，现在可以报名了", "claimed-reward": "报名成功，记得在7天内登录新平台", "message-unread": "登录成功，奖励已到账", "transfer-new-detail": "查看转包活动详情", "message-read": "查看奖励领取消息", detail: "进入活动详情" };
           showToast(messages[target] || "进入下一步");
           scrollToStage(target);
         });

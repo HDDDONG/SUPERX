@@ -4439,7 +4439,7 @@
       </div>
 
       <div id="transferActivityForm" hidden>
-        <div class="context-note">配置逻辑：参与条件仅控制活动可见资格，不开启时默认全部用户可见；手机号绑定是活动任务进度，不属于参与条件。用户未绑定手机号时进入绑定手机号页面并自动打开底部绑定弹窗，已绑定时可进入下载落地页；用户在目标 APP 使用同一手机号首次成功登录后生成奖励，每位用户仅可完成一次。</div>
+        <div class="context-note">配置逻辑：当前平台先按参与条件筛选活动可见用户。用户进入活动详情后，未绑定手机号先完成绑定；绑定后点击报名，系统写入活动报名表。用户下载新平台并使用当前平台绑定手机号登录后，系统写入新平台登录表。仅当两表的活动、用户及手机号匹配一致时，按当前平台配置的礼金规则生成奖励。新平台仅向已报名且使用报名手机号登录的用户展示该活动。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="transferActivityName" value="SUPERX Lite 转包登录礼"></div>
@@ -4489,7 +4489,7 @@
           <div class="language-box activity-center-material">
             <div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转</label><select><option selected>活动详情页</option></select></div></div>
             <div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div>
-            <div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Download & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="绑定手机号并登录新APP领取奖励"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div>
+            <div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Download & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="报名后下载新平台，7天内用同一手机号登录即可领奖"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div>
             <div class="custom-title"><span>活动详情自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
             <div class="custom-card">
               <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="转包活动参与说明"></div><button class="icon-close" type="button">×</button></div>
@@ -4503,7 +4503,7 @@
                   <select class="tool-select is-line-height"><option>1.5</option></select>
                   <button class="tool-btn" type="button">清除格式</button>
                 </div>
-                <div class="editor-body" contenteditable="true">需要先绑定手机号，才可以参与转包活动。绑定手机号且在下载好的 APP 中使用该手机号登录，即可领取奖励。</div>
+                <div class="editor-body" contenteditable="true">先绑定手机号，再点击报名。报名后下载新平台，并在7天内用同一手机号登录，完成后即可领取奖励。</div>
               </div>
             </div>
           </div>
