@@ -2808,6 +2808,7 @@
           <button class="submenu-item is-third-level" type="button" data-page-title="阶梯充值活动中心" data-breadcrumb-module="活动前端需求">阶梯充值活动中心</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="打码返利前台" data-breadcrumb-module="活动前端需求">打码返利前台</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="输返前台" data-breadcrumb-module="活动前端需求">输返前台</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="转包活动前台交互" data-breadcrumb-module="活动前端需求">转包活动前台交互</button>
           <div class="submenu-section-title">用户触达前端需求</div>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信前台交互" data-breadcrumb-module="用户触达前端需求">站内信前台交互</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="公告前台交互" data-breadcrumb-module="用户触达前端需求">公告前台交互</button>
@@ -2872,6 +2873,7 @@
                 <option>阶梯充值</option>
                 <option>输返</option>
                 <option>打码返利</option>
+                <option>转包活动</option>
               </select>
             </div>
             <div class="field field-size-1">
@@ -2942,6 +2944,7 @@
               <tr data-status="enabled" data-audience="newbie" data-exclusive-display="true"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 15 行"></td><td>15</td><td>IN01</td><td>01KNEWBIE20260717</td><td>新人首充专享礼金</td><td>新人首充</td><td><span class="table-thumb">POPUP</span></td><td>200</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/17 00:00</td><td>2026/08/16 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 16 行"></td><td>16</td><td>IN01</td><td>01KLOSSRETURN20260720</td><td>24小时亏损救援</td><td>输返</td><td><span class="table-thumb">POPUP</span></td><td>180</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 17 行"></td><td>17</td><td>IN01</td><td>01KWAGERREBATE20260722</td><td>每日打码阶梯返利</td><td>打码返利</td><td><span class="table-thumb">POPUP</span></td><td>170</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/22 00:00</td><td>2026/08/21 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 18 行"></td><td>18</td><td>IN01,IN02</td><td>01KTRANSFER20260803</td><td>SUPERX Lite 转包登录礼</td><td>转包活动</td><td><span class="table-thumb">POPUP</span></td><td>190</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/03 00:00</td><td>2026/09/02 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -4434,6 +4437,101 @@
           <div class="language-box popup-material"><div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div><div class="language-content"><div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="View Progress"></div><div class="field popup-image-field" hidden><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div><div class="popup-rule-preview"><strong>规则形式预览 <span class="field-tip">自动读取档位，结算时仅匹配一个对应档位</span></strong><div class="popup-rule-preview-grid"><span class="head">累计有效流水达到</span><span class="head">返利金额</span><span class="head">流水</span><span>1,000 INR</span><span>10 INR</span><span>1倍</span><span>5,000 INR</span><span>70 INR</span><span>1倍</span><span>10,000 INR</span><span>180 INR</span><span>1倍</span></div></div></div></div>
         </div>
       </div>
+
+      <div id="transferActivityForm" hidden>
+        <div class="context-note">配置逻辑：参与条件仅控制活动可见资格，不开启时默认全部用户可见；手机号绑定是活动任务进度，不属于参与条件。用户未绑定手机号时进入绑定手机号页面并自动打开底部绑定弹窗，已绑定时可进入下载落地页；用户在目标 APP 使用同一手机号首次成功登录后生成奖励，每位用户仅可完成一次。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="transferActivityName" value="SUPERX Lite 转包登录礼"></div>
+          <div class="field"><label class="required">包ID<span class="help-tip" tabindex="0" data-tip="当前活动的来源包和可见包，可搜索多选。">?</span></label><input id="transferPackageId" value="IN01,IN02"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-08-03T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2026-09-02T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option>打码返利</option><option selected>转包活动</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动；手机号是否绑定不在此处配置。">?</span></div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch condition-toggle" type="button" aria-pressed="false"></button><span>已关闭</span></div></div>
+        <div class="rule-box" hidden>
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head">
+                <div class="condition-cell"><span class="condition-label">条件类型</span></div>
+                <div class="condition-cell"><span class="condition-label">条件值</span></div>
+                <div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件" title="新增条件">+</button></div>
+              </div>
+              <div class="condition-row">
+                <div class="condition-cell"><select class="condition-type"><option>累计充值</option><option selected>用户标签</option><option>VIP等级</option><option>上级ID</option></select></div>
+                <div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>=</option><option>≠</option></select><select><option value="" selected>请选择</option><option>转包目标用户</option><option>活跃用户</option><option>高价值用户</option><option>新注册用户</option></select></div></div>
+                <div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件" title="至少保留一条参与条件">−</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">礼金配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item" data-claim-required="true"><label class="required">礼金是否需要领取</label><div class="switch-row"><button class="switch is-on" type="button" aria-pressed="true"></button><span>需要领取</span></div></div>
+              <div class="rule-summary-item"><label class="required">礼金金额</label><input id="transferRewardAmount" type="number" min="0.01" step="0.01" value="100"></div>
+              <div class="rule-summary-item"><label class="required">礼金倍率</label><div class="unit-input"><input id="transferRewardTurnover" type="number" min="0.01" step="0.01" value="1"><span class="unit">倍</span></div></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">礼金适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">适用范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">前台展示</div>
+        <div class="front-subsection">
+          <div class="front-subtitle">活动中心配置</div>
+          <div class="front-global-config"><div class="field"><label class="required">是否在活动中心展示</label><div class="switch-row"><button class="switch activity-center-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div></div>
+          <div class="language-box activity-center-material">
+            <div class="front-action-config"><div class="field"><label class="required">活动中心按钮跳转</label><select><option selected>活动详情页</option></select></div></div>
+            <div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div>
+            <div class="language-content front-assets"><div class="front-copy"><div class="field"><label class="required">活动名称（前台）</label><input value="Download & Earn"></div><div class="field"><label>活动宣传文案（前台）</label><input value="绑定手机号并登录新APP领取奖励"></div><div class="field"><label class="required">活动中心按钮文案</label><input value="查看活动"></div></div><div class="field"><label>详情图</label><div class="image-slot">IMAGE<br>DETAIL</div></div></div>
+            <div class="custom-title"><span>活动详情自定义说明</span><button class="btn text" type="button">+ 新增</button></div>
+            <div class="custom-card">
+              <div class="custom-head"><div class="field"><label>自定义说明段落标题</label><input value="转包活动参与说明"></div><button class="icon-close" type="button">×</button></div>
+              <div class="editor">
+                <div class="editor-toolbar">
+                  <button class="tool-btn" type="button">B</button>
+                  <button class="tool-btn" type="button">I</button>
+                  <button class="tool-btn" type="button">U</button>
+                  <select class="tool-select"><option>16px</option></select>
+                  <button class="tool-btn" type="button">■</button>
+                  <select class="tool-select is-line-height"><option>1.5</option></select>
+                  <button class="tool-btn" type="button">清除格式</button>
+                </div>
+                <div class="editor-body" contenteditable="true">需要先绑定手机号，才可以参与转包活动。绑定手机号且在下载好的 APP 中使用该手机号登录，即可领取奖励。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="front-subsection">
+          <div class="front-subtitle">弹窗配置</div>
+          <div class="popup-config">
+            <div class="popup-fields">
+              <div class="field popup-visibility-field"><label class="required">弹窗是否展示</label><div class="switch-row"><button class="switch popup-switch is-on" type="button" aria-pressed="true"></button><span>展示</span></div></div>
+              <div class="field"><label class="required">弹窗前台展示类型</label><select class="popup-display-type-select"><option selected>图片形式</option></select></div>
+              <div class="field"><label class="required">弹窗间隔时间</label><select><option>0.5小时</option><option>1小时</option><option>3小时</option><option>6小时</option><option selected>每天</option></select></div>
+              <div class="field"><label class="required">全局顺序<span class="help-tip" tabindex="0" data-tip="所有同时命中的弹窗按全局顺序排序，数字越大越靠前。">?</span></label><input type="number" min="0" step="1" value="190"></div>
+              <div class="field"><label class="required">弹窗按钮跳转</label><select class="popup-jump-select"><option>无跳转</option><option selected>跳转到指定页面</option></select></div>
+              <div class="field popup-target-field"><label class="required">跳转目标</label><select><option selected>活动详情页</option></select></div>
+            </div>
+          </div>
+          <div class="language-box popup-material">
+            <div class="language-tabs"><button class="language-tab active" type="button">英语</button><button class="language-tab" type="button">印地语</button></div>
+            <div class="language-content">
+              <div class="field popup-button-copy-field"><label class="required">弹窗按钮文案</label><input value="View Details"></div>
+              <div class="field popup-image-field"><label class="required">弹窗图片上传</label><div class="popup-image-slot">IMAGE<br>POPUP</div></div>
+              <div class="popup-rule-preview" hidden></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" id="cancelDrawerButton" type="button">取消</button>
@@ -4563,7 +4661,8 @@
       "囤单规则": "withdrawal-hold-rules.html",
       "阶梯充值活动中心": "frontend-flow.html?type=tier",
       "打码返利前台": "wager-rebate-frontend.html",
-      "输返前台": "wager-rebate-frontend.html?mode=loss-return"
+      "输返前台": "wager-rebate-frontend.html?mode=loss-return",
+      "转包活动前台交互": "wager-rebate-frontend.html?mode=transfer"
     };
     const externalModuleFrame = document.getElementById("externalModuleFrame");
     function renderPageContent(title) {
@@ -4797,14 +4896,15 @@
     const tieredRechargeActivityForm = document.getElementById("tieredRechargeActivityForm");
     const lossReturnActivityForm = document.getElementById("lossReturnActivityForm");
     const wagerRebateActivityForm = document.getElementById("wagerRebateActivityForm");
+    const transferActivityForm = document.getElementById("transferActivityForm");
     document.querySelectorAll("#activityTypeFilter, .activity-type-select").forEach(select => {
-      ["输返", "打码返利"].forEach(activityType => {
+      ["输返", "打码返利", "转包活动"].forEach(activityType => {
         if (!Array.from(select.options).some(option => option.value === activityType)) {
           select.add(new Option(activityType, activityType));
         }
       });
     });
-    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm];
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm, transferActivityForm];
     function syncPermanentResetConstraint(form, permanent) {
       const resetCycle = form.querySelector("#lossReturnResetCycle, #wagerRebateResetCycle");
       if (!resetCycle) return;
@@ -5012,13 +5112,15 @@
       const isTieredRecharge = normalizedType === "阶梯充值";
       const isLossReturn = normalizedType === "输返";
       const isWagerRebate = normalizedType === "打码返利";
-      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate;
+      const isTransfer = normalizedType === "转包活动";
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate || isTransfer;
       rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
       tieredRechargeActivityForm.hidden = !isTieredRecharge;
       lossReturnActivityForm.hidden = !isLossReturn;
       wagerRebateActivityForm.hidden = !isWagerRebate;
+      transferActivityForm.hidden = !isTransfer;
       const newbieExclusiveField = document.getElementById("newbieExclusiveField");
       const firstDepositContextNote = document.getElementById("firstDepositContextNote");
       newbieExclusiveField.hidden = !isNewbieDeposit;
@@ -5279,6 +5381,66 @@
         const box = group.closest(".language-box");
         if (box) box.dataset.activeLanguage = tabButton.textContent.trim();
       });
+    });
+
+    document.querySelectorAll(".custom-title").forEach(title => {
+      const addButton = title.querySelector("button");
+      if (addButton) {
+        addButton.setAttribute("aria-label", "新增活动详情自定义说明");
+        addButton.title = "新增活动详情自定义说明";
+      }
+    });
+    document.addEventListener("click", event => {
+      const addButton = event.target.closest(".custom-title button");
+      if (addButton) {
+        const title = addButton.closest(".custom-title");
+        const container = title.parentElement;
+        const cards = Array.from(container.children).filter(item => item.classList.contains("custom-card"));
+        const template = cards[0];
+        if (!template) return;
+        const card = template.cloneNode(true);
+        card.querySelectorAll('[aria-invalid="true"]').forEach(item => item.removeAttribute("aria-invalid"));
+        const titleInput = card.querySelector(".custom-head input");
+        const editorBody = card.querySelector(".editor-body");
+        if (titleInput) titleInput.value = "";
+        if (editorBody) editorBody.textContent = "";
+        const closeButton = card.querySelector(".custom-head .icon-close");
+        if (closeButton) {
+          closeButton.setAttribute("aria-label", "删除当前自定义说明");
+          closeButton.title = "删除当前自定义说明";
+        }
+        (cards[cards.length - 1] || title).insertAdjacentElement("afterend", card);
+        titleInput?.focus();
+        return;
+      }
+      const closeButton = event.target.closest(".custom-head .icon-close");
+      if (closeButton) {
+        closeButton.closest(".custom-card")?.remove();
+        return;
+      }
+      const toolButton = event.target.closest(".editor-toolbar .tool-btn");
+      if (!toolButton) return;
+      const editorBody = toolButton.closest(".editor")?.querySelector(".editor-body");
+      if (!editorBody) return;
+      editorBody.focus();
+      const commandMap = { B: "bold", I: "italic", U: "underline", "清除格式": "removeFormat" };
+      const command = commandMap[toolButton.textContent.trim()];
+      if (command) document.execCommand(command, false, null);
+    });
+    document.querySelectorAll(".custom-head .icon-close").forEach(button => {
+      button.setAttribute("aria-label", "删除当前自定义说明");
+      button.title = "删除当前自定义说明";
+    });
+    document.addEventListener("change", event => {
+      const select = event.target.closest(".editor-toolbar .tool-select");
+      if (!select) return;
+      const editorBody = select.closest(".editor")?.querySelector(".editor-body");
+      if (!editorBody) return;
+      if (select.classList.contains("is-line-height")) editorBody.style.lineHeight = select.value;
+      else editorBody.style.fontSize = select.value;
+    });
+    document.addEventListener("input", event => {
+      if (event.target.closest(".custom-card")) event.target.removeAttribute("aria-invalid");
     });
 
     document.querySelectorAll(".popup-config").forEach(config => {
@@ -5874,7 +6036,7 @@
       },
       "用户标签": {
         operators: ["=", "≠"],
-        valueHtml: '<select><option>请选择</option><option>未首提</option><option>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>'
+        valueHtml: '<select><option>请选择</option><option>转包目标用户</option><option>提现过</option><option>未首提</option><option>风险用户</option><option>高价值用户</option><option>新注册用户</option><option>沉默用户</option></select>'
       },
       "渠道类型": {
         operators: ["=", "≠"],
@@ -6318,6 +6480,62 @@
     syncWagerRebateRows();
     syncWagerRebatePreview();
 
+    function validateTransferRules(form) {
+      if (form !== transferActivityForm) return true;
+      const rewardAmount = document.getElementById("transferRewardAmount");
+      const rewardTurnover = document.getElementById("transferRewardTurnover");
+      const amount = Number(rewardAmount.value);
+      if (!Number.isFinite(amount) || amount <= 0) return rejectRuleInput(rewardAmount, "礼金金额必须大于0");
+      const turnover = Number(rewardTurnover.value);
+      if (!Number.isFinite(turnover) || turnover <= 0) return rejectRuleInput(rewardTurnover, "礼金倍率必须大于0");
+      const conditionToggle = form.querySelector(".condition-toggle");
+      if (conditionToggle?.getAttribute("aria-pressed") === "true") {
+        const conditionRows = Array.from(form.querySelectorAll(".condition-matrix .condition-row"));
+        if (!conditionRows.length) {
+          window.alert("请至少配置一条参与条件");
+          return false;
+        }
+        for (let index = 0; index < conditionRows.length; index += 1) {
+          const controls = Array.from(conditionRows[index].querySelectorAll(".condition-value input, .condition-value textarea, .condition-value select:not(.condition-operator)"));
+          const invalidControl = controls.find(control => !control.value.trim() || control.value === "请选择");
+          if (invalidControl) return rejectRuleInput(invalidControl, `请选择或填写第 ${index + 1} 条参与条件的条件值`);
+        }
+      }
+      const scope = form.querySelector(".scope-linkage-component");
+      const scopeValue = scope?.nextElementSibling;
+      if (scopeValue && !scopeValue.hidden && !scopeValue.querySelector("input:checked")) {
+        window.alert("请选择礼金适用范围值");
+        scopeValue.querySelector(".multi-trigger")?.focus();
+        return false;
+      }
+      return true;
+    }
+
+    function validateCustomDetailSections(form) {
+      const activityCenterSwitch = form.querySelector(".activity-center-switch");
+      if (!activityCenterSwitch || activityCenterSwitch.getAttribute("aria-pressed") !== "true") return true;
+      const cards = Array.from(form.querySelectorAll(".activity-center-material .custom-card"));
+      for (let index = 0; index < cards.length; index += 1) {
+        const titleInput = cards[index].querySelector(".custom-head input");
+        const editorBody = cards[index].querySelector(".editor-body");
+        titleInput?.removeAttribute("aria-invalid");
+        editorBody?.removeAttribute("aria-invalid");
+        if (!titleInput?.value.trim()) {
+          titleInput?.setAttribute("aria-invalid", "true");
+          window.alert(`请输入第 ${index + 1} 段活动详情自定义说明标题`);
+          titleInput?.focus();
+          return false;
+        }
+        if (!editorBody?.textContent.trim()) {
+          editorBody?.setAttribute("aria-invalid", "true");
+          window.alert(`请输入第 ${index + 1} 段活动详情自定义说明内容`);
+          editorBody?.focus();
+          return false;
+        }
+      }
+      return true;
+    }
+
     function validateActivityCenterJump(form) {
       const displaySwitch = form.querySelector(".activity-center-switch");
       if (!displaySwitch || displaySwitch.getAttribute("aria-pressed") !== "true") return true;
@@ -6408,10 +6626,12 @@
         return;
       }
       if (!validateActivityCenterJump(form)) return;
+      if (!validateCustomDetailSections(form)) return;
       if (!validatePopupJump(form)) return;
       if (!validateFirstDepositRules(form)) return;
       if (!validateLossReturnRules(form)) return;
       if (!validateWagerRebateRules(form)) return;
+      if (!validateTransferRules(form)) return;
       const expiryType = form.querySelector(".reward-expiry-type");
       const expiryDays = form.querySelector(".reward-expiry-days-input");
       if (expiryType && expiryType.value === "natural-day") {
