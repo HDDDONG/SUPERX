@@ -13,7 +13,7 @@
 <body>
   <main class="page">
     <header class="page-head">
-      <div><h1>存钱罐配置</h1><p>统一管理 Bonus 解锁、单次提取、适用范围及打码倍率。</p></div>
+      <div><h1>存钱罐配置</h1><p>统一管理每笔 Bonus 的解锁打码倍数、适用范围及领取后打码要求。</p></div>
       <button class="save" id="saveConfig" type="button">保存</button>
     </header>
     <section class="card">
@@ -22,17 +22,15 @@
         <div class="switch-row"><button class="switch on" id="piggySwitch" type="button" aria-pressed="true" aria-label="存钱罐开关"></button><span class="status" id="switchStatus">已开启</span></div>
       </div>
       <div class="config" id="piggyConfig">
-        <div class="section-title">Bonus解锁配置及适用范围 <button class="help" type="button" title="用户有效流水达到配置值后，可按固定值或比例提取一次 Bonus。">?</button></div>
+        <div class="section-title">Bonus解锁配置及适用范围 <button class="help" type="button" title="每笔获得的 Bonus 独立生成解锁记录，所需有效流水等于该笔 Bonus 金额乘以解锁打码倍数。">?</button></div>
         <div class="grid">
           <div class="field"><label class="required" for="unlockType">解锁取值类型</label><select id="unlockType"><option selected>有效流水</option></select></div>
-          <div class="field"><label class="required" for="turnoverValue">有效流水值</label><input class="control" id="turnoverValue" type="number" min="0.01" step="0.01" value="100"></div>
-          <div class="field"><label class="required" for="extractMode">Bonus提取方式</label><select id="extractMode"><option selected>比例</option><option>固定值</option></select></div>
-          <div class="field"><label class="required" for="extractValue">单次提取值</label><div class="unit-input"><input class="control" id="extractValue" type="number" min="0.01" step="0.01" value="0.3"><span class="unit" id="extractUnit">%</span></div></div>
+          <div class="field"><label class="required" for="unlockMultiplier">Bonus解锁打码倍数</label><div class="unit-input"><input class="control" id="unlockMultiplier" type="number" min="0.1" step="0.1" value="35"><span class="unit">倍</span></div></div>
           <div class="field"><label class="required" for="bonusScope">Bonus适用范围</label><select id="bonusScope"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></div>
-          <div class="field"><label class="required" for="wagerMultiplier">Bonus礼金打码倍率</label><div class="unit-input"><input class="control" id="wagerMultiplier" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></div>
+          <div class="field"><label class="required" for="wagerMultiplier">领取后Bonus礼金打码倍率</label><div class="unit-input"><input class="control" id="wagerMultiplier" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></div>
         </div>
         <div class="delivery-note" role="note"><span class="note-icon">!</span><span><strong>下发说明：</strong>提取的 Bonus 以礼金形式下发，礼金类型为「Bonus礼金」。</span></div>
-        <div class="note">Bonus 提取成功后按配置的适用范围使用；Bonus 礼金打码倍率用于计算该笔 Bonus 对应的打码要求。</div>
+        <div class="note">每笔 Bonus 独立生成记录并固化当时的解锁倍数。例如获得 ₹1,000 Bonus、配置 35 倍，则该笔记录需要完成 ₹35,000 有效流水；后续修改配置不影响历史记录。</div>
       </div>
     </section>
   </main>
@@ -41,17 +39,12 @@
     const piggySwitch=document.getElementById("piggySwitch");
     const piggyConfig=document.getElementById("piggyConfig");
     const switchStatus=document.getElementById("switchStatus");
-    const extractMode=document.getElementById("extractMode");
-    const extractValue=document.getElementById("extractValue");
-    const extractUnit=document.getElementById("extractUnit");
     const editableControls=[...piggyConfig.querySelectorAll("input,select")];
     function syncSwitch(){const enabled=piggySwitch.getAttribute("aria-pressed")==="true";piggySwitch.classList.toggle("on",enabled);piggyConfig.classList.toggle("is-disabled",!enabled);switchStatus.textContent=enabled?"已开启":"已关闭";editableControls.forEach(control=>control.disabled=!enabled)}
-    function syncExtractMode(){const ratio=extractMode.value==="比例";extractUnit.textContent=ratio?"%":"金额";extractValue.max=ratio?"100":""}
     piggySwitch.addEventListener("click",()=>{piggySwitch.setAttribute("aria-pressed",piggySwitch.getAttribute("aria-pressed")==="true"?"false":"true");syncSwitch()});
-    extractMode.addEventListener("change",syncExtractMode);
     editableControls.forEach(control=>control.addEventListener("input",()=>control.removeAttribute("aria-invalid")));
-    document.getElementById("saveConfig").addEventListener("click",()=>{if(piggySwitch.getAttribute("aria-pressed")==="true"){const turnover=document.getElementById("turnoverValue");const multiplier=document.getElementById("wagerMultiplier");const invalid=!turnover.value||Number(turnover.value)<=0?turnover:(!extractValue.value||Number(extractValue.value)<=0||(extractMode.value==="比例"&&Number(extractValue.value)>100)?extractValue:(!multiplier.value||Number(multiplier.value)<0?multiplier:null));if(invalid){invalid.setAttribute("aria-invalid","true");invalid.focus();window.alert("请填写有效的存钱罐配置");return}}const toast=document.getElementById("toast");toast.hidden=false;setTimeout(()=>toast.hidden=true,1400)});
-    syncSwitch();syncExtractMode();
+    document.getElementById("saveConfig").addEventListener("click",()=>{if(piggySwitch.getAttribute("aria-pressed")==="true"){const unlockMultiplier=document.getElementById("unlockMultiplier");const multiplier=document.getElementById("wagerMultiplier");const invalid=!unlockMultiplier.value||Number(unlockMultiplier.value)<=0?unlockMultiplier:(!multiplier.value||Number(multiplier.value)<0?multiplier:null);if(invalid){invalid.setAttribute("aria-invalid","true");invalid.focus();window.alert("请填写有效的存钱罐配置");return}}const toast=document.getElementById("toast");toast.hidden=false;setTimeout(()=>toast.hidden=true,1400)});
+    syncSwitch();
   </script>
 </body>
 </html>

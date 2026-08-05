@@ -4588,7 +4588,7 @@
       </div>
 
       <div id="bonusPiggyActivityForm" hidden>
-        <div class="context-note">配置逻辑：用户在充值页选择Bonus活动，充值成功并命中对应档位后生成一笔锁定Bonus；同一笔充值只匹配一个Bonus活动。系统按解锁取值类型读取对应用户数据，达到配置值后可按Bonus提取方式提取一次。</div>
+        <div class="context-note">配置逻辑：用户在充值页选择Bonus活动，充值成功并命中对应档位后生成一笔锁定Bonus；同一笔充值只匹配一个Bonus活动。每笔Bonus独立生成解锁记录，所需有效流水按“Bonus金额 × 存钱罐配置的解锁打码倍数”计算。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="bonusPiggyActivityName" value="Welcome Bonus 100%"></div>
@@ -4625,15 +4625,7 @@
               </tbody>
             </table>
 
-            <div class="rule-subtitle" style="margin-top: 16px;"><span>Bonus解锁配置及适用范围</span><span class="help-tip" tabindex="0" data-tip="当前解锁取值类型为有效流水；有效流水达到配置值后，可按固定值或比例提取一次Bonus，并按Bonus适用范围限制使用。">?</span></div>
-            <div class="rule-summary" style="margin-bottom: 12px;">
-              <div class="rule-summary-item"><label class="required">解锁取值类型</label><select class="bonus-unlock-value-type"><option selected>有效流水</option></select></div>
-              <div class="rule-summary-item"><label class="required"><span class="bonus-unlock-threshold-label">有效流水值</span></label><input class="bonus-unlock-threshold" type="number" min="0.01" step="0.01" value="100"></div>
-              <div class="rule-summary-item"><label class="required">Bonus提取方式</label><select class="bonus-unlock-mode"><option value="">请选择</option><option>固定值</option><option selected>比例</option></select></div>
-              <div class="rule-summary-item"><label class="required">单次提取值</label><div class="unit-input"><input class="bonus-unlock-value" type="number" min="0.01" step="0.01" value="0.3"><span class="unit bonus-unlock-value-unit">%</span></div></div>
-              <div class="rule-summary-item scope-linkage-component"><label class="required">Bonus适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></div>
-              <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
-            </div>
+            <div class="context-note" style="margin-top: 16px;"><strong>解锁规则来源：</strong>每笔充值产生的 Bonus 按「运营管理 / 存钱罐配置」中的解锁打码倍数、Bonus适用范围和领取后打码倍率生成独立记录；历史记录使用生成时的配置快照。</div>
           </div>
         </div>
       </div>
@@ -5019,23 +5011,13 @@
       if (!unit) return;
       unit.hidden = select.value !== percentageValue;
     }
-    function syncBonusUnlockValueType(select) {
-      const label = bonusPiggyActivityForm.querySelector(".bonus-unlock-threshold-label");
-      if (label) label.textContent = `${select.value}值`;
-    }
     function syncAllBonusModes() {
       bonusPiggyActivityForm.querySelectorAll(".bonus-reward-mode").forEach(select => syncBonusMode(select, ".bonus-reward-unit", "百分比"));
-      bonusPiggyActivityForm.querySelectorAll(".bonus-unlock-mode").forEach(select => syncBonusMode(select, ".bonus-unlock-value-unit", "比例"));
-      bonusPiggyActivityForm.querySelectorAll(".bonus-unlock-value-type").forEach(syncBonusUnlockValueType);
     }
     syncAllBonusModes();
     bonusPiggyActivityForm.addEventListener("change", event => {
       const rewardMode = event.target.closest(".bonus-reward-mode");
-      const unlockMode = event.target.closest(".bonus-unlock-mode");
-      const unlockValueType = event.target.closest(".bonus-unlock-value-type");
       if (rewardMode) syncBonusMode(rewardMode, ".bonus-reward-unit", "百分比");
-      if (unlockMode) syncBonusMode(unlockMode, ".bonus-unlock-value-unit", "比例");
-      if (unlockValueType) syncBonusUnlockValueType(unlockValueType);
     });
     bonusPiggyActivityForm.addEventListener("click", event => {
       if (!event.target.closest(".bonus-deposit-table .rule-table-add")) return;
@@ -6682,27 +6664,9 @@
         }
         if (!Number.isFinite(cap) || cap < 0) return rejectRuleInput(inputs[2], "单笔Bonus上限不得小于0，0表示不限制");
       }
-      const unlockValueType = form.querySelector(".bonus-unlock-value-type");
-      const unlockThresholdInput = form.querySelector(".bonus-unlock-threshold");
-      const unlockMode = form.querySelector(".bonus-unlock-mode");
-      const unlockValueInput = form.querySelector(".bonus-unlock-value");
-      const unlockThreshold = Number(unlockThresholdInput.value);
-      const unlockValue = Number(unlockValueInput.value);
-      if (!unlockValueType.value) return rejectRuleInput(unlockValueType, "请选择解锁取值类型");
-      if (!Number.isFinite(unlockThreshold) || unlockThreshold <= 0) return rejectRuleInput(unlockThresholdInput, `${unlockValueType.value}值必须大于0`);
-      if (!unlockMode.value) return rejectRuleInput(unlockMode, "请选择Bonus提取方式");
-      if (!Number.isFinite(unlockValue) || unlockValue <= 0 || (unlockMode.value === "比例" && unlockValue > 100)) {
-        return rejectRuleInput(unlockValueInput, unlockMode.value === "比例" ? "提取比例必须大于0且不超过100" : "单次提取值必须大于0");
-      }
       const participationInput = form.querySelector(".bonus-participation-times");
       const participationTimes = Number(participationInput.value);
       if (!Number.isInteger(participationTimes) || participationTimes < 1) return rejectRuleInput(participationInput, "每用户参与次数必须为大于0的整数");
-      const scopeValue = form.querySelector(".scope-linkage-value-field:not([hidden])");
-      if (scopeValue && !scopeValue.querySelector("input:checked")) {
-        window.alert("请选择Bonus适用范围值");
-        scopeValue.querySelector(".multi-trigger")?.focus();
-        return false;
-      }
       return true;
     }
 
