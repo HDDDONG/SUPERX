@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SUPERX · 阶梯充值前台交互</title>
+  <style>
+    html { filter: grayscale(1); }
+    :root { --ink:#162237; --muted:#748097; --line:#dfe5ee; --paper:#eef2f7; --white:#fff; --dark:#202020; --mid:#666; --soft:#f7f9fc; --shadow:0 18px 50px rgba(26,41,68,.14); }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; }
+    body { color:var(--ink); background:var(--paper); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    .page { min-width:0; padding:24px; }
+    .page-head { max-width:1560px; margin:0 auto 18px; }
+    .page-head h1 { margin:0; font-size:24px; }
+    .page-head p { margin:7px 0 0; color:var(--muted); font-size:13px; line-height:1.6; }
+    .source-guide { max-width:1560px; display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:0 auto; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:rgba(255,255,255,.72); color:var(--muted); font-size:11px; }
+    .source-guide b { color:var(--ink); }
+    .kind { display:inline-flex; align-items:center; min-height:20px; padding:0 7px; border-radius:999px; color:#333; background:#e4e7eb; font-size:9px; font-weight:800; white-space:nowrap; }
+    .kind.runtime { background:#d5d9de; }
+    .kind.computed { background:#bdc2c9; }
+    .module { max-width:1560px; margin:28px auto 0; padding-top:20px; border-top:1px solid #d5dce7; }
+    .module-head { display:flex; align-items:center; gap:12px; }
+    .module-badge { min-width:128px; padding:7px 12px; border-radius:999px; color:#fff; background:var(--dark); text-align:center; font-size:12px; font-weight:800; }
+    .module:nth-of-type(2) .module-badge { background:#3e3e3e; }
+    .module:nth-of-type(3) .module-badge { background:#575757; }
+    .module:nth-of-type(4) .module-badge { background:#707070; }
+    .module:nth-of-type(5) .module-badge { background:#898989; }
+    .module:nth-of-type(6) .module-badge { background:#a2a2a2; }
+    .module-head p { margin:0; color:var(--muted); font-size:11px; line-height:1.55; }
+    .flow { overflow-x:auto; padding:12px 4px 22px; scrollbar-color:#bdc7d6 transparent; }
+    .track { position:relative; display:grid; grid-template-columns:repeat(2,348px); gap:58px; width:max-content; padding-top:56px; }
+    .track.one { grid-template-columns:348px; }
+    .track.two::before { content:""; position:absolute; left:170px; right:170px; top:29px; height:2px; background:#777; }
+    .track.two::after { content:""; position:absolute; right:168px; top:24px; border-width:6px 0 6px 9px; border-style:solid; border-color:transparent transparent transparent #777; }
+    .flow-label { position:absolute; z-index:2; left:377px; top:13px; padding:5px 9px; border:1px solid #aaa; border-radius:999px; color:#555; background:var(--paper); font-size:11px; white-space:nowrap; transform:translateX(-50%); }
+    .stage { position:relative; z-index:1; width:348px; }
+    .stage-head { min-height:44px; display:flex; align-items:center; gap:9px; margin-bottom:10px; }
+    .stage-index { width:27px; height:27px; display:grid; place-items:center; flex:0 0 auto; border-radius:50%; color:#fff; background:#222; font-size:11px; font-weight:800; }
+    .stage-head b { display:block; font-size:14px; }
+    .stage-head span { display:block; margin-top:2px; color:var(--muted); font-size:10px; }
+    .phone { width:348px; height:720px; overflow:hidden; border:8px solid #161616; border-radius:38px; background:#fff; box-shadow:var(--shadow); }
+    iframe { width:100%; height:100%; display:block; border:0; background:#fff; }
+    .stage-foot { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:10px; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--line); }
+    .stage-foot div { min-height:49px; padding:8px 9px; background:var(--white); }
+    .stage-foot span { display:block; color:var(--muted); font-size:9px; }
+    .stage-foot b { display:block; margin-top:3px; font-size:10px; }
+    .source-map { margin-top:10px; overflow:hidden; border:1px solid #d7e0ec; border-radius:12px; background:rgba(255,255,255,.82); }
+    .source-title { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 11px; border-bottom:1px solid #e2e8f1; background:#f7f9fc; font-size:11px; font-weight:800; }
+    .source-title span { color:var(--muted); font-size:9px; font-weight:500; }
+    .source-row { display:grid; grid-template-columns:106px minmax(0,1fr); gap:8px; padding:9px 11px; border-top:1px solid #edf0f4; }
+    .source-row:first-of-type { border-top:0; }
+    .source-field strong { display:block; margin-bottom:4px; font-size:10px; }
+    .source-path { color:#5f6b7e; font-size:9px; line-height:1.55; }
+    .source-path b { color:var(--ink); }
+    .planned { padding:10px 12px; border:1px dashed #c7ccd3; border-radius:11px; color:#666; background:#f0f2f5; font-size:10px; line-height:1.6; }
+    @media (max-width:760px) { .page { padding:14px; } .module-head { align-items:flex-start; flex-direction:column; gap:7px; } .page-head h1 { font-size:20px; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-head">
+      <h1>阶梯充值 · 前台用户路径</h1>
+      <p>按功能模块展示弹窗、活动中心、活动详情、充值页和礼金中心的关键状态；每张真机下方标明其字段来源及系统计算逻辑。</p>
+    </header>
+    <div class="source-guide"><b>字段来源图例</b><span class="kind">后台配置</span><span>运营可维护字段</span><span class="kind runtime">运行数据</span><span>用户与订单实时数据</span><span class="kind computed">系统计算</span><span>由活动规则生成的状态和文案</span></div>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块一 · 活动弹窗</span><p>后台可选图片形式或规则形式；两种弹窗均读取统一的展示频率、全局顺序、按钮文案和跳转配置。</p></header>
+      <div class="flow"><div class="track two"><span class="flow-label">后台切换展示类型</span>
+        <article class="stage"><header class="stage-head"><span class="stage-index">01</span><div><b>图片形式</b><span>运营素材承载活动信息</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=popup-image" title="阶梯充值图片形式弹窗"></iframe></div><footer class="stage-foot"><div><span>展示类型</span><b>图片形式</b></div><div><span>按钮</span><b>去充值</b></div><div><span>辅助操作</span><b>今日不再提醒</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>弹窗图片</strong><span class="kind">后台配置</span></div><div class="source-path">前台展示 → 弹窗配置 → <b>弹窗图片素材</b></div></div><div class="source-row"><div class="source-field"><strong>按钮与跳转</strong><span class="kind">后台配置</span></div><div class="source-path">弹窗配置 → <b>弹窗按钮文案、弹窗按钮跳转</b></div></div></div></article>
+        <article class="stage"><header class="stage-head"><span class="stage-index">02</span><div><b>规则形式</b><span>读取真实阶梯档位生成表格</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=popup" title="阶梯充值规则形式弹窗"></iframe></div><footer class="stage-foot"><div><span>展示类型</span><b>规则形式</b></div><div><span>当前累计</span><b>₹600</b></div><div><span>按钮</span><b>去充值</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>阶梯表</strong><span class="kind">后台配置</span></div><div class="source-path">规则配置 → <b>阶梯充值档位、赠送礼金、流水倍数</b></div></div><div class="source-row"><div class="source-field"><strong>累计与状态</strong><span class="kind computed">系统计算</span></div><div class="source-path">按活动周期累计成功充值订单，并匹配已达成、进行中与未达到档位</div></div></div></article>
+      </div></div>
+    </section>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块二 · 活动中心</span><p>卡片保持统一尺寸和右侧操作按钮；叹号进入活动详情，主按钮根据是否存在待领取礼金切换。</p></header>
+      <div class="flow"><div class="track two"><span class="flow-label">充值达标后更新卡片</span>
+        <article class="stage"><header class="stage-head"><span class="stage-index">03</span><div><b>活动进行中</b><span>尚未产生待领取阶梯礼金</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=center" title="阶梯充值活动中心进行中"></iframe></div><footer class="stage-foot"><div><span>累计充值</span><b>₹600</b></div><div><span>下一档</span><b>₹1,000</b></div><div><span>按钮</span><b>去充值</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>名称与文案</strong><span class="kind">后台配置</span></div><div class="source-path">前台展示 → 活动中心配置 → <b>活动名称、宣传文案、按钮文案</b></div></div><div class="source-row"><div class="source-field"><strong>累计进度</strong><span class="kind runtime">运行数据</span></div><div class="source-path">活动周期内符合条件的成功充值订单累计金额</div></div></div></article>
+        <article class="stage"><header class="stage-head"><span class="stage-index">04</span><div><b>达标待领取</b><span>已有阶梯礼金等待领取</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=center-ready" title="阶梯充值活动中心待领取"></iframe></div><footer class="stage-foot"><div><span>累计充值</span><b>₹1,100</b></div><div><span>礼金状态</span><b>待领取</b></div><div><span>按钮</span><b>领取礼金</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>待领取状态</strong><span class="kind runtime">运行数据</span></div><div class="source-path">用户存在该活动生成且未领取、未过期的阶梯礼金</div></div><div class="source-row"><div class="source-field"><strong>领取按钮</strong><span class="kind computed">系统计算</span></div><div class="source-path">礼金是否需要领取开启时，主按钮由“去充值”切换为“领取礼金”</div></div></div></article>
+      </div></div>
+    </section>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块三 · 活动详情</span><p>详情页展示完整阶梯规则、实时累计进度和每档状态；底部主按钮随当前用户状态变化。</p></header>
+      <div class="flow"><div class="track two"><span class="flow-label">达到新档位</span>
+        <article class="stage"><header class="stage-head"><span class="stage-index">05</span><div><b>活动进行中</b><span>展示距离下一档的差额</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=detail" title="阶梯充值活动详情进行中"></iframe></div><footer class="stage-foot"><div><span>当前累计</span><b>₹600</b></div><div><span>差额提示</span><b>还差 ₹400</b></div><div><span>按钮</span><b>去充值</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>档位与规则</strong><span class="kind">后台配置</span></div><div class="source-path">规则配置 → <b>阶梯充值档位</b>；前台展示 → <b>活动详情自定义说明</b></div></div><div class="source-row"><div class="source-field"><strong>档位状态</strong><span class="kind computed">系统计算</span></div><div class="source-path">当前累计金额与各档门槛比较后生成待领取、进行中和未达到状态</div></div></div></article>
+        <article class="stage"><header class="stage-head"><span class="stage-index">06</span><div><b>达标待领取</b><span>详情页底部提供领取入口</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=detail-ready" title="阶梯充值活动详情待领取"></iframe></div><footer class="stage-foot"><div><span>当前累计</span><b>₹1,100</b></div><div><span>档位状态</span><b>待领取</b></div><div><span>按钮</span><b>领取礼金</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>礼金金额</strong><span class="kind">后台配置</span></div><div class="source-path">命中档位对应的<b>赠送礼金</b></div></div><div class="source-row"><div class="source-field"><strong>领取入口</strong><span class="kind computed">系统计算</span></div><div class="source-path">存在未领取礼金时展示；领取后活动中心、详情与礼金中心同步状态</div></div></div></article>
+      </div></div>
+    </section>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块四 · 充值页面</span><p>弹窗、活动中心和活动详情的“去充值”统一进入充值页；页面展示当前活动与本次充值后的奖励预估。</p></header>
+      <div class="flow"><div class="track one">
+        <article class="stage"><header class="stage-head"><span class="stage-index">07</span><div><b>充值页面</b><span>选择金额并查看预计解锁档位</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=recharge" title="阶梯充值充值页面"></iframe></div><footer class="stage-foot"><div><span>当前累计</span><b>₹600</b></div><div><span>本次充值</span><b>₹500</b></div><div><span>预计结果</span><b>解锁 ₹50</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>充值金额</strong><span class="kind runtime">运行数据</span></div><div class="source-path">用户在充值页选择的实际充值档位</div></div><div class="source-row"><div class="source-field"><strong>奖励预估</strong><span class="kind computed">系统计算</span></div><div class="source-path">当前累计金额＋本次充值金额，与阶梯门槛比较后生成；最终以充值成功为准</div></div></div></article>
+      </div></div>
+    </section>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块五 · 礼金中心</span><p>每个达标档位生成独立礼金；礼金中心统一展示金额、适用范围、流水倍数、有效期和领取状态。</p></header>
+      <div class="flow"><div class="track two"><span class="flow-label">点击 Claim</span>
+        <article class="stage"><header class="stage-head"><span class="stage-index">08</span><div><b>礼金待领取</b><span>点击顶部礼包 ICON 展开</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=reward" title="阶梯充值礼金待领取"></iframe></div><footer class="stage-foot"><div><span>礼金来源</span><b>阶梯充值</b></div><div><span>适用范围</span><b>指定场馆</b></div><div><span>按钮</span><b>Claim</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>礼金信息</strong><span class="kind">后台配置</span></div><div class="source-path">礼金配置 → <b>金额、倍率、适用范围、领取有效期</b></div></div><div class="source-row"><div class="source-field"><strong>礼金状态</strong><span class="kind runtime">运行数据</span></div><div class="source-path">每个达标档位对应的一笔待领取礼金记录</div></div></div></article>
+        <article class="stage"><header class="stage-head"><span class="stage-index">09</span><div><b>礼金已领取</b><span>保留结果状态，不可重复领取</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=reward-claimed" title="阶梯充值礼金已领取"></iframe></div><footer class="stage-foot"><div><span>领取状态</span><b>已领取</b></div><div><span>重复操作</span><b>不可领取</b></div><div><span>记录</span><b>继续保留</b></div></footer><div class="source-map"><div class="source-title">前台字段来源<span>精确到后台配置项</span></div><div class="source-row"><div class="source-field"><strong>领取结果</strong><span class="kind runtime">运行数据</span></div><div class="source-path">领取接口成功后写入领取时间和已领取状态</div></div><div class="source-row"><div class="source-field"><strong>余额更新</strong><span class="kind computed">系统计算</span></div><div class="source-path">礼金入账后刷新用户礼金余额，并同步其他领取入口</div></div></div></article>
+      </div></div>
+    </section>
+
+    <section class="module">
+      <header class="module-head"><span class="module-badge">模块六 · 站内信</span><p>活动站内信尚未完成统一规划，本次不为阶梯充值单独设计消息领取链路。</p></header>
+      <div class="flow"><div class="track one">
+        <article class="stage"><header class="stage-head"><span class="stage-index">10</span><div><b>后续统一规划</b><span>当前仅保留模块位置</span></div></header><div class="phone"><iframe src="activity-center-tier-recharge.html?flow=1&amp;stage=mail" title="阶梯充值站内信规划占位"></iframe></div><footer class="stage-foot"><div><span>规划状态</span><b>后续再做</b></div><div><span>规划范围</span><b>全部活动统一</b></div><div><span>当前处理</span><b>不可操作</b></div></footer><div class="source-map"><div class="source-title">需求说明<span>暂不进入开发</span></div><div class="planned">待活动站内信整体方案确认后，再统一定义消息触发事件、消息模板、领取入口、已读状态和点击状态。</div></div></article>
+      </div></div>
+    </section>
+  </main>
+</body>
+</html>

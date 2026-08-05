@@ -264,6 +264,11 @@
     .campaign-popup-head h3 { margin: 5px 0 3px; font-size: 18px; }
     .campaign-popup-head p { margin: 0; color: rgba(255,255,255,.68); font-size: 9px; }
     .campaign-popup-body { padding: 13px 15px 16px; }
+    .popup-image-reference { height: 342px; display: grid; align-content: end; padding: 20px; border-radius: 16px; color: white; background: linear-gradient(145deg,#222,#777); text-align: left; }
+    .popup-image-reference small { font-size: 9px; font-weight: 800; letter-spacing: .8px; }
+    .popup-image-reference h3 { margin: 7px 0 5px; font-size: 24px; }
+    .popup-image-reference p { margin: 0; color: #ddd; font-size: 10px; line-height: 1.55; }
+    .popup-image-reference .popup-action { margin-top: 16px; color: #222; background: white; box-shadow: none; }
     .popup-current { padding: 10px 11px; border: 1px solid #e1e7ff; border-radius: 12px; background: #f5f7ff; }
     .popup-current-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
     .popup-current-top b { color: var(--blue); font-size: 14px; }
@@ -638,10 +643,24 @@
         $('#rewardCenterWrap').hidden = true;
       }
 
-      $('#tierCampaign').addEventListener('click', openRechargeSheet);
+      $('#tierCampaign').addEventListener('click', () => {
+        if ($('#tierCampaign').dataset.action === 'claim') {
+          renderRewards();
+          $('#rewardCenterWrap').hidden = false;
+          return;
+        }
+        openRechargeSheet();
+      });
       $('#tierDetailButton').addEventListener('click', openDetail);
       $('#backButton').addEventListener('click', closeDetail);
-      $('#openRecharge').addEventListener('click', openRechargeSheet);
+      $('#openRecharge').addEventListener('click', () => {
+        if ($('#openRecharge').dataset.action === 'claim') {
+          renderRewards();
+          $('#rewardCenterWrap').hidden = false;
+          return;
+        }
+        openRechargeSheet();
+      });
       $('#openCampaignPopup').addEventListener('click', () => {
         if ($('#campaignPopup').dataset.suppressedToday === 'true') {
           showToast('该活动弹窗今日已设置不再提醒');
@@ -713,13 +732,51 @@
       const pageParams = new URLSearchParams(window.location.search);
       const flowStage = pageParams.get('stage');
       if (pageParams.get('flow') === '1') document.body.classList.add('is-flow-embed');
+      document.body.dataset.flowStage = flowStage || 'popup';
+      if (flowStage === 'popup-image') {
+        $('.campaign-popup-head').hidden = true;
+        $('.campaign-popup-body').innerHTML = '<div class="popup-image-reference"><small>STEP RECHARGE</small><h3>充值越多<br>奖励越高</h3><p>累计充值解锁多档礼金<br>最高可得 ₹500</p><button class="popup-action" type="button">去充值</button></div>';
+        $('.popup-image-reference .popup-action').addEventListener('click', () => { closeCampaignPopup(); openRechargeSheet(); });
+      }
       if (flowStage === 'center') closeCampaignPopup();
+      if (flowStage === 'center-ready') {
+        closeCampaignPopup();
+        current = 1100;
+        updateProgress();
+        $('#tierCampaign').textContent = '领取礼金';
+        $('#tierCampaign').dataset.action = 'claim';
+        $('.campaign-sub small').textContent = '已有阶梯礼金待领取';
+      }
       if (flowStage === 'detail') { closeCampaignPopup(); openDetail(); }
+      if (flowStage === 'detail-ready') {
+        closeCampaignPopup();
+        current = 1100;
+        updateProgress();
+        openDetail();
+        $('#openRecharge').textContent = '领取礼金';
+        $('#openRecharge').dataset.action = 'claim';
+      }
       if (flowStage === 'recharge') { closeCampaignPopup(); openRechargeSheet(); }
       if (flowStage === 'reward') {
         closeCampaignPopup();
+        current = 1100;
+        updateProgress();
         renderRewards();
         $('#rewardCenterWrap').hidden = false;
+      }
+      if (flowStage === 'reward-claimed') {
+        closeCampaignPopup();
+        current = 1100;
+        claimedThresholds.add(100);
+        claimedThresholds.add(500);
+        claimedThresholds.add(1000);
+        updateProgress();
+        renderRewards();
+        $('#rewardCenterWrap').hidden = false;
+      }
+      if (flowStage === 'mail') {
+        closeCampaignPopup();
+        $('#centerScreen').innerHTML = '<header class="topbar"><div class="brand">‹　站内信</div><span style="color:#8792a6;font-size:10px">活动消息</span></header><div class="scroll" style="padding:16px;background:#f2f4f7"><div style="display:grid;grid-template-columns:1fr 1fr;margin:-16px -16px 14px;background:white;border-bottom:1px solid #e1e6ee"><b style="padding:13px;text-align:center;border-bottom:2px solid #333;font-size:10px">活动消息</b><span style="padding:13px;text-align:center;color:#8490a3;font-size:10px">系统消息</span></div><article style="padding:16px;border:1px solid #dfe4ec;border-radius:14px;background:white"><b style="font-size:12px">阶梯充值活动提醒</b><p style="margin:8px 0 14px;color:#748097;font-size:10px;line-height:1.6">活动站内信将在全部活动的消息方案确认后统一设计。</p><button type="button" disabled style="width:100%;height:40px;border:0;border-radius:10px;color:#858b94;background:#e2e5e9;font-weight:800">后续规划</button></article></div>';
       }
     })();
   </script>

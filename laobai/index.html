@@ -1607,6 +1607,14 @@
       min-width: 0;
     }
 
+    .bonus-deposit-table { table-layout: fixed; }
+    .bonus-deposit-table col:nth-child(1) { width: 22%; }
+    .bonus-deposit-table col:nth-child(2) { width: 22%; }
+    .bonus-deposit-table col:nth-child(3) { width: 20%; }
+    .bonus-deposit-table col:nth-child(4) { width: 28%; }
+    .bonus-deposit-table col:nth-child(5) { width: 8%; }
+    .bonus-deposit-table select { min-width: 0; }
+
     .operation-head {
       min-width: 0;
       display: flex;
@@ -2789,23 +2797,26 @@
         <div class="submenu">
           <div class="submenu-section-title">活动管理</div>
           <button class="submenu-item is-third-level is-selected" type="button" data-page-title="活动列表" data-breadcrumb-module="活动管理">活动列表</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="充值活动加bonus优化" data-breadcrumb-module="活动管理">充值活动加bonus优化</button>
           <div class="submenu-section-title">用户触达</div>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信配置" data-breadcrumb-module="用户触达">站内信配置</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信统计" data-breadcrumb-module="用户触达">站内信统计</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="公告配置" data-breadcrumb-module="用户触达">公告配置</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="公告统计" data-breadcrumb-module="用户触达">公告统计</button>
+          <button class="submenu-item" type="button" data-page-title="存钱罐配置" data-breadcrumb-module="运营管理">存钱罐配置</button>
         </div>
       </div>
       <div class="menu-group is-collapsed">
         <button class="menu-title" type="button" aria-expanded="false"><span>前端需求</span><span class="menu-arrow">▼</span></button>
         <div class="submenu">
+          <button class="submenu-item" type="button" data-page-title="Bonus充值前台交互" data-breadcrumb-module="前端需求">Bonus充值前台交互</button>
           <button class="submenu-item" type="button" data-page-title="囤单前台调整" data-breadcrumb-module="前端需求">囤单前台调整</button>
           <button class="submenu-item" type="button" data-page-title="充值页优化" data-breadcrumb-module="前端需求">充值页优化</button>
           <button class="submenu-item" type="button" data-page-title="礼金适用范围" data-breadcrumb-module="前端需求">礼金适用范围</button>
           <button class="submenu-item" type="button" data-page-title="弹窗优化" data-breadcrumb-module="前端需求">弹窗优化</button>
           <div class="submenu-section-title">活动前端需求</div>
           <button class="submenu-item is-third-level" type="button" data-page-title="活动前台交互" data-breadcrumb-module="活动前端需求">活动前台交互</button>
-          <button class="submenu-item is-third-level" type="button" data-page-title="阶梯充值活动中心" data-breadcrumb-module="活动前端需求">阶梯充值活动中心</button>
+          <button class="submenu-item is-third-level" type="button" data-page-title="阶梯充值前台交互" data-breadcrumb-module="活动前端需求">阶梯充值前台交互</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="打码返利前台" data-breadcrumb-module="活动前端需求">打码返利前台</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="输返前台" data-breadcrumb-module="活动前端需求">输返前台</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="转包活动前台交互" data-breadcrumb-module="活动前端需求">转包活动前台交互</button>
@@ -2874,6 +2885,7 @@
                 <option>输返</option>
                 <option>打码返利</option>
                 <option>转包活动</option>
+                <option>Bonus充值活动</option>
               </select>
             </div>
             <div class="field field-size-1">
@@ -2945,6 +2957,7 @@
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 16 行"></td><td>16</td><td>IN01</td><td>01KLOSSRETURN20260720</td><td>24小时亏损救援</td><td>输返</td><td><span class="table-thumb">POPUP</span></td><td>180</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/20 00:00</td><td>2026/08/19 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 17 行"></td><td>17</td><td>IN01</td><td>01KWAGERREBATE20260722</td><td>每日打码阶梯返利</td><td>打码返利</td><td><span class="table-thumb">POPUP</span></td><td>170</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/22 00:00</td><td>2026/08/21 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 18 行"></td><td>18</td><td>IN01,IN02</td><td>01KTRANSFER20260803</td><td>SUPERX Lite 转包登录礼</td><td>转包活动</td><td><span class="table-thumb">POPUP</span></td><td>190</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/03 00:00</td><td>2026/09/02 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 19 行"></td><td>19</td><td>IN01</td><td>01KBONUSDEPOSIT20260804</td><td>Welcome Bonus 100%</td><td>Bonus充值活动</td><td><span class="table-thumb">POPUP</span></td><td>200</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/04 00:00</td><td>2099/01/01 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -3478,7 +3491,7 @@
               </div>
             </div>
 
-            <div class="rule-subtitle">区间参数配置</div>
+            <div class="rule-subtitle">礼金奖励设置</div>
             <div class="rule-summary">
               <div class="rule-summary-item">
                 <label>单用户累计赠送上限</label>
@@ -3491,6 +3504,47 @@
                   <th style="width: 180px;">单笔充值金额达到</th>
                   <th style="width: 140px;">奖励形式</th>
                   <th style="width: 180px;">赠送礼金</th>
+                  <th class="has-help" style="width: 150px;">单笔赠送上限<span class="help-tip" tabindex="0" data-tip="0为不限制。">?</span></th>
+                  <th style="width: 70px;">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="unit-input"><input value="1.00"><span class="unit">INR</span></div></td>
+                  <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="1.00"><span class="unit reward-value-unit">%</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="unit-input"><input value="100.00"><span class="unit">INR</span></div></td>
+                  <td><select class="reward-mode-select"><option selected>比例</option><option>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="3.00"><span class="unit reward-value-unit">%</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="unit-input"><input value="500.00"><span class="unit">INR</span></div></td>
+                  <td><select class="reward-mode-select"><option>比例</option><option selected>固定值</option></select></td>
+                  <td><div class="unit-input"><input value="50.00"><span class="unit reward-value-unit">INR</span></div></td>
+                  <td><div class="unit-input"><input value="0"><span class="unit">INR</span></div></td>
+                  <td><div class="mini-actions"><button class="circle-btn" type="button">+</button><button class="circle-btn" type="button">-</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="rule-subtitle" style="margin-top: 16px;">Bonus奖励设置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item">
+                <label>单用户累计Bonus上限</label>
+                <div class="unit-input"><input placeholder="请输入"><span class="unit">INR</span></div>
+              </div>
+            </div>
+            <table class="subsidy-rule-table first-deposit-bonus-rule-table">
+              <thead>
+                <tr>
+                  <th style="width: 180px;">单笔充值金额达到</th>
+                  <th style="width: 140px;">奖励形式</th>
+                  <th style="width: 180px;">赠送Bonus</th>
                   <th class="has-help" style="width: 150px;">单笔赠送上限<span class="help-tip" tabindex="0" data-tip="0为不限制。">?</span></th>
                   <th style="width: 70px;">操作</th>
                 </tr>
@@ -4532,6 +4586,57 @@
         </div>
 
       </div>
+
+      <div id="bonusPiggyActivityForm" hidden>
+        <div class="context-note">配置逻辑：用户在充值页选择Bonus活动，充值成功并命中对应档位后生成一笔锁定Bonus；同一笔充值只匹配一个Bonus活动。系统按解锁取值类型读取对应用户数据，达到配置值后可按Bonus提取方式提取一次。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="bonusPiggyActivityName" value="Welcome Bonus 100%"></div>
+          <div class="field"><label class="required">包ID</label><input id="bonusPiggyPackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-08-04T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2099-01-01T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option>打码返利</option><option>转包活动</option><option selected>Bonus充值活动</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch condition-toggle" type="button" aria-pressed="false"></button><span>已关闭</span></div></div>
+        <div class="rule-box" hidden>
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head"><div class="condition-cell"><span class="condition-label">条件类型</span></div><div class="condition-cell"><span class="condition-label">条件值</span></div><div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div></div>
+              <div class="condition-row"><div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>累计充值</option><option>上级ID</option></select></div><div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>=</option><option>≠</option></select><select><option selected>请选择</option><option>活跃用户</option><option>高价值用户</option><option>新注册用户</option><option>提现过</option></select></div></div><div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">−</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle"><span>Bonus充值档位</span><span class="help-tip" tabindex="0" data-tip="充值成功后按命中的最高档位生成锁定Bonus；同一笔充值只匹配一个档位。">?</span></div>
+            <div class="rule-summary" style="margin-bottom: 12px;">
+              <div class="rule-summary-item"><label class="required">每用户参与次数</label><div class="unit-input"><input class="bonus-participation-times" type="number" min="1" step="1" value="1"><span class="unit">次</span></div></div>
+            </div>
+            <table class="subsidy-rule-table bonus-deposit-table">
+              <colgroup><col><col><col><col><col></colgroup>
+              <thead><tr><th>充值金额达到</th><th>Bonus赠送方式</th><th>Bonus赠送值</th><th>单笔Bonus上限</th><th class="operation-head"><button class="circle-btn rule-table-add" type="button" aria-label="新增Bonus充值档位">+</button></th></tr></thead>
+              <tbody>
+                <tr><td><input type="number" min="0.01" step="0.01" value="100"></td><td><select class="bonus-reward-mode"><option value="">请选择</option><option>固定值</option><option selected>百分比</option></select></td><td><div class="unit-input"><input type="number" min="0.01" step="0.01" value="10"><span class="unit bonus-reward-unit">%</span></div></td><td><input type="number" min="0" step="0.01" value="100"></td><td><div class="mini-actions"><button class="circle-btn" type="button">−</button></div></td></tr>
+                <tr><td><input type="number" min="0.01" step="0.01" value="1000"></td><td><select class="bonus-reward-mode"><option value="">请选择</option><option>固定值</option><option selected>百分比</option></select></td><td><div class="unit-input"><input type="number" min="0.01" step="0.01" value="100"><span class="unit bonus-reward-unit">%</span></div></td><td><input type="number" min="0" step="0.01" value="1000"></td><td><div class="mini-actions"><button class="circle-btn" type="button">−</button></div></td></tr>
+              </tbody>
+            </table>
+
+            <div class="rule-subtitle" style="margin-top: 16px;"><span>Bonus解锁配置及适用范围</span><span class="help-tip" tabindex="0" data-tip="当前解锁取值类型为有效流水；有效流水达到配置值后，可按固定值或比例提取一次Bonus，并按Bonus适用范围限制使用。">?</span></div>
+            <div class="rule-summary" style="margin-bottom: 12px;">
+              <div class="rule-summary-item"><label class="required">解锁取值类型</label><select class="bonus-unlock-value-type"><option selected>有效流水</option></select></div>
+              <div class="rule-summary-item"><label class="required"><span class="bonus-unlock-threshold-label">有效流水值</span></label><input class="bonus-unlock-threshold" type="number" min="0.01" step="0.01" value="100"></div>
+              <div class="rule-summary-item"><label class="required">Bonus提取方式</label><select class="bonus-unlock-mode"><option value="">请选择</option><option>固定值</option><option selected>比例</option></select></div>
+              <div class="rule-summary-item"><label class="required">单次提取值</label><div class="unit-input"><input class="bonus-unlock-value" type="number" min="0.01" step="0.01" value="0.3"><span class="unit bonus-unlock-value-unit">%</span></div></div>
+              <div class="rule-summary-item scope-linkage-component"><label class="required">Bonus适用范围</label><select class="scope-linkage-select"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></div>
+              <div class="rule-summary-item scope-linkage-value-field" hidden><label class="required">范围值</label><div class="multi-select scope-linkage-value-multi"><button class="multi-trigger scope-linkage-value-trigger" type="button">请选择</button><div class="multi-menu scope-linkage-value-menu"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" id="cancelDrawerButton" type="button">取消</button>
@@ -4659,10 +4764,13 @@
       "充提记录": "cashier-records.html",
       "审批记录": "approval-records.html",
       "囤单规则": "withdrawal-hold-rules.html",
-      "阶梯充值活动中心": "frontend-flow.html?type=tier",
+      "阶梯充值前台交互": "tier-recharge-frontend.html",
       "打码返利前台": "wager-rebate-frontend.html",
       "输返前台": "wager-rebate-frontend.html?mode=loss-return",
-      "转包活动前台交互": "wager-rebate-frontend.html?mode=transfer"
+      "转包活动前台交互": "wager-rebate-frontend.html?mode=transfer",
+      "Bonus充值前台交互": "bonus-piggy-frontend.html",
+      "充值活动加bonus优化": "recharge-bonus-optimization.html",
+      "存钱罐配置": "bonus-piggy-config.html"
     };
     const externalModuleFrame = document.getElementById("externalModuleFrame");
     function renderPageContent(title) {
@@ -4897,14 +5005,42 @@
     const lossReturnActivityForm = document.getElementById("lossReturnActivityForm");
     const wagerRebateActivityForm = document.getElementById("wagerRebateActivityForm");
     const transferActivityForm = document.getElementById("transferActivityForm");
+    const bonusPiggyActivityForm = document.getElementById("bonusPiggyActivityForm");
     document.querySelectorAll("#activityTypeFilter, .activity-type-select").forEach(select => {
-      ["输返", "打码返利", "转包活动"].forEach(activityType => {
+      ["输返", "打码返利", "转包活动", "Bonus充值活动"].forEach(activityType => {
         if (!Array.from(select.options).some(option => option.value === activityType)) {
           select.add(new Option(activityType, activityType));
         }
       });
     });
-    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm, transferActivityForm];
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm, transferActivityForm, bonusPiggyActivityForm];
+    function syncBonusMode(select, unitSelector, percentageValue) {
+      const unit = select.closest("tr, .rule-summary")?.querySelector(unitSelector);
+      if (!unit) return;
+      unit.hidden = select.value !== percentageValue;
+    }
+    function syncBonusUnlockValueType(select) {
+      const label = bonusPiggyActivityForm.querySelector(".bonus-unlock-threshold-label");
+      if (label) label.textContent = `${select.value}值`;
+    }
+    function syncAllBonusModes() {
+      bonusPiggyActivityForm.querySelectorAll(".bonus-reward-mode").forEach(select => syncBonusMode(select, ".bonus-reward-unit", "百分比"));
+      bonusPiggyActivityForm.querySelectorAll(".bonus-unlock-mode").forEach(select => syncBonusMode(select, ".bonus-unlock-value-unit", "比例"));
+      bonusPiggyActivityForm.querySelectorAll(".bonus-unlock-value-type").forEach(syncBonusUnlockValueType);
+    }
+    syncAllBonusModes();
+    bonusPiggyActivityForm.addEventListener("change", event => {
+      const rewardMode = event.target.closest(".bonus-reward-mode");
+      const unlockMode = event.target.closest(".bonus-unlock-mode");
+      const unlockValueType = event.target.closest(".bonus-unlock-value-type");
+      if (rewardMode) syncBonusMode(rewardMode, ".bonus-reward-unit", "百分比");
+      if (unlockMode) syncBonusMode(unlockMode, ".bonus-unlock-value-unit", "比例");
+      if (unlockValueType) syncBonusUnlockValueType(unlockValueType);
+    });
+    bonusPiggyActivityForm.addEventListener("click", event => {
+      if (!event.target.closest(".bonus-deposit-table .rule-table-add")) return;
+      setTimeout(syncAllBonusModes, 0);
+    });
     function syncPermanentResetConstraint(form, permanent) {
       const resetCycle = form.querySelector("#lossReturnResetCycle, #wagerRebateResetCycle");
       if (!resetCycle) return;
@@ -4977,6 +5113,7 @@
       };
     });
     let firstDepositDefaultRows = [];
+    let firstDepositBonusDefaultRows = [];
     const wagerRebateDefaultRows = Array.from(wagerRebateActivityForm.querySelectorAll(".wager-rebate-table tbody tr")).map(row => row.cloneNode(true));
     const packageOptions = ["all", "IN01", "IN02", "IN03"];
     let activeMultiSelect = null;
@@ -5113,7 +5250,8 @@
       const isLossReturn = normalizedType === "输返";
       const isWagerRebate = normalizedType === "打码返利";
       const isTransfer = normalizedType === "转包活动";
-      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate || isTransfer;
+      const isBonusPiggy = normalizedType === "Bonus充值活动";
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate || isTransfer || isBonusPiggy;
       rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
@@ -5121,6 +5259,7 @@
       lossReturnActivityForm.hidden = !isLossReturn;
       wagerRebateActivityForm.hidden = !isWagerRebate;
       transferActivityForm.hidden = !isTransfer;
+      bonusPiggyActivityForm.hidden = !isBonusPiggy;
       const newbieExclusiveField = document.getElementById("newbieExclusiveField");
       const firstDepositContextNote = document.getElementById("firstDepositContextNote");
       newbieExclusiveField.hidden = !isNewbieDeposit;
@@ -5151,6 +5290,10 @@
       const tbody = rechargeActivityForm.querySelector(".first-deposit-rule-table tbody");
       if (tbody && firstDepositDefaultRows.length) {
         tbody.replaceChildren(...firstDepositDefaultRows.map(row => row.cloneNode(true)));
+      }
+      const bonusTbody = rechargeActivityForm.querySelector(".first-deposit-bonus-rule-table tbody");
+      if (bonusTbody && firstDepositBonusDefaultRows.length) {
+        bonusTbody.replaceChildren(...firstDepositBonusDefaultRows.map(row => row.cloneNode(true)));
       }
       const wagerTbody = wagerRebateActivityForm.querySelector(".wager-rebate-table tbody");
       if (wagerTbody && wagerRebateDefaultRows.length) {
@@ -5542,6 +5685,9 @@
     });
     firstDepositDefaultRows = Array.from(
       rechargeActivityForm.querySelectorAll(".first-deposit-rule-table tbody tr")
+    ).map(row => row.cloneNode(true));
+    firstDepositBonusDefaultRows = Array.from(
+      rechargeActivityForm.querySelectorAll(".first-deposit-bonus-rule-table tbody tr")
     ).map(row => row.cloneNode(true));
     document.querySelectorAll(".popup-display-type-select").forEach(select => {
       const section = select.closest(".front-subsection");
@@ -6223,33 +6369,39 @@
     }
     function validateFirstDepositRules(form) {
       if (form !== rechargeActivityForm) return true;
-      const rows = Array.from(form.querySelectorAll(".first-deposit-rule-table tbody tr"));
-      if (!rows.length) {
-        window.alert("请至少配置一条首充规则");
-        return false;
-      }
-      for (let index = 0; index < rows.length; index += 1) {
-        const inputs = Array.from(rows[index].querySelectorAll("input"));
-        inputs.forEach(input => input.removeAttribute("aria-invalid"));
-        const [thresholdInput, rewardInput, capInput] = inputs;
-        const threshold = Number(thresholdInput.value);
-        const reward = Number(rewardInput.value);
-        const cap = Number(capInput.value);
-        const rowLabel = `第 ${index + 1} 条首充规则`;
-        if (!thresholdInput.value.trim() || !Number.isFinite(threshold) || threshold <= 0) {
-          return rejectRuleInput(thresholdInput, `${rowLabel}的单笔充值金额必须大于0`);
+      const ruleGroups = [
+        { selector: ".first-deposit-rule-table", rewardName: "礼金" },
+        { selector: ".first-deposit-bonus-rule-table", rewardName: "Bonus" }
+      ];
+      for (const group of ruleGroups) {
+        const rows = Array.from(form.querySelectorAll(`${group.selector} tbody tr`));
+        if (!rows.length) {
+          window.alert(`请至少配置一条${group.rewardName}奖励规则`);
+          return false;
         }
-        if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) {
-          return rejectRuleInput(rewardInput, `${rowLabel}的赠送礼金必须大于0`);
-        }
-        if (!capInput.value.trim() || !Number.isFinite(cap) || cap < 0) {
-          return rejectRuleInput(capInput, `${rowLabel}的单笔赠送上限必须大于或等于0`);
+        for (let index = 0; index < rows.length; index += 1) {
+          const inputs = Array.from(rows[index].querySelectorAll("input"));
+          inputs.forEach(input => input.removeAttribute("aria-invalid"));
+          const [thresholdInput, rewardInput, capInput] = inputs;
+          const threshold = Number(thresholdInput.value);
+          const reward = Number(rewardInput.value);
+          const cap = Number(capInput.value);
+          const rowLabel = `${group.rewardName}奖励第 ${index + 1} 条规则`;
+          if (!thresholdInput.value.trim() || !Number.isFinite(threshold) || threshold <= 0) {
+            return rejectRuleInput(thresholdInput, `${rowLabel}的单笔充值金额必须大于0`);
+          }
+          if (!rewardInput.value.trim() || !Number.isFinite(reward) || reward <= 0) {
+            return rejectRuleInput(rewardInput, `${rowLabel}的赠送值必须大于0`);
+          }
+          if (!capInput.value.trim() || !Number.isFinite(cap) || cap < 0) {
+            return rejectRuleInput(capInput, `${rowLabel}的单笔赠送上限必须大于或等于0`);
+          }
         }
       }
       return true;
     }
     rechargeActivityForm.addEventListener("input", event => {
-      if (event.target.matches(".first-deposit-rule-table input")) {
+      if (event.target.matches(".first-deposit-rule-table input, .first-deposit-bonus-rule-table input")) {
         event.target.removeAttribute("aria-invalid");
       }
     });
@@ -6511,6 +6663,49 @@
       return true;
     }
 
+    function validateBonusRechargeRules(form) {
+      if (form !== bonusPiggyActivityForm) return true;
+      const depositRows = Array.from(form.querySelectorAll(".bonus-deposit-table tbody tr"));
+      let previousThreshold = 0;
+      for (let index = 0; index < depositRows.length; index += 1) {
+        const inputs = depositRows[index].querySelectorAll("input");
+        const mode = depositRows[index].querySelector(".bonus-reward-mode");
+        const threshold = Number(inputs[0].value);
+        const reward = Number(inputs[1].value);
+        const cap = Number(inputs[2].value);
+        if (!Number.isFinite(threshold) || threshold <= 0) return rejectRuleInput(inputs[0], `第 ${index + 1} 条充值金额必须大于0`);
+        if (threshold <= previousThreshold) return rejectRuleInput(inputs[0], "Bonus充值档位必须按充值金额从小到大配置");
+        previousThreshold = threshold;
+        if (!mode.value) return rejectRuleInput(mode, `请选择第 ${index + 1} 条Bonus赠送方式`);
+        if (!Number.isFinite(reward) || reward <= 0 || (mode.value === "百分比" && reward > 100)) {
+          return rejectRuleInput(inputs[1], mode.value === "百分比" ? "Bonus赠送百分比必须大于0且不超过100" : "Bonus赠送固定值必须大于0");
+        }
+        if (!Number.isFinite(cap) || cap < 0) return rejectRuleInput(inputs[2], "单笔Bonus上限不得小于0，0表示不限制");
+      }
+      const unlockValueType = form.querySelector(".bonus-unlock-value-type");
+      const unlockThresholdInput = form.querySelector(".bonus-unlock-threshold");
+      const unlockMode = form.querySelector(".bonus-unlock-mode");
+      const unlockValueInput = form.querySelector(".bonus-unlock-value");
+      const unlockThreshold = Number(unlockThresholdInput.value);
+      const unlockValue = Number(unlockValueInput.value);
+      if (!unlockValueType.value) return rejectRuleInput(unlockValueType, "请选择解锁取值类型");
+      if (!Number.isFinite(unlockThreshold) || unlockThreshold <= 0) return rejectRuleInput(unlockThresholdInput, `${unlockValueType.value}值必须大于0`);
+      if (!unlockMode.value) return rejectRuleInput(unlockMode, "请选择Bonus提取方式");
+      if (!Number.isFinite(unlockValue) || unlockValue <= 0 || (unlockMode.value === "比例" && unlockValue > 100)) {
+        return rejectRuleInput(unlockValueInput, unlockMode.value === "比例" ? "提取比例必须大于0且不超过100" : "单次提取值必须大于0");
+      }
+      const participationInput = form.querySelector(".bonus-participation-times");
+      const participationTimes = Number(participationInput.value);
+      if (!Number.isInteger(participationTimes) || participationTimes < 1) return rejectRuleInput(participationInput, "每用户参与次数必须为大于0的整数");
+      const scopeValue = form.querySelector(".scope-linkage-value-field:not([hidden])");
+      if (scopeValue && !scopeValue.querySelector("input:checked")) {
+        window.alert("请选择Bonus适用范围值");
+        scopeValue.querySelector(".multi-trigger")?.focus();
+        return false;
+      }
+      return true;
+    }
+
     function validateCustomDetailSections(form) {
       const activityCenterSwitch = form.querySelector(".activity-center-switch");
       if (!activityCenterSwitch || activityCenterSwitch.getAttribute("aria-pressed") !== "true") return true;
@@ -6632,6 +6827,7 @@
       if (!validateLossReturnRules(form)) return;
       if (!validateWagerRebateRules(form)) return;
       if (!validateTransferRules(form)) return;
+      if (!validateBonusRechargeRules(form)) return;
       const expiryType = form.querySelector(".reward-expiry-type");
       const expiryDays = form.querySelector(".reward-expiry-days-input");
       if (expiryType && expiryType.value === "natural-day") {

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>存钱罐配置</title>
+  <style>
+    :root{--bg:#f3f5f8;--paper:#fff;--ink:#202938;--muted:#748095;--line:#d9e1eb;--fill:#f7f9fc;--primary:#347cf5;--danger:#db4c5b}
+    *{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}button,input,select{font:inherit}.page{width:100%;padding:20px}.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}.page-head h1{margin:0;font-size:18px}.page-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.save{height:34px;padding:0 18px;border:0;border-radius:6px;background:var(--primary);color:#fff;font-weight:700}.card{overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--paper)}.card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}.card-head h2{margin:0;font-size:14px}.switch-row{display:flex;align-items:center;gap:9px}.switch{position:relative;width:38px;height:22px;padding:0;border:0;border-radius:11px;background:#cbd4e0}.switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s}.switch.on{background:var(--primary)}.switch.on::after{left:19px}.status{min-width:38px;color:var(--muted);font-weight:600}.config{padding:16px}.section-title{display:flex;align-items:center;gap:6px;margin-bottom:14px;font-weight:700}.help{display:inline-grid;width:17px;height:17px;place-items:center;border:0;border-radius:50%;background:#cbd4df;color:#536075;font-size:11px;cursor:help}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 28px}.field label{display:block;margin-bottom:7px;font-weight:650}.required::before{content:"*";margin-right:5px;color:#cc3447}.control,select{width:100%;height:36px;padding:0 11px;border:1px solid var(--line);border-radius:6px;background:var(--fill);color:var(--ink)}select{appearance:auto}.unit-input{display:grid;grid-template-columns:minmax(0,1fr) 48px}.unit-input .control{border-radius:6px 0 0 6px}.unit{display:grid;place-items:center;border:1px solid var(--line);border-left:0;border-radius:0 6px 6px 0;background:#eef2f7;color:var(--muted);font-weight:650}.config.is-disabled{opacity:.5}.config.is-disabled :is(input,select,button){pointer-events:none}.delivery-note{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border:1px solid #8ab4f8;border-left:4px solid var(--primary);border-radius:7px;background:#edf5ff;color:#244e85;font-size:13px}.delivery-note .note-icon{display:grid;flex:0 0 22px;width:22px;height:22px;place-items:center;border-radius:50%;background:var(--primary);color:#fff;font-weight:800}.delivery-note strong{color:#173e70}.note{margin-top:10px;padding:11px 13px;border:1px solid var(--line);border-radius:6px;background:#f5f7fa;color:#647086;font-size:12px}.toast{position:fixed;right:22px;bottom:22px;padding:10px 16px;border-radius:7px;background:#303846;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.18)}.toast[hidden]{display:none}[aria-invalid="true"]{border-color:var(--danger);box-shadow:0 0 0 2px rgba(219,76,91,.12)}
+    @media(max-width:720px){.page{padding:12px}.grid{grid-template-columns:1fr}.page-head p{display:none}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-head">
+      <div><h1>存钱罐配置</h1><p>统一管理 Bonus 解锁、单次提取、适用范围及打码倍率。</p></div>
+      <button class="save" id="saveConfig" type="button">保存</button>
+    </header>
+    <section class="card">
+      <div class="card-head">
+        <h2>存钱罐功能</h2>
+        <div class="switch-row"><button class="switch on" id="piggySwitch" type="button" aria-pressed="true" aria-label="存钱罐开关"></button><span class="status" id="switchStatus">已开启</span></div>
+      </div>
+      <div class="config" id="piggyConfig">
+        <div class="section-title">Bonus解锁配置及适用范围 <button class="help" type="button" title="用户有效流水达到配置值后，可按固定值或比例提取一次 Bonus。">?</button></div>
+        <div class="grid">
+          <div class="field"><label class="required" for="unlockType">解锁取值类型</label><select id="unlockType"><option selected>有效流水</option></select></div>
+          <div class="field"><label class="required" for="turnoverValue">有效流水值</label><input class="control" id="turnoverValue" type="number" min="0.01" step="0.01" value="100"></div>
+          <div class="field"><label class="required" for="extractMode">Bonus提取方式</label><select id="extractMode"><option selected>比例</option><option>固定值</option></select></div>
+          <div class="field"><label class="required" for="extractValue">单次提取值</label><div class="unit-input"><input class="control" id="extractValue" type="number" min="0.01" step="0.01" value="0.3"><span class="unit" id="extractUnit">%</span></div></div>
+          <div class="field"><label class="required" for="bonusScope">Bonus适用范围</label><select id="bonusScope"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></div>
+          <div class="field"><label class="required" for="wagerMultiplier">Bonus礼金打码倍率</label><div class="unit-input"><input class="control" id="wagerMultiplier" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></div>
+        </div>
+        <div class="delivery-note" role="note"><span class="note-icon">!</span><span><strong>下发说明：</strong>提取的 Bonus 以礼金形式下发，礼金类型为「Bonus礼金」。</span></div>
+        <div class="note">Bonus 提取成功后按配置的适用范围使用；Bonus 礼金打码倍率用于计算该笔 Bonus 对应的打码要求。</div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" hidden>配置已保存</div>
+  <script>
+    const piggySwitch=document.getElementById("piggySwitch");
+    const piggyConfig=document.getElementById("piggyConfig");
+    const switchStatus=document.getElementById("switchStatus");
+    const extractMode=document.getElementById("extractMode");
+    const extractValue=document.getElementById("extractValue");
+    const extractUnit=document.getElementById("extractUnit");
+    const editableControls=[...piggyConfig.querySelectorAll("input,select")];
+    function syncSwitch(){const enabled=piggySwitch.getAttribute("aria-pressed")==="true";piggySwitch.classList.toggle("on",enabled);piggyConfig.classList.toggle("is-disabled",!enabled);switchStatus.textContent=enabled?"已开启":"已关闭";editableControls.forEach(control=>control.disabled=!enabled)}
+    function syncExtractMode(){const ratio=extractMode.value==="比例";extractUnit.textContent=ratio?"%":"金额";extractValue.max=ratio?"100":""}
+    piggySwitch.addEventListener("click",()=>{piggySwitch.setAttribute("aria-pressed",piggySwitch.getAttribute("aria-pressed")==="true"?"false":"true");syncSwitch()});
+    extractMode.addEventListener("change",syncExtractMode);
+    editableControls.forEach(control=>control.addEventListener("input",()=>control.removeAttribute("aria-invalid")));
+    document.getElementById("saveConfig").addEventListener("click",()=>{if(piggySwitch.getAttribute("aria-pressed")==="true"){const turnover=document.getElementById("turnoverValue");const multiplier=document.getElementById("wagerMultiplier");const invalid=!turnover.value||Number(turnover.value)<=0?turnover:(!extractValue.value||Number(extractValue.value)<=0||(extractMode.value==="比例"&&Number(extractValue.value)>100)?extractValue:(!multiplier.value||Number(multiplier.value)<0?multiplier:null));if(invalid){invalid.setAttribute("aria-invalid","true");invalid.focus();window.alert("请填写有效的存钱罐配置");return}}const toast=document.getElementById("toast");toast.hidden=false;setTimeout(()=>toast.hidden=true,1400)});
+    syncSwitch();syncExtractMode();
+  </script>
+</body>
+</html>
