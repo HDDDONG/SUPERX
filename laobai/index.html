@@ -1583,6 +1583,42 @@
       overflow: visible;
     }
 
+    .benefit-activity-head {
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .benefit-activity-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .benefit-activity-table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .benefit-activity-table th,
+    .benefit-activity-table td {
+      height: 46px;
+      padding: 5px;
+      white-space: normal;
+    }
+
+    .benefit-activity-table th:last-child,
+    .benefit-activity-table td:last-child {
+      text-align: center;
+    }
+
+    .benefit-activity-table input,
+    .benefit-activity-table select {
+      height: 34px;
+    }
+
     .rescue-interval-table col:nth-child(1) { width: 31%; }
     .rescue-interval-table col:nth-child(2) { width: 20%; }
     .rescue-interval-table col:nth-child(3) { width: 20%; }
@@ -2799,7 +2835,6 @@
           <div class="submenu-section-title">活动管理</div>
           <button class="submenu-item is-third-level is-selected" type="button" data-page-title="活动列表" data-breadcrumb-module="活动管理">活动列表</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="充值活动加bonus优化" data-breadcrumb-module="活动管理">充值活动加bonus优化</button>
-          <button class="submenu-item" type="button" data-page-title="权益包管理" data-breadcrumb-module="运营管理">权益包管理</button>
           <div class="submenu-section-title">用户触达</div>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信配置" data-breadcrumb-module="用户触达">站内信配置</button>
           <button class="submenu-item is-third-level" type="button" data-page-title="站内信统计" data-breadcrumb-module="用户触达">站内信统计</button>
@@ -2888,6 +2923,8 @@
                 <option>打码返利</option>
                 <option>转包活动</option>
                 <option>Bonus充值活动</option>
+                <option>权益包活动</option>
+                <option>签到活动</option>
               </select>
             </div>
             <div class="field field-size-1">
@@ -2960,6 +2997,8 @@
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 17 行"></td><td>17</td><td>IN01</td><td>01KWAGERREBATE20260722</td><td>每日打码阶梯返利</td><td>打码返利</td><td><span class="table-thumb">POPUP</span></td><td>170</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/07/22 00:00</td><td>2026/08/21 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 18 行"></td><td>18</td><td>IN01,IN02</td><td>01KTRANSFER20260803</td><td>SUPERX Lite 转包登录礼</td><td>转包活动</td><td><span class="table-thumb">POPUP</span></td><td>190</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/03 00:00</td><td>2026/09/02 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
               <tr data-status="enabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 19 行"></td><td>19</td><td>IN01</td><td>01KBONUSDEPOSIT20260804</td><td>Welcome Bonus 100%</td><td>Bonus充值活动</td><td><span class="table-thumb">POPUP</span></td><td>200</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/04 00:00</td><td>2099/01/01 23:59</td><td><span class="status-pill">已启用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">停用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 20 行"></td><td>20</td><td>IN01</td><td>01KBENEFITPACK20260806</td><td>新人三重权益包</td><td>权益包活动</td><td><span class="table-thumb">POPUP</span></td><td>210</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/06 00:00</td><td>2099/01/01 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
+              <tr data-status="disabled"><td class="select-cell"><input class="row-check" type="checkbox" aria-label="选择第 21 行"></td><td>21</td><td>IN01</td><td>01KDAILYCHECKIN20260807</td><td>每日充值签到礼</td><td>签到活动</td><td><span class="table-thumb">POPUP</span></td><td>220</td><td><span class="table-thumb">DETAIL</span></td><td>superx运营</td><td>2026/08/07 00:00</td><td>2099/01/01 23:59</td><td><span class="status-pill is-disabled">已停用</span></td><td><div class="row-actions"><button class="action-link edit-row" type="button">编辑</button><button class="action-link toggle-status" type="button">启用</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -3429,7 +3468,7 @@
       </div>
 
       <div id="rechargeActivityForm" hidden>
-        <div class="context-note" id="firstDepositContextNote">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。</div>
+        <div class="context-note" id="firstDepositContextNote">配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额。新人首充与同包权益包活动按用户成功参与结果互斥，参与一个后另一个立即隐藏并禁止重复参与。</div>
         <div class="section-title">基本信息</div>
         <div class="form-grid">
           <div class="field"><label class="required">活动名称</label><input id="rechargeActivityName" value="暴充送好礼111"></div>
@@ -4631,6 +4670,103 @@
           </div>
         </div>
       </div>
+
+      <div id="benefitPackageActivityForm" hidden>
+        <div class="context-note">活动定位：权益包作为活动类型统一维护，复用活动有效期、参与条件、前台展示和启用/停用能力；活动规则内配置售价、限购方式及本次购买可获得的权益。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="benefitPackageActivityName" value="新人三重权益包"></div>
+          <div class="field"><label class="required">包ID</label><input id="benefitPackagePackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-08-06T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2099-01-01T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option>打码返利</option><option>转包活动</option><option>Bonus充值活动</option><option selected>权益包活动</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch condition-toggle" type="button" aria-pressed="false"></button><span>已关闭</span></div></div>
+        <div class="rule-box" hidden>
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head"><div class="condition-cell"><span class="condition-label">条件类型</span></div><div class="condition-cell"><span class="condition-label">条件值</span></div><div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div></div>
+              <div class="condition-row"><div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>累计充值</option><option>上级ID</option></select></div><div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>=</option><option>≠</option></select><select><option selected>请选择</option><option>活跃用户</option><option>高价值用户</option><option>新注册用户</option><option>提现过</option></select></div></div><div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">−</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">首充活动互斥规则<span class="help-tip" tabindex="0" data-tip="互斥按用户参与结果判断，不限制两个活动同时启用。">?</span></div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-summary">
+              <div class="rule-summary-item"><label>互斥对象</label><input value="同包已启用的新人首充活动" readonly></div>
+              <div class="rule-summary-item"><label>生效用户</label><input value="符合两个活动条件的新用户" readonly></div>
+              <div class="rule-summary-item"><label>互斥判定</label><input value="成功参与任一活动后锁定" readonly></div>
+              <div class="rule-summary-item"><label>前台处理</label><input value="立即隐藏另一个活动" readonly></div>
+            </div>
+            <div class="context-note"><strong>互斥口径：</strong>两个活动允许同时启用，用户参与前也可同时看到；权益包支付成功，或新人首充成功并生成奖励后，均视为成功参与。系统记录用户已选活动，另一个活动立即从活动中心、弹窗和充值页入口隐藏，后端参与接口同时拒绝重复参与。</div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">购买配置</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item"><label class="required">权益包售价</label><input class="benefit-package-price" type="number" min="0.01" step="0.01" value="100"></div>
+              <div class="rule-summary-item"><label class="required">每用户限购次数</label><div class="unit-input"><input class="benefit-package-limit" type="number" min="1" step="1" value="1"><span class="unit">次</span></div></div>
+              <div class="rule-summary-item"><label>限购重置周期</label><select><option selected>不重置</option><option>每日</option><option>每周</option><option>每月</option></select></div>
+            </div>
+            <div class="benefit-activity-head"><span>至少添加一项权益，同一种权益只能添加一次。</span><button class="btn benefit-row-add" type="button">添加权益</button></div>
+            <table class="benefit-activity-table">
+              <colgroup><col style="width:20%"><col style="width:22%"><col style="width:27%"><col style="width:23%"><col style="width:8%"></colgroup>
+              <thead><tr><th>权益类型</th><th>赠送值</th><th>适用范围</th><th>打码倍数</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td><select class="benefit-type"><option selected>基础</option><option>礼金</option><option>Bonus</option></select></td><td><input class="benefit-value" type="number" min="0.01" step="0.01" value="100"></td><td><select class="benefit-scope"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></td><td><div class="unit-input"><input class="benefit-wager" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></td><td><button class="circle-btn benefit-row-remove" type="button" aria-label="删除权益">−</button></td></tr>
+                <tr><td><select class="benefit-type"><option>基础</option><option selected>礼金</option><option>Bonus</option></select></td><td><input class="benefit-value" type="number" min="0.01" step="0.01" value="100"></td><td><select class="benefit-scope"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></td><td><div class="unit-input"><input class="benefit-wager" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></td><td><button class="circle-btn benefit-row-remove" type="button" aria-label="删除权益">−</button></td></tr>
+                <tr><td><select class="benefit-type"><option>基础</option><option>礼金</option><option selected>Bonus</option></select></td><td><input class="benefit-value" type="number" min="0.01" step="0.01" value="100"></td><td><select class="benefit-scope"><option selected>无限制</option><option>指定场馆</option><option>指定游戏分类</option><option>指定游戏</option></select></td><td><div class="unit-input"><input class="benefit-wager" type="number" min="0" step="0.1" value="1"><span class="unit">倍</span></div></td><td><button class="circle-btn benefit-row-remove" type="button" aria-label="删除权益">−</button></td></tr>
+              </tbody>
+            </table>
+            <div class="context-note" style="margin-top: 12px;"><strong>权益发放：</strong>基础、礼金和 Bonus 分别生成发放记录；每项权益按本行配置的适用范围和打码倍数执行。</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="dailyCheckinActivityForm" hidden>
+        <div class="context-note">活动逻辑：每天按用户所在包时区独立统计充值金额。当天累计充值达到配置值后可以签到一次并领取配置的 Bonus；领取后当天不可重复签到，次日重新累计。当天未领取的签到资格不顺延。</div>
+        <div class="section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="field"><label class="required">活动名称</label><input id="dailyCheckinActivityName" value="每日充值签到礼"></div>
+          <div class="field"><label class="required">包ID</label><input id="dailyCheckinPackageId" value="IN01"></div>
+          <div class="field"><label class="required">活动开始时间</label><input type="datetime-local" value="2026-08-07T00:00"></div>
+          <div class="field"><label class="required">活动结束时间</label><input type="datetime-local" value="2099-01-01T23:59"></div>
+          <div class="field activity-type-field"><label class="required">活动类型</label><select class="activity-type-select"><option>补水活动</option><option>周期首充</option><option>新人首充</option><option>返水活动</option><option>笔笔送</option><option>阶梯充值</option><option>输返</option><option>打码返利</option><option>转包活动</option><option>Bonus充值活动</option><option>权益包活动</option><option selected>签到活动</option></select></div>
+        </div>
+
+        <div class="section-title">参与条件<span class="help-tip" tabindex="0" data-tip="不开启参与条件时，默认全部用户可参与活动。">?</span></div>
+        <div class="field" style="margin-bottom: 10px;"><label class="required">是否开启参与条件</label><div class="switch-row"><button class="switch condition-toggle" type="button" aria-pressed="false"></button><span>已关闭</span></div></div>
+        <div class="rule-box" hidden>
+          <div class="rule-body">
+            <div class="condition-matrix">
+              <div class="condition-head"><div class="condition-cell"><span class="condition-label">条件类型</span></div><div class="condition-cell"><span class="condition-label">条件值</span></div><div class="condition-cell"><button class="circle-btn condition-add" type="button" aria-label="新增条件">+</button></div></div>
+              <div class="condition-row"><div class="condition-cell"><select class="condition-type"><option selected>用户标签</option><option>VIP等级</option><option>累计充值</option><option>上级ID</option></select></div><div class="condition-cell"><div class="condition-value"><select class="condition-operator"><option selected>=</option><option>≠</option></select><select><option selected>请选择</option><option>活跃用户</option><option>高价值用户</option><option>新注册用户</option><option>提现过</option></select></div></div><div class="condition-cell"><button class="circle-btn condition-remove" type="button" aria-label="删除条件">−</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">规则配置</div>
+        <div class="rule-box">
+          <div class="rule-body">
+            <div class="rule-subtitle">每日签到条件与奖励</div>
+            <div class="rule-summary">
+              <div class="rule-summary-item"><label class="required">每日累计充值达到</label><input class="daily-checkin-deposit" type="number" min="0.01" step="0.01" value="300"></div>
+              <div class="rule-summary-item"><label class="required">签到领取Bonus</label><input class="daily-checkin-bonus" type="number" min="0.01" step="0.01" value="50"></div>
+              <div class="rule-summary-item"><label>统计周期</label><input value="每日 00:00—23:59" readonly></div>
+              <div class="rule-summary-item"><label>每用户签到次数</label><input value="每日 1 次" readonly></div>
+              <div class="rule-summary-item"><label>未领取处理</label><input value="当日失效，不顺延" readonly></div>
+            </div>
+            <div class="context-note"><strong>达标与领取：</strong>充值成功后实时累计当日充值金额；达到门槛仅开放签到资格，不自动发奖。用户点击签到成功后发放 Bonus 并生成签到记录，同一用户同一天只允许成功一次。</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="drawer-footer">
       <button class="btn" id="cancelDrawerButton" type="button">取消</button>
@@ -4765,7 +4901,6 @@
       "Bonus充值前台交互": "bonus-piggy-frontend.html",
       "充值活动加bonus优化": "recharge-bonus-optimization.html",
       "存钱罐配置": "bonus-piggy-config.html"
-      ,"权益包管理": "benefit-package-management.html"
     };
     const externalModuleFrame = document.getElementById("externalModuleFrame");
     function renderPageContent(title) {
@@ -5001,14 +5136,16 @@
     const wagerRebateActivityForm = document.getElementById("wagerRebateActivityForm");
     const transferActivityForm = document.getElementById("transferActivityForm");
     const bonusPiggyActivityForm = document.getElementById("bonusPiggyActivityForm");
+    const benefitPackageActivityForm = document.getElementById("benefitPackageActivityForm");
+    const dailyCheckinActivityForm = document.getElementById("dailyCheckinActivityForm");
     document.querySelectorAll("#activityTypeFilter, .activity-type-select").forEach(select => {
-      ["输返", "打码返利", "转包活动", "Bonus充值活动"].forEach(activityType => {
+      ["输返", "打码返利", "转包活动", "Bonus充值活动", "权益包活动", "签到活动"].forEach(activityType => {
         if (!Array.from(select.options).some(option => option.value === activityType)) {
           select.add(new Option(activityType, activityType));
         }
       });
     });
-    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm, transferActivityForm, bonusPiggyActivityForm];
+    const activityForms = [rescueActivityForm, rechargeActivityForm, rebateActivityForm, perDepositActivityForm, tieredRechargeActivityForm, lossReturnActivityForm, wagerRebateActivityForm, transferActivityForm, bonusPiggyActivityForm, benefitPackageActivityForm, dailyCheckinActivityForm];
     function syncBonusMode(select, unitSelector, percentageValue) {
       const unit = select.closest("tr, .rule-summary")?.querySelector(unitSelector);
       if (!unit) return;
@@ -5026,6 +5163,39 @@
       if (!event.target.closest(".bonus-deposit-table .rule-table-add")) return;
       setTimeout(syncAllBonusModes, 0);
     });
+    const benefitPackageDefaultRows = Array.from(benefitPackageActivityForm.querySelectorAll(".benefit-activity-table tbody tr")).map(row => row.cloneNode(true));
+    function syncBenefitPackageRemoveButtons() {
+      const rows = Array.from(benefitPackageActivityForm.querySelectorAll(".benefit-activity-table tbody tr"));
+      rows.forEach(row => {
+        const button = row.querySelector(".benefit-row-remove");
+        button.disabled = rows.length === 1;
+        button.title = rows.length === 1 ? "至少保留一项权益" : "删除当前权益";
+      });
+    }
+    benefitPackageActivityForm.addEventListener("click", event => {
+      if (event.target.closest(".benefit-row-add")) {
+        const tbody = benefitPackageActivityForm.querySelector(".benefit-activity-table tbody");
+        const used = new Set(Array.from(tbody.querySelectorAll(".benefit-type")).map(select => select.value));
+        const nextType = ["基础", "礼金", "Bonus"].find(type => !used.has(type));
+        if (!nextType) {
+          window.alert("基础、礼金和 Bonus 均已添加");
+          return;
+        }
+        const row = benefitPackageDefaultRows[0].cloneNode(true);
+        row.querySelector(".benefit-type").value = nextType;
+        row.querySelector(".benefit-value").value = "";
+        row.querySelector(".benefit-scope").value = "无限制";
+        row.querySelector(".benefit-wager").value = "1";
+        tbody.appendChild(row);
+        syncBenefitPackageRemoveButtons();
+        return;
+      }
+      const remove = event.target.closest(".benefit-row-remove");
+      if (!remove || remove.disabled) return;
+      remove.closest("tr").remove();
+      syncBenefitPackageRemoveButtons();
+    });
+    syncBenefitPackageRemoveButtons();
     function syncPermanentResetConstraint(form, permanent) {
       const resetCycle = form.querySelector("#lossReturnResetCycle, #wagerRebateResetCycle");
       if (!resetCycle) return;
@@ -5236,7 +5406,9 @@
       const isWagerRebate = normalizedType === "打码返利";
       const isTransfer = normalizedType === "转包活动";
       const isBonusPiggy = normalizedType === "Bonus充值活动";
-      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate || isTransfer || isBonusPiggy;
+      const isBenefitPackage = normalizedType === "权益包活动";
+      const isDailyCheckin = normalizedType === "签到活动";
+      rescueActivityForm.hidden = isFirstDeposit || isRebate || isPerDeposit || isTieredRecharge || isLossReturn || isWagerRebate || isTransfer || isBonusPiggy || isBenefitPackage || isDailyCheckin;
       rechargeActivityForm.hidden = !isFirstDeposit;
       rebateActivityForm.hidden = !isRebate;
       perDepositActivityForm.hidden = !isPerDeposit;
@@ -5245,12 +5417,14 @@
       wagerRebateActivityForm.hidden = !isWagerRebate;
       transferActivityForm.hidden = !isTransfer;
       bonusPiggyActivityForm.hidden = !isBonusPiggy;
+      benefitPackageActivityForm.hidden = !isBenefitPackage;
+      dailyCheckinActivityForm.hidden = !isDailyCheckin;
       const newbieExclusiveField = document.getElementById("newbieExclusiveField");
       const firstDepositContextNote = document.getElementById("firstDepositContextNote");
       newbieExclusiveField.hidden = !isNewbieDeposit;
       firstDepositContextNote.textContent = isNewbieDeposit
-        ? "活动定位：新人首充为独立活动类型，仅系统判定为新手的用户可见并参与；是否隐藏常规活动由“是否独立展示”控制。奖励仍按下方首充金额规则计算。"
-        : "配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额，并受单用户累计赠送上限和前台展示素材共同影响。";
+        ? "活动定位：新人首充仅系统判定为新手的用户可见并参与；与同包已启用的权益包活动按用户成功参与结果互斥。用户参与任一个活动后，另一个活动立即从前台隐藏，后端同时禁止重复参与。"
+        : "配置逻辑：系统先校验活动有效期、重置方式和参与条件；用户充值命中对应首充金额规则后，根据每行配置的奖励形式和赠送值计算赠送金额。";
       document.querySelectorAll(".activity-type-select").forEach(select => {
         select.value = normalizedType;
       });
@@ -5284,6 +5458,11 @@
       if (wagerTbody && wagerRebateDefaultRows.length) {
         wagerTbody.replaceChildren(...wagerRebateDefaultRows.map(row => row.cloneNode(true)));
         syncWagerRebatePreview();
+      }
+      const benefitTbody = benefitPackageActivityForm.querySelector(".benefit-activity-table tbody");
+      if (benefitTbody && benefitPackageDefaultRows.length) {
+        benefitTbody.replaceChildren(...benefitPackageDefaultRows.map(row => row.cloneNode(true)));
+        syncBenefitPackageRemoveButtons();
       }
       const exclusiveSwitch = document.getElementById("newbieExclusiveDisplaySwitch");
       exclusiveSwitch.setAttribute("aria-pressed", "true");
@@ -6673,6 +6852,46 @@
       return true;
     }
 
+    function validateBenefitPackageRules(form) {
+      if (form !== benefitPackageActivityForm) return true;
+      const priceInput = form.querySelector(".benefit-package-price");
+      const limitInput = form.querySelector(".benefit-package-limit");
+      const price = Number(priceInput.value);
+      const limit = Number(limitInput.value);
+      if (!Number.isFinite(price) || price <= 0) return rejectRuleInput(priceInput, "权益包售价必须大于0");
+      if (!Number.isInteger(limit) || limit < 1) return rejectRuleInput(limitInput, "每用户限购次数必须为大于0的整数");
+      const rows = Array.from(form.querySelectorAll(".benefit-activity-table tbody tr"));
+      if (!rows.length) {
+        window.alert("请至少添加一项权益");
+        return false;
+      }
+      const types = rows.map(row => row.querySelector(".benefit-type").value);
+      if (new Set(types).size !== types.length) {
+        window.alert("同一种权益只能添加一次");
+        return false;
+      }
+      for (let index = 0; index < rows.length; index += 1) {
+        const valueInput = rows[index].querySelector(".benefit-value");
+        const wagerInput = rows[index].querySelector(".benefit-wager");
+        const value = Number(valueInput.value);
+        const wager = Number(wagerInput.value);
+        if (!Number.isFinite(value) || value <= 0) return rejectRuleInput(valueInput, `第 ${index + 1} 项权益的赠送值必须大于0`);
+        if (!Number.isFinite(wager) || wager < 0) return rejectRuleInput(wagerInput, `第 ${index + 1} 项权益的打码倍数不能小于0`);
+      }
+      return true;
+    }
+
+    function validateDailyCheckinRules(form) {
+      if (form !== dailyCheckinActivityForm) return true;
+      const depositInput = form.querySelector(".daily-checkin-deposit");
+      const bonusInput = form.querySelector(".daily-checkin-bonus");
+      const deposit = Number(depositInput.value);
+      const bonus = Number(bonusInput.value);
+      if (!Number.isFinite(deposit) || deposit <= 0) return rejectRuleInput(depositInput, "每日累计充值金额必须大于0");
+      if (!Number.isFinite(bonus) || bonus <= 0) return rejectRuleInput(bonusInput, "签到领取Bonus必须大于0");
+      return true;
+    }
+
     function validateCustomDetailSections(form) {
       const activityCenterSwitch = form.querySelector(".activity-center-switch");
       if (!activityCenterSwitch || activityCenterSwitch.getAttribute("aria-pressed") !== "true") return true;
@@ -6795,6 +7014,8 @@
       if (!validateWagerRebateRules(form)) return;
       if (!validateTransferRules(form)) return;
       if (!validateBonusRechargeRules(form)) return;
+      if (!validateBenefitPackageRules(form)) return;
+      if (!validateDailyCheckinRules(form)) return;
       const expiryType = form.querySelector(".reward-expiry-type");
       const expiryDays = form.querySelector(".reward-expiry-days-input");
       if (expiryType && expiryType.value === "natural-day") {
